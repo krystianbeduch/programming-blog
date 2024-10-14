@@ -6,7 +6,6 @@
     font-family: Arial, sans-serif;
 }
 
-
 /* HEADER */
 header {
     background-color: #4CAF50;
@@ -73,7 +72,6 @@ nav ul li a {
     display: block;
     font-weight: bold;
     text-align: center;
-    display: block;
 }
 
 nav ul li a:hover {
@@ -104,8 +102,13 @@ section#main-section h1, section#main-section h3 {
 
 section#main-section p {
     margin-bottom: 20px;
+    line-height: 1.8;
 }
 
+section#main-section img {
+    width: 200px;
+    height: auto;
+}
 /* ASIDE */
 aside {
     flex: 0.8;
@@ -123,8 +126,8 @@ aside section {
     margin-bottom: 20px;
     padding: 15px;
     border: 1px solid #ddd;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);  
-    border-radius: 5px;  
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
 }
 
 aside h3 {
