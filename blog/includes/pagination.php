@@ -1,20 +1,4 @@
 <?php
-//function renderPosts(int $offset, int $commentsPerPage, int $totalComments, array $comments): void {
-//    for ($i = $offset; $i < $offset + $commentsPerPage && $i < $totalComments; $i++) {
-//        // Docelowo baza
-//        echo '<div class="comment">';
-//        echo '<h4 class="comment-author">';
-//        echo "Autor " . ($i + 1);
-//        echo '</h4>';
-//        echo '<p class="comment-author-email">';
-//        echo "Email " . ($i + 1);
-//        echo '</p>';
-//        echo '<p class="comment-author-comment">';
-//        echo $comments[$i];
-//        echo '</p>';
-//        echo '</div>';
-//    }
-//}
 function getPaginationData(int $currentPage, int $totalComments, int $commentsPerPage) : array {
     $totalPages = (int) ceil($totalComments / $commentsPerPage);
     $currentPage = max(1, min($currentPage, $totalPages));
@@ -25,7 +9,6 @@ function getPaginationData(int $currentPage, int $totalComments, int $commentsPe
         'totalPages' => $totalPages,
         'offset' => $offset,
     ];
-
 }
 function renderPosts(array $comments) : void {
     foreach ($comments as $index => $comment) {
@@ -55,45 +38,3 @@ function renderPagination(int $currentPage, int $totalPages, string $languagePag
     }
     echo '</nav">';
 }
-
-
-
-
-
-
-/* Działające-->
-<!--    if ($currentPage > 1) {-->
-<!--        echo '<a href="' . $languages[$currentPage - 1]['file'] . '">&laquo;</a>';-->
-<!--    }-->
-<!---->
-<!--    if ($currentPage < $totalPages) {-->
-<!--        echo '<a href="' . $languages[$currentPage + 1]['file'] . '">&raquo;</a>';-->
-<!--    }-->
-<!---->
-<!---->
-<!---->
-<!---->
-<!--*/
-?>
-
-
-
-<!--//}-->
-<!---->
-<!---->
-<!--//-->
-<!--//    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;-->
-<!--//    $max_pages = count($programming_languages);-->
-<!--//-->
-<!--//-->
-<!--//-->
-<!--//    if ($current_page > 1) {-->
-<!--//        echo '<a href="?page=' . ($current_page - 1) . '">&laquo;</a>';-->
-<!--//    }-->
-<!--//-->
-<!--//    for ($i = 1; $i <= $max_pages; $i++) {}-->
-<!--//-->
-<!---->
-<!---->
-<!---->
-<!--?>-->
