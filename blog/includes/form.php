@@ -5,7 +5,7 @@
 <!--        <h4>Dodaj komentarz</h4>-->
         <input type="hidden" name="url" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
         <label for="topic">Temat:</label>
-        <input type="text" name="topic" id="topic" value="HTML" readonly>
+        <input type="text" name="topic" id="topic" value="<?php echo $language ?? 'nulll'; ?>" readonly>
 
         <label for="nick">Nickname:</label>
         <input type="text" name="nick" id="nick">

@@ -83,7 +83,7 @@ section#main-section {
     flex: 3.4;
     background-color: #f9f9f9;
     /* margin: 0 20px; */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     /* float: left;     */
     /* width: 58%; */
     /* min-height: 80vh; */
@@ -106,7 +106,7 @@ section#main-section p {
 }
 
 section#main-section img {
-    width: 200px;
+    width: 100px;
     height: auto;
 }
 
