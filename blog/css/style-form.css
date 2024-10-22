@@ -1,0 +1,50 @@
+form#add-comment-form fieldset {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form#add-comment-form legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+form#add-comment-form label {
+    font-weight: bold;
+}
+
+form#add-comment-form input[type="text"],
+form#add-comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+form#add-comment-form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form#add-comment-form button:hover {
+    background-color: #218838;
+}
+
+form#add-comment-form span.error {
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: red;
+    display: block;
+}

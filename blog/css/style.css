@@ -109,12 +109,18 @@ section#main-section img {
     width: 200px;
     height: auto;
 }
+
+article.test-article {
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 1px solid black;
+}
 /* ASIDE */
 aside {
     flex: 0.8;
     background-color: #eaeaea;
     padding: 15px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     margin-left: 15px;
     /* border-left: 1px solid #ccc; */
     /* float: left; */
@@ -232,3 +238,23 @@ strong {
         margin: 0 0 20px 0;
     }
 } */
+
+/* PAGINATION */
+nav.pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+nav.pagination a {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    text-decoration: none;
+}
+
+nav.pagination a:hover {
+    background-color: #ddd;
+}

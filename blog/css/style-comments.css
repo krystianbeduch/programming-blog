@@ -1,0 +1,38 @@
+article#comments-section {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+}
+
+article#comments-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+div.comment-container {
+    margin-top: 10px;
+}
+
+div.comment {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+h4.comment-author {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+p.comment-author-email {
+    font-style: italic;
+}
+
+p.comment-text {
+    margin-bottom: 5px;
+}
