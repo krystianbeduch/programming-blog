@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once "../includes/pagination.php";
-$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
 $comments = [
     "Przykładowy komentarz 1",
