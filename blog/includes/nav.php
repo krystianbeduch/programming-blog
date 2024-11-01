@@ -14,7 +14,7 @@
         <li><a href="csharp.php">C#</a></li>
         <li><a href="ruby.php">Ruby</a></li>
     </ul>
-    <h3>Systemy niskopoziomowe</h3>
+    <h3>Systemy niskopoziomowe i wbudowane</h3>
     <ul>
         <li><a href="assembler.php">Asembler</a></li>
         <li><a href="c.php">C</a></li>
@@ -24,7 +24,7 @@
     <ul>
         <li><a href="sql.php">SQL</a></li>
     </ul>
-    <h3>Inne</h3>
+    <h3>Urządzenia mobilne</h3>
     <ul>
         <li><a href="kotlin.php">Kotlin</a></li>
         <li><a href="swift.php">Swift</a></li>

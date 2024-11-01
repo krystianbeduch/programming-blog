@@ -2,13 +2,13 @@
 
 <header>
     <h1>Blog programistyczny</h1>
-    <a href="#" class="login-link" onclick="openLoginModal()">Zaloguj się</a>
+    <a href="#" id="login-link">Zaloguj się</a>
 </header>
 
 
 <div id="auth-modal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeAuthModal()">&times;</span>
+        <span id="close-modal" accesskey="&#27">&times;</span>
         <!-- Formularz logowania -->
         <div id="login-container" class="auth-form">
             <h2>Zaloguj się</h2>
@@ -21,7 +21,7 @@
 
                 <button type="submit">Zaloguj się</button>
             </form>
-            <p class="toggle-auth">Utwórz konto: <a href="#" onclick="showRegisterForm()">Zarejestruj się</a></p>
+            <p class="toggle-auth">Utwórz konto: <a href="#">Zarejestruj się</a></p>
         </div>
 
         <!-- Formularz rejestracji -->
@@ -42,7 +42,7 @@
 
                 <button type="submit">Zarejestruj się</button>
             </form>
-            <p class="toggle-auth">Masz już konto? <a href="#" onclick="showLoginForm()">Zaloguj się</a></p>
+            <p class="toggle-auth">Masz już konto? <a href="#">Zaloguj się</a></p>
         </div>
 
     </div>

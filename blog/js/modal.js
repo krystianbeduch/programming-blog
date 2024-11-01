@@ -1,33 +1,111 @@
-// Funkcja otwierająca modal logowania
-function openLoginModal() {
-    document.getElementById("auth-modal").style.display = "flex";
-    showLoginForm();
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const loginLink = document.getElementById("login-link");
+    const authModal = document.getElementById("auth-modal");
+    const loginContainer = document.getElementById("login-container");
+    const registerContainer = document.getElementById("register-container");
+    const closeModalSpan = document.getElementById("close-modal");
+    const toggleAuthInLogin = document.querySelector("#login-container .toggle-auth")
+    const toggleAuthInRegister = document.querySelector("#register-container .toggle-auth")
+    const registerFormFields = document.querySelectorAll("#register-form input");
+    const loginFormFields = document.querySelectorAll("#login-form input");
 
-// Funkcja zamykająca modal
-function closeAuthModal() {
-    document.getElementById("auth-modal").style.display = "none";
-}
+    // Laczenie obu zestawow pol w jedna kolekcje
+    // ... pozwala na rozpakowanie wszystkich elementow bezposrednio do nowej kolekcji
+    const allFormFields = [...registerFormFields, ...loginFormFields];
 
-// Funkcja pokazująca formularz logowania i ukrywająca formularz rejestracji
-function showLoginForm() {
-    document.getElementById("login-container").style.display = "block";
-    document.getElementById("register-container").style.display = "none";
-}
+    // Otworz okno modalne
+    loginLink.addEventListener("click", () => {
+        authModal.style.display = "flex";
+        showLoginForm();
+    });
 
-// Funkcja pokazująca formularz rejestracji i ukrywająca formularz logowania
-function showRegisterForm() {
-    document.getElementById("register-container").style.display = "block";
-    document.getElementById("login-container").style.display = "none";
-}
+    // Zamknij okno modalne
+    const closeModal = () => {
+        authModal.style.display = "none";
+    };
 
-// Zamknięcie modala po kliknięciu poza jego zawartością
-window.onclick = function(event) {
-    const modal = document.getElementById("auth-modal");
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+    closeModalSpan.addEventListener("click", closeModal);
+
+    // Zamkniecie okna przez przycisk Esc
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            closeModal();
+        }
+    });
+
+    // Przelacz modala na rejestracje
+    toggleAuthInLogin.addEventListener("click", () => {
+        showRegisterForm();
+        clearFieldsAndLabelsStyles()
+    });
+
+    // Przelacz modala na login
+    toggleAuthInRegister.addEventListener("click", () => {
+        showLoginForm();
+        clearFieldsAndLabelsStyles();
+    });
+
+    // Reset styli etykiet i pol
+    const clearFieldsAndLabelsStyles = () => {
+        allFormFields.forEach(field => {
+            const label = field.previousElementSibling;
+            label.style.color = "";
+            field.style.borderColor = "";
+            field.style.backgroundColor = "";
+        });
+    };
+
+    const showLoginForm = () => {
+        loginContainer.style.display = "block";
+        registerContainer.style.display = "none";
+    };
+
+    const showRegisterForm = () => {
+        registerContainer.style.display = "block";
+        loginContainer.style.display = "none";
+    };
+
+    // Zamkniecie modala po kliknieciu poza jego zawartoscia
+    window.addEventListener("click", (event) => {
+       if (event.target === authModal) {
+           authModal.style.display = "none";
+       }
+    });
+
+    window.addEventListener("load", () => {
+        allFormFields.forEach(field => {
+            // Zdarzenie 'invalid', ktore jest wywolywane, gdy pole formularza jest nieprawidlowe
+            field.addEventListener("invalid", (e) => {
+                // Zapobiegamy domyslnemu zachowaniu przegladarki m.in. wyswietlenie komunikatu o blędzie
+                e.preventDefault()
+                validateField(field);
+            });
+            // Sluchacze na zdarzenia 'input' i 'blur' dla dynamicznego sprawdzania poprawnosci
+            field.addEventListener("input", () => validateField(field));
+            field.addEventListener("blur", () => validateField(field));
+        });
+    });
+
+
+    const validateField = (field) => {
+        const label = field.previousElementSibling;
+
+        // Sprawdzamy, czy pole jest niepoprawne i ustawiamy odpowiednie kolory
+        if (!field.validity.valid) {
+            label.style.color = "red";
+            field.style.borderColor = "red";
+            field.style.backgroundColor = "#ffe6e6";
+        }
+        else {
+            label.style.color = "green";
+            field.style.borderColor = "green";
+            field.style.backgroundColor = "#e6ffe6";
+        }
+    };
+
+});
+
+
 
 // function invalidHandler(e) {
 //     let label = e.srcElement.parentElement.getElementsByTagName("label")[0];
@@ -42,44 +120,23 @@ window.onclick = function(event) {
 //
 // window.addEventListener("load", zarejestuj, false);
 
-function addValidationEventListeners() {
-    // Pobieramy wszystkie pola formularza
-    const formFields = document.querySelectorAll("#register-form input");
+// function addValidationEventListeners() {
+//     // Pobieramy wszystkie pola formularza
+//     const formFields = document.querySelectorAll("#register-form input");
+//
+//     formFields.forEach(field => {
+//         // Dodajemy słuchacze na zdarzenia 'input' i 'blur' dla dynamicznego sprawdzania poprawności
+//         // field.addEventListener("input", () => validateField(field));
+//         // field.addEventListener("blur", () => validateField(field));
+//         field.addEventListener("invalid", (e) => {
+//             e.preventDefault()
+//             validateField(field);
+//         });
+//         field.addEventListener("input", () => validateField(field));
+//         field.addEventListener("blur", () => validateField(field));
+//     });
+// }
 
-    formFields.forEach(field => {
-        // Dodajemy słuchacze na zdarzenia 'input' i 'blur' dla dynamicznego sprawdzania poprawności
-        // field.addEventListener("input", () => validateField(field));
-        // field.addEventListener("blur", () => validateField(field));
-        field.addEventListener("invalid", (e) => {
-            e.preventDefault()
-            validateField(field);
-        });
-        field.addEventListener("input", () => validateField(field));
-        field.addEventListener("blur", () => validateField(field));
-    });
-}
-function validateField(field) {
-    // e.stopPropagation();
-    // e.preventDefault();
-
-    const label = field.previousElementSibling;
-
-    // Resetujemy style etykiety
-    label.style.color = "";
-    field.style.borderColor = "";
-    field.style.backgroundColor = "";
-
-    // Sprawdzamy, czy pole jest niepoprawne, i ustawiamy kolor etykiety na czerwono, jeśli jest
-    if (!field.validity.valid) {
-        label.style.color = "red";
-        field.style.borderColor = "red";
-        field.style.backgroundColor = "#ffe6e6";
-    } else {
-        label.style.color = "green";  // Zielony kolor, jeśli pole jest poprawne
-        field.style.borderColor = "green";
-        field.style.backgroundColor = "#e6ffe6";
-    }
-}
 
 // Dodajemy zdarzenie do sprawdzania walidacji po załadowaniu strony
-window.addEventListener("load", addValidationEventListeners, false);
+// window.addEventListener("load", addValidationEventListeners, false);

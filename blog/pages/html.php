@@ -44,8 +44,11 @@ $language = "html";
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-form.css">
     <link rel="stylesheet" href="../css/style-comments.css">
+    <link rel="stylesheet" href="../css/style-modal.css">
 </head>
 <body>
+<div id="wrapper"> <!-- ??? -->
+
     <?php require_once "../includes/header.php"; ?>
 
     <main>
@@ -78,6 +81,7 @@ $language = "html";
     </main>
 
     <?php require_once "../includes/footer.php"; ?>
+</div>
 </body>
 
 </html>

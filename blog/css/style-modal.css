@@ -68,7 +68,7 @@ div.modal-content button:hover {
 }
 
 /* Przycisk zamykający modal */
-span.close {
+span#close-modal {
     position: absolute;
     top: 10px;
     right: 10px;

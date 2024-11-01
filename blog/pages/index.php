@@ -11,8 +11,12 @@
     <link rel="manifest" href="../images/favicons/site.webmanifest">
 
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style-modal.css">
 </head>
 <body>
+<div id="wrapper">  <!--  ??? -->
+
+
     <?php require_once "../includes/header.php"; ?>
 
     <main>
@@ -30,6 +34,7 @@
     </main>
 
     <?php require_once "../includes/footer.php"; ?>
+</div>
 </body>
 
 </html>

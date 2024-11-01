@@ -33,6 +33,7 @@ $language = "assembler";
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-form.css">
     <link rel="stylesheet" href="../css/style-comments.css">
+    <link rel="stylesheet" href="../css/style-modal.css">
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
