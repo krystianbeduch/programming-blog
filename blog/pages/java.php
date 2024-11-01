@@ -53,6 +53,10 @@ $language = "java";
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style-form.css">
     <link rel="stylesheet" href="../css/style-comments.css">
+    <link rel="stylesheet" href="../css/style-modal.css">
+
+<!--    <script src="https://www.google.com/recaptcha/api.js?render=6Lee1W8qAAAAAMwE7w2suh1TsFE9Gku9HZFfP0vB" async defer></script>-->
+
 </head>
 <body>
     <?php require_once "../includes/header.php"; ?>

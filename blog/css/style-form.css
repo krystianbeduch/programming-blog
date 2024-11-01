@@ -46,5 +46,35 @@ form#add-comment-form span.error {
     margin-top: -10px;
     margin-bottom: 10px;
     color: red;
+    font-weight: bold;
     display: block;
+}
+
+form#add-comment-form .input-error input:-webkit-autofill   {
+    background-color: #dcbb17 !important; /* Ustawienie tła */
+    color: #1a1a1a !important; /* Ustawienie koloru tekstu */
+    border: 5px solid #4CAF50 !important; /* Dodanie stylu ramki */
+}
+
+form#add-comment-form .input-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+form#add-comment-form table button {
+    background-color: #fff;
+}
+
+form#add-comment-form table button:hover {
+    background-color: #c6baba;
+}
+
+form#add-comment-form table button.checked-captcha-button {
+    border: 3px solid #218838;
+}
+
+form#add-comment-form span#captcha-error {
+    margin-top: 20px;
 }
