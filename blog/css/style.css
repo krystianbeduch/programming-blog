@@ -236,15 +236,15 @@ p {
 }
 
 /* Media Queries - Responsywnosc */
-@media (max-width: 882px) {
-    main {
-        flex-direction: column;
-    }
+/*@media (max-width: 882px) {*/
+/*    main {*/
+/*        flex-direction: column;*/
+/*    }*/
 
-    nav, section, aside {
-        margin: 0 0 20px 0;
-    }
-}
+/*    nav, section, aside {*/
+/*        margin: 0 0 20px 0;*/
+/*    }*/
+/*}*/
 
 /* PAGINATION */
 nav.pagination {

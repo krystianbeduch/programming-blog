@@ -40,4 +40,8 @@
     <section>
         <h3><a href="admin.php">Panel administracyjny</a></h3>
     </section>
+
+    <section>
+        <h3><a href="../pages/blackjack.php">Zagraj w BlackJacka</a></h3>
+    </section>
 </aside>

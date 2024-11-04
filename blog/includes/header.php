@@ -40,6 +40,9 @@
                 <label for="confirm-password">Potwierdź hasło:</label>
                 <input type="password" id="confirm-password" name="confirm-password" required minlength="8" placeholder="Wprowadź ponownie hasło">
 
+                <label for="about">O mnie</label>
+                <textarea name="about" id="about" cols="30" rows="3" placeholder="Wpisz kilka zdań o sobie (nieobowiązkowe)"></textarea>
+
                 <button type="submit">Zarejestruj się</button>
             </form>
             <p class="toggle-auth">Masz już konto? <a href="#">Zaloguj się</a></p>

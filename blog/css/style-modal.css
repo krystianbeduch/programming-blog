@@ -34,12 +34,17 @@ div.modal-content label {
 
 div.modal-content input[type="text"],
 div.modal-content input[type="password"],
-div.modal-content input[type="email"] {
+div.modal-content input[type="email"],
+div.modal-content textarea {
     width: 100%;
     padding: 8px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+div.modal-content textarea {
+    resize: vertical;
 }
 
 /*div.modal-content input:invalid {*/
