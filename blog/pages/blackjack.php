@@ -60,7 +60,7 @@
     }
     function showDeck(array $deck) : void {
         // Wyswietl karty gracza
-        foreach ($deck as $index => $card) {
+        foreach ($deck as $card) {
             $cardImg = getCardImg($card);
             echo "<img src='{$cardImg["imagePath"]}' alt='{$cardImg["cardName"]} {$cardImg["cardColor"]}'>";
         }
@@ -84,8 +84,6 @@
         while (calculatePoints($_SESSION["croupierDeck"]) < 16) {
             $newCard = drawCard($_SESSION["cardsDeck"]);
             $_SESSION["croupierDeck"][] = $newCard;
-            print_r($_SESSION["croupierDeck"]);
-            echo "<br><br>";
         }
     }
 
@@ -102,7 +100,6 @@
         if (isset($_POST["changeAceValue"])) {
             foreach ($_POST["changeAceValue"] as $aceIndex) {
                 if ($_SESSION["userDeck"][$aceIndex]["name"] === "A") {
-                    print_r($_SESSION["userDeck"][$aceIndex]);
                     $_SESSION["userDeck"][$aceIndex]["value"] = 1;
                 }
             }
@@ -154,7 +151,6 @@
     }
 
     if (isset($_POST["drawCard"])) {
-        echo count($_SESSION["userDeck"]);
         // Sprawdz przed dobraniem ile gracz ma karti
         if (count($_SESSION["userDeck"]) < 5) {
             // Pobierz kolejna karte
@@ -192,7 +188,6 @@
 </head>
 <body>
 <div id="wrapper">  <!--  ??? -->
-
 
     <?php require_once "../includes/header.php"; ?>
 
@@ -252,8 +247,8 @@
                         }
                     }
                     /* Zakomentuj 2 ponizsze linie aby nie widziec kart i wyniku krupiera */
-                    echo "<br>" . showDeck($_SESSION["croupierDeck"]);
-                    echo "<p>Punkty krupiera: " . calculatePoints($_SESSION["croupierDeck"]) . "</p>";
+//                    echo "<br>" . showDeck($_SESSION["croupierDeck"]);
+//                    echo "<p>Punkty krupiera: " . calculatePoints($_SESSION["croupierDeck"]) . "</p>";
                 }
                 ?>
                     <?php if (!isset($_SESSION["gameOver"])): ?>
