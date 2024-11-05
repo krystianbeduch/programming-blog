@@ -18,7 +18,6 @@
             "J" => 10,
             "Q" => 10,
             "K" => 10,
-//        "A" => [1, 11]
             "A" => 11
         ];
         $deck = [];
@@ -31,6 +30,7 @@
     }
 
     function drawCard(array &$deck) : array {
+//         return["name" => "A", "color" => "Kier", "value" => 11];
         // Wybieramy losowy rodzaj karty
         $cardNames = array_keys($deck);
         $randomCardName = $cardNames[array_rand($cardNames)];
@@ -51,29 +51,62 @@
         // Zwracamy losowo dobraną kartę
         return ["name" => $randomCardName, "color" => $randomColor, "value" => $cardValue];
     }
+
+    function getCardImg(array $card) : array {
+        $cardName = strtolower($card["name"]);
+        $cardColor = strtolower($card["color"]);
+        $imagePath = "../images/blackjack/{$cardName}_{$cardColor}.png";
+        return ["cardName" => $cardName, "cardColor" => $cardColor, "imagePath" => $imagePath];
+    }
     function showDeck(array $deck) : void {
         // Wyswietl karty gracza
-        foreach ($deck as $card) {
-            $cardName = strtolower($card["name"]);
-            $cardColor = strtolower($card["color"]);
-            $imagePath = "../images/blackjack/{$cardName}_{$cardColor}.png";
-            echo "<img src='$imagePath' alt='{$card["name"]} {$card["color"]}' style='width: 100px; height: auto;'>";
+        foreach ($deck as $index => $card) {
+            $cardImg = getCardImg($card);
+            echo "<img src='{$cardImg["imagePath"]}' alt='{$cardImg["cardName"]} {$cardImg["cardColor"]}'>";
+        }
+
+        // Sekcja dla checkboxów
+        if ($deck == $_SESSION["userDeck"]) {
+            echo "<div class='checkbox-container'>";
+            foreach ($deck as $index => $card) {
+                if ($card["name"] === "A" && $card["value"] == 11) {
+                    echo "<label class='ace-checkbox-label'>
+                    <input type='checkbox' name='changeAceValue[]' value='{$index}'> Zmień {$card['name']} {$card['color']} na 1
+                  </label>";
+                }
+            }
+            echo "</div>";
         }
     }
 
     function croupierDrawCard() : void {
         // Krupier dobiera karty
         while (calculatePoints($_SESSION["croupierDeck"]) < 16) {
-            $_SESSION["croupierDeck"][] = drawCard($_SESSION["cardsDeck"]);
+            $newCard = drawCard($_SESSION["cardsDeck"]);
+            $_SESSION["croupierDeck"][] = $newCard;
+            print_r($_SESSION["croupierDeck"]);
+            echo "<br><br>";
         }
     }
 
     function calculatePoints(array $deck) : int {
         $points = 0;
         foreach ($deck as $card) {
-                $points += $card["value"];
+            $points += $card["value"];
         }
         return $points;
+    }
+
+    function updateAceValues(): void {
+        // Zmienia wartości wybranych asów na 1, na podstawie zaznaczonych checkboxów
+        if (isset($_POST["changeAceValue"])) {
+            foreach ($_POST["changeAceValue"] as $aceIndex) {
+                if ($_SESSION["userDeck"][$aceIndex]["name"] === "A") {
+                    print_r($_SESSION["userDeck"][$aceIndex]);
+                    $_SESSION["userDeck"][$aceIndex]["value"] = 1;
+                }
+            }
+        }
     }
 
 
@@ -82,13 +115,13 @@
         $finalUserPoints = abs(21 - $userPoints);
         $finalCroupierPoints = abs(21 - $croupierPoints);
         if ($finalUserPoints > $finalCroupierPoints) {
-            echo "<p>Krupier wygrał</p>";
+            echo "<p style='color: red'>Krupier wygrał</p>";
         }
         else if ($finalCroupierPoints == $finalUserPoints) {
-            echo "<p>Remis</p>";
+            echo "<p style='color: #EEAD00'>Remis</p>";
         }
         else {
-            echo "<p>Gracz wygrał</p>";
+            echo "<p style='color: #4CAF50'>Gracz wygrał</p>";
         }
     }
 
@@ -105,25 +138,41 @@
 
         // Pobieramy po 2 losowe karty z talii
         $_SESSION["userDeck"] = [
+//                ["name" => "5", "color" => "Kier", "value" => 5],
+//            ["name" => "4", "color" => "Kier", "value" => 4]
+//            ["name" => "4", "color" => "Pik", "value" => 4],
             drawCard($_SESSION["cardsDeck"]),
             drawCard($_SESSION["cardsDeck"])
         ];
         $_SESSION["croupierDeck"] = [
+//            ["name" => "A", "color" => "Kier", "value" => 11],
+//            ["name" => "4", "color" => "Pik", "value" => 4],
+//           ];
             drawCard($_SESSION["cardsDeck"]),
             drawCard($_SESSION["cardsDeck"])
         ];
     }
-    if (isset($_POST["drawCard"])) {
-        // Pobierz kolejna karte
-        $_SESSION["userDeck"][] = drawCard($_SESSION["cardsDeck"]);
-        croupierDrawCard();
 
+    if (isset($_POST["drawCard"])) {
+        echo count($_SESSION["userDeck"]);
+        // Sprawdz przed dobraniem ile gracz ma karti
+        if (count($_SESSION["userDeck"]) < 5) {
+            // Pobierz kolejna karte
+            $_SESSION["userDeck"][] = drawCard($_SESSION["cardsDeck"]);
+        }
+        else {
+            // Gracz ma w talii juz maksymalna liczbe (5) kart - koniec gry
+            updateAceValues();
+            $_SESSION["gameOver"] = true;
+        }
+        croupierDrawCard();
     }
+
     if (isset($_POST["stand"])) {
         croupierDrawCard();
+        updateAceValues();
         $_SESSION["gameOver"] = true;
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -150,12 +199,13 @@
     <main>
         <?php require_once "../includes/nav.php"; ?>
 
-        <section id="main-section">
+        <section id="main-section" class="blackjack-section">
             <h1>Gra BlackJack</h1>
-            <p>Zasady</p>
+            <h3>Zasady:</h3>
             <ul>
                 <li>Za pomocą przycisków gracz może dobierać
                     karty lub spasować.</li>
+                <li>Gracz może dobrać do 5 kart</li>
                 <li>Wygrywa ten, kto ma sumę kart bliższą 21</li>
                 <li>Krupier
                     <ul>
@@ -163,10 +213,17 @@
                         <li>zawsze pasuje, jesli suma jego kart jest większa lub równa 16</li>
                     </ul>
                 </li>
+                <li>Punktacja:
+                    <ul>
+                        <li>Karty od 2 do 10 mają wartość nominalną</li>
+                        <li>Figury są warte 10</li>
+                        <li>As może być liczony jako 11 (domyślnie) lub 1 - przed spasowaniem gracz może zmienić wartość swoich asów w talii</li>
+                    </ul>
+                </li>
             </ul>
 
-            <div id="game">
-
+            <div id="blackjack-game">
+                <form action="blackjack.php" method="post" id="blackjack-form">
 
                 <?php
                 echo "<h2>Karty gracza:</h2>";
@@ -183,15 +240,22 @@
                     showGameResults($userPoints, $croupierPoints);
                 }
                 else {
-                    for ($i = 0; $i < count($_SESSION["croupierDeck"]); $i++) {
-                        echo "<img src='../images/blackjack/back.png' alt='Karta zakryta' style='width: 100px; height: auto;'>";
+                    $firstCard = true;
+                    foreach ($_SESSION["croupierDeck"] as $card) {
+                        if ($firstCard) {
+                            $firstCard = false;
+                            $cardImg = getCardImg($card);
+                            echo "<img src='{$cardImg["imagePath"]}' alt='{$cardImg["cardName"]} {$cardImg["cardColor"]}'>";
+                        }
+                        else {
+                            echo "<img src='../images/blackjack/back.png' alt='Karta zakryta'>";
+                        }
                     }
                     /* Zakomentuj 2 ponizsze linie aby nie widziec kart i wyniku krupiera */
-                    showDeck($_SESSION["croupierDeck"]);
-                    echo calculatePoints($_SESSION["croupierDeck"]);
+                    echo "<br>" . showDeck($_SESSION["croupierDeck"]);
+                    echo "<p>Punkty krupiera: " . calculatePoints($_SESSION["croupierDeck"]) . "</p>";
                 }
                 ?>
-                <form action="blackjack.php" method="post">
                     <?php if (!isset($_SESSION["gameOver"])): ?>
                         <button type="submit" name="drawCard">Dobierz kartę</button>
                         <button type="submit" name="stand">Pas</button>

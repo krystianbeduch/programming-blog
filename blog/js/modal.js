@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleAuthInRegister = document.querySelector("#register-container .toggle-auth")
     const registerFormFields = document.querySelectorAll("#register-form input");
     const loginFormFields = document.querySelectorAll("#login-form input");
+    const modalContent = document.getElementsByClassName("modal-content")[0];
 
     // Laczenie obu zestawow pol w jedna kolekcje
     // ... pozwala na rozpakowanie wszystkich elementow bezposrednio do nowej kolekcji
@@ -94,12 +95,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!field.validity.valid) {
             label.style.color = "red";
             field.style.borderColor = "red";
-            field.style.backgroundColor = "#ffe6e6";
+            field.classList.remove("valid-input");
+            field.classList.add("invalid-input");
+            modalContent.classList.add("modal-content-invalid");
+
         }
         else {
             label.style.color = "green";
             field.style.borderColor = "green";
-            field.style.backgroundColor = "#e6ffe6";
+            field.classList.remove("invalid-input");
+            field.classList.add("valid-input");
         }
     };
 
