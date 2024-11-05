@@ -58,8 +58,9 @@ if (isset($_POST["stand"])) {
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="manifest" href="../images/favicons/site.webmanifest">
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style-modal.css">
+    <!-- Styles   -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/style-blackjack.css">
 </head>
 <body>
 <div id="wrapper">  <!--  ??? -->

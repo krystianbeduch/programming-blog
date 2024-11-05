@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 require_once "../includes/pagination.php";
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
@@ -49,11 +49,8 @@ $language = "java";
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="manifest" href="../images/favicons/site.webmanifest">
 
-    <!--  Styles -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style-form.css">
-    <link rel="stylesheet" href="../css/style-comments.css">
-    <link rel="stylesheet" href="../css/style-modal.css">
+    <!-- Styles   -->
+    <link rel="stylesheet" href="../css/main.css">
 
 <!--    <script src="https://www.google.com/recaptcha/api.js?render=6Lee1W8qAAAAAMwE7w2suh1TsFE9Gku9HZFfP0vB" async defer></script>-->
 

@@ -1,30 +1,59 @@
+<?php
+//session_destroy();
+?>
+<!--<script>-->
+<!--    function insertBBCode(tagStart, tagEnd) {-->
+<!--        const textarea = document.getElementById("comment");-->
+<!--        const start = textarea.selectionStart;-->
+<!--        const end = textarea.selectionEnd;-->
+<!--        const text = textarea.value;-->
+<!---->
+<!--        // Wstaw BBCode w wybranej pozycji-->
+<!--        const selectedText = text.substring(start, end);-->
+<!--        const newText = text.substring(0, start) + tagStart + selectedText + tagEnd + text.substring(end);-->
+<!--        textarea.value = newText;-->
+<!---->
+<!--        // Ustaw kursor na końcu wstawionego kodu-->
+<!--        textarea.setSelectionRange(start + tagStart.length, start + tagStart.length + selectedText.length);-->
+<!--        textarea.focus();-->
+<!--    }-->
+<!--</script>-->
+
+
 <script src="../js/add-comment-form-validation.js"></script>
-<form id="add-comment-form" name="add_comment_form" action="../comments/test-submit.php" method="post">
+<script src="../js/add-comment-bbcode.js"></script>
+
+<form id="add-comment-form" name="add_comment_form" action="../comments/preview.php" method="post">
 <!--    http://www.tomaszx.pl/materialy/test_przesylania.php-->
     <fieldset>
         <legend>Dodaj komentarz</legend>
 
-        <input type="hidden" name="url" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
+        <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
         <label for="topic">Temat:</label>
-        <input type="text" name="topic" id="topic" value="<?php echo $language ?? 'nulll'; ?>" readonly>
+        <input type="text" name="topic" id="topic" value="<?php echo $language ?? "nulll"; ?>" readonly>
 
         <label for="nick">Nickname:</label>
-        <input type="text" name="nick" id="nick" value="<?php isset($_SESSION['form_data']['nick']) ? htmlspecialchars($_SESSION['form_data']['nick']) : '' ?>">
+        <input type="text" name="nick" id="nick" value="<?php echo $_SESSION["formData"][$language]["nick"] ?? ""; ?>">
         <span id="nick-error" class="error"">
-            <?php echo isset($_SESSION['errors']['nick']) ? $_SESSION['errors']['nick'] : ''; ?>
+            <?php echo isset($_SESSION["errors"]["nick"]) ? $_SESSION["errors"]["nick"] : ""; ?>
         </span>
 
         <label for="email">Email:</label>
-        <input type="text" name="email" id="email" value="<?php isset($_SESSION['form_data']['email']) ? htmlspecialchars($_SESSION['form_data']['email']) : '' ?>">
-        <span id="email-error" class="error"">
-            <?php echo isset($_SESSION['errors']['email']) ? $_SESSION['errors']['email'] : ''; ?>
+        <input type="text" name="email" id="email" value="<?php echo isset($_SESSION["formData"][$language]["email"]) ? htmlspecialchars($_SESSION["formData"][$language]["email"]) : "" ?>">
+        <span id="email-error" class="error">
+            <?php echo $_SESSION["errors"]["email"] ?? ""; ?>
         </span>
 
-        <label for="comment">Treść komentarza:</label>
-        <textarea name="comment" id="comment"><?php isset($_SESSION['form_data']['comment']) ? trim(htmlspecialchars($_SESSION['form_data']['comment'])) : '' ?>
-        </textarea>
+        <label for="comment">Treść komentarza (obsługuje BBCode):</label>
+
+        <div class="bbcode-toolbar">
+            <button id="bbcode-add-b-button" onclick="insertBBCode('[b]', '[/b]')">B</button>
+        </div>
+
+
+        <textarea name="comment" id="comment"><?php echo isset($_SESSION["formData"][$language]["comment"]) ? trim(htmlspecialchars($_SESSION["formData"][$language]["comment"])) : '' ?></textarea>
         <span id="comment-error" class="error">
-            <?php echo isset($_SESSION['errors']['comment']) ? $_SESSION['errors']['comment'] : ''; ?>
+            <?php echo isset($_SESSION["errors"]["comment"]) ? $_SESSION["errors"]["comment"] : ""; ?>
         </span>
         <span id="form-errors" class="error"></span>
 
@@ -79,7 +108,7 @@
             </table>
             <span id="captcha-error" class="error"></span>
             <span id="recaptcha-error" class="error">
-            <?php echo isset($_SESSION["errors"]["recaptcha"]) ? $_SESSION["errors"]["recaptcha"] : ""; ?>
+            <?php echo $_SESSION["errors"]["recaptcha"] ?? ""; ?>
             </span>
 
         </div>
@@ -89,5 +118,5 @@
 </form>
 
 <?php
-unset($_SESSION['errors']);
+unset($_SESSION["errors"]);
 ?>

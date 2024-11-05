@@ -1,11 +1,11 @@
 <?php
 session_start();
+$_SESSION["errors"] = [];
+$_SESSION["formData"] = $_POST;
 
     if (isset($_POST["nick"]) && isset($_POST["email"]) && isset($_POST["comment"])) {
         $url = $_POST["url"];
         if (allInputsFilled()) {
-            $_SESSION['errors'] = array();
-
             if (emailValidation($_POST["email"])) {
                 $_SESSION['errors']["email"] = "Email niepoprawny";
                 header("Location:".$url);
@@ -22,8 +22,6 @@ session_start();
             echo "Nick: ".$nick."<br>Email: ".$email."<br>Comment: ".$comment;
         }
         else {
-            $_SESSION['errors'] = array();
-
             if (empty($_POST["nick"])) {
                 $_SESSION['errors']["nick"] = "Nick jest wymagany";
             }
@@ -46,4 +44,7 @@ session_start();
         $pattern = "/^([a-zA-Z0-9]{1,})@([a-zA-Z0-9]{2,10})\\.(pl|com)$/";
         return !preg_match($pattern, $email);
     }
+
+    // Przetwarzanie BBCode
+//    $comment = convertBBCodeToHTML($_POST["comment"]);
 ?>

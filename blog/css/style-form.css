@@ -27,6 +27,11 @@ form#add-comment-form textarea {
     border-radius: 3px;
 }
 
+form#add-comment-form textarea {
+    resize: vertical;
+    height: 200px;
+}
+
 form#add-comment-form button {
     background-color: #28a745;
     color: white;
@@ -77,4 +82,20 @@ form#add-comment-form table button.checked-captcha-button {
 
 form#add-comment-form span#captcha-error {
     margin-top: 20px;
+}
+
+/* BBCode Editor */
+form#add-comment-form div.bbcode-toolbar button {
+    background-color: #d3d3d3; /* Jasnoszary kolor przycisku */
+    color: #333; /* Ciemnoszary kolor tekstu */
+    border: 1px solid #ccc; /* Delikatna ramka */
+    border-radius: 3px; /* Zaokrąglone rogi */
+    padding: 3px 8px; /* Zmniejszone wymiary */
+    font-size: 0.9em; /* Mniejszy rozmiar tekstu */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Płynna zmiana koloru przy najechaniu */
+}
+
+form#add-comment-form div.bbcode-toolbar button:hover {
+    background-color: #b0b0b0; /* Ciemniejszy odcień szarości przy najechaniu */
 }
