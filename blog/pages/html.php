@@ -56,7 +56,7 @@ $language = "html";
             <p>
                 HyperText Markup Language to podstawowy język służący do tworzenia stron internetowych. Jego głównym zadaniem jest strukturyzowanie treści, takich jak teksty, obrazy czy linki, oraz ich prawidłowe wyświetlanie w przeglądarce. HTML jest fundamentem każdej strony WWW i współpracuje z innymi technologiami, takimi jak CSS i JavaScript, by stworzyć pełnowartościową, interaktywną witrynę. Dzięki swojej prostocie jest idealny dla początkujących programistów.
             </p>
-            <img src="../images/html_logo.png" alt="HTML logo">
+            <img src="../images/html_logo.png" alt="HTML logo" class="language-image">
 
             <article id="comments-section">
                 <h3>Posty</h3>

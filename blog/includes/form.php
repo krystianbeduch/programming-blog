@@ -1,29 +1,10 @@
 <?php
 //session_destroy();
 ?>
-<!--<script>-->
-<!--    function insertBBCode(tagStart, tagEnd) {-->
-<!--        const textarea = document.getElementById("comment");-->
-<!--        const start = textarea.selectionStart;-->
-<!--        const end = textarea.selectionEnd;-->
-<!--        const text = textarea.value;-->
-<!---->
-<!--        // Wstaw BBCode w wybranej pozycji-->
-<!--        const selectedText = text.substring(start, end);-->
-<!--        const newText = text.substring(0, start) + tagStart + selectedText + tagEnd + text.substring(end);-->
-<!--        textarea.value = newText;-->
-<!---->
-<!--        // Ustaw kursor na końcu wstawionego kodu-->
-<!--        textarea.setSelectionRange(start + tagStart.length, start + tagStart.length + selectedText.length);-->
-<!--        textarea.focus();-->
-<!--    }-->
-<!--</script>-->
-
-
 <script src="../js/add-comment-form-validation.js"></script>
 <script src="../js/add-comment-bbcode.js"></script>
 
-<form id="add-comment-form" name="add_comment_form" action="../comments/preview.php" method="post">
+<form id="add-comment-form" name="add_comment_form" action="../pages/add-comment-preview.php" method="post">
 <!--    http://www.tomaszx.pl/materialy/test_przesylania.php-->
     <fieldset>
         <legend>Dodaj komentarz</legend>
@@ -44,14 +25,82 @@
             <?php echo $_SESSION["errors"]["email"] ?? ""; ?>
         </span>
 
-        <label for="comment">Treść komentarza (obsługuje BBCode):</label>
+        <label for="comment" class="textarea-label">Treść komentarza (obsługuje BBCode):
+            <div class="bbcode-info">
+            <img src="../images/bbcode-icons/info-solid.svg" alt="info" id="bbcode-img" >
+                <!-- Dymek z instrukcją -->
+                <div class="bbcode-tooltip-text">
+                    Możesz użyć BBCode aby sformatować swój tekst.<br>
+                    Zaznacz tekst a następnie kliknij na odpowiedni przycisk.<br>
+                    Najedź na przycisk w celu uzyskania szczegółowych informacji.
+                </div>
+            </div>
+        </label>
 
+        <!-- BBCode Editor -->
         <div class="bbcode-toolbar">
-            <button id="bbcode-add-b-button" onclick="insertBBCode('[b]', '[/b]')">B</button>
+            <button id="bbcode-add-b-button" class="bbcode-info">
+                <img src="../images/bbcode-icons/bold-solid.svg" alt="bold">
+                <!-- Dymek z instrukcją -->
+                <div class="bbcode-tooltip-text">
+                    Pogrubienie<br>
+                    Prawidłowy format: [b]Tekst[/b]
+                </div>
+            </button>
+            <button id="bbcode-add-i-button" class="bbcode-info">
+                <img src="../images/bbcode-icons/italic-solid.svg" alt="italic">
+                <!-- Dymek z instrukcją -->
+                <div class="bbcode-tooltip-text">
+                    Pochylenie<br>
+                    Prawidłowy format: [i]Tekst[/i]
+                </div>
+            </button>
+            <button id="bbcode-add-u-button" class="bbcode-info">
+                <img src="../images/bbcode-icons/underline-solid.svg" alt="underline">
+                <!-- Dymek z instrukcją -->
+                <div class="bbcode-tooltip-text">
+                    Podkreślenie<br>
+                    Prawidłowy format: [u]Tekst[/u]
+                </div>
+            </button>
+            <button id="bbcode-add-s-button" class="bbcode-info">
+                <img src="../images/bbcode-icons/strikethrough-solid.svg" alt="strikethrough">
+                <!-- Dymek z instrukcją -->
+                <div class="bbcode-tooltip-text">
+                    Przekreślenie<br>
+                    Prawidłowy format: [s]Tekst[/s]
+                </div>
+            </button>
+            <button id="bbcode-add-li-button" class="bbcode-info">
+                <img src="../images/bbcode-icons/list-solid.svg" alt="li">
+                <!-- Dymek z instrukcją -->
+                <div class="bbcode-tooltip-text">
+                    Lista<br>
+                    Wypisz elementy listy w osobnych linijkach<br>
+                    Prawidłowy format: [ul][li]Element1[/li][li]Element2[/li]...[/ul]
+                </div>
+            </button>
+            <button id="bbcode-add-quote-button" class="bbcode-info">
+                <img src="../images/bbcode-icons/quote-right-solid.svg" alt="quote">
+                <!-- Dymek z instrukcją -->
+                <div class="bbcode-tooltip-text">
+                    Cytat<br>
+                    Prawidłowy format: [quote]Tekst[/quote]
+                </div>
+            </button>
+            <button id="bbcode-add-link-button" class="bbcode-info">
+                <img src="../images/bbcode-icons/link-solid.svg" alt="link">
+                <!-- Dymek z instrukcją -->
+                <div class="bbcode-tooltip-text">
+                    Link<br>
+                    Wprowadź w okienku adres URL w postaci: https://site.com<br>
+                    Prawidłowy format: [url=https://site.com]Tekst[/url]
+                </div>
+            </button>
         </div>
 
-
         <textarea name="comment" id="comment"><?php echo isset($_SESSION["formData"][$language]["comment"]) ? trim(htmlspecialchars($_SESSION["formData"][$language]["comment"])) : '' ?></textarea>
+
         <span id="comment-error" class="error">
             <?php echo isset($_SESSION["errors"]["comment"]) ? $_SESSION["errors"]["comment"] : ""; ?>
         </span>
@@ -59,6 +108,8 @@
 
         <input type="hidden" name="recaptcha_response" id="recaptcha_response">
 
+
+        <!-- CAPTCHA -->
         <div id="captcha">
             <?php
             $random = rand(0, 8);
@@ -89,7 +140,7 @@
                         echo "<tr>";
                     }
 
-                    echo "<td><button type='button' class='captcha-button";
+                    echo "<td><button type='button' class='form-button captcha-button";
                     if ($tab[$i]["img"] == $correct_img["img"]) {
                         // Dodanie klasy poprawnej captchy
                         echo " correct-captcha-button'>";
@@ -113,7 +164,7 @@
 
         </div>
 
-        <button type="submit">Dodaj komentarz</button>
+        <button type="submit" class="form-button">Dodaj komentarz</button>
     </fieldset>
 </form>
 

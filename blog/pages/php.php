@@ -51,7 +51,7 @@ $language = "php";
             <p>
                 Język skryptowy, który jest szeroko stosowany do tworzenia dynamicznych stron internetowych i aplikacji serwerowych. Jest szczególnie przydatny przy tworzeniu systemów zarządzania treścią (CMS), takich jak WordPress, oraz w integracji z bazami danych, np. MySQL. PHP jest łatwy do nauki i oferuje szerokie możliwości, co czyni go idealnym narzędziem do tworzenia serwisów webowych o różnym stopniu zaawansowania.
             </p>
-            <img src="../images/php_logo.png" alt="PHP logo">
+            <img src="../images/php_logo.png" alt="PHP logo" class="language-image">
 
             <article id="comments-section">
                 <h3>Posty</h3>

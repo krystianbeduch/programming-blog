@@ -44,7 +44,7 @@ $language = "swift";
             <p>
                 Język programowania opracowany przez Apple, służący głównie do tworzenia aplikacji na platformy iOS, macOS, watchOS i tvOS. Jest prosty w użyciu, bezpieczny i nowoczesny, co ułatwia tworzenie wydajnych aplikacji mobilnych oraz desktopowych. Swift zastąpił Objective-C, wprowadzając nowoczesne funkcje, które upraszczają kodowanie, a jednocześnie poprawiają wydajność i bezpieczeństwo. Swift jest stosowany głównie w rozwoju aplikacji dla ekosystemu Apple, jednak jego otwarty kod źródłowy umożliwia użycie również w projektach na inne platformy.
             </p>
-            <img src="../images/swift_logo.png" alt="Swift logo">
+            <img src="../images/swift_logo.png" alt="Swift logo" class="language-image">
 
             <article id="comments-section">
                 <h3>Posty</h3>

@@ -44,7 +44,4 @@ $_SESSION["formData"] = $_POST;
         $pattern = "/^([a-zA-Z0-9]{1,})@([a-zA-Z0-9]{2,10})\\.(pl|com)$/";
         return !preg_match($pattern, $email);
     }
-
-    // Przetwarzanie BBCode
-//    $comment = convertBBCodeToHTML($_POST["comment"]);
 ?>

@@ -53,7 +53,7 @@ $language = "python";
             <p>
                 Wszechstronny, interpretowany język programowania, ceniony za swoją prostą składnię i czytelność, co czyni go idealnym wyborem dla początkujących programistów. Jego zastosowania obejmują rozwój aplikacji webowych, automatyzację, analizę danych, a także sztuczną inteligencję i uczenie maszynowe. W kontekście backendu, Python jest często wykorzystywany wraz z frameworkami takimi jak Django czy Flask, co pozwala na szybkie tworzenie skalowalnych i bezpiecznych aplikacji internetowych.
             </p>
-            <img src="../images/python_logo.png" alt="Python logo">
+            <img src="../images/python_logo.png" alt="Python logo" class="language-image">
 
             <article id="comments-section">
                 <h3>Posty</h3>

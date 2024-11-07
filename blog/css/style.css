@@ -148,7 +148,7 @@ section#main-section p {
     line-height: 1.8;
 }
 
-section#main-section img {
+section#main-section img.language-image {
     width: 100px;
     height: auto;
 }
@@ -235,7 +235,7 @@ footer {
 
 /* Floaty wewnętrzne */
 ul {
-    list-style-type: none;
+    /*list-style-type: none;*/
     margin: 15px;
 }
 

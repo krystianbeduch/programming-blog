@@ -38,10 +38,4 @@ class Card {
     public function getImageOfBackCard(): string {
         return "../images/blackjack/back.png";
     }
-
-
-
-
-
-
 }

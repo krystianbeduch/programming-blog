@@ -43,7 +43,7 @@ $language = "assembler";
             <p>
                 Niskopoziomowy język programowania, który pozwala na bezpośrednie komunikowanie się z procesorem komputera. Jest używany tam, gdzie wymagana jest pełna kontrola nad zasobami sprzętowymi, np. w systemach operacyjnych, sterownikach i systemach wbudowanych. Asembler, choć trudniejszy w nauce i pisaniu niż wyżej poziomowe języki, umożliwia maksymalną optymalizację kodu, co jest kluczowe w systemach o ograniczonych zasobach. Jego znajomość jest niezbędna dla programistów tworzących krytyczne oprogramowanie, które musi działać blisko sprzętu.
             </p>
-            <img src="../images/assembly_logo.png" alt="Assembler logo">
+            <img src="../images/assembly_logo.png" alt="Assembler logo" class="language-image">
 
             <article id="comments-section">
                 <h3>Posty</h3>

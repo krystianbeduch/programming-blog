@@ -98,8 +98,4 @@ class Game {
     public function setCroupier(Player $croupier): void {
         $this->croupier = $croupier;
     }
-
-
-
-
 }

@@ -53,7 +53,7 @@ $language = "sql";
             <p>
                 Structured Query Language to język służący do zarządzania i manipulacji danymi w relacyjnych bazach danych. Jest standardem do tworzenia, modyfikowania i pobierania danych z baz danych takich jak MySQL, PostgreSQL, Oracle czy Microsoft SQL Server. SQL jest szeroko stosowany w aplikacjach, które wymagają przechowywania i przetwarzania dużych ilości danych, zarówno w systemach frontendowych, jak i backendowych. Jego zastosowanie obejmuje również analizy danych, raportowanie oraz zarządzanie danymi w biznesowych aplikacjach i systemach ERP.
             </p>
-            <img src="../images/sql_logo.png" alt="SQL logo">
+            <img src="../images/sql_logo.png" alt="SQL logo" class="language-image">
 
             <article id="comments-section">
                 <h3>Posty</h3>

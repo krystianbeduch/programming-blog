@@ -43,5 +43,4 @@ class Deck {
         }
         return array_splice($this->cards, array_rand($this->cards), 1)[0];
     }
-
 }

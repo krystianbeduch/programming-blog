@@ -32,7 +32,7 @@ form#add-comment-form textarea {
     height: 200px;
 }
 
-form#add-comment-form button {
+button.form-button {
     background-color: #28a745;
     color: white;
     border: none;
@@ -42,7 +42,7 @@ form#add-comment-form button {
     transition: background-color 0.3s;
 }
 
-form#add-comment-form button:hover {
+button.form-button:hover {
     background-color: #218838;
 }
 
@@ -67,6 +67,20 @@ form#add-comment-form .input-error {
     border: 1px solid #f5c6cb;
 }
 
+/* Add Comment Previw */
+section.add-comment-preview-section p {
+    margin-bottom: 5px !important;
+}
+
+div.comment-preview {
+    margin-bottom: 20px;
+}
+
+/* Captcha */
+form#add-comment-form table button img {
+    width: 100px;
+    height: 100px;
+}
 
 form#add-comment-form table button {
     background-color: #fff;
@@ -86,12 +100,12 @@ form#add-comment-form span#captcha-error {
 
 /* BBCode Editor */
 form#add-comment-form div.bbcode-toolbar button {
-    background-color: #d3d3d3; /* Jasnoszary kolor przycisku */
-    color: #333; /* Ciemnoszary kolor tekstu */
-    border: 1px solid #ccc; /* Delikatna ramka */
-    border-radius: 3px; /* Zaokrąglone rogi */
-    padding: 3px 8px; /* Zmniejszone wymiary */
-    font-size: 0.9em; /* Mniejszy rozmiar tekstu */
+    background-color: #d3d3d3;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px 8px 2px; /* 4px gora, 8px lewo-prawo, 2px dol */
+    font-size: 0.9em;
     cursor: pointer;
     transition: background-color 0.3s ease; /* Płynna zmiana koloru przy najechaniu */
 }
@@ -99,3 +113,50 @@ form#add-comment-form div.bbcode-toolbar button {
 form#add-comment-form div.bbcode-toolbar button:hover {
     background-color: #b0b0b0; /* Ciemniejszy odcień szarości przy najechaniu */
 }
+
+form#add-comment-form label.textarea-label {
+    display: flex; /* Ustawienie tekstu i ikony info w jednej linii */
+    align-items: center; /* Wyrownanie tekstu i ikony w pionie */
+    gap: 8px; /* Odstep miedzy elementami */
+}
+
+form#add-comment-form img#bbcode-img {
+    /* Ikona info */
+    height: 14px;
+    width: 14px;
+    padding: 3px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: inline-block;
+    box-sizing: content-box; /* Padding i obramowanie beda wokół ikony */
+    position: relative;
+}
+
+form#add-comment-form div.bbcode-tooltip-text {
+    /* Dymki pomocy */
+    display: none; /* Domyslnie ukryty */
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    text-align: left;
+    font-weight: bold;
+}
+
+form#add-comment-form .bbcode-info:hover + div.bbcode-tooltip-text,
+form#add-comment-form .bbcode-info:hover div.bbcode-tooltip-text {
+    display: block; /* Pokaz dymek po najechaniu */
+}
+
+form#add-comment-form div.bbcode-toolbar button img {
+    /* Ikony edytora */
+    height: 14px;
+    width: auto;
+}
+
+
