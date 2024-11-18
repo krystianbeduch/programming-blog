@@ -1,0 +1,58 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="80B6F416-1497-A798-A6ED-A5F94360B254" name="roles">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:19:19 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="role_id" id="35DC55D5-2AC2-25C6-FC58-5F20CD8578D5">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:19:29 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="role_name" id="554A3620-F918-56D8-C40F-BC758B9E01B4">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:19:37 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="32220BAE-93DA-2FB3-40EF-7A0138D93697" name="role PK">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:19:35 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>35DC55D5-2AC2-25C6-FC58-5F20CD8578D5</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

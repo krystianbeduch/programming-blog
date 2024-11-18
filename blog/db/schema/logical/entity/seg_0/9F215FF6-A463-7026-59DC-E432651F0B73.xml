@@ -1,0 +1,122 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="9F215FF6-A463-7026-59DC-E432651F0B73" name="users">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:14:25 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="user_id" id="9559F8C8-A301-D9BD-D431-FBB6EC5A95D6">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:14:38 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nickname" id="588480EE-BC81-CAC8-FB4B-44D7E7B479EE">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:14:52 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email" id="23B9B539-2408-B748-432C-C2A64D9CCAD8">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:16:20 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="password" id="37C15647-D325-FF7D-5047-F2EE8D956107">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:17:13 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="created_at" id="BB21DF07-7E17-DD78-5828-C951EE7EE522">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:17:23 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="updated_at" id="82CB8BCA-E706-65C4-B31D-A73A89F4F879">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:18:32 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="role_id" id="FFAD3149-BD8B-0C80-CF26-FB11C923974A">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:20:50 UTC</createdTime>
+<generatorID>3D2C2F66-2D5E-AAF6-B405-F8548669635A</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<referedAttribute>35DC55D5-2AC2-25C6-FC58-5F20CD8578D5</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="22226772-3E59-7FD2-99D1-2CEC781C2083" name="users PK">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:14:43 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>9559F8C8-A301-D9BD-D431-FBB6EC5A95D6</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
