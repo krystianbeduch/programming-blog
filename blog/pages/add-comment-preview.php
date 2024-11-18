@@ -18,14 +18,14 @@ function convertBBCodeToHTML($text) {
     (.*?) - cale wyrazenie dopasowuje dowolny tekst miedzy znacznikami, zachowujac ten tekst jako grupe do pozniejszego uzycia jako $1
     */
 
-    $text = preg_replace("/\[b](.*?)\[\/b]/s", "<b>$1</b>", $text);
-    $text = preg_replace("/\[i](.*?)\[\/i]/s", "<i>$1</i>", $text);
+    $text = preg_replace("/\[b](.*?)\[\/b]/s", "<strong>$1</strong>", $text);
+    $text = preg_replace("/\[i](.*?)\[\/i]/s", "<em>$1</em>", $text);
     $text = preg_replace("/\[u](.*?)\[\/u]/s", "<u>$1</u>", $text);
     $text = preg_replace("/\[s](.*?)\[\/s]/s", "<s>$1</s>", $text);
     $text = preg_replace("/\[ul](.*?)\[\/ul]/s", "<ul>$1</ul>", $text);
     $text = preg_replace("/\[li](.*?)\[\/li]/s", "<li>$1</li>", $text);
     $text = preg_replace("/\[quote](.*?)\[\/quote]/s", "<q>$1</q>", $text);
-    $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", "<a href='$1' target='_blank'>$2</a>", $text);
+    $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", '<a href="$1" target="_blank">$2</a>', $text);
 
     return nl2br($text); // Zamiana nowych linii na <br>
 }
@@ -66,12 +66,19 @@ function convertBBCodeToHTML($text) {
             <button type="submit" name="edit" value="1" class="form-button">Cofnij do poprawki</button>
         </form>
 
-        <form action="../comments/test-submit.php" method="post" style="display: inline;">
+<!--        <form action="../comments/test-submit.php" method="post" style="display: inline;">-->
+        <form action="../db/add-comment-to-db.php" method="post" style="display: inline;">
             <button type="submit" name="confirm" value="1" class="form-button">Zatwierdź</button>
             <?php
             // Przesyłamy dane w ukrytych polach, aby były gotowe do zapisania w bazie
             foreach ($_POST as $key => $value) {
-                echo "<input type='hidden' name='" . htmlspecialchars($key) . "' value='" . htmlspecialchars($value) . "'>";
+                if ($key != "comment") {
+                    echo "<input type='hidden' name='" . htmlspecialchars($key) . "' value='" . htmlspecialchars($value) . "'>";
+                }
+                else {
+                    echo "<input type='hidden' name='" . htmlspecialchars($key) . "' value='" . convertBBCodeToHTML($value) . "'>";
+                }
+
             }
             ?>
         </form>

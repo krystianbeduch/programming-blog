@@ -39,7 +39,7 @@
 
         <!-- BBCode Editor -->
         <div class="bbcode-toolbar">
-            <button id="bbcode-add-b-button" class="bbcode-info">
+            <button id="bbcode-add-b-button" class="bbcode-info" type="button">
                 <img src="../images/bbcode-icons/bold-solid.svg" alt="bold">
                 <!-- Dymek z instrukcją -->
                 <div class="bbcode-tooltip-text">
@@ -47,7 +47,7 @@
                     Prawidłowy format: [b]Tekst[/b]
                 </div>
             </button>
-            <button id="bbcode-add-i-button" class="bbcode-info">
+            <button id="bbcode-add-i-button" class="bbcode-info" type="button">
                 <img src="../images/bbcode-icons/italic-solid.svg" alt="italic">
                 <!-- Dymek z instrukcją -->
                 <div class="bbcode-tooltip-text">
@@ -55,7 +55,7 @@
                     Prawidłowy format: [i]Tekst[/i]
                 </div>
             </button>
-            <button id="bbcode-add-u-button" class="bbcode-info">
+            <button id="bbcode-add-u-button" class="bbcode-info" type="button">
                 <img src="../images/bbcode-icons/underline-solid.svg" alt="underline">
                 <!-- Dymek z instrukcją -->
                 <div class="bbcode-tooltip-text">
@@ -63,7 +63,7 @@
                     Prawidłowy format: [u]Tekst[/u]
                 </div>
             </button>
-            <button id="bbcode-add-s-button" class="bbcode-info">
+            <button id="bbcode-add-s-button" class="bbcode-info" type="button">
                 <img src="../images/bbcode-icons/strikethrough-solid.svg" alt="strikethrough">
                 <!-- Dymek z instrukcją -->
                 <div class="bbcode-tooltip-text">
@@ -71,7 +71,7 @@
                     Prawidłowy format: [s]Tekst[/s]
                 </div>
             </button>
-            <button id="bbcode-add-li-button" class="bbcode-info">
+            <button id="bbcode-add-li-button" class="bbcode-info" type="button">
                 <img src="../images/bbcode-icons/list-solid.svg" alt="li">
                 <!-- Dymek z instrukcją -->
                 <div class="bbcode-tooltip-text">
@@ -80,7 +80,7 @@
                     Prawidłowy format: [ul][li]Element1[/li][li]Element2[/li]...[/ul]
                 </div>
             </button>
-            <button id="bbcode-add-quote-button" class="bbcode-info">
+            <button id="bbcode-add-quote-button" class="bbcode-info" type="button">
                 <img src="../images/bbcode-icons/quote-right-solid.svg" alt="quote">
                 <!-- Dymek z instrukcją -->
                 <div class="bbcode-tooltip-text">
@@ -88,7 +88,7 @@
                     Prawidłowy format: [quote]Tekst[/quote]
                 </div>
             </button>
-            <button id="bbcode-add-link-button" class="bbcode-info">
+            <button id="bbcode-add-link-button" class="bbcode-info" type="button">
                 <img src="../images/bbcode-icons/link-solid.svg" alt="link">
                 <!-- Dymek z instrukcją -->
                 <div class="bbcode-tooltip-text">

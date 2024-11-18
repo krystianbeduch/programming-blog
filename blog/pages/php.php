@@ -3,6 +3,8 @@ session_start();
 require_once "../includes/pagination.php";
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
+$posts =
+
 $comments = [
     "Przykładowy komentarz 1",
     "Przykładowy komentarz 2",

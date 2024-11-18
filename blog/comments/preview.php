@@ -24,8 +24,8 @@ function convertBBCodeToHTML($text) {
     (.*?) - cale wyrazenie dopasowuje dowolny tekst miedzy znacznikami, zachowujac ten tekst jako grupe do pozniejszego uzycia jako $1
     */
 
-    $text = preg_replace("/\[b](.*?)\[\/b]/s", "<b>$1</b>", $text);
-    $text = preg_replace("/\[i](.*?)\[\/i]/s", "<i>$1</i>", $text);
+    $text = preg_replace("/\[b](.*?)\[\/b]/s", "<strong>$1</strong>", $text);
+    $text = preg_replace("/\[i](.*?)\[\/i]/s", "<em>$1</em>", $text);
     $text = preg_replace("/\[u](.*?)\[\/u]/s", "<u>$1</u>", $text);
     $text = preg_replace("/\[s](.*?)\[\/s]/s", "<s>$1</s>", $text);
     $text = preg_replace("/\[quote](.*?)\[\/quote]/s", "<q>$1</q>", $text);
