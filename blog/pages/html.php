@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../includes/pagination.php";
+require_once "../includes/render-posts.php";
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
 $comments = [
@@ -62,7 +62,7 @@ $language = "html";
                 <h3>Posty</h3>
                 <div class="comment-container">
 
-                <?php renderPosts(array_slice($comments, $offset, $commentsPerPage, true));
+                <?php renderPostComments(array_slice($comments, $offset, $commentsPerPage, true));
                     // preserve_keys - zachowaj oryginalne klucze tablicy
                 ?>
                 </div>

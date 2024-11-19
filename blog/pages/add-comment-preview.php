@@ -3,8 +3,8 @@ session_start();
 //session_destroy();
 
 // Przetwarzanie danych formularza i przechowywanie ich w sesji
-$language = $_POST["topic"];
-$_SESSION['formData'][$language ] = $_POST;
+$postId = $_POST["post-id"];
+$_SESSION['formData'][$postId] = $_POST;
 
 // Funkcja konwersji BBCode na HTML
 function convertBBCodeToHTML($text) {
@@ -54,7 +54,7 @@ function convertBBCodeToHTML($text) {
 
     <section id="main-section" class="add-comment-preview-section">
         <h1>Sprawdź swój komentarz przed dodaniem</h1>
-        <p><b>Temat:</b> <?php echo htmlspecialchars($_POST["topic"]); ?></p>
+        <p><b>Numer postu:</b> <?php echo htmlspecialchars($_POST["post-id"]); ?></p>
         <p><b>Nickname:</b> <?php echo htmlspecialchars($_POST["nick"]); ?></p>
         <p><b>Email:</b> <?php echo htmlspecialchars($_POST["email"]); ?></p>
         <p><b>Komentarz:</b></p>
@@ -67,7 +67,7 @@ function convertBBCodeToHTML($text) {
         </form>
 
 <!--        <form action="../comments/test-submit.php" method="post" style="display: inline;">-->
-        <form action="../db/add-comment-to-db.php" method="post" style="display: inline;">
+        <form action="../db/mysql-operation.php" method="post" style="display: inline;">
             <button type="submit" name="confirm" value="1" class="form-button">Zatwierdź</button>
             <?php
             // Przesyłamy dane w ukrytych polach, aby były gotowe do zapisania w bazie

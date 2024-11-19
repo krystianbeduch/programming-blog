@@ -1,0 +1,148 @@
+article#posts-section {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+}
+
+article#posts-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+div.posts-container {
+    margin-top: 10px;
+}
+
+/* Style dla postow */
+div.post {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    /*padding: 10px 5px;*/
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+h4.post-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.6em;
+}
+
+p.post-author {
+    font-style: italic;
+    color: #777;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+/*p*/
+.post-content {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+
+span.post-date, span.post-updated {
+    font-size: 14px;
+    color: #777;
+    margin-left: 10px;
+    text-align: right;
+}
+
+/* Style dla pojedynczych komenatarzy w poscie*/
+div.post div.comment {
+    /*background-color: #ffffff;*/
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+p.comment-author {
+    font-style: italic;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+/*p*/
+.comment-author-comment {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 5px !important;
+}
+
+a.post-comments-link {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+a.post-comments-link:hover {
+    background-color: #45a049;
+    transform: translateY(-2px); /* Lekki efekt unoszenia */
+}
+
+a.post-comments-link:active {
+    background-color: #388e3c;
+    transform: translateY(0); /* Resetuje efekt unoszenia */
+}
+
+
+/* Style dla strony z wybranym postem*/
+article#comments-section {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+}
+
+article#comments-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+div.comment-container {
+    margin-top: 10px;
+}
+
+div.comment {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/*p.comment-author {*/
+/*    font-style: italic;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*}*/
+
+/*p.comment-author-email {*/
+/*    font-style: italic;*/
+/*}*/
+
+/*p.comment-text {*/
+/*    margin-bottom: 5px;*/
+/*}*/

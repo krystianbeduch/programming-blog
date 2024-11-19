@@ -1,8 +1,8 @@
 <?php
 //session_start();
 // Przetwarzanie danych formularza i przechowywanie ich w sesji
-$language = $_POST["topic"];
-$_SESSION['formData'][$language ] = $_POST;
+$postId = $_POST["postId"];
+$_SESSION['formData'][$postId ] = $_POST;
 
 
 /*

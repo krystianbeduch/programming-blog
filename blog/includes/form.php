@@ -10,17 +10,18 @@
         <legend>Dodaj komentarz</legend>
 
         <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
-        <label for="topic">Temat:</label>
-        <input type="text" name="topic" id="topic" value="<?php echo $language ?? "nulll"; ?>" readonly>
+        <input type="hidden" name="action" value="addComment">
+        <label for="topic">Numer postu:</label>
+        <input type="text" name="post-id" id="post-id" value="<?php echo $postId ?? "null"; ?>" readonly>
 
         <label for="nick">Nickname:</label>
-        <input type="text" name="nick" id="nick" value="<?php echo $_SESSION["formData"][$language]["nick"] ?? ""; ?>">
+        <input type="text" name="nick" id="nick" value="<?php echo $_SESSION["formData"][$postId]["nick"] ?? ""; ?>">
         <span id="nick-error" class="error"">
             <?php echo isset($_SESSION["errors"]["nick"]) ? $_SESSION["errors"]["nick"] : ""; ?>
         </span>
 
         <label for="email">Email:</label>
-        <input type="text" name="email" id="email" value="<?php echo isset($_SESSION["formData"][$language]["email"]) ? htmlspecialchars($_SESSION["formData"][$language]["email"]) : "" ?>">
+        <input type="text" name="email" id="email" value="<?php echo isset($_SESSION["formData"][$postId]["email"]) ? htmlspecialchars($_SESSION["formData"][$postId]["email"]) : "" ?>">
         <span id="email-error" class="error">
             <?php echo $_SESSION["errors"]["email"] ?? ""; ?>
         </span>
@@ -99,7 +100,7 @@
             </button>
         </div>
 
-        <textarea name="comment" id="comment"><?php echo isset($_SESSION["formData"][$language]["comment"]) ? trim(htmlspecialchars($_SESSION["formData"][$language]["comment"])) : '' ?></textarea>
+        <textarea name="comment" id="comment"><?php echo isset($_SESSION["formData"][$postId]["comment"]) ? trim(htmlspecialchars($_SESSION["formData"][$postId]["comment"])) : '' ?></textarea>
 
         <span id="comment-error" class="error">
             <?php echo isset($_SESSION["errors"]["comment"]) ? $_SESSION["errors"]["comment"] : ""; ?>

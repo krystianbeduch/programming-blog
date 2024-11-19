@@ -1,7 +1,7 @@
 /* Podstawowe ustawienia */
 * {
     margin: 0;
-    padding: 0;
+    /*padding: 0;*/  /* ol w postach nie działa */
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }

@@ -77,7 +77,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="roles_role_id" id="EE06EAE6-9122-606A-3B1D-D561915C1730">
+<Column name="role_id" id="EE06EAE6-9122-606A-3B1D-D561915C1730">
 <createdBy>Czarek</createdBy>
 <createdTime>2024-11-18 22:39:40 UTC</createdTime>
 <generatorID>FFAD3149-BD8B-0C80-CF26-FB11C923974A</generatorID>

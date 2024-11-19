@@ -1,10 +1,10 @@
 <?php
 try {
-    $conn = new mysqli("localhost", "root", "", "blog");
-    $topic = $_POST['topic'];
+    $postId = $_POST['post-id'];
     $nick = $_POST['nick'];
     $email = $_POST['email'];
-    $comment = $_POST['comment'];
+    $content = $_POST['comment'];
+    $conn = new mysqli("localhost", "root", "", "blog");
     $query = "INSERT INTO posts (topic, nick, email, comment) VALUES              ('${topic}', '${nick}', '${email}', '${comment}')";
 //    echo $query;
     $result = $conn->query($query);
