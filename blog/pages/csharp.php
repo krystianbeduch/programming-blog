@@ -3,24 +3,17 @@ session_start();
 require_once "../includes/render-posts.php";
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
-$comments = [
-    "Przykładowy komentarz 1",
-    "Przykładowy komentarz 2",
-    "Przykładowy komentarz 3",
-    "Przykładowy komentarz 4",
-    "Przykładowy komentarz 5",
-    "Przykładowy komentarz 6",
-    "Przykładowy komentarz 7"
-];
-$totalComments = count($comments);
-$commentsPerPage = 5;
+$language = "csharp";
+include "../db/mysql-operation.php";
+$posts = getPosts($language);
+$totalPosts = count($posts);
+$postsPerPage = 3;
 
-$paginationData = getPaginationData($currentPage, $totalComments, $commentsPerPage);
+$paginationData = getPaginationData($currentPage, $totalPosts, $postsPerPage);
 $currentPage = $paginationData["currentPage"];
 $totalPages = $paginationData["totalPages"];
 $offset = $paginationData["offset"];
 
-$language = "csharp";
 ?>
 
 <!DOCTYPE html>
@@ -55,12 +48,13 @@ $language = "csharp";
                 <h3>Posty</h3>
                 <div class="comment-container">
 
-                    <?php renderPostComments(array_slice($comments, $offset, $commentsPerPage, true));
-                    // preserve_keys - zachowaj oryginalne klucze tablicy
+                    <?php
+                    renderPosts(array_slice($posts, $offset, $postsPerPage, true));
+                    // preserve_keys = true - zachowaj oryginalne klucze tablicy
                     ?>
                 </div>
             </article>
-            <?php include "../includes/form.php"; ?>
+<!--            --><?php //include "../includes/add-comment-form.php"; ?>
 
             <?php renderPagination($currentPage, $totalPages, $language); ?>
 

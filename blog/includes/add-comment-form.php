@@ -4,7 +4,7 @@
 <script src="../js/add-comment-form-validation.js"></script>
 <script src="../js/add-comment-bbcode.js"></script>
 
-<form id="add-comment-form" name="add_comment_form" action="../pages/add-comment-preview.php" method="post">
+<form id="add-comment-form" class="add-form" name="add_comment_form" action="../pages/add-comment-preview.php" method="post">
 <!--    http://www.tomaszx.pl/materialy/test_przesylania.php-->
     <fieldset>
         <legend>Dodaj komentarz</legend>

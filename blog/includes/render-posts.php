@@ -23,16 +23,16 @@ function renderPosts(array $posts) : void {
         echo "<p class='post-content'>" . $post["content"] . "</p>";
 
         $comments = getCommentsToPost($post["post_id"]);
-        renderCommentsOnMainPage($comments);
+        renderCommentsOnMainPage($comments, $post["post_id"]);
 
         echo "</div>";
     }
 }
 
-function renderCommentsOnMainPage(array $comments) : void {
+function renderCommentsOnMainPage(array $comments, int $postId) : void {
     $commentsCount = count($comments);
     echo "<h4>Komentarze: {$commentsCount}</h4>";
-    if ($commentsCount > 1) {
+    if ($commentsCount >= 1) {
         $comment = $comments[0];
         echo "<div class='comment'>";
         echo "<p class='comment-author'>Autor: " . $comment["nickname"]. ", " . $comment["email"] .
@@ -43,11 +43,15 @@ function renderCommentsOnMainPage(array $comments) : void {
         //        potrzebna funkcja do przekształcania treści komenatrza zgodnie ze znacznikami
         echo "</div>";
         echo "</p>";
-        $postId = $comment["post_id"];
-        echo "<a href='../pages/post.php?postId={$postId}' class='post-comments-link'>Zobacz wszystkie komentarze</a>";
+        if ($commentsCount > 1) {
+            echo "<a href='../pages/post.php?postId={$postId}' class='post-comments-link'>Zobacz wszystkie komentarze</a>";
+        }
+        else if ($commentsCount == 1) {
+            echo "<a href='../pages/post.php?postId={$postId}' class='post-comments-link'>Dodaj komentarz</a>";
+        }
     }
     else {
-        "tylko 1";
+        echo "<a href='../pages/post.php?postId={$postId}' class='post-comments-link'>Dodaj komentarz</a>";
     }
 }
 

@@ -2,11 +2,10 @@
 session_start();
 require_once "../includes/render-posts.php";
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-$language = "php";
 
+$language = "php";
 include "../db/mysql-operation.php";
 $posts = getPosts($language);
-
 $totalPosts = count($posts);
 $postsPerPage = 3;
 
@@ -45,6 +44,8 @@ $offset = $paginationData["offset"];
             </p>
             <img src="../images/php_logo.png" alt="PHP logo" class="language-image">
 
+            <a href='add-post.php?category=<?php echo $language;?>' class='add-post-link'>Dodaj post</a>";
+
             <article id="posts-section">
                 <h3>Posty</h3>
                 <div class="posts-container">
@@ -54,7 +55,7 @@ $offset = $paginationData["offset"];
                     ?>
                 </div>
             </article>
-<!--            --><?php //include "../includes/form.php"; ?>
+<!--            --><?php //include "../includes/add-comment-form.php"; ?>
 
             <?php renderPagination($currentPage, $totalPages, $language); ?>
         </section>

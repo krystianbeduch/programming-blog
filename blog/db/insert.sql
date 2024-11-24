@@ -8,11 +8,11 @@ VALUES
     ('PHP'),
     ('Java'),
     ('Python'),
-    ('C#'),
+    ('Csharp'),
     ('Ruby'),
-    ('Asembler'),
+    ('Assembler'),
     ('C'),
-    ('C++'),
+    ('Cpp'),
     ('SQL'),
     ('Kotlin'),
     ('Swift');
@@ -52,14 +52,14 @@ VALUES
     ('PHP 8.0 - Co się zmieniło?', 'Wersja PHP 8.0 wprowadziła wiele istotnych zmian, takich jak: <ol><li>Operator "match" - Alternatywa dla instrukcji "switch".</li><li>Named Arguments - Możliwość przekazywania parametrów funkcji w dowolnej kolejności.</li><li>JIT (Just-In-Time Compilation) - Znaczne przyspieszenie wykonywania kodu w porównaniu do wcześniejszych wersji.</li></ol>', '2024-11-20 11:05:00', true, 5, 5),
 
     # HTML
-    ('Podstawy HTML: Jak zacząć?','HTML, czyli HyperText Markup Language, to podstawowy język, który służy do tworzenia struktury stron internetowych. Każda strona internetowa wymaga jakiejś formy struktury, a HTML jest odpowiedzialny za jej zdefiniowanie. Za pomocą HTML możemy tworzyć nagłówki, akapity, linki, obrazy oraz wiele innych elementów. Warto zacząć od nauki podstawowych tagów, takich jak <html>, <head>, <body> oraz <h1>, <p>, <a>. Aby strona była dostępna dla jak najszerszego grona odbiorców, warto również pamiętać o dobrych praktykach SEO, takich jak odpowiednia semantyka i używanie tagów opisujących zawartość strony.', '2024-11-19 12:00:00', true, 1, 1),
-    ('Jak działa struktura dokumentu HTML?', 'Dokument HTML jest zbudowany z hierarchicznych tagów, które definiują jego strukturę. Na samej górze znajduje się deklaracja <!DOCTYPE html>, która mówi przeglądarkom, jakiego rodzaju dokument ma zostać wyświetlony. Następnie używamy tagu <html>, który zawiera dwie główne sekcje: <head> i <body>. Sekcja <head> zawiera metadane, takie jak tytuł strony i odwołania do arkuszy stylów CSS. Z kolei <body> przechowuje treść, którą widzi użytkownik, np. nagłówki, akapity, listy, obrazy i formularze. Dobre zrozumienie tej struktury jest kluczowe, aby skutecznie tworzyć strony internetowe i dbać o ich dostępność oraz semantykę.','2024-11-18 10:30:00', true, 2, 1),
-    ('Formularze HTML: Wprowadzenie','Formularze w HTML pozwalają na zbieranie danych od użytkowników, co jest kluczowe w aplikacjach internetowych. Formularze są używane na stronach rejestracyjnych, logowaniach, ankietach i wielu innych. Podstawowym tagiem jest <form>, który otacza wszystkie elementy formularza. Wewnątrz formularza możemy używać różnych tagów, takich jak <input>, <textarea>, <select> czy <button>. Dzięki formularzom użytkownicy mogą wprowadzać dane, które są następnie przesyłane na serwer. Warto znać atrybuty takie jak action i method, które określają sposób przesyłania danych oraz adres, na który mają zostać wysłane.', '2024-11-17 14:45:00', true, 3, 1),
-    ('Tworzenie linków w HTML', 'Linki są nieodłącznym elementem internetu i jednym z najważniejszych składników HTML. Za pomocą tagu <a> możemy tworzyć odnośniki do innych stron internetowych, sekcji na tej samej stronie lub nawet do plików do pobrania. Atrybut href jest odpowiedzialny za określenie docelowego adresu URL. Linki mogą mieć różne style, np. mogą być podkreślone, zmieniać kolor po najechaniu myszką czy działać jako przyciski. Warto również pamiętać o atrybucie target, który pozwala określić, w jakim oknie lub karcie przeglądarki ma otworzyć się link. Linki są również niezbędne w zapewnieniu dostępności strony, ponieważ umożliwiają nawigację i interakcję z zawartością strony.', '2024-11-16 09:15:00', true, 4, 1),
-    ('Rola semantycznych tagów HTML5','Semantyczne tagi HTML, takie jak <header>, <article>, <section>, <footer>, <nav> i inne, mają kluczowe znaczenie zarówno z perspektywy dostępności, jak i SEO. Używanie semantycznych tagów pozwala nie tylko na lepsze uporządkowanie treści na stronie, ale także umożliwia lepsze indeksowanie strony przez wyszukiwarki internetowe. Na przykład, <header> zawiera nagłówki strony, a <footer> informacje o autorze czy polityce prywatności. Dzięki tym tagom łatwiej jest zrozumieć, jaka część strony odpowiada za jaką funkcjonalność. Semantyczne tagi są również korzystne dla osób korzystających z technologii asystujących, takich jak czytniki ekranowe, ponieważ ułatwiają orientację na stronie.', '2024-11-15 17:30:00', true, 5, 1),
-    ('Zaawansowane techniki z HTML5', 'HTML5, wprowadzony jako standard, dodał szereg nowych funkcji, które ułatwiają tworzenie interaktywnych i multimedialnych stron internetowych. Dzięki tagom takim jak <video>, <audio>, <canvas> czy <svg> możliwe jest osadzanie multimediów i grafiki wektorowej bez potrzeby używania wtyczek. HTML5 wprowadza również wsparcie dla lokalnego przechowywania danych i obsługi geolokalizacji, co otwiera nowe możliwości dla aplikacji webowych. Dzięki tym technologiom strony stają się bardziej dynamiczne i interaktywne, a programiści zyskują nowe narzędzia do tworzenia nowoczesnych aplikacji internetowych.', '2024-11-14 12:00:00', true, 1, 1),
-    ('Jak poprawnie używać tabel w HTML?', 'Tabele w HTML służą do prezentowania danych w formie wierszy i kolumn. Chociaż mogą być używane do układania treści, to należy pamiętać, że ich głównym zadaniem jest prezentacja informacji. Tabela tworzona jest za pomocą tagu <table>, a jej wiersze to tagi <tr>, które zawierają komórki danych z tagiem <td>. Istnieją również nagłówki tabeli, które tworzymy za pomocą tagu <th>. Ważne jest, aby unikać używania tabel do układu strony, ponieważ nowoczesne techniki CSS, takie jak Flexbox i Grid, pozwalają na bardziej elastyczne i responsywne podejście do układu strony.', '2024-11-13 16:00:00', true, 2, 1),
-    ('Co to jest atrybut alt w HTML?', 'Atrybut alt jest używany w tagu <img> i jest kluczowy z perspektywy dostępności oraz SEO. Atrybut alt opisuje obraz, który nie może być załadowany lub wyświetlony. Jest to również ważne dla osób korzystających z czytników ekranu, ponieważ alt dostarcza opisu obrazu. Dobre praktyki wskazują, że tekst w atrybucie alt powinien być zwięzły, ale jednocześnie dokładny, opisując, co znajduje się na obrazie. Ponadto, dobrze napisany atrybut alt pomaga poprawić wyniki SEO strony, ponieważ wyszukiwarki używają tych informacji do lepszego indeksowania treści wizualnych.', '2024-11-12 11:30:00', true, 3, 1),
+    ('Podstawy HTML: Jak zacząć?','HTML, czyli HyperText Markup Language, to podstawowy język, który służy do tworzenia struktury stron internetowych. Każda strona internetowa wymaga jakiejś formy struktury, a HTML jest odpowiedzialny za jej zdefiniowanie. Za pomocą HTML możemy tworzyć nagłówki, akapity, linki, obrazy oraz wiele innych elementów. Warto zacząć od nauki podstawowych tagów, takich jak &lt;html&gt;, &lt;head&gt;, &lt;body&lt;gt oraz &lt;h1&gt;, &lt;p&gt;, &lt;a&gt;. Aby strona była dostępna dla jak najszerszego grona odbiorców, warto również pamiętać o dobrych praktykach SEO, takich jak odpowiednia semantyka i używanie tagów opisujących zawartość strony.', '2024-11-19 12:00:00', true, 1, 1),
+    ('Jak działa struktura dokumentu HTML?', 'Dokument HTML jest zbudowany z hierarchicznych tagów, które definiują jego strukturę. Na samej górze znajduje się deklaracja &lt;!DOCTYPE html&gt;, która mówi przeglądarkom, jakiego rodzaju dokument ma zostać wyświetlony. Następnie używamy tagu &lt;html&gt;, który zawiera dwie główne sekcje: &lt;head&gt; i &lt;body&gt;. Sekcja &lt;head&gt; zawiera metadane, takie jak tytuł strony i odwołania do arkuszy stylów CSS. Z kolei &lt;body&gt; przechowuje treść, którą widzi użytkownik, np. nagłówki, akapity, listy, obrazy i formularze. Dobre zrozumienie tej struktury jest kluczowe, aby skutecznie tworzyć strony internetowe i dbać o ich dostępność oraz semantykę.','2024-11-18 10:30:00', true, 2, 1),
+    ('Formularze HTML: Wprowadzenie','Formularze w HTML pozwalają na zbieranie danych od użytkowników, co jest kluczowe w aplikacjach internetowych. Formularze są używane na stronach rejestracyjnych, logowaniach, ankietach i wielu innych. Podstawowym tagiem jest &lt;form&gt;, który otacza wszystkie elementy formularza. Wewnątrz formularza możemy używać różnych tagów, takich jak &lt;input&gt;, &lt;textarea&gt;, &lt;select&gt; czy &lt;button&gt;. Dzięki formularzom użytkownicy mogą wprowadzać dane, które są następnie przesyłane na serwer. Warto znać atrybuty takie jak action i method, które określają sposób przesyłania danych oraz adres, na który mają zostać wysłane.', '2024-11-17 14:45:00', true, 3, 1),
+    ('Tworzenie linków w HTML', 'Linki są nieodłącznym elementem internetu i jednym z najważniejszych składników HTML. Za pomocą tagu &lt;a&gt; możemy tworzyć odnośniki do innych stron internetowych, sekcji na tej samej stronie lub nawet do plików do pobrania. Atrybut href jest odpowiedzialny za określenie docelowego adresu URL. Linki mogą mieć różne style, np. mogą być podkreślone, zmieniać kolor po najechaniu myszką czy działać jako przyciski. Warto również pamiętać o atrybucie target, który pozwala określić, w jakim oknie lub karcie przeglądarki ma otworzyć się link. Linki są również niezbędne w zapewnieniu dostępności strony, ponieważ umożliwiają nawigację i interakcję z zawartością strony.', '2024-11-16 09:15:00', true, 4, 1),
+    ('Rola semantycznych tagów HTML5','Semantyczne tagi HTML, takie jak &lt;header&gt;, &lt;article&gt;, &lt;section&gt;, &lt;footer&gt;, &lt;nav&gt; i inne, mają kluczowe znaczenie zarówno z perspektywy dostępności, jak i SEO. Używanie semantycznych tagów pozwala nie tylko na lepsze uporządkowanie treści na stronie, ale także umożliwia lepsze indeksowanie strony przez wyszukiwarki internetowe. Na przykład, &lt;header&gt; zawiera nagłówki strony, a &lt;footer&gt; informacje o autorze czy polityce prywatności. Dzięki tym tagom łatwiej jest zrozumieć, jaka część strony odpowiada za jaką funkcjonalność. Semantyczne tagi są również korzystne dla osób korzystających z technologii asystujących, takich jak czytniki ekranowe, ponieważ ułatwiają orientację na stronie.', '2024-11-15 17:30:00', true, 5, 1),
+    ('Zaawansowane techniki z HTML5', 'HTML5, wprowadzony jako standard, dodał szereg nowych funkcji, które ułatwiają tworzenie interaktywnych i multimedialnych stron internetowych. Dzięki tagom takim jak &lt;video&gt;, &lt;audio&gt;, &lt;canvas&gt; czy &lt;svg&gt; możliwe jest osadzanie multimediów i grafiki wektorowej bez potrzeby używania wtyczek. HTML5 wprowadza również wsparcie dla lokalnego przechowywania danych i obsługi geolokalizacji, co otwiera nowe możliwości dla aplikacji webowych. Dzięki tym technologiom strony stają się bardziej dynamiczne i interaktywne, a programiści zyskują nowe narzędzia do tworzenia nowoczesnych aplikacji internetowych.', '2024-11-14 12:00:00', true, 1, 1),
+    ('Jak poprawnie używać tabel w HTML?', 'Tabele w HTML służą do prezentowania danych w formie wierszy i kolumn. Chociaż mogą być używane do układania treści, to należy pamiętać, że ich głównym zadaniem jest prezentacja informacji. Tabela tworzona jest za pomocą tagu &lt;table&gt;, a jej wiersze to tagi &lt;tr&gt;, które zawierają komórki danych z tagiem &lt;td&gt;. Istnieją również nagłówki tabeli, które tworzymy za pomocą tagu &lt;th&gt;. Ważne jest, aby unikać używania tabel do układu strony, ponieważ nowoczesne techniki CSS, takie jak Flexbox i Grid, pozwalają na bardziej elastyczne i responsywne podejście do układu strony.', '2024-11-13 16:00:00', true, 2, 1),
+    ('Co to jest atrybut alt w HTML?', 'Atrybut alt jest używany w tagu &lt;img&gt; i jest kluczowy z perspektywy dostępności oraz SEO. Atrybut alt opisuje obraz, który nie może być załadowany lub wyświetlony. Jest to również ważne dla osób korzystających z czytników ekranu, ponieważ alt dostarcza opisu obrazu. Dobre praktyki wskazują, że tekst w atrybucie alt powinien być zwięzły, ale jednocześnie dokładny, opisując, co znajduje się na obrazie. Ponadto, dobrze napisany atrybut alt pomaga poprawić wyniki SEO strony, ponieważ wyszukiwarki używają tych informacji do lepszego indeksowania treści wizualnych.', '2024-11-12 11:30:00', true, 3, 1),
 
     # CSS
     ('Wprowadzenie do CSS', 'CSS, czyli Cascading Style Sheets, to technologia odpowiedzialna za stylizowanie wyglądu stron internetowych. Dzięki CSS możemy zmieniać kolory tła, czcionki, układy, marginesy, obramowania i wiele innych elementów strony. Składa się z selektorów, które wybierają elementy HTML, oraz deklaracji, które określają styl dla tych elementów. Istnieją różne metody stosowania CSS na stronie, w tym zewnętrzne pliki CSS, style w nagłówku dokumentu lub inline. Zrozumienie CSS jest niezbędne, aby tworzyć estetyczne, responsywne i funkcjonalne strony internetowe.', '2024-11-19 08:30:00', true, 1, 2),
@@ -71,7 +71,7 @@ VALUES
     ('SASS: Rozszerzenie CSS', 'SASS (Syntactically Awesome Stylesheets) to popularny preprocesor CSS, który umożliwia pisanie bardziej zaawansowanych arkuszy stylów w CSS. SASS wprowadza zmienne, zagnieżdżanie selektorów, mixiny, funkcje oraz inne narzędzia, które ułatwiają organizowanie i utrzymywanie dużych projektów CSS. Dzięki zmiennym możemy przechowywać wartości, takie jak kolory czy rozmiary, które później wykorzystywane są w całym projekcie. Zagnieżdżanie selektorów pozwala na tworzenie bardziej hierarchicznych i czytelnych arkuszy stylów, a mixiny umożliwiają wielokrotne używanie tej samej grupy właściwości. SASS ułatwia zarządzanie stylem i zwiększa efektywność pracy nad większymi projektami CSS.', '2024-11-15 13:30:00', true, 5, 2),
 
     # JavaScript
-    ('Wprowadzenie do JavaScript', 'JavaScript to język programowania wykorzystywany głównie do tworzenia interaktywnych aplikacji webowych. Został stworzony z myślą o umożliwieniu manipulowania treścią stron internetowych w czasie rzeczywistym. JavaScript jest językiem skryptowym, który działa po stronie klienta, co oznacza, że jego kod jest wykonywany przez przeglądarkę użytkownika. Dzięki JavaScriptowi można dynamicznie zmieniać zawartość stron, walidować formularze, reagować na zdarzenia (np. kliknięcia) i wiele więcej. Język jest także wykorzystywany po stronie serwera, dzięki takim narzędziom jak Node.js. JavaScript stał się fundamentem nowoczesnego web developmentu, pozwalając na tworzenie interaktywnych i responsywnych aplikacji.', '2024-11-19 09:00:00', true, 1, 3),
+    ('Wprowadzenie do JavaScript', 'JavaScript to język programowania wykorzystywany głównie do tworzenia interaktywnych aplikacji webowych. Został stworzony z myślą o umożliwieniu manipulowania treścią stron internetowych w czasie rzeczywistym. JavaScript jest językiem skryptowym, który działa po stronie klienta, co oznacza, że jego kod jest wykonywany przez przeglądarkę użytkownika. Dzięki JavaScriptowi można dynamicznie zmieniać zawartość stron, walidować formularze, reagować na zdarzenia (np. kliknięcia) i wiele więcej. Język jest także wykorzystywany po stronie serwera, dzięki takim narzędziom jak Node.js. JavaScript stał się fundamentem nowoczesnego web developmentu, pozwalając na tworzenie interaktywnych i responsywnych aplikacji.', '2024-11-09 09:00:00', true, 1, 3),
     ('Asynchroniczność w JavaScript', 'JavaScript jest językiem, który wspiera asynchroniczność, co oznacza, że operacje mogą być wykonywane niezależnie od siebie, bez blokowania reszty programu. Najczęściej używanymi mechanizmami do pracy z asynchronicznością są callbacki, promisy oraz async/await. Callbacki to funkcje, które są przekazywane jako argumenty do innych funkcji i wywoływane, gdy operacja asynchroniczna jest zakończona. Promisy to obiekty, które reprezentują wynik operacji asynchronicznej, które mogą zakończyć się sukcesem lub błędem. Async/await to syntaktyczny cukierek, który umożliwia pisanie asynchronicznego kodu w sposób synchroniczny, co zwiększa jego czytelność.', '2024-11-16 10:30:00', true, 4, 3),
     ('Obiekty w JavaScript', 'Obiekty w JavaScript to kolejne fundamenty tego języka. Są to zbiory par klucz-wartość, które pozwalają na przechowywanie danych w zorganizowany sposób. Obiekt może przechowywać różne właściwości i metody, które mogą być wywoływane na obiekcie. Tworzenie obiektów w JavaScript jest bardzo elastyczne - można je tworzyć za pomocą literałów obiektów, konstruktorów lub za pomocą klas. Obiekty stanowią podstawę wielu struktur danych i często są używane do reprezentowania bardziej złożonych bytów w aplikacjach, takich jak użytkownicy, produkty czy zamówienia.', '2024-11-14 15:30:00', true, 2, 3),
     ('DOM i manipulowanie elementami w JavaScript', 'DOM (Document Object Model) to interfejs, który reprezentuje strukturę dokumentu HTML jako drzewa obiektów. JavaScript umożliwia manipulowanie elementami strony internetowej za pomocą DOM, co pozwala na dynamiczną zmianę zawartości strony bez konieczności jej przeładowania. Można dodawać, usuwać, modyfikować elementy HTML, a także reagować na zdarzenia, takie jak kliknięcia, przesunięcia czy wprowadzanie danych. Najczęściej wykorzystywane metody do pracy z DOM to "getElementById", "getElementsByClassName", "querySelector", "createElement" oraz "appendChild". Dzięki tym funkcjom można tworzyć dynamiczne strony i aplikacje webowe.', '2024-11-13 11:00:00', true, 1, 3),
@@ -88,7 +88,7 @@ VALUES
     ('Zastosowanie interfejsów w TypeScript', 'Interfejsy w TypeScript pozwalają na definiowanie kontraktów dla obiektów. Dzięki nim można określić, jakie właściwości i metody powinny znajdować się w obiektach, co zwiększa czytelność i niezawodność kodu. Interfejsy są szczególnie przydatne, gdy pracujemy z dużymi aplikacjami, w których wiele obiektów ma podobną strukturę. TypeScript pozwala na implementację interfejsów w klasach, co pozwala na tworzenie bardziej elastycznych i modułowych aplikacji. Interfejsy umożliwiają także tworzenie bardziej zaawansowanych typów, takich jak funkcje czy tablice.', '2024-11-15 16:00:00', true, 4, 4),
 
     # Python
-    ('Wprowadzenie do Pythona', 'Python jest jednym z najbardziej przyjaznych języków do nauki, głównie dzięki swojej prostej składni. Zamiast używać nawiasów klamrowych do definiowania bloków kodu, Python korzysta z wcięć, co sprawia, że kod jest bardziej przejrzysty. Zmienna w Pythonie nie wymaga wcześniejszego deklarowania typu, ponieważ jest to język dynamicznie typowany. Python pozwala także na łatwe operowanie na listach, słownikach, krotkach i zbiorach, co czyni go elastycznym i wszechstronnym językiem programowania. Dzięki prostocie składni, Python jest świetnym wyborem dla osób, które zaczynają swoją przygodę z programowaniem. Jego bogaty ekosystem bibliotek i frameworków, takich jak Django, Flask czy TensorFlow, sprawia, że Python jest jednym z najczęściej wybieranych języków w branży IT', '2024-11-20 12:00:00', true, 1, 7),
+    ('Wprowadzenie do Pythona', 'Python jest jednym z najbardziej przyjaznych języków do nauki, głównie dzięki swojej prostej składni. Zamiast używać nawiasów klamrowych do definiowania bloków kodu, Python korzysta z wcięć, co sprawia, że kod jest bardziej przejrzysty. Zmienna w Pythonie nie wymaga wcześniejszego deklarowania typu, ponieważ jest to język dynamicznie typowany. Python pozwala także na łatwe operowanie na listach, słownikach, krotkach i zbiorach, co czyni go elastycznym i wszechstronnym językiem programowania. Dzięki prostocie składni, Python jest świetnym wyborem dla osób, które zaczynają swoją przygodę z programowaniem. Jego bogaty ekosystem bibliotek i frameworków, takich jak Django, Flask czy TensorFlow, sprawia, że Python jest jednym z najczęściej wybieranych języków w branży IT', '2024-11-09 12:00:00', true, 1, 7),
     ('Zastosowanie Python w nauce i analizie danych', 'Python stał się jednym z najważniejszych języków w dziedzinie analizy danych i uczenia maszynowego, dzięki bibliotekam takim jak NumPy, Pandas, SciPy i Matplotlib. NumPy oferuje narzędzia do obliczeń numerycznych, Pandas jest wykorzystywane do pracy z danymi tabelarycznymi, a SciPy dostarcza narzędzi do bardziej zaawansowanych obliczeń matematycznych. Dzięki tym bibliotekom Python jest doskonałym wyborem dla osób, które pracują w obszarze analizy danych, statystyki, a także sztucznej inteligencji. Python jest także wykorzystywany w badaniach naukowych, gdzie umożliwia szybkie i efektywne przeprowadzanie skomplikowanych analiz.', '2024-11-22 09:30:00', true, 3, 7),
     ('Dlaczego warto używać Pythona w backendzie?', 'Python jest jednym z najczęściej wybieranych języków do tworzenia aplikacji backendowych dzięki swojej prostocie, szybkości rozwoju i ogromnej liczbie dostępnych bibliotek. Frameworki takie jak Django i Flask umożliwiają szybkie budowanie solidnych i skalowalnych aplikacji webowych. Python jest również wydajny w zarządzaniu bazami danych, obsłudze zapytań HTTP oraz integracji z innymi systemami. Dzięki dużej społeczności, Python oferuje wsparcie dla najnowszych technologii, co czyni go atrakcyjnym wyborem dla twórców aplikacji backendowych.', '2024-11-18 14:30:00', true, 2, 7),
     ('Wprowadzenie do Pythona w backendzie', 'Python jest jednym z najpopularniejszych języków programowania do tworzenia aplikacji backendowych. Dzięki swojej prostocie i ogromnej liczbie dostępnych bibliotek, jest chętnie wybierany do budowy rozwiązań serwerowych. Frameworki takie jak Django czy Flask pozwalają szybko tworzyć aplikacje webowe z pełnym backendem. Django zapewnia gotowy zestaw funkcjonalności, takich jak system logowania, ORM do pracy z bazami danych, a także mechanizm routingu. Flask, z kolei, to mikroframework, który daje programiście pełną kontrolę nad tym, jak aplikacja będzie wyglądała i działała. Python w backendzie to świetna opcja dla szybkiego prototypowania i rozwoju aplikacji.', '2024-11-19 09:00:00', true, 1, 7),
@@ -153,70 +153,155 @@ VALUES
 INSERT INTO comments
     (user_id, nickname, email, content, created_at, post_id)
 VALUES
-    (4, null, null, 'Świetny artykuł, bardzo ciekawy temat!', NOW(), 1),
-    (2, null, null, 'Doskonały wpis, czekam na kolejne artykuły.', NOW(), 1),
-    (3, null, null, 'Mam pytanie odnośnie drugiego akapitu, czy możesz rozwinąć?', NOW(), 1),
-    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Zgadzam się w pełni z Twoimi wnioskami.', NOW(), 1),
+    # Java
+    (4, null, null, 'Java jest świetnym językiem, ale mam wrażenie, że staje się coraz bardziej przestarzała w porównaniu z nowoczesnymi technologiami, jak Kotlin czy TypeScript. Mimo to, wciąż ma swoje miejsce, szczególnie w aplikacjach korporacyjnych', '2024-11-18 14:00:00', 1),
+    (2, null, null, 'Doskonały wpis, czekam na kolejne artykuły.', '2024-11-19 23:15:00', 1),
+    (3, null, null, 'Jako programista Java, muszę przyznać, że choć ten język jest potężny, to jego rozmiar i złożoność sprawiają, że praca nad projektami może być przytłaczająca. Dodatkowo, Java wciąż nie nadąża za nowoczesnymi trendami, jak np. programowanie funkcyjne.', '2024-11-20 00:02:00', 1),
+    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Używam Javy od lat i wciąż uważam ją za najlepszy wybór do aplikacji korporacyjnych. Nie wyobrażam sobie pracy bez Springa i Hibernate, które naprawdę ułatwiają życie. Co więcej, społeczność Javy jest fenomenalna, zawsze znajdziesz rozwiązanie na problemy.', '2024-11-23 11:00:00', 1),
 
-    (2, null, null, 'Nie zgadzam się z Twoim punktem widzenia, ale dobrze napisane.', NOW(), 2),
-    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'Bardzo interesujące spostrzeżenia, dają do myślenia.', NOW(), 2),
-    (4, null, null, 'Dzięki za podzielenie się tym artykułem, świetnie napisane!', NOW(), 2),
-    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Nie zgadzam się z Twoim punktem widzenia, ale dobrze napisane.', NOW(), 2),
-    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Bardzo interesujące spostrzeżenia, dają do myślenia.', NOW(), 2),
-    (1, null, null, 'Dzięki za podzielenie się tym artykułem, świetnie napisane!', NOW(), 2),
+    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Kolekcje w Javie to absolutna podstawa! Praca z ArrayList czy HashMap ułatwia życie programistom. Ostatnio zrobiłem projekt, w którym użyłem TreeSet i sprawdził się świetnie do przechowywania danych w porządku rosnącym. Zdecydowanie polecam każdemu programiście opanowanie tej biblioteki!.', '2024-11-24 09:45:00', 3),
+    (4, null, null, 'Zastanawia mnie, jak można to wdrożyć w praktyce?', '2024-11-24 11:30:00', 3),
+    (1, null, null, 'Moim zdaniem kolekcje to coś, co każdy programista Javy musi znać na wylot. Dobre zrozumienie różnicy między ArrayList a LinkedList pozwala podejmować lepsze decyzje projektowe i unikać wielu błędów w dużych projektach.', '2024-11-25 11:30:00', 3),
+    (3, null, null, 'Kolekcje w Javie są tak wszechstronne! Ostatnio wykorzystałem PriorityQueue do implementacji algorytmu, który musiał szybko wybierać najmniejsze wartości z dużej ilości danych. To narzędzie sprawdziło się świetnie. Java nie bez powodu jest tak popularna wśród programistów.', '2024-11-25 12:30:00', 3),
 
-    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Bardzo pomocne, dziękuję za wyjaśnienie.', NOW(), 3),
-    (4, null, null, 'Zastanawia mnie, jak można to wdrożyć w praktyce?', NOW(), 3),
-    (1, null, null, 'Świetny punkt widzenia, z którym trudno się nie zgodzić.', NOW(), 3),
-    (3, null, null, 'Można by dodać trochę więcej przykładów, ale mimo to dobry tekst.', NOW(), 3),
+    (1, null, null, 'Bardzo szczegółowy i wyczerpujący artykuł, super robota!', '2024-11-19 19:00:00', 5),
+    (2, null, null, 'Mam pytanie: czy można to zastosować w innych dziedzinach?', '2024-11-20 19:00:00', 5),
+    (null, 'KamilDev', 'kamil.dev@wp.pl', 'Spring Boot rzeczywiście upraszcza życie programisty, zwłaszcza dzięki wbudowanej konfiguracji. Zdecydowanie przyspiesza rozwój aplikacji. Czasami jednak te automatyczne konfiguracje mogą sprawiać problemy, kiedy potrzeba bardziej zaawansowanego dostosowania. Mimo to, jest to jeden z najlepszych frameworków w Javie.', '2024-11-23 14:00:00', 5),
+    (4, null, null, 'Świetne podejście do omawianego tematu, bardzo mnie to zaciekawiło.', '2024-11-24 19:00:00', 5),
+    (null, 'AniaCode', 'ania.code@o2.pl', 'Mam pytanie: korzystacie z jakichś dodatkowych rozszerzeń do Spring Boot, które pomagają w rozwoju aplikacji? Zauważyłam, że domyślna konfiguracja często wymaga pewnych poprawek, a chciałabym dowiedzieć się, jakie są najlepsze praktyki do rozszerzania możliwości frameworku.', '2024-11-26 05:15:00', 5),
+    (null, 'PrzemekPro', 'przemek_pro@gmail.pl', 'Jako początkujący programista, doceniam Spring Boot za łatwość rozpoczęcia pracy. To naprawdę świetny sposób, aby szybko uruchomić aplikację, ale zauważyłam, że w miarę jak projekt rośnie, muszę coraz więcej rozumieć, co dokładnie robi framework. Czy macie jakieś sugestie, jak lepiej zrozumieć jego mechanizmy?', '2024-11-26 04:15:00', 5),
 
-    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Bardzo interesująca analiza, zgadzam się z Twoim podejściem.', NOW(), 4),
-    (1, null, null, 'Czy masz jakieś źródła, na których opierasz swoje wnioski?', NOW(), 4),
-    (4, null, null, 'Dzięki za podzielenie się swoim spojrzeniem na ten temat.', NOW(), 4),
+    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Stream API w Javie to rewolucja w sposobie pracy z danymi! Dzięki takim operacjom jak map(), filter() czy collect() kod staje się znacznie bardziej elegancki i czytelny. Zdecydowanie ułatwia to pracę, a do tego opcja pracy równoległej to ogromna zaleta przy dużych zbiorach danych.', '2024-11-19 09:00:00', 6),
+    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Uwielbiam Stream API! Dzięki niemu moje aplikacje stały się bardziej czytelne, a operacje na kolekcjach stały się łatwiejsze do napisania', '2024-11-21 16:27:00', 6),
+    (3, null, null, 'Dzięki za inspirację, to bardzo pomaga w mojej pracy.', '2024-11-22 16:55:00', 6),
+    (null, 'TomekJava', 'tomek.java@wp.pl', 'Stream API to jedno z najlepszych narzędzi, które zostały wprowadzone do Javy. Łatwość w przetwarzaniu danych i eliminowanie tradycyjnych pętli sprawiają, że kod staje się o wiele bardziej przejrzysty. A opcja pracy równoległej? To naprawdę ogromny plus!', '2024-11-23 13:15:00', 6),
+    (null, 'JuliaTech', 'julia.tech@wp.pl', 'Zgadzam się z wszystkimi pozytywnymi opiniami o Stream API. Dzięki temu narzędziu moje aplikacje stały się bardziej eleganckie, a operacje na kolekcjach są o wiele łatwiejsze do napisania. Dodatkowo, optymalizacja dzięki parallelStream() to świetna funkcjonalność!', '2024-11-24 08:00:00', 6),
 
-    (1, null, null, 'Bardzo szczegółowy i wyczerpujący artykuł, super robota!', NOW(), 5),
-    (2, null, null, 'Mam pytanie: czy można to zastosować w innych dziedzinach?', NOW(), 5),
-    (4, null, null, 'Świetne podejście do omawianego problemu, bardzo mnie to zaciekawiło.', NOW(), 5),
 
-    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Ciekawa perspektywa, muszę się nad tym zastanowić.', NOW(), 6),
-    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Czy możesz wyjaśnić bardziej szczegółowo kwestię związaną z trzecim punktem?', NOW(), 6),
-    (3, null, null, 'Dzięki za inspirację, to bardzo pomaga w mojej pracy.', NOW(), 6),
+    (4, null, null, 'Spring Boot to świetne narzędzie, które znacząco przyspiesza rozwój aplikacji, ale czasami mam wrażenie, że przez swoją „magiczność” może ukrywać zbyt wiele za kulisami. Dla początkujących programistów to może być problematyczne, bo tracą możliwość pełnego zrozumienia działania aplikacji.', NOW(), 7),
+    (null, 'ElaC', 'ela.c@interia.pl', 'Spring Boot zdecydowanie upraszcza życie programistom, ale jego rozbudowany zestaw funkcji może być przytłaczający. Czasami jest za dużo abstrakcji, przez co trudno znaleźć najlepsze rozwiązanie w przypadku specyficznych problemów, a dokumentacja bywa niejednoznaczna.', '2024-11-26 01:45:00', 7),
 
-    (4, null, null, 'Mam drobne zastrzeżenia co do trzeciego akapitu, ale ogólnie świetne!', NOW(), 7),
+    ( 1, null, null, 'Spring Data JPA to niesamowite narzędzie, które naprawdę upraszcza pracę z bazami danych. Działa idealnie z PostgreSQL, a konfiguracja w pliku application.properties jest tak prosta, że można od razu zacząć pracę nad logiką aplikacji. To bardzo wygodne rozwiązanie.', '2024-11-19 10:00:00', 8),
+    (2, null, null, 'Spring Boot naprawdę upraszcza zarządzanie bazami danych. Działa świetnie z PostgreSQL, a konfiguracja jest tak łatwa, że mogę się skupić na samej logice aplikacji. Transakcje są bardzo wygodne, bo wiem, że moje operacje na bazie będą spójne i bezpieczne.', '2024-11-20 11:30:00', 8),
+    (4, null, null, 'Miałem problemy z konfiguracją baz danych w innych frameworkach, ale Spring Boot całkowicie to zmienił. Dzięki Spring Data JPA mogłem szybko połączyć aplikację z bazą, a dodatkowo automatyczna konfiguracja w application.properties to ogromna oszczędność czasu. Polecam!', '2024-11-21 09:15:00', 8),
+    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'Mam pytanie: czy mogę to wykorzystać w swojej pracy?', '2024-11-22 19:15:00', 8),
+    (null, 'JakubCoder', 'jakub.coder@wp.pl', 'Zgadzam się! Spring Boot z Spring Data JPA i Flyway to super połączenie, które oszczędza dużo czasu. Automatyczna konfiguracja pozwala szybko połączyć się z bazą danych, a transakcje sprawiają, że całość jest stabilna i bezpieczna. Praca z bazą danych w tym frameworku jest naprawdę łatwa.', '2024-11-21 10:05:00', 8),
+    (null, 'KarolinaCoder', 'karolina.coder@interia.pl', 'Dzięki Spring Boot mogłam łatwo połączyć moją aplikację z PostgreSQL. Spring Data JPA robi całą robotę, a ja mogę skupić się na innych aspektach aplikacji. Jestem zachwycona prostotą i szybkością pracy z bazą danych, zwłaszcza przy użyciu Flyway.', '2024-11-23 11:00:00', 8),
 
-    ( 1, null, null, 'Moim zdaniem można by dodać jeszcze kilka przykładów.', NOW(), 8),
-    (2, null, null, 'Ten wpis naprawdę otworzył mi oczy na ten temat.', NOW(), 8),
-    (4, null, null, 'Doskonała analiza, bardzo mnie to zaciekawiło.', NOW(), 8),
-    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'Mam pytanie: czy mogę to wykorzystać w swojej pracy?', NOW(), 8),
+    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'Spring Security umożliwia implementację wielu metod uwierzytelniania w łatwy sposób. Dzięki wbudowanej obsłudze JWT i OAuth2, integracja z zewnętrznymi systemami uwierzytelniania jest szybka i prosta. Ochrona przed atakami CSRF i XSS to świetny bonus!', '2024-11-21 13:00:00', 9),
+    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Dzięki Spring Boot i Spring Security mogłam bardzo szybko zaimplementować mechanizmy uwierzytelniania w aplikacji. Obsługa JWT oraz OAuth2 sprawiły, że proces logowania stał się prosty, a jednocześnie bardzo bezpieczny. Świetne rozwiązanie do zabezpieczania aplikacji.', '2024-11-22 11:30:00', 9),
+    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Ciekawy wpis, zwłaszcza końcowe wnioski. Ochrona przed atakami CSRF i XSS to kluczowy element w zabezpieczaniu aplikacji.', '2024-11-23 10:20:00', 9),
 
-    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'Bardzo dobrze przedstawione, czekam na rozwinięcie.', NOW(), 9),
-    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Mam inne zdanie na ten temat, ale świetna argumentacja.', NOW(), 9),
-    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Ciekawy wpis, zwłaszcza końcowe wnioski.', NOW(), 9),
+    # PHP
+    (3, null, null, 'Czy możesz polecić jakieś źródła do dalszego zgłębiania tematu?', '2024-11-22 12:05:00', 11),
+    (4, null, null, 'Super wpis, czekam na więcej.', '2024-11-23 18:56:00', 11),
 
-    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Zgadzam się w pełni, świetny artykuł.', NOW(), 10),
+    (1, null, null, 'PDO to świetne narzędzie do pracy z bazami danych w PHP! Używanie zapytań przygotowanych to klucz do zapewnienia bezpieczeństwa aplikacji. Zdecydowanie polecam korzystać z PDO zamiast tradycyjnych metod komunikacji z bazą danych.', '2024-11-19 08:30:00', 12),
+    (4, null, null, 'Zgadzam się, PDO to bardzo bezpieczna metoda pracy z bazami danych w PHP. Dzięki zapytaniom przygotowanym, możemy uniknąć wielu potencjalnych problemów, takich jak SQL Injection.', '2024-11-20 10:45:00', 12),
+    (3, null, null, 'PDO to świetny wybór do pracy z bazami danych w PHP. Używanie zapytań przygotowanych daje duże poczucie bezpieczeństwa, a sama konfiguracja jest bardzo prosta. Polecam każdemu, kto chce pisać bezpieczne aplikacje z PHP.', '2024-11-23 11:30:00', 12),
 
-    (2, null, null, 'Bardzo interesujące spostrzeżenia, dają do myślenia.', NOW(), 11),
-    (3, null, null, 'Czy możesz polecić jakieś źródła do dalszego zgłębiania tematu?', NOW(), 11),
-    (4, null, null, 'Super wpis, czekam na więcej.', NOW(), 11),
+    (2, 3, 20, 'Zdecydowanie JIT to jedna z najważniejszych zmian w PHP 8.1.', '2024-11-22 16:06:00', 13),
+    (1, 1, 20, 'Cieszę się, że PHP rozwija się w kierunku nowoczesnych rozwiązań.', '2024-11-22 23:59:00', 13),
+    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Czy są jakieś materiały, które wyjaśniają implementację Enums w PHP?', '2024-11-23 15:02:00', 13),
 
-    (1, null, null, 'Świetna robota, podoba mi się Twoje podejście.', NOW(), 12),
-    (4, null, null, 'Mam pytanie odnośnie ostatniego akapitu, czy mógłbyś go rozwinąć?', NOW(), 12),
-    (3, null, null, 'Bardzo wartościowy wpis, dziękuję za podzielenie się wiedzą.', NOW(), 12),
+    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Laravel to mój ulubiony framework. Blade i Eloquent to połączenie idealne.', '2024-11-18 19:12:00', 14),
+    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'Dokumentacja Laravela naprawdę ułatwia start nowym użytkownikom.', '2024-11-21 03:43:00', 14),
+    (1, null, null, 'Czy Laravel wspiera wszystkie bazy danych, czy są jakieś ograniczenia?', '2024-11-22 07:52:00', 14),
 
-    (4, 2, 20, 'Fibers brzmią naprawdę interesująco! Muszę zgłębić temat asynchroniczności w PHP.', NOW(), 13),
-    (2, 3, 20, 'Zdecydowanie JIT to jedna z najważniejszych zmian w PHP 8.1.', NOW(), 13),
-    (1, 1, 20, 'Cieszę się, że PHP rozwija się w kierunku nowoczesnych rozwiązań.', NOW(), 13),
-    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Czy są jakieś materiały, które wyjaśniają implementację Enums w PHP?', NOW(), 13),
+    (1, null, null, 'Dzięki sesjom moje aplikacje stały się znacznie bardziej użyteczne.', '2024-11-18 12:10:54', 15),
+    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Ciekawy wpis! Czy możesz wyjaśnić, jak PHP zarządza plikami sesji na serwerze?', '2024-11-20 19:28:00', 15),
+    (3, null, null, 'Czy w sesjach w PHP można przechowywać duże ilości danych, czy lepiej użyć bazy?', '2024-11-22 22:17:00', 15),
 
-    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Laravel to mój ulubiony framework. Blade i Eloquent to połączenie idealne.', NOW(), 14),
-    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'Dokumentacja Laravela naprawdę ułatwia start nowym użytkownikom.', NOW(), 14),
-    (1, null, null, 'Czy Laravel wspiera wszystkie bazy danych, czy są jakieś ograniczenia?', NOW(), 14),
+    (4, null, null, 'Operator "match" to naprawdę wygodna alternatywa dla "switch".', '2024-11-20 12:10:54', 16),
+    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Named Arguments to coś, czego brakowało mi w PHP od dawna.', '2024-11-20 13:56:00', 16),
+    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'JIT przyspieszył moje skrypty bardziej, niż się spodziewałem.', '2024-11-22 21:15:00', 16),
+    (3, null, null, 'Świetne podsumowanie nowości! PHP idzie w dobrą stronę.', '2024-11-23 07:54:00', 16),
+    (null, 'nick', 'test@gmail.com', '<strong>Testowy komentarz</strong><br /><em>Testowy komentarz2</em>', '2024-11-24 00:10:54', 16),
 
-    (1, null, null, 'Dzięki sesjom moje aplikacje stały się znacznie bardziej użyteczne.', NOW(), 15),
-    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Ciekawy wpis! Czy możesz wyjaśnić, jak PHP zarządza plikami sesji na serwerze?', NOW(), 15),
-    (3, null, null, 'Czy w sesjach w PHP można przechowywać duże ilości danych, czy lepiej użyć bazy?', NOW(), 15),
+    ##############################
+    # HTML
+    (null, 'CodeLover', 'code.lover@outlook.com', 'Bardzo dobrze wyjaśniona struktura dokumentu. Przyda się początkującym!', 'NOW()', 18),
+    (null, 'HTMLJoe', 'joe123@gmail.com', 'Krótko, ale treściwie! Idealny materiał dla startujących w webdev.', '2024-11-24 10:40:00', 18),
 
-    (4, null, null, 'Operator "match" to naprawdę wygodna alternatywa dla "switch".', NOW(), 16),
-    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Named Arguments to coś, czego brakowało mi w PHP od dawna.', NOW(), 16),
-    (null, 'ScriptMaven', 'scriptmaven@freelancer.dev', 'JIT przyspieszył moje skrypty bardziej, niż się spodziewałem.', NOW(), 16),
-    (3, null, null, 'Świetne podsumowanie nowości! PHP idzie w dobrą stronę.', NOW(), 16);
+    (null, 'AnnaNowak', 'anna.nowak@gmail.com', 'Bardzo przydatne wyjaśnienie, szczególnie dla osób, które dopiero zaczynają tworzyć formularze!', '2024-11-24 11:00:00', 19),
+    (null, 'Krzysiek89', 'krzysiek89@yahoo.com', 'Nie wspomniałeś o walidacji danych w formularzach, czy planujesz osobny post na ten temat?', '2024-11-24 11:15:00', 19),
+    (null, 'MartaWeb', 'marta.web@hotmail.com', 'Fajny wpis, ale może dodałbyś przykład z użyciem <input type="password">? To też jest ważny element formularzy.', '2024-11-24 11:30:00', 19),
+    (null, 'Janek123', 'janek123@o2.pl', 'Szczerze mówiąc, brakuje tu bardziej praktycznych przykładów. Sam opis działania to trochę za mało.', '2024-11-24 11:45:00', 19),
+    (null, 'OlaDev', 'ola.dev@wp.pl', 'Dzięki za ten wpis! Zawsze miałam problem z różnicą między GET a POST, może opiszesz to szerzej?', '2024-11-24 12:00:00', 19),
+
+    (1, null, null, 'Świetnie, że wspominasz o czytnikach ekranowych! Semantyczne tagi to klucz do lepszej dostępności.', '2024-11-24 12:30:00', 21),
+    (null, 'TomekSEO', 'tomek.seo@wp.pl', 'Czy używanie semantycznych tagów naprawdę aż tak wpływa na SEO? Masz może jakieś dowody lub źródła?', '2024-11-24 12:45:00', 21),
+    (3, null, null, 'Dobry wpis, ale brakuje mi przykładu praktycznego, jak zamienić zwykłe &lt;div&gt; na semantyczne tagi.', '2024-11-24 13:00:00', 21),
+    (2, null, null, 'Zdecydowanie popieram używanie semantycznych tagów. Ułatwia to późniejszą pracę z CSS i JS.', '2024-11-24 13:15:00', 21),
+    (null, 'Janek123', 'janek123@o2.pl', 'Dzięki za ten post! Często zapominam o &lt;section&gt;, mimo że to świetny sposób na organizację treści.', '2024-11-24 13:30:00', 21),
+
+    (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Ciekawy wpis, ale brakuje mi przykładów kodu z użyciem <canvas> – mógłbyś coś takiego dodać?', '2024-11-24 15:00:00', 22),
+
+    (4, null, null, 'Bardzo dobry wpis. SEO w obrazach jest często pomijane, a ma ogromne znaczenie.', '2024-11-22 16:00:00', 24),
+    (null, 'MaciekFrontend', 'maciek.frontend@yahoo.com', 'Mam pytanie: co zrobić, jeśli obraz jest tylko dekoracyjny? Czy alt powinien być wtedy pusty?', '2024-11-23 06:07:00', 24),
+    (1, null, null, 'Dzięki za ten post! Dobre opisy alt są kluczowe dla dostępności, ale zauważyłam, że wiele osób wciąż to ignoruje.', '2024-11-24 16:30:00', 24),
+
+    # CSS
+    (3, null, null, 'Świetne podsumowanie! Zastanawiam się, jak CSS Grid wypada w porównaniu do Flexboxa. Kiedy najlepiej używać jednego lub drugiego?', '2024-11-24 17:00:00', 26),
+    (null, 'AgnieszkaCode', 'agnieszka.code@yahoo.com', 'Wspaniałe narzędzie, ale na początku trochę trudne do opanowania. Może dodasz przykład kodu dla początkujących?', '2024-11-24 17:30:00', 26),
+    (null, 'Janek123', 'janek123@o2.pl', 'CSS Grid to game-changer! Projektowanie responsywnych układów stało się o wiele prostsze.', '2024-11-24 17:45:00', 26),
+    (null, 'AnnaNowak', 'anna.nowak@gmail.com', 'Mam pytanie – czy można używać CSS Grid w połączeniu z Flexboxem w jednym projekcie? Jakie są ograniczenia?', '2024-11-24 18:00:00', 26),
+    (4, null, null, 'W teorii Grid wygląda świetnie, ale w praktyce ciężko go czasem dopasować do bardziej dynamicznych treści.', '2024-11-24 18:15:00', 26),
+
+    (3, null, null, 'Czy Flexbox ma jakieś ograniczenia w porównaniu do CSS Grid? Zastanawiam się, które narzędzie jest lepsze w jakich sytuacjach.', '2024-11-24 19:30:00', 27),
+    (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Wcześniej używałem float, ale odkąd poznałem Flexbox, nie wyobrażam sobie powrotu do starych metod.', '2024-11-24 20:15:00', 27),
+    (null, 'TomekSEO', 'tomek.seo@wp.pl', 'Ciekawy wpis! Jak myślisz, czy Flexbox z czasem wyprze inne techniki układów, czy zawsze będzie współistnieć z Gridem?', '2024-11-24 21:00:00', 27),
+    (null, 'StackGuru', 'stackguru@stackmail.pl', 'Flexbox jest niesamowity! Po kilku godzinach nauki w końcu zrozumiałam, jak działa justify-content.', '2024-11-24 21:30:00', 27),
+
+    (1, null, null, 'Warto dodać, że Media Queries świetnie współpracują z Flexboxem i Gridem, co jeszcze bardziej ułatwia tworzenie responsywnych stron.', '2024-11-19 22:15:00', 30),
+    (3, null, null, 'Mam pytanie – czy używacie Media Queries do każdego elementu na stronie, czy tylko do całych sekcji?', '2024-11-21 12:54:00', 30),
+    (null, 'Krzysiek89', 'krzysiek89@yahoo.com', 'Czy Media Queries mają jakieś ograniczenia w przypadku starszych wersji przeglądarek?', '2024-11-24 23:45:00', 30),
+    (null, 'OlaDev', 'ola.dev@wp.pl', 'Media Queries są fundamentem responsywnego designu, ale niektóre projekty wymagają ich bardziej zaawansowanego użycia.', '2024-11-25 00:15:00', 30),
+
+
+    (null, 'KasiaDesign99', 'kasia.design@gmail.com', 'Cześć! Mam pytanie – jak najlepiej organizować pliki SASS w dużych projektach? Używacie osobnych plików dla zmiennych, mixinów, itp.?', '2024-11-23 08:30:00', 31),
+    (null, 'BartekDev', 'bartek.dev@o2.pl', 'SASS świetnie się sprawdza, ale dla małych projektów może być przesadą. Używam go głównie w większych aplikacjach, gdzie struktura jest bardziej skomplikowana.', '2024-11-23 10:15:00', 31),
+
+    # JavaScript
+    (null, 'PawełJS', 'pawel_js@o2.pl', 'jQuery było świetnym rozwiązaniem przez długi czas, ale teraz coraz częściej lepiej sięgnąć po jakiś framework. Osobiście sięgam po Reacta. Czasami jednak nadal korzystam z jQuery w mniejszych projektach, gdzie nie potrzebuję pełnej aplikacji SPA.', '2024-11-24 10:30:00', 36),
+    (null, 'AniaFrontend', 'aneczka.frontend@wp.pl', 'Zgadza się, jQuery bardzo uprościło życie programistów, ale teraz React i Angular rządzą. Ciekawi mnie, czy jQuery może mieć jeszcze jakieś zastosowanie w 2025 roku?', '2024-11-25 10:45:00', 36),
+    (null, 'KasiaWeb', 'kasia.web@interia.pl', 'Chociaż jQuery nie jest już na topie, to jego prostota wciąż sprawia, że jest idealnym rozwiązaniem dla małych stron i aplikacji. Czasami wracam do niego, gdy trzeba szybko coś zrobić.', '2024-11-25 11:15:00', 36),
+    (null, 'OlaDev', 'ola.dev@wp.pl', 'To prawda, jQuery znacznie ułatwia manipulowanie DOM. Z drugiej strony, z Reactem czy Angular można zrobić więcej, zwłaszcza w większych projektach, gdzie jQuery może stać się zbyt ciężkie.', '2024-11-25 11:30:00', 36),
+    (4, null, null, 'Mam wrażenie, że jQuery to już przeszłość. Zdecydowanie React czy Vue to przyszłość. Chociaż jQuery wciąż ma swoje miejsce w starszych aplikacjach.', '2024-11-23 11:45:00', 36),
+    (null, 'PatrykDev', 'patryk.dev@wp.pl', '@ariprz Nie zgadzam się, jQuery ma swoje zastosowanie tam, gdzie nie trzeba budować całych aplikacji. Dzięki niemu proste strony działają szybko i płynnie.', '2024-11-25 12:00:00', 36),
+    (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Fajny post! Ja nadal używam jQuery w niektórych projektach, szczególnie przy animacjach i prostych interakcjach. Choć React i Angular to potężne narzędzia, jQuery nie jest jeszcze całkowicie martwe.', '2024-11-25 12:15:00', 36),
+    (null, 'BitByBit', 'bitbybit@techblog.pl', 'Chociaż jQuery miało swoje najlepsze lata, dla nowych projektów zalecam korzystanie z nowoczesnych frameworków. Ale czasami warto wrócić do jQuery, zwłaszcza przy prostych stronach.', '2024-11-25 12:45:00', 36),
+
+    (null, 'AniaFrontend', 'aneczka.frontend@wp.pl', 'Zgadzam się, React to świetna biblioteka do tworzenia dynamicznych aplikacji. Jego wirtualny DOM to duża zaleta, szczególnie w przypadku dużych aplikacji. Dodatkowo, ekosystem Reacta jest naprawdę potężny, co ułatwia pracę.', '2024-11-18 13:00:00', 37),
+    (null, 'KamilJS', 'kamil.js@interia.pl', 'React rzeczywiście zdominował rynek aplikacji webowych. Dzięki komponentom łatwiej jest utrzymać porządek w projekcie, a także dodać nowe funkcjonalności w sposób szybki i zorganizowany.', '2024-11-19 13:15:00', 37),
+    (null, 'KasiaWeb', 'kasia.web@interia.pl', 'W React korzystam od kilku miesięcy i jestem pod wrażeniem jego wydajności. Dzięki wirtualnemu DOM zmiany na stronie są bardzo szybkie, co poprawia UX. Mam nadzieję, że w przyszłości będziemy widzieć jeszcze więcej rozwoju tej biblioteki.', '2024-11-20 13:30:00', 37),
+    (4, null, null, 'React zdominował rynek, ale warto też zwrócić uwagę na alternatywy jak Vue.js, które również oferują świetne rozwiązania do tworzenia interfejsów użytkownika. Niemniej jednak, React to nadal mój wybór, ze względu na jego popularność i wsparcie społeczności.', '2024-11-20 15:15:00', 37),
+
+    (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Angular jest jednym z najlepszych frameworków, jeśli chodzi o tworzenie dużych aplikacji. Dzięki dwukierunkowemu powiązaniu danych i silnemu wsparciu TypeScriptu, łatwiej zarządzać kodem i jego strukturą.', '2024-11-20 09:30:00', 38),
+
+    (null, 'OlaDev', 'ola.dev@wp.pl', 'Vue.js to naprawdę przyjazny framework. Dzięki jego prostej składni, nauka jest szybka, a integracja z istniejącymi projektami naprawdę prosta. Moim zdaniem, jest to doskonały wybór zarówno dla początkujących, jak i do większych aplikacji.', '2024-11-25 18:00:00', 39),
+    (1, null, null, 'Vue.js to bardzo elastyczny framework. Jego zaletą jest łatwa integracja z istniejącymi aplikacjami, co sprawia, że jest to świetne rozwiązanie, kiedy chcesz poprawić funkcjonalność starego projektu.', '2024-11-25 18:45:00', 39),
+    (null, 'AgnieszkaCode', 'agnieszka.code@yahoo.com', 'Jako programista, cenię Vue.js za to, że łączy w sobie najlepsze cechy Reacta i Angulara, ale jest lżejszy i łatwiejszy do nauki. Możliwość stopniowego wdrażania go w istniejących projektach jest dużą zaletą.', '2024-11-25 19:15:00', 39),
+    (null, 'NataliaVue', 'natalia.vue@outlook.com', 'Jestem wielką fanką Vue.js! Prosta składnia, świetna dokumentacja i możliwość rozwoju aplikacji krok po kroku. Idealny wybór do budowania zarówno prostych, jak i bardziej złożonych aplikacji.', '2024-11-25 20:00:00', 39),
+
+    # TypeScript
+    (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Jako programista webowy nie wyobrażam sobie pracy bez DOM. Dzięki niemu mogę tworzyć dynamiczne strony, które są interaktywne i łatwe do aktualizacji. Manipulowanie elementami HTML za pomocą JavaScript to klucz do sukcesu w aplikacjach webowych.', '2024-11-25 22:45:00', 35),
+
+    (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Jako programista JavaScript, zauważyłam ogromną różnicę po przesiadce na TypeScript. Silne typowanie i mechanizmy obiektowe znacznie poprawiają organizację kodu, co jest szczególnie ważne w dużych aplikacjach.', '2024-11-20 15:15:00', 41),
+    (null, 'AniaFrontend', 'aneczka.frontend@wp.pl', 'TypeScript poprawia jakość kodu i umożliwia wykrywanie błędów przed uruchomieniem aplikacji. Typowanie i wsparcie dla OOP to coś, co ułatwia zarządzanie dużymi projektami i współpracę z innymi programistami.', '2024-11-21 00:45:00', 41),
+    (3, null, null, 'TypeScript to must-have w dużych aplikacjach. Dzięki temu, że mogę pracować z klasami, interfejsami i silnym typowaniem, rozwój aplikacji jest bardziej uporządkowany i bezpieczniejszy, co czyni TypeScript bardzo dobrym wyborem do dużych projektów.', '2024-11-21 01:15:00', 41);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

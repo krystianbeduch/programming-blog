@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
             field.addEventListener("invalid", (e) => {
                 // Zapobiegamy domyslnemu zachowaniu przegladarki m.in. wyswietlenie komunikatu o blędzie
                 e.preventDefault()
-                validateField(field);
+                // validateField(field);
             });
             // Sluchacze na zdarzenia 'input' i 'blur' dla dynamicznego sprawdzania poprawnosci
             field.addEventListener("input", () => validateField(field));

@@ -1,40 +1,19 @@
 <?php
-//session_start();
+session_start();
 require_once "../includes/render-posts.php";
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
-$comments = [
-    "Przykładowy komentarz 1",
-    "Przykładowy komentarz 2",
-    "Przykładowy komentarz 3",
-    "Przykładowy komentarz 4",
-    "Przykładowy komentarz 5",
-    "Przykładowy komentarz 6",
-    "Przykładowy komentarz 7",
-    "Przykładowy komentarz 8",
-    "Przykładowy komentarz 9",
-    "Przykładowy komentarz 10",
-    "Przykładowy komentarz 11",
-    "Przykładowy komentarz 12",
-    "Przykładowy komentarz 13",
-    "Przykładowy komentarz 14",
-    "Przykładowy komentarz 15",
-    "Przykładowy komentarz 16",
-    "Przykładowy komentarz 17",
-    "Przykładowy komentarz 18",
-    "Przykładowy komentarz 19",
-    "Przykładowy komentarz 20",
-    "Przykładowy komentarz 21",
-];
-$totalComments = count($comments);
-$commentsPerPage = 5;
+$language = "java";
+include "../db/mysql-operation.php";
+$posts = getPosts($language);
+$totalPosts = count($posts);
+$postsPerPage = 3;
 
-$paginationData = getPaginationData($currentPage, $totalComments, $commentsPerPage);
+$paginationData = getPaginationData($currentPage, $totalPosts, $postsPerPage);
 $currentPage = $paginationData["currentPage"];
 $totalPages = $paginationData["totalPages"];
 $offset = $paginationData["offset"];
 
-$language = "java";
 ?>
 
 <!DOCTYPE html>
@@ -67,9 +46,8 @@ $language = "java";
                 Wszechstronny, obiektowy język programowania, który jest używany do budowy rozbudowanych aplikacji desktopowych, webowych oraz mobilnych. Jego główną zaletą jest przenośność – kod napisany w Javie może działać na różnych platformach dzięki mechanizmowi JVM (Java Virtual Machine). Java znajduje szerokie zastosowanie w systemach backendowych, gdzie wraz z popularnymi frameworkami, takimi jak Spring czy Hibernate, umożliwia tworzenie skalowalnych i wydajnych aplikacji serwerowych. Dzięki temu jest jednym z najczęściej wybieranych języków w dużych korporacyjnych systemach i rozwiązaniach o wysokiej wydajności.
             </p>
             <img src="../images/java_logo.png" alt="Java logo" class="language-image">
-
-            <br><br><br><br><br>
             <?php
+            /*
             $article_header = array("wpis1", "wpis2", "wpis3", "wpis4", "wpis5");
             $article_content = array("zawartosc1", "zawartosc2", "zawartosc3", "zawartosc4", "zawartosc5");
             $article_footer = array("stopka1", "stopka2", "stopka3", "stopka4", "stopka5");
@@ -87,18 +65,20 @@ $language = "java";
                 echo "</footer>";
                 echo "</article>";
             }
+            */
             ?>
 
             <article id="comments-section">
                 <h3>Posty</h3>
                 <div class="comment-container">
 
-                    <?php renderPostComments(array_slice($comments, $offset, $commentsPerPage, true));
-                    // preserve_keys - zachowaj oryginalne klucze tablicy
+                    <?php
+                    renderPosts(array_slice($posts, $offset, $postsPerPage, true));
+                    // preserve_keys = true - zachowaj oryginalne klucze tablicy
                     ?>
                 </div>
             </article>
-            <?php include "../includes/form.php"; ?>
+<!--            --><?php //include "../includes/add-comment-form.php"; ?>
 
             <?php renderPagination($currentPage, $totalPages, $language); ?>
 

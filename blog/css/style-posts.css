@@ -54,9 +54,8 @@ span.post-date, span.post-updated {
     text-align: right;
 }
 
-/* Style dla pojedynczych komenatarzy w poscie*/
+/* Style dla pojedynczych komenatarzy w poscie */
 div.post div.comment {
-    /*background-color: #ffffff;*/
     border: 1px solid #ddd;
     background-color: #f9f9f9;
     border-radius: 4px;
@@ -75,7 +74,7 @@ p.comment-author {
     margin-bottom: 10px;
 }
 /*p*/
-.comment-author-comment {
+p.comment-author-comment {
     font-size: 15px;
     color: #333;
     margin-bottom: 5px !important;

@@ -1,4 +1,4 @@
-form#add-comment-form fieldset {
+form.add-form fieldset {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -7,18 +7,26 @@ form#add-comment-form fieldset {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-form#add-comment-form legend {
-    font-size: 1.2em;
+form.add-form legend {
     font-weight: bold;
     color: #333;
 }
 
-form#add-comment-form label {
+form#add-comment-form legend {
+    font-size: 1.2em;
+}
+
+form#add-post-form legend {
+    font-size: 1.6em;
+}
+
+form.add-form label {
     font-weight: bold;
 }
 
-form#add-comment-form input[type="text"],
-form#add-comment-form textarea {
+form.add-form input[type="text"],
+form.add-form input[type="email"],
+form.add-form textarea {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -27,7 +35,7 @@ form#add-comment-form textarea {
     border-radius: 3px;
 }
 
-form#add-comment-form textarea {
+form.add-form textarea {
     resize: vertical;
     height: 200px;
 }
@@ -46,7 +54,7 @@ button.form-button:hover {
     background-color: #218838;
 }
 
-form#add-comment-form span.error {
+form.add-form span.error {
     font-size: 0.9em;
     margin-top: -10px;
     margin-bottom: 10px;
@@ -55,13 +63,21 @@ form#add-comment-form span.error {
     display: block;
 }
 
-form#add-comment-form .input-error input:-webkit-autofill   {
-    background-color: #dcbb17 !important; /* Ustawienie tła */
-    color: #1a1a1a !important; /* Ustawienie koloru tekstu */
-    border: 5px solid #4CAF50 !important; /* Dodanie stylu ramki */
+/*form.add-form .input-error input:-webkit-autofill   {*/
+/*    background-color: #dcbb17 !important; !* Ustawienie tła *!*/
+/*    color: #1a1a1a !important; !* Ustawienie koloru tekstu *!*/
+/*    border: 5px solid #4CAF50 !important; !* Dodanie stylu ramki *!*/
+/*}*/
+form.add-form input.invalid-input:-webkit-autofill {
+    -webkit-box-shadow:0 0 0 50px #ffe6e6 inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: red;
+}
+form.add-form input.valid-input:-webkit-autofill {
+    -webkit-box-shadow:0 0 0 50px #e6ffe6 inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: green;
 }
 
-form#add-comment-form .input-error {
+form.add-form.input-error {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
@@ -77,29 +93,29 @@ div.comment-preview {
 }
 
 /* Captcha */
-form#add-comment-form table button img {
+form.add-form table button img {
     width: 100px;
     height: 100px;
 }
 
-form#add-comment-form table button {
+form.add-form table button {
     background-color: #fff;
 }
 
-form#add-comment-form table button:hover {
+form.add-form table button:hover {
     background-color: #c6baba;
 }
 
-form#add-comment-form table button.checked-captcha-button {
+form.add-form table button.checked-captcha-button {
     border: 3px solid #218838;
 }
 
-form#add-comment-form span#captcha-error {
+form.add-form span#captcha-error {
     margin-top: 20px;
 }
 
 /* BBCode Editor */
-form#add-comment-form div.bbcode-toolbar button {
+form.add-form div.bbcode-toolbar button {
     background-color: #d3d3d3;
     color: #333;
     border: 1px solid #ccc;
@@ -110,17 +126,17 @@ form#add-comment-form div.bbcode-toolbar button {
     transition: background-color 0.3s ease; /* Płynna zmiana koloru przy najechaniu */
 }
 
-form#add-comment-form div.bbcode-toolbar button:hover {
+form.add-form div.bbcode-toolbar button:hover {
     background-color: #b0b0b0; /* Ciemniejszy odcień szarości przy najechaniu */
 }
 
-form#add-comment-form label.textarea-label {
+form.add-form label.textarea-label {
     display: flex; /* Ustawienie tekstu i ikony info w jednej linii */
     align-items: center; /* Wyrownanie tekstu i ikony w pionie */
     gap: 8px; /* Odstep miedzy elementami */
 }
 
-form#add-comment-form img#bbcode-img {
+form.add-form img#bbcode-img {
     /* Ikona info */
     height: 14px;
     width: 14px;
@@ -133,7 +149,7 @@ form#add-comment-form img#bbcode-img {
     position: relative;
 }
 
-form#add-comment-form div.bbcode-tooltip-text {
+form.add-form div.bbcode-tooltip-text {
     /* Dymki pomocy */
     display: none; /* Domyslnie ukryty */
     position: absolute;
@@ -148,12 +164,12 @@ form#add-comment-form div.bbcode-tooltip-text {
     font-weight: bold;
 }
 
-form#add-comment-form .bbcode-info:hover + div.bbcode-tooltip-text,
-form#add-comment-form .bbcode-info:hover div.bbcode-tooltip-text {
+form.add-form .bbcode-info:hover + div.bbcode-tooltip-text,
+form.add-form .bbcode-info:hover div.bbcode-tooltip-text {
     display: block; /* Pokaz dymek po najechaniu */
 }
 
-form#add-comment-form div.bbcode-toolbar button img {
+form.add-form div.bbcode-toolbar button img {
     /* Ikony edytora */
     height: 14px;
     width: auto;

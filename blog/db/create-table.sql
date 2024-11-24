@@ -9,11 +9,11 @@ CREATE TABLE comments (
     user_id    INT,
     nickname   VARCHAR(50),
     email      VARCHAR(100),
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     content    TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     post_id    INT NOT NULL,
     PRIMARY KEY (comment_id)
---     FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE
+--     FOREIGN KEY (post_id) REFERENCES posts(post_id)
 --     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
@@ -27,8 +27,8 @@ CREATE TABLE posts (
     user_id      INT NOT NULL,
     category_id  INT NOT NULL,
     PRIMARY KEY (post_id)
---     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
---     FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL
+--     FOREIGN KEY (user_id) REFERENCES users(user_id),
+--     FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 
 CREATE TABLE roles (
@@ -46,7 +46,7 @@ CREATE TABLE users (
     updated_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     role_id INT NOT NULL,
     PRIMARY KEY (user_id)
---     FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE SET NULL
+--     FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
 
 ALTER TABLE comments ADD FOREIGN KEY (post_id) REFERENCES posts(post_id);

@@ -115,5 +115,13 @@ function addCommentToMySQLDataBase(array $commentData) : void {
     }
 }
 
+function checkCategory(string $language) : bool {
+    $conn = new mysqli("localhost", "root", "", "blog");
+    $query = "SELECT 1 FROM categories WHERE LOWER(category_name) = LOWER('" . $language . "');";
+    $result = $conn->query($query);
+    $conn->close();
+    return $result->num_rows > 0;
+}
+
 ?>
 

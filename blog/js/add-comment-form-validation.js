@@ -118,7 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return true;
         }
         else {
-
             return false;
         }
     };

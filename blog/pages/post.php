@@ -63,7 +63,7 @@ if (isset($_GET['postId']) && is_numeric($_GET['postId'])) {
                 ?>
             </div>
         </article>
-        <?php include "../includes/form.php"; ?>
+        <?php include "../includes/add-comment-form.php"; ?>
 
 <!--        --><?php //renderPagination($currentPage, $totalPages, $language); ?>
     </section>
