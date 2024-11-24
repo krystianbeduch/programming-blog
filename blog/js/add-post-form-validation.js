@@ -32,55 +32,42 @@ document.addEventListener("DOMContentLoaded", () => {
             // form.addEventListener("submit", () => validateForm(field));
         });
 
+        // Sprawdzenie calosci formularza przed wysylka wraz z captcha
         form.addEventListener("submit", (e) => {
-           let isFormValid = true;
+            // Flaga poprawnosci formularza
+            let isFormValid = true;
 
-           formFields.forEach(field => {
-              if (!field.checkValidity()) {
-                  isFormValid = false;
-              }
-           });
-            // Walidacja CAPTCHA
+            // Sprawdzenie poprawnosci kazdego pola w formularzu
+            formFields.forEach(field => {
+                if (!field.checkValidity()) {
+                    // Jesli pole jest niepoprawne ustaw flage
+                    isFormValid = false;
+                }
+            });
+
+            // Sprawdzenie, czy CAPTCHA zostala zaznaczona poprawnie
             if (!captchaValid) {
+                // Jesli CAPTCHA jest niepoprawna, ustaw flage na false
                 isFormValid = false;
             }
 
+            // Jesli formularz nie jest poprawny, anuluj jego wyslanie
             if (!isFormValid) {
                 e.preventDefault();
             }
         });
 
-        // form.addEventListener("submit", (e) => {
-        //     let isFormValid = true;
-        //
-        //     formFields.forEach(field => {
-        //         validateField(field); // Walidacja pola
-        //         // Wymuszenie walidacji przeglądarki
-        //         if (!field.checkValidity()) {
-        //             isFormValid = false;
-        //         }
-        //     });
-        //
-        //     if (!isFormValid) {
-        //         e.preventDefault(); // Blokuj wysłanie formularza
-        //     }
-        // });
-
-        if (!captchaValid) {
-            // captchaError.textContent = "Błąd CAPTCHA";
-            // event.preventDefault();
-                // return false;
-                // formValid = false;
-        }
     });
 
     const validateField = (field) => {
-        // Znajdź label powiązany z polem za pomocą atrybutu "for" i "id"
+        // Znajdz label powiązany z polem za pomocą atrybutu "for" i "id"
         const label = document.querySelector(`label[for="${field.id}"]`);
+
+        // Znajdz pole bledu powiazane z polem
         const spanError = document.querySelector(`#${field.id}\-error`);
 
         if (label && spanError) {
-            if(!field.validity.valid) {
+            if (!field.validity.valid) {
                 label.style.color = "red";
                 field.style.borderColor = "red";
                 field.classList.remove("valid-input");
@@ -96,158 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     };
-
-
-
-
-    // // Pobieranie wartosci pol formularza
-    // const nick = form.nick.value.trim();
-    // const email = form.email.value.trim();
-    // const comment = form['post-content'].value.trim();
-    //
-    // // Czyszczenie stylow blednych inputow
-    // form.nick.classList.remove("input-error");
-    // form.email.classList.remove("input-error");
-    // form.comment.classList.remove("input-error");
-    //
-    // // Pola bledow
-    // const nickError = form.querySelector("#nick + .error");
-    // const emailError = form.querySelector("#email + .error");
-    // const commentError = form.querySelector("#comment + .error");
-    // const formErrors = document.getElementById("form-errors");
-    // const captchaError = document.getElementById("captcha-error");
-
-    // const invalidHanlder = (event) => {
-    //     let poprawnosc = event.srcElement.validity;
-    //     if(poprawnosc.valueMissing) {
-    //         formErrors.textContent = poprawnosc;
-    //     }
-    //     event.preventDefault();
-    // };
-    // Captcha
-    // const captchaButtons = Array.from(document.getElementsByClassName("captcha-button"));
-    // let captchaValid = false;
-    //
-    // // form.addEventListener("submit", (event) => {
-    // form.onsubmit = (event) => {
-    //
-    //     // Pobieranie wartosci pol formularza
-    //     const nick = form.nick.value.trim();
-    //     const email = form.email.value.trim();
-    //     const comment = form['post-content'].value.trim();
-    //
-    //     // Czyszczenie stylow blednych inputow
-    //     form.nick.classList.remove("input-error");
-    //     form.email.classList.remove("input-error");
-    //     form.comment.classList.remove("input-error");
-    //
-    //     // Pola bledow
-    //     const nickError = form.querySelector("#nick + .error");
-    //     const emailError = form.querySelector("#email + .error");
-    //     const commentError = form.querySelector("#comment + .error");
-    //     const formErrors = document.getElementById("form-errors");
-    //     const captchaError = document.getElementById("captcha-error");
-    //
-    //     // Flaga poprawnosci formularza
-    //     let formValid = true;
-    //
-    //     // Czyszczenie komunikatow bledow
-    //     nickError.textContent = "";
-    //     emailError.textContent = "";
-    //     commentError.textContent = "";
-    //     formErrors.textContent = "";
-    //     captchaError.textContent = "";
-    //
-    //     // Tablica bledow
-    //     let missingFields = [];
-    //
-    //     // Flaga poprawnosci emaila
-    //     let emailInvalid = false;
-    //
-    //     // Walidacja pola Nickname
-    //     if (nick === "") {
-    //         missingFields.push({field: "nickname", message: "Nick jest wymagany"});
-    //         form.nick.classList.add("input-error");
-    //     }
-    //
-    //     // Walidacja pola "Tresc komentarza"
-    //     if (comment === "") {
-    //         missingFields.push({field: "komentarz", message: "Komentarz jest wymagany"});
-    //         form.comment.classList.add("input-error");
-    //     }
-    //
-    //     // Walidacja pola "Email"
-    //     const emailPattern = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]{2,10}\.(pl|com)$/;
-    //     if (email === "") {
-    //         missingFields.push({field: "email", message: "Email jest wymagany"});
-    //         form.email.classList.add("input-error");
-    //     }
-    //     else if (!emailPattern.test(email)) {
-    //         emailError.textContent = "Email niepoprawny";
-    //         emailInvalid = true;
-    //         form.email.classList.add("input-error");
-    //         formValid = false;
-    //     }
-    //
-    //     if (missingFields.length === 1) {
-    //         formErrors.textContent = "";
-    //         const error = missingFields[0];
-    //         // Wyswietlenie pojedynczego bledu
-    //         switch (error.field) {
-    //             case "nickname":
-    //                 nickError.textContent = error.message;
-    //                 break;
-    //             case "email":
-    //                 emailError.textContent = error.message;
-    //                 break;
-    //             case "komentarz":
-    //                 commentError.textContent = error.message;
-    //                 break;
-    //         }
-    //         // event.preventDefault(); // Zatrzymanie wysylania formularza
-    //         // return false;
-    //         formValid = false;
-    //     }
-    //     else if (missingFields.length > 1) {
-    //         nickError.textContent = "";
-    //         commentError.textContent = "";
-    //         if (!emailInvalid) {
-    //             emailError.textContent = "";
-    //         }
-    //
-    //         // Zmiana tresci komunikatow
-    //         missingFields.forEach(missingField => {
-    //             missingField.message = missingField.field;
-    //         });
-    //         // Wyswielenie zbiorczego bledu
-    //         formErrors.textContent = "Nie wypełniono pól " +
-    //             missingFields.map(error => error.message).join(", ");
-    //         // event.preventDefault(); // Zatrzymanie wysylania formularza
-    //         // return false;
-    //         formValid = false;
-    //     }
-    //
-    //     // Walidacja CAPTCHA
-    //     console.log(captchaValid);
-    //     if (!captchaValid) {
-    //         captchaError.textContent = "Błąd CAPTCHA";
-    //         // event.preventDefault();
-    //         // return false;
-    //         formValid = false;
-    //     }
-    //
-    //     console.log(formValid);
-    //     if (formValid) {
-    //         // execeuteReptcha(form);
-    //         return true;
-    //     }
-    //     else {
-    //
-    //         return false;
-    //     }
-    // };
-    // });
-
 
     // Dla kazdego przycisku obsluz zdarzenie klikniecia
     captchaButtons.forEach((button) => {
@@ -272,9 +107,5 @@ document.addEventListener("DOMContentLoaded", () => {
     //             form.submit();
     //         });
     //     });
-    // };
-
-    // captchaValidation = () => {
-    //
     // };
 });

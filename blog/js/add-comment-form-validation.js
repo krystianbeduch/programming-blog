@@ -142,8 +142,4 @@ document.addEventListener("DOMContentLoaded", () => {
     //         });
     //     });
     // };
-
-    // captchaValidation = () => {
-    //
-    // };
 });

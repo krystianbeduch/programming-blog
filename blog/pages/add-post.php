@@ -45,28 +45,37 @@ else {
     <?php require_once "../includes/nav.php"; ?>
 
     <section id="main-section">
-        <form id="add-post-form" class="add-form" name="add_post_form" action="" method="post">
+        <form id="add-post-form" class="add-form" name="add_post_form" action="add-post-preview.php" method="post">
             <fieldset>
                 <legend>Dodaj post</legend>
 
                 <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
                 <input type="hidden" name="action" value="addPost">
+
                 <label for="category">Kategoria:</label>
                 <input type="text" name="category" id="category" value="<?php echo $category;?>" readonly>
 
-                <label for="nick">Nickname:</label>
-                <input type="text" name="nick" id="nick" value="<?php echo $_SESSION["user"]["nick"] ?? ""; ?>" required>
-                <span id="nick-error" class="error">
-                <?php echo isset($_SESSION["errors"]["nick"]) ? $_SESSION["errors"]["nick"] : ""; ?>
-                </span>
+                <label for="user-id">Numer użytkownika:</label>
+                <input type="number" name="user-id" id="user-id" value="<?php echo $_SESSION["formData"][$category]["user-id"] ?? ""; ?>">
+<!--  readonly , value=$_SESSION["user_id"]-->
 
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" value="<?php echo isset($_SESSION["user"]["email"]) ? htmlspecialchars($_SESSION["user"]["email"]) : "" ?>" required>
-                <span id="email-error" class="error">
-            <?php echo $_SESSION["errors"]["email"] ?? ""; ?>
-        </span>
+<!--                <label for="nick">Nickname:</label>-->
+<!--                <input type="text" name="nick" id="nick" value="--><?php //echo $_SESSION["user"]["nick"] ?? ""; ?><!--" required>-->
+<!--                <span id="nick-error" class="error">-->
+<!--                --><?php //echo isset($_SESSION["errors"]["nick"]) ? $_SESSION["errors"]["nick"] : ""; ?>
+<!--                </span>-->
+<!---->
+<!--                <label for="email">Email:</label>-->
+<!--                <input type="email" name="email" id="email" value="--><?php //echo isset($_SESSION["user"]["email"]) ? htmlspecialchars($_SESSION["user"]["email"]) : "" ?><!--" required>-->
+<!--                <span id="email-error" class="error">-->
+<!--            --><?php //echo $_SESSION["errors"]["email"] ?? ""; ?>
+<!--        </span>-->
+                <label for="title">Tytuł posta:</label>
+                <input type="text" name="title" id="title" required value="<?php echo $_SESSION["formData"][$category]["title"] ?? ""; ?>">
+                <span id="title-error" class="error"></span>
 
-                <label for="comment" class="textarea-label">Treść posta (obsługuje BBCode):
+                <label for="content" class="textarea-label">Treść posta (obsługuje BBCode):
+
                     <div class="bbcode-info">
                         <img src="../images/bbcode-icons/info-solid.svg" alt="info" id="bbcode-img" >
                         <!-- Dymek z instrukcją -->
@@ -78,74 +87,16 @@ else {
                     </div>
                 </label>
 
-                <!-- BBCode Editor -->
-                <div class="bbcode-toolbar">
-                    <button id="bbcode-add-b-button" class="bbcode-info" type="button">
-                        <img src="../images/bbcode-icons/bold-solid.svg" alt="bold">
-                        <!-- Dymek z instrukcją -->
-                        <div class="bbcode-tooltip-text">
-                            Pogrubienie<br>
-                            Prawidłowy format: [b]Tekst[/b]
-                        </div>
-                    </button>
-                    <button id="bbcode-add-i-button" class="bbcode-info" type="button">
-                        <img src="../images/bbcode-icons/italic-solid.svg" alt="italic">
-                        <!-- Dymek z instrukcją -->
-                        <div class="bbcode-tooltip-text">
-                            Pochylenie<br>
-                            Prawidłowy format: [i]Tekst[/i]
-                        </div>
-                    </button>
-                    <button id="bbcode-add-u-button" class="bbcode-info" type="button">
-                        <img src="../images/bbcode-icons/underline-solid.svg" alt="underline">
-                        <!-- Dymek z instrukcją -->
-                        <div class="bbcode-tooltip-text">
-                            Podkreślenie<br>
-                            Prawidłowy format: [u]Tekst[/u]
-                        </div>
-                    </button>
-                    <button id="bbcode-add-s-button" class="bbcode-info" type="button">
-                        <img src="../images/bbcode-icons/strikethrough-solid.svg" alt="strikethrough">
-                        <!-- Dymek z instrukcją -->
-                        <div class="bbcode-tooltip-text">
-                            Przekreślenie<br>
-                            Prawidłowy format: [s]Tekst[/s]
-                        </div>
-                    </button>
-                    <button id="bbcode-add-li-button" class="bbcode-info" type="button">
-                        <img src="../images/bbcode-icons/list-solid.svg" alt="li">
-                        <!-- Dymek z instrukcją -->
-                        <div class="bbcode-tooltip-text">
-                            Lista<br>
-                            Wypisz elementy listy w osobnych linijkach<br>
-                            Prawidłowy format: [ul][li]Element1[/li][li]Element2[/li]...[/ul]
-                        </div>
-                    </button>
-                    <button id="bbcode-add-quote-button" class="bbcode-info" type="button">
-                        <img src="../images/bbcode-icons/quote-right-solid.svg" alt="quote">
-                        <!-- Dymek z instrukcją -->
-                        <div class="bbcode-tooltip-text">
-                            Cytat<br>
-                            Prawidłowy format: [quote]Tekst[/quote]
-                        </div>
-                    </button>
-                    <button id="bbcode-add-link-button" class="bbcode-info" type="button">
-                        <img src="../images/bbcode-icons/link-solid.svg" alt="link">
-                        <!-- Dymek z instrukcją -->
-                        <div class="bbcode-tooltip-text">
-                            Link<br>
-                            Wprowadź w okienku adres URL w postaci: https://site.com<br>
-                            Prawidłowy format: [url=https://site.com]Tekst[/url]
-                        </div>
-                    </button>
-                </div>
+                <?php include "../includes/bbcode.php"; ?>
 
-                <textarea name="post-content" id="comment" required></textarea>
+                <textarea name="content" id="content" required><?php echo isset($_SESSION["formData"][$category]["content"]) ? trim(htmlspecialchars($_SESSION["formData"][$category]["content"])) : "" ?></textarea>
                 <?php //echo isset($_SESSION["formData"][$postId]["comment"]) ? trim(htmlspecialchars($_SESSION["formData"][$postId]["comment"])) : '' ?>
 <!--                </textarea>-->
 
-                <span id="comment-error" class="error">
+                <span id="content-error" class="error">
+<!--                    -->
             <?php echo isset($_SESSION["errors"]["comment"]) ? $_SESSION["errors"]["comment"] : ""; ?>
+<!--                    -->
         </span>
                 <span id="form-errors" class="error"></span>
 

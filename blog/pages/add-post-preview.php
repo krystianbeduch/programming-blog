@@ -3,8 +3,9 @@ session_start();
 //session_destroy();
 
 // Przetwarzanie danych formularza i przechowywanie ich w sesji
-$postId = $_POST["post-id"];
-$_SESSION['formData'][$postId] = $_POST;
+$category = $_POST["category"];
+$_SESSION['formData'][$category] = $_POST;
+// docelowo $_SESSION['formData'][$userId][$category]
 
 // Funkcja konwersji BBCode na HTML
 function convertBBCodeToHTML($text) {
@@ -53,20 +54,22 @@ function convertBBCodeToHTML($text) {
     <?php require_once "../includes/nav.php"; ?>
 
     <section id="main-section" class="add-comment-preview-section">
-        <h1>Sprawdź swój komentarz przed dodaniem</h1>
-        <p><b>Numer postu:</b> <?php echo htmlspecialchars($_POST["post-id"]); ?></p>
-        <p><b>Nickname:</b> <?php echo htmlspecialchars($_POST["nick"]); ?></p>
-        <p><b>Email:</b> <?php echo htmlspecialchars($_POST["email"]); ?></p>
+        <h1>Sprawdź swój post przed dodaniem</h1>
+        <p><b>Numer użytkownika:</b><?php echo $_POST["user-id"];?></p>
+<!--        <p><b>Numer postu:</b> --><?php //echo htmlspecialchars($_POST["post-id"]); ?><!--</p>-->
+<!--        <p><b>Nickname:</b> --><?php //echo htmlspecialchars($_POST["nick"]); ?><!--</p>-->
+<!--        <p><b>Email:</b> --><?php //echo htmlspecialchars($_POST["email"]); ?><!--</p>-->
+        <p><b>Tytuł posta:</b><?php echo htmlspecialchars($_POST["title"])?></p>
         <p><b>Komentarz:</b></p>
         <div class="comment-preview">
-            <?php echo convertBBCodeToHTML($_POST['content']); ?>
+            <?php echo convertBBCodeToHTML($_POST["content"]); ?>
         </div>
 
         <form action="<?php echo $_POST["url"];?>" method="post" style="display: inline;">
             <button type="submit" name="edit" value="1" class="form-button">Cofnij do poprawki</button>
         </form>
 
-<!--        <form action="../comments/test-submit.php" method="post" style="display: inline;">-->
+        <!--        <form action="../comments/test-submit.php" method="post" style="display: inline;">-->
         <form action="../db/mysql-operation.php" method="post" style="display: inline;">
             <button type="submit" name="confirm" value="1" class="form-button">Zatwierdź</button>
             <?php

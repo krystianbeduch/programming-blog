@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-   const textarea = document.getElementById("comment");
+   const textarea = document.getElementById("content");
    const bbcodeAddB_Button = document.getElementById("bbcode-add-b-button");
    const bbcodeAddI_Button = document.getElementById("bbcode-add-i-button");
    const bbcodeAddU_Button = document.getElementById("bbcode-add-u-button");

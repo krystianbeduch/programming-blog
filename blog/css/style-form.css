@@ -26,6 +26,7 @@ form.add-form label {
 
 form.add-form input[type="text"],
 form.add-form input[type="email"],
+form.add-form input[type="number"],
 form.add-form textarea {
     width: 100%;
     padding: 10px;

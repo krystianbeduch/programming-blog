@@ -56,7 +56,7 @@ $offset = $paginationData["offset"];
                     ?>
                 </div>
             </article>
-            <?php include "../includes/add-comment-form.php"; ?>
+<!--            --><?php //include "../includes/add-comment-form.php"; ?>
 
             <?php renderPagination($currentPage, $totalPages, $language); ?>
         </section>
