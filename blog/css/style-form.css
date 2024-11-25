@@ -1,6 +1,6 @@
 form.add-form fieldset {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: var(--background-light);
+    border: 1px solid var(--pagination-background);
     border-radius: 5px;
     padding: 20px;
     margin: 20px 0;
@@ -9,7 +9,7 @@ form.add-form fieldset {
 
 form.add-form legend {
     font-weight: bold;
-    color: #333;
+    color: var(--text-color-dark);
 }
 
 form#add-comment-form legend {
@@ -32,7 +32,7 @@ form.add-form textarea {
     padding: 10px;
     margin-top: 5px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--text-color-dark);
     border-radius: 3px;
 }
 
@@ -42,8 +42,8 @@ form.add-form textarea {
 }
 
 button.form-button {
-    background-color: #28a745;
-    color: white;
+    background-color: var(--button-background);
+    color: var(--text-color-light);
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
@@ -52,14 +52,14 @@ button.form-button {
 }
 
 button.form-button:hover {
-    background-color: #218838;
+    background-color: var(--button-hover);
 }
 
 form.add-form span.error {
     font-size: 0.9em;
     margin-top: -10px;
     margin-bottom: 10px;
-    color: red;
+    color: var(--error-text);
     font-weight: bold;
     display: block;
 }
@@ -69,19 +69,23 @@ form.add-form span.error {
 /*    color: #1a1a1a !important; !* Ustawienie koloru tekstu *!*/
 /*    border: 5px solid #4CAF50 !important; !* Dodanie stylu ramki *!*/
 /*}*/
-form.add-form input.invalid-input:-webkit-autofill {
-    -webkit-box-shadow:0 0 0 50px #ffe6e6 inset; /* Change the color to your own background color */
-    -webkit-text-fill-color: red;
-}
-form.add-form input.valid-input:-webkit-autofill {
-    -webkit-box-shadow:0 0 0 50px #e6ffe6 inset; /* Change the color to your own background color */
-    -webkit-text-fill-color: green;
+form.add-form .invalid-input:-webkit-autofill {
+    /*-webkit-box-shadow:0 0 0 50px #ffe6e6 inset; !* Change the color to your own background color *!*/
+    -webkit-box-shadow: 0 0 0 50px var(--error-background) inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: var(--error-text);
 }
 
+form.add-form .valid-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 50px #e6ffe6 inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: var(--button-hover);
+}
+
+
+/* STARE */
 form.add-form.input-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    /*background-color: var(--error-background);*/
+    /*color: var(--error-text);*/
+    /*border: 1px solid var(--error-border);*/
 }
 
 /* Add Comment Previw */
@@ -100,15 +104,15 @@ form.add-form table button img {
 }
 
 form.add-form table button {
-    background-color: #fff;
+    background-color: var(--background-light);
 }
 
 form.add-form table button:hover {
-    background-color: #c6baba;
+    background-color: var(--background-dark);
 }
 
 form.add-form table button.checked-captcha-button {
-    border: 3px solid #218838;
+    border: 3px solid var(--button-background);
 }
 
 form.add-form span#captcha-error {
@@ -117,8 +121,8 @@ form.add-form span#captcha-error {
 
 /* BBCode Editor */
 form.add-form div.bbcode-toolbar button {
-    background-color: #d3d3d3;
-    color: #333;
+    background-color: var(--bbcode-button-background);
+    color: var(--text-color-dark);
     border: 1px solid #ccc;
     border-radius: 3px;
     padding: 4px 8px 2px; /* 4px gora, 8px lewo-prawo, 2px dol */
@@ -128,7 +132,7 @@ form.add-form div.bbcode-toolbar button {
 }
 
 form.add-form div.bbcode-toolbar button:hover {
-    background-color: #b0b0b0; /* Ciemniejszy odcień szarości przy najechaniu */
+    background-color: var(--bbcode-button-hover); /* Ciemniejszy odcień szarości przy najechaniu */
 }
 
 form.add-form label.textarea-label {
@@ -144,7 +148,7 @@ form.add-form img#bbcode-img {
     padding: 3px;
     border: 1px solid black;
     border-radius: 50%;
-    background-color: #f0f0f0;
+    background-color: var(--border-color);
     display: inline-block;
     box-sizing: content-box; /* Padding i obramowanie beda wokół ikony */
     position: relative;
@@ -154,8 +158,8 @@ form.add-form div.bbcode-tooltip-text {
     /* Dymki pomocy */
     display: none; /* Domyslnie ukryty */
     position: absolute;
-    background-color: #333;
-    color: #fff;
+    background-color: var(--text-color-dark);
+    color: var(--text-color-light);
     padding: 8px;
     border-radius: 4px;
     font-size: 13px;

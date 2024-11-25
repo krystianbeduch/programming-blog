@@ -93,16 +93,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Sprawdzamy, czy pole jest niepoprawne i ustawiamy odpowiednie kolory
         if (!field.validity.valid) {
-            label.style.color = "red";
-            field.style.borderColor = "red";
+            label.style.color = "#e3192c";
+            field.style.borderColor = "#e3192c";
             field.classList.remove("valid-input");
             field.classList.add("invalid-input");
+            // field.classList.add("input-error");
             modalContent.classList.add("modal-content-invalid");
 
         }
         else {
-            label.style.color = "green";
-            field.style.borderColor = "green";
+            label.style.color = "#4caf50";
+            field.style.borderColor = "#4caf50";
             field.classList.remove("invalid-input");
             field.classList.add("valid-input");
         }

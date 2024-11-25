@@ -1,9 +1,9 @@
 article#posts-section {
     margin-top: 20px;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--pagination-background);
     border-radius: 5px;
-    background-color: #f7f7f7;
+    background-color: var(--background-light);
 }
 
 article#posts-section h3 {
@@ -17,8 +17,8 @@ div.posts-container {
 
 /* Style dla postow */
 div.post {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
+    background-color: var(--text-color-light);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     /*padding: 10px 5px;*/
     padding: 15px;
@@ -57,7 +57,7 @@ span.post-date, span.post-updated {
 /* Style dla pojedynczych komenatarzy w poscie */
 div.post div.comment {
     border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    background-color: var(--background-light);
     border-radius: 4px;
     padding: 15px;
     margin-top: 5px;
@@ -76,14 +76,14 @@ p.comment-author {
 /*p*/
 p.comment-author-comment {
     font-size: 15px;
-    color: #333;
+    color: var(--text-color-dark);
     margin-bottom: 5px !important;
 }
 
 a.post-comments-link {
     display: inline-block;
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
     padding: 8px 15px;
     text-decoration: none;
     border-radius: 5px;
@@ -101,6 +101,10 @@ a.post-comments-link:hover {
 a.post-comments-link:active {
     background-color: #388e3c;
     transform: translateY(0); /* Resetuje efekt unoszenia */
+}
+
+a.add-post-link {
+    padding: 15px 50px;
 }
 
 

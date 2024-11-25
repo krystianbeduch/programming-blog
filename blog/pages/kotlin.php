@@ -43,6 +43,7 @@ $offset = $paginationData["offset"];
                 Nowoczesny, wieloplatformowy język programowania, który jest w pełni interoperacyjny z Javą. Zyskał popularność przede wszystkim jako oficjalny język do tworzenia aplikacji na system Android, oferując nowoczesne podejście i większą zwięzłość kodu w porównaniu do Javy. Kotlin jest wykorzystywany zarówno w aplikacjach mobilnych, jak i na backendzie, gdzie współpracuje z popularnymi frameworkami jak Spring Boot, co czyni go wszechstronnym językiem do tworzenia skalowalnych aplikacji.
             </p>
             <img src="../images/kotlin_logo.png" alt="Kotlin logo" class="language-image">
+            <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
 
             <article id="comments-section">
                 <h3>Posty</h3>
@@ -54,7 +55,6 @@ $offset = $paginationData["offset"];
                     ?>
                 </div>
             </article>
-<!--            --><?php //include "../includes/add-comment-form.php"; ?>
 
             <?php renderPagination($currentPage, $totalPages, $language); ?>
         </section>

@@ -42,6 +42,6 @@
     </section>
 
     <section>
-        <h3><a href="../pages/blackjack.php">Zagraj w BlackJacka</a></h3>
+        <h3><a href="../pages/blackjackOOP.php">Zagraj w BlackJacka</a></h3>
     </section>
 </aside>

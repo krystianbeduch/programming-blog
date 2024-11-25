@@ -68,15 +68,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (label && spanError) {
             if (!field.validity.valid) {
-                label.style.color = "red";
-                field.style.borderColor = "red";
+                label.style.color = "#e3192c";
+                field.style.borderColor = "#e3192c";
                 field.classList.remove("valid-input");
                 field.classList.add("invalid-input");
+                // field.classList.add("input-error");
                 spanError.textContent = `Pole ${field.id} niepoprawne`;
             }
             else {
-                label.style.color = "green";
-                field.style.borderColor = "green";
+                label.style.color = "#218838";
+                field.style.borderColor = "#218838";
                 field.classList.remove("invalid-input");
                 field.classList.add("valid-input");
                 spanError.textContent = "";

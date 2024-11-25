@@ -43,6 +43,7 @@ $offset = $paginationData["offset"];
                 Rozszerzenie języka C, wprowadzające elementy programowania obiektowego, co czyni go potężnym narzędziem do tworzenia zarówno niskopoziomowych systemów, jak i złożonych aplikacji. C++ jest wykorzystywany w rozwoju oprogramowania systemowego, aplikacji desktopowych, gier komputerowych oraz systemów o wysokiej wydajności. Jego zdolność do pracy na poziomie sprzętu oraz obsługa zaawansowanych struktur danych sprawiają, że jest często wybierany do tworzenia silników gier, symulatorów oraz zaawansowanych systemów backendowych w krytycznych aplikacjach.
             </p>
             <img src="../images/cpp_logo.png" alt="C++ logo" class="language-image">
+            <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
 
             <article id="comments-section">
                 <h3>Posty</h3>
@@ -54,7 +55,6 @@ $offset = $paginationData["offset"];
                     ?>
                 </div>
             </article>
-<!--            --><?php //include "../includes/add-comment-form.php"; ?>
 
             <?php renderPagination($currentPage, $totalPages, $language); ?>
 

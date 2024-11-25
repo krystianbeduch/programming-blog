@@ -71,7 +71,7 @@ if (isset($_POST["stand"])) {
         <?php require_once "../includes/nav.php"; ?>
 
         <section id="main-section" class="blackjack-section">
-            <h1>Gra BlackJack OOP</h1>
+            <h1>Gra BlackJack</h1>
             <h3>Zasady:</h3>
             <ul>
                 <li>Za pomocą przycisków gracz może dobierać

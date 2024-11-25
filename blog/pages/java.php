@@ -46,6 +46,8 @@ $offset = $paginationData["offset"];
                 Wszechstronny, obiektowy język programowania, który jest używany do budowy rozbudowanych aplikacji desktopowych, webowych oraz mobilnych. Jego główną zaletą jest przenośność – kod napisany w Javie może działać na różnych platformach dzięki mechanizmowi JVM (Java Virtual Machine). Java znajduje szerokie zastosowanie w systemach backendowych, gdzie wraz z popularnymi frameworkami, takimi jak Spring czy Hibernate, umożliwia tworzenie skalowalnych i wydajnych aplikacji serwerowych. Dzięki temu jest jednym z najczęściej wybieranych języków w dużych korporacyjnych systemach i rozwiązaniach o wysokiej wydajności.
             </p>
             <img src="../images/java_logo.png" alt="Java logo" class="language-image">
+            <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
+
             <?php
             /*
             $article_header = array("wpis1", "wpis2", "wpis3", "wpis4", "wpis5");
@@ -78,7 +80,6 @@ $offset = $paginationData["offset"];
                     ?>
                 </div>
             </article>
-<!--            --><?php //include "../includes/add-comment-form.php"; ?>
 
             <?php renderPagination($currentPage, $totalPages, $language); ?>
 
