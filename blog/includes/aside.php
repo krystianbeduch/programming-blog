@@ -44,4 +44,8 @@
     <section>
         <h3><a href="../pages/blackjackOOP.php">Zagraj w BlackJacka</a></h3>
     </section>
+
+    <section>
+        <h3><a href="../pages/snake.php">Zagraj w Snake'a</a></h3>
+    </section>
 </aside>
