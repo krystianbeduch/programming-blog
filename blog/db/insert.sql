@@ -22,11 +22,11 @@ INSERT INTO roles (role_name) VALUES ('Admin'), ('User');
 INSERT INTO users
     (nickname, email, password, role_id)
 VALUES
-    ('julzaw', 'julzaw@gmail.com', 'julzaw', 2),
-    ('amawoz', 'amawoz@gmail.com', 'amawoz', 2),
-    ('korcza', 'korcza@gmail.com', 'korcza', 2),
-    ('ariprz', 'ariprz@gmail.com', 'ariprz', 2),
-    ('olabor', 'olabor@gmail.com', 'olabor', 1);
+    ('julzaw', 'julzaw@gmail.com', '$2y$10$L8F2pcsrEbLlmtfq0LFgiORQ1eRVR3iy5HYgg7i74jhI5J0c0uzki', 2),
+    ('amawoz', 'amawoz@gmail.com', '$2y$10$ejaCaOZT3TZzR5Nk34EPHe4DpRwjdq16wA309/Loh9dhkYhOXj0oa', 2),
+    ('korcza', 'korcza@gmail.com', '$2y$10$O1TN24QU8ubAMji4NxV9tuIXeVi4NLcNMTygZfvMnyCy9VLIVAdaW', 2),
+    ('ariprz', 'ariprz@gmail.com', '$2y$10$e88X23SgQwX3bz3ebERA6OJHOJNvWAfQsKru1hHw4MHkdPUa.BoqK', 2),
+    ('olabor', 'olabor@gmail.com', '$2y$10$//.wOrxtrNzsHlTh/7C.EuBQA8hujrPxUGUoY9uctmQ2dickCwXmW', 1);
 
 INSERT INTO posts
     (title, content, created_at, is_published, user_id, category_id)

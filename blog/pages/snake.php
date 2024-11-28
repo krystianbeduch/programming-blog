@@ -90,7 +90,7 @@ if (isset($_POST["stand"])) {
                 <li>W każdej grze pojawią się inne przeszkody</li>
                 <li>Gre można zastopować klikąjąc przycisk P</li>
                 <li>Gre można zakończyć klikając przycisk E</li>
-                <li>Gre można zrestartować klikając przycisk E</li>
+                <li>Gre można zrestartować klikając przycisk R</li>
 
             </ul>
 
@@ -99,6 +99,13 @@ if (isset($_POST["stand"])) {
 
             </div>
             <span id="game-info"></span>
+            <table id="snake-scores">
+                <caption>Najlepsze wyniki</caption>
+                <thead>
+                    <tr><th>Gracz</th><th>Punkty</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </section>
 
         <?php require_once "../includes/aside.php"; ?>

@@ -5,9 +5,9 @@ function getPaginationData(int $currentPage, int $totalComments, int $commentsPe
     $offset = ($currentPage - 1) * $commentsPerPage;
 
     return [
-        'currentPage' => $currentPage,
-        'totalPages' => $totalPages,
-        'offset' => $offset,
+        "currentPage" => $currentPage,
+        "totalPages" => $totalPages,
+        "offset" => $offset,
     ];
 }
 
@@ -57,14 +57,14 @@ function renderCommentsOnMainPage(array $comments, int $postId) : void {
 
 function renderAllPostComments(array $comments) : void {
     foreach ($comments as $comment) {
-        echo '<div class="comment">';
+        echo "<div class='comment'>";
         echo "<p class='comment-author'>Autor: " . $comment["nickname"]. ", " . $comment["email"] .
             "<span class='post-date'>Utworzono: " . date('d-m-Y H:i', strtotime($comment["created_at"])) .
             "</span></p>";
-        echo '<p class="comment-author-comment">';
+        echo "<p class='comment-author-comment'>";
         echo $comment["content"];
-        echo '</p>';
-        echo '</div>';
+        echo "</p>";
+        echo "</div>";
     }
 }
 

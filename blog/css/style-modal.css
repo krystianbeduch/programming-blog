@@ -43,7 +43,7 @@ div.modal-content input[type="email"],
 div.modal-content textarea {
     width: 100%;
     padding: 8px;
-    margin-bottom: 15px;
+    /*margin-bottom: 15px;*/
     border: 1px solid var(--border-color);
     border-radius: 4px;
 }
@@ -59,7 +59,28 @@ div.modal-content input.invalid-input:-webkit-autofill {
 div.modal-content input.valid-input:-webkit-autofill {
     -webkit-box-shadow:0 0 0 50px #e6ffe6 inset; /* Change the color to your own background color */
     -webkit-text-fill-color: var(--button-hover);
+}
 
+/*span.error-message {*/
+/*    font-size: 0.9rem;*/
+/*    color: var(--error-text);*/
+/*    margin-top: 5px;*/
+/*    display: block;*/
+/*}*/
+.error-message {
+    width: 100%;
+    padding: 0;
+
+    font-size: 80%;
+    color: white;
+    background-color: #900;
+    border-radius: 0 0 5px 5px;
+    box-sizing: border-box;
+    display: block;
+    margin-bottom: 15px;
+}
+.error-message:active {
+    /*padding: 0.3em;*/
 }
 /*div.modal-content input:invalid {*/
 /*    border-color: red;*/

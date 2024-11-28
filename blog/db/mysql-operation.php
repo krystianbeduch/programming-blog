@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Wyslanie komentarza do bazy
         "addComment" => addCommentToMySQLDataBase($_POST),
         "addPost" => addPostToMySQLDataBase($_POST),
+        "registerUser" => addUserToMySQLDataBase($_POST),
         default => handleUnknownAction($action),
     };
 }
@@ -194,8 +195,65 @@ function addPostToMySQLDataBase(array $postData) : void {
         echo "Błąd: " . $e->getMessage();
         exit;
     }
+}
+
+function getUserRole(string $roleName) : int {
+    try {
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $query = 'SELECT role_id FROM roles WHERE LOWER(role_name) = LOWER("' . $roleName .'");';
+        $result = $conn->query($query);
+        return $result->fetch_assoc()['role_id'];
+    }
+    catch (mysqli_sql_exception $e) {
+        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        exit;
+    }
+    catch (Exception $e) {
+        echo "Błąd: " . $e->getMessage();
+        exit;
+    }
+}
 
 
+function addUserToMySQLDataBase(array $user) : void {
+    try {
+        print_r($user);
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $query = $conn->prepare("INSERT INTO users (nickname , email, password, created_at, role_id) VALUES (?, ?, ?, NOW(), ?)");
+        $password = password_hash($user['password'], PASSWORD_DEFAULT);
+        $roleId = getUserRole($user['role']);
+//        echo $password;
+
+        $query->bind_param(
+            "sssi",
+            $user['nickname'],
+            $user['email'],
+            $password,
+            $roleId
+        );
+//        echo "sas";
+        $query->execute();
+        $query->close();
+        $conn->close();
+    }
+    catch (mysqli_sql_exception $e) {
+        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        exit;
+    }
+    catch (Exception $e) {
+        echo "Błąd: " . $e->getMessage();
+        exit;
+    }
 }
 
 ?>

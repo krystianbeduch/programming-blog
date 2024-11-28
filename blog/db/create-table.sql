@@ -1,12 +1,12 @@
 CREATE TABLE categories (
-    category_id   INT NOT NULL AUTO_INCREMENT,
+    category_id   SMALLINT NOT NULL AUTO_INCREMENT,
     category_name VARCHAR(50) NOT NULL UNIQUE,
     PRIMARY KEY (category_id)
 );
 
 CREATE TABLE comments (
-    comment_id INT NOT NULL AUTO_INCREMENT,
-    user_id    INT,
+    comment_id SMALLINT NOT NULL AUTO_INCREMENT,
+    user_id    SMALLINT,
     nickname   VARCHAR(50),
     email      VARCHAR(100),
     content    TEXT NOT NULL,
@@ -54,3 +54,10 @@ ALTER TABLE comments ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
 ALTER TABLE posts ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
 ALTER TABLE posts ADD FOREIGN KEY (category_id) REFERENCES categories(category_id);
 ALTER TABLE users ADD FOREIGN KEY (role_id) REFERENCES roles(role_id);
+
+CREATE TABLE snake_scores (
+    score_id INT NOT NULL AUTO_INCREMENT,
+    user_name VARCHAR(50),
+    score INT,
+    PRIMARY KEY(score_id)
+);

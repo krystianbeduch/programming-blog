@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const registerFormFields = document.querySelectorAll("#register-form input");
     const loginFormFields = document.querySelectorAll("#login-form input");
     const modalContent = document.getElementsByClassName("modal-content")[0];
+    let isRegister; // Flaga rejestacja/logowanie
+    const SERVER_URI = "http://127.0.0.1:80/US/blog/db/api";
+
+    const form = document.getElementById("register-form");
 
     // Laczenie obu zestawow pol w jedna kolekcje
     // ... pozwala na rozpakowanie wszystkich elementow bezposrednio do nowej kolekcji
@@ -37,24 +41,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // Przelacz modala na rejestracje
     toggleAuthInLogin.addEventListener("click", () => {
         showRegisterForm();
-        clearFieldsAndLabelsStyles()
+        clearFieldsAndLabelsStyles();
+        isRegister = true;
     });
 
     // Przelacz modala na login
     toggleAuthInRegister.addEventListener("click", () => {
         showLoginForm();
         clearFieldsAndLabelsStyles();
+        isRegister = false;
     });
 
     // Reset styli etykiet i pol
     const clearFieldsAndLabelsStyles = () => {
         allFormFields.forEach(field => {
-            const label = field.previousElementSibling;
-            label.style.color = "";
-            field.style.borderColor = "";
-            field.style.backgroundColor = "";
+            // Znajdz label powiązany z polem za pomocą atrybutu "for" i "id"
+            const label = document.querySelector(`label[for="${field.id}"]`);
+            if (label) {
+                label.style.color = "";
+                field.style.borderColor = "";
+                field.style.backgroundColor = "";
+            }
         });
-    };
+    }; // clearFieldsAndLabelsStyles()
 
     const showLoginForm = () => {
         loginContainer.style.display = "block";
@@ -79,70 +88,260 @@ document.addEventListener("DOMContentLoaded", () => {
             field.addEventListener("invalid", (e) => {
                 // Zapobiegamy domyslnemu zachowaniu przegladarki m.in. wyswietlenie komunikatu o blędzie
                 e.preventDefault()
-                // validateField(field);
             });
             // Sluchacze na zdarzenia 'input' i 'blur' dla dynamicznego sprawdzania poprawnosci
             field.addEventListener("input", () => validateField(field));
             field.addEventListener("blur", () => validateField(field));
-        });
-    });
+        }); // forEach
+
+        form.addEventListener("submit", async  (e) => {
+            if (isRegister) {
+                e.preventDefault();
+                // e.preventDefault();
+                // Flaga poprawnosci formularza rejestracji
+                let isFormValid = true;
+
+                // Sprawdzenie poprawnosci hasla i powtrzenia hasla
+                isFormValid = checkPasswordWithConfirmPassword();
+
+                // Jesli hasla sa takie same sprawdz pozostale pola
+                if (isFormValid) {
+                    // Sprawdzenie poprawnosci kazdego pola w formularzu
+                    registerFormFields.forEach(field => {
+                        if (!field.checkValidity()) {
+                            // Jesli pole jest niepoprawne ustaw flage
+                            isFormValid = false;
+                        }
+                    });
+
+                    // Sprawdz czy uzytkownik o takiej nazwie juz nie istnieje
+                    if (isFormValid) {
+                        const usernameField = Array.from(registerFormFields).find(field =>
+                            field.id === "reg-username"
+                        );
+                        const emailField = Array.from(registerFormFields).find(field =>
+                            field.id === "reg-email"
+                        );
+
+                        // console.log(usernameField.value);
+                        if (usernameField) {
+                            // Sprawdź dostępność username
+                            // const isUsernameAvailable = await checkUsernameAvailability(usernameField.value);
+                            const isUsernameAvailable = await checkAvailability("username", usernameField.value);
+                            console.log(isUsernameAvailable);
+                            if (isUsernameAvailable && isUsernameAvailable.success) {
+                                console.log("nazwa wolna");
+                            }
+                            else {
+                                console.log("nazwa zajeta");
+                                isFormValid = false;
+                                fieldIsInvalid(
+                                    usernameField,
+                                    document.querySelector(`label[for="${usernameField.id}"]`)
+                                );
+                                usernameField.nextElementSibling.textContent = "Nazwa użytkownika jest zajęta!";
+                                console.log("nazwa zajeta12123");
+                            }
+                        }
+                        if (emailField) {
+                            // Sprawdz dostepnosc email
+                            const isEmailAvailable = await checkAvailability("email", emailField.value);
+                            console.log(isEmailAvailable);
+                            if (isEmailAvailable && isEmailAvailable.success) {
+                                console.log("email wolna");
+                            }
+                            else {
+                                console.log("email zajety");
+                                isFormValid = false;
+                                fieldIsInvalid(
+                                    emailField,
+                                    document.querySelector(`label[for="${emailField.id}"]`)
+                                );
+                                emailField.nextElementSibling.textContent = "Konto z takim emailem już istnieje!";
+                            }
+
+                        }
+                    }
+
+                }
+                // Jesli formularz nie jest poprawny, anuluj jego wyslanie
+                if (isFormValid) {
+                    form.submit();
+                }
+                // e.preventDefault();
+            } // if isRegiser
+        }); // form event submit
+    }); // window event load
+
+    const fieldIsInvalid = (field, label) => {
+        label.style.color = "var(--error-text)";
+        field.style.borderColor = "var(--error-text)";
+        field.classList.remove("valid-input");
+        field.classList.add("invalid-input");
+        // field.classList.add("input-error");
+        modalContent.classList.add("modal-content-invalid");
+    };
+
+    const fieldIsValid = (field, label) => {
+        label.style.color = "var(--primary-color)";
+        field.style.borderColor = "var(--primary-color)";
+        field.classList.remove("invalid-input");
+        field.classList.add("valid-input");
+    };
 
 
     const validateField = (field) => {
+        // Pobierz label przed polem
         const label = field.previousElementSibling;
-
         // Sprawdzamy, czy pole jest niepoprawne i ustawiamy odpowiednie kolory
         if (!field.validity.valid) {
-            label.style.color = "#e3192c";
-            field.style.borderColor = "#e3192c";
-            field.classList.remove("valid-input");
-            field.classList.add("invalid-input");
-            // field.classList.add("input-error");
-            modalContent.classList.add("modal-content-invalid");
-
-        }
+            fieldIsInvalid(field, label);
+            switch (field.type) {
+                case "text":
+                    if (field.validity.tooShort) {
+                        field.nextElementSibling.textContent = "Nazwa użytkownika za krótka!";
+                    }
+                    else if (field.validity.valueMissing) {
+                        field.nextElementSibling.textContent = "Wprowadź nazwe użytkownika!";
+                    }
+                    break;
+                case "email":
+                    if (field.validity.typeMismatch) {
+                        field.nextElementSibling.textContent = "Email niepoprawny!";
+                    }
+                    else if (field.validity.valueMissing) {
+                        field.nextElementSibling.textContent = "Wprowadź email!";
+                    }
+                    break;
+                case "password":
+                    if (field.validity.tooShort) {
+                        field.nextElementSibling.textContent = "Hasło za krótkie!";
+                    }
+                    else if (field.validity.valueMissing) {
+                        field.nextElementSibling.textContent = "Wprowadź hasło!";
+                    }
+                    break;
+            } // switch field.type
+        } // if !field.validity.valid
         else {
-            label.style.color = "#4caf50";
-            field.style.borderColor = "#4caf50";
-            field.classList.remove("invalid-input");
-            field.classList.add("valid-input");
+            fieldIsValid(field, label);
+            field.nextElementSibling.textContent = "";
         }
+    }; // validateForm()
+
+    const checkPasswordWithConfirmPassword = () => {
+        // Sprawdzenie poprawnosci hasla i potwierdzenia hasla
+        // Filtrujemy pola w oparciu o identyfikator, ktory zawiera "password"
+        const passwords = Array.from(registerFormFields).filter(field =>
+            field.id.includes("password")
+        );
+        if (passwords.length === 2) {
+            // Destrukturyzacja: przypisanie pol do zmiennych
+            const [passwordField, confirmPasswordField] = passwords;
+
+            // Porownanie wartosci pol hasla i potwierdzenia hasla
+            if (passwordField.value !== confirmPasswordField.value) {
+                // Jesli hasla nie sa takie same, oznaczamy oba pola jako niepoprawne
+                passwords.forEach(passwordField => {
+                    // Pobranie etykiety powiąznej z polem hasla
+                    const passwordFieldLabel = document.querySelector(`label[for="${passwordField.id}"]`);
+
+                    // Oznaczanie wizualne pola jako niepoprawnego
+                    fieldIsInvalid(passwordField, passwordFieldLabel);
+
+                    // Wyswietlenie komunikatu bledu ponizej pola w spanie
+                    passwordField.nextElementSibling.textContent = "Hasła muszą być takie same!";
+                });
+                return false;
+            }
+            else {
+                passwordField.nextElementSibling.textContent = "";
+                confirmPasswordField.nextElementSibling.textContent = "";
+                return true;
+            }
+        } // if password.length
+    }; // checkPasswordWithConfirmPassword()
+
+    // Funkcja oznaczona jako async bedzie wykonywana asynchronicznie, tzn.
+    // pozwala na wykonywanie operacji, ktore moga zajac troche czasu, bez blokowania reszty program
+    const checkUsernameAvailability = async (username) => {
+        try {
+            // await to operator, ktory moze byc uzywany tylko w funkcji oznaczonej jako async.
+            // Powoduje, ze wykonanie kodu zostaje "zawieszone", dopoki obietnica (promise) nie zostanie rozwiązana
+            // (czyli dopoki np. serwer nie odpowie).
+
+            // Wyslanie zapytania GET do API z username
+            const response = await fetch(`${SERVER_URI}/check-username-availability.php?username=${encodeURIComponent(username)}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            // if (!response.ok) {
+            //     throw new Error(`HTTP error! status: ${response.status}`);
+            // }
+
+            // console.log(response);
+
+            // Odczytanie odpowiedzi w JSON
+            return await response.json();
+        }
+        catch (error) {
+            console.error("Blad podczas sprawdzania dostepnosci nazwy uzytkownika: ", error);
+            return null;
+        }
+    }; // checkUsernameAvailability()
+
+    // Funkcja oznaczona jako async bedzie wykonywana asynchronicznie, tzn.
+    // pozwala na wykonywanie operacji, ktore moga zajac troche czasu, bez blokowania reszty program
+    const checkAvailability = async (type, value) => {
+        try {
+            // await to operator, ktory moze byc uzywany tylko w funkcji oznaczonej jako async.
+            // Powoduje, ze wykonanie kodu zostaje "zawieszone", dopoki obietnica (promise) nie zostanie rozwiązana
+            // (czyli dopoki np. serwer nie odpowie).
+
+            // Wyslanie zapytania GET do API
+            const response = await fetch(
+                `${SERVER_URI}/check-availability.php?type=${encodeURIComponent(type)}&value=${encodeURIComponent(value)}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            // Obsluga blednych odpowiedzi HTTP
+            if (!response.ok) {
+                const errorMessage = `Server responded with status: ${response.status} ${response.statusText}`;
+                alert(errorMessage);
+                return {
+                    success: false,
+                    message: errorMessage,
+                };
+            }
+
+            // Odczytanie odpowiedzi w JSON
+            return await response.json();
+        }
+        catch (error) {
+            console.error("Blad podczas sprawdzania dostepnosci nazwy uzytkownika oraz email: ", error);
+            return null;
+        }
+    }; // checkAvailability()
+
+    const checkEmailAvailability = async (email) => {
+      try {
+          const response = await fetch(`${SERVER_URI}/check-email-availability.php?email=${encodeURIComponent(email)}`, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json"
+              }
+          });
+          return await response.json();
+      }
+      catch (error) {
+          console.error("Blad podczas sprawdzania dostepnosci email: ", error);
+          return null;
+      }
     };
-
-});
-
-
-
-// function invalidHandler(e) {
-//     let label = e.srcElement.parentElement.getElementsByTagName("label")[0];
-//     label.style.color = "red";
-//     e.stopPropagation();
-//     e.preventDefault();
-// }
-//
-// function zarejestuj() {
-//     document.register.addEventListener("invalid", invalidHandler, true);
-// }
-//
-// window.addEventListener("load", zarejestuj, false);
-
-// function addValidationEventListeners() {
-//     // Pobieramy wszystkie pola formularza
-//     const formFields = document.querySelectorAll("#register-form input");
-//
-//     formFields.forEach(field => {
-//         // Dodajemy słuchacze na zdarzenia 'input' i 'blur' dla dynamicznego sprawdzania poprawności
-//         // field.addEventListener("input", () => validateField(field));
-//         // field.addEventListener("blur", () => validateField(field));
-//         field.addEventListener("invalid", (e) => {
-//             e.preventDefault()
-//             validateField(field);
-//         });
-//         field.addEventListener("input", () => validateField(field));
-//         field.addEventListener("blur", () => validateField(field));
-//     });
-// }
-
-
-// Dodajemy zdarzenie do sprawdzania walidacji po załadowaniu strony
-// window.addEventListener("load", addValidationEventListeners, false);
+}); // DOMContentLoaded

@@ -15,16 +15,6 @@ if (isset($_GET['postId']) && is_numeric($_GET['postId'])) {
     exit;
 }
 
-
-//$totalComments = count($comments);
-//$commentsPerPage = 5;
-//
-//$paginationData = getPaginationData($currentPage, $totalComments, $commentsPerPage);
-//$currentPage = $paginationData["currentPage"];
-//$totalPages = $paginationData["totalPages"];
-//$offset = $paginationData["offset"];
-
-
 ?>
 
 <!DOCTYPE html>

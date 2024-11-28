@@ -5,12 +5,18 @@ $(document).ready(function () {
     const canvasHeight = canvas.height;
     const gridSize = 20; // Wielkosc jednej komorki siatki
     const gameInfo = $("#game-info");
+    const SERVER_URI = "http://127.0.0.1:80/US/blog/db/api";
+    const snakeScores = $("#snake-scores");
 
-    let snake, direction, gameInterval, isGameOver, isPaused, score;
+    let snake, direction, gameInterval, isGameOver, isPaused, gameScore;
     let gameSpeed, goldenFoodTimeout;
     let food = {};
     let goldenFood = {}
-    let goldenFoodDelay = getRandomGoldenFoodDelay();
+    // let goldenFoodDelay = getRandomGoldenFoodDelay();
+
+    startGameInfo();
+
+    // printHighScores();
 
     // Funkcja do resetowania gry
     const resetGame = () => {
@@ -21,16 +27,27 @@ $(document).ready(function () {
         isGameOver = false; // Zresetowanie stanu konca gry
         gameSpeed = 200; // Poczatkowa predkosc gry w ms
         spawnFood() // Generowanie pierwszego jedzenia
+        clearInterval(goldenFoodTimeout); // Zatrzymanie poprzedniego timera
         goldenFood = null; // Na poczatku nie ma zlotego jedzenia
         goldenFoodTimeout = setTimeout(() => {
             generateGoldenFood(); // Pierwsze zlote jedzenie po losowym czasie
         }, getRandomGoldenFoodDelay(5, 10));
 
         gameInfo.text(""); // Czyszczenie komunikatu
-        score = 0; // Restowanie punktow
+        gameScore = 0; // Restowanie punktow
         clearInterval(gameInterval); // Zatrzymanie poprzedniej gry, jesli trwala
         gameInterval = setInterval(updateGame, gameSpeed); // Rozpoczecie nowej gry
+
+        getUserScores();
     };
+
+    function startGameInfo() {
+        isPaused = true; // Poczatkowo gra zatrzymana
+        ctx.fillStyle = "#fff"; // Kolor tekstu
+        ctx.font = "20px Arial"; // Czcionka
+        ctx.textAlign = "center"; // Wyrównanie do lewej
+        ctx.fillText("Aby rozpocząć kliknij P", canvasWidth / 2, canvasHeight / 2); // Wyświetlenie tekstu
+    }
 
 
     // Rysowanie planszy
@@ -77,10 +94,10 @@ $(document).ready(function () {
                 break;
         }
 
-        // Dodanie nowej głowy na początku tablicy
+        // Dodanie nowej glowy na poczatku tablicy
         snake.unshift(head);
 
-        // Usunięcie ostatniego segmentu węża (symuluje ruch)
+        // Usuniecie ostatniego segmentu weza (symuluje ruch)
         snake.pop();
     };
 
@@ -103,14 +120,23 @@ $(document).ready(function () {
         ctx.fillStyle = "#fff"; // Kolor tekstu
         ctx.font = "20px Arial"; // Czcionka
         ctx.textAlign = "left"; // Wyrównanie do lewej
-        ctx.fillText(`Punkty: ${score}`, 10, canvasHeight - 10); // Wyświetlenie tekstu
+        ctx.fillText(`Punkty: ${gameScore}`, 10, canvasHeight - 10); // Wyświetlenie tekstu
     };
 
     // Koniec gry
     const endGame = () => {
+        clearTimeout(goldenFoodTimeout);
         isGameOver = true;
         clearInterval(gameInterval);
-        gameInfo.html(`Koniec gry! Uzyskałeś ${score} punktów. <br>Kliknij R aby rozpocząć nową grę`);
+        // gameInfo.html(`<!--Koniec gry! Uzyskałeś ${score} punktów. <br>Kliknij R aby rozpocząć nową grę-->`);
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillStyle = "#fff"; // Kolor tekstu
+        ctx.font = "20px Arial"; // Czcionka
+        ctx.textAlign = "center"; // Wyrównanie do lewej
+        ctx.fillText("KONIEC GRY!", canvasWidth / 2, (canvasHeight / 2) - 30); // Wyswietlenie tekstu
+        ctx.fillText(`Uzyskałeś ${gameScore} punktów`, canvasWidth / 2, (canvasHeight / 2)); // Wyswietlenie tekstu
+        ctx.fillText("Aby rozpocząć ponownie wciśnij R", canvasWidth / 2, (canvasHeight / 2) + 60); // Wyswietlenie tekstu
+        ctx.fillText("Jeśli chcesz zapisać wynik wciśnij H", canvasWidth / 2, (canvasHeight / 2) + 90); // Wyswietlenie tekstu
     };
 
     // Generuj jedzenie na planszy
@@ -131,7 +157,6 @@ $(document).ready(function () {
             ctx.arc(food.x + gridSize / 2, food.y + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0; // Reset cienia dla innych elementów
-
         }
         if (goldenFood) {
             ctx.fillStyle = "#d4af37"; // Niebieski kolor
@@ -142,8 +167,6 @@ $(document).ready(function () {
             ctx.fill();
             ctx.shadowBlur = 0; // Reset cienia dla innych elementów
         }
-
-
     };
 
     // Zebranie jedzenia
@@ -152,7 +175,7 @@ $(document).ready(function () {
 
         // Zwykle jedzenie
         if (head.x === food.x && head.y === food.y) {
-            score++;
+            gameScore++;
             // Dodanie segmentu weza
             snake.push({ x: food.x, y: food.y });
             spawnFood();
@@ -161,7 +184,7 @@ $(document).ready(function () {
 
         // Zlote jedzenie
         if (goldenFood && head.x === goldenFood.x && head.y === goldenFood.y) {
-            score += 3;
+            gameScore += 3;
             // Dodanie segmentu weza
             snake.push({ x: food.x, y: food.y });
             goldenFood = null;
@@ -178,7 +201,6 @@ $(document).ready(function () {
             if (head.x === segment.x && head.y === segment.y) {
                 endGame();
             }
-
         }
     }
 
@@ -231,6 +253,52 @@ $(document).ready(function () {
         }, getRandomGoldenFoodDelay(7, 15))
     };
 
+    const saveUserScore = () => {
+      const userName = prompt("Podaj nazwę użytkownika");
+      // sessionStorage.setItem(userName, score);
+      let userEntity = {
+          "userName" : userName,
+          "score": gameScore,
+          "type": "save"
+      };
+
+
+      fetch(`${SERVER_URI}/mysql-endpoint.php`, {
+          method: "POST",
+          body: JSON.stringify(userEntity),
+          headers: {
+              "content-type": "application/json"
+          }
+      })
+          .then((response) => response.json())
+          .then((result) => {
+              gameInfo.text(result.message);
+              getUserScores();
+          })
+          .catch(error => alert(error));
+    };
+
+    function getUserScores() {
+        // let scores = {};
+        fetch(`${SERVER_URI}/mysql-endpoint-get.php`, {
+            method: "GET",
+            headers: {
+                "content-type": "application/json"
+            }
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                $(`#snake-scores > tbody > tr`).each(function (index, tr) {
+                    tr.remove();
+                });
+                // snakeScores.forEach()
+                for (const user of data) {
+                    snakeScores.append(`<tr><td>${user.user_name}</td><td>${user.score}</td></tr>`);
+                }
+            })
+            .catch(error => alert(error));
+    }
+
     // Obsluga zdarzenia klawiatury
     $(document).keydown(function (e) {
         if (!isGameOver) {
@@ -274,7 +342,13 @@ $(document).ready(function () {
                     gameInfo.text("");
                     if (isPaused) {
                         gameInfo.text("Gra zapauzowana! Wciśnij P, aby kontynuować");
+                        clearInterval(goldenFoodTimeout);
                     }
+                    else {
+                        scheduleNextGoldenFood();
+                    }
+
+
                     e.preventDefault();
                     break;
 
@@ -283,10 +357,11 @@ $(document).ready(function () {
         else if (e.key === "r" || e.key === "R") {
             resetGame();
         }
+        else if (e.key === "h" || e.key === "H") {
+            saveUserScore();
+        }
 
     });
 
-    // Uruchomienie gry w interwale (ruch co 150ms)
-    // gameInterval = setInterval(updateGame, 150);
     resetGame();
 });
