@@ -3,8 +3,8 @@ session_start();
 require_once "../includes/render-posts.php";
 //$currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
-if (isset($_GET['postId']) && is_numeric($_GET['postId'])) {
-    $postId = (int)$_GET['postId'];  // Pobranie postId z URL
+if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
+    $postId = (int)$_GET["postId"];  // Pobranie postId z URL
 
     include "../db/mysql-operation.php";
     $post = getOnePost($postId);

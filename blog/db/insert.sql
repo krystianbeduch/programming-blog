@@ -20,7 +20,7 @@ VALUES
 INSERT INTO roles (role_name) VALUES ('Admin'), ('User');
 
 INSERT INTO users
-    (nickname, email, password, role_id)
+    (username, email, password, role_id)
 VALUES
     ('julzaw', 'julzaw@gmail.com', '$2y$10$L8F2pcsrEbLlmtfq0LFgiORQ1eRVR3iy5HYgg7i74jhI5J0c0uzki', 2),
     ('amawoz', 'amawoz@gmail.com', '$2y$10$ejaCaOZT3TZzR5Nk34EPHe4DpRwjdq16wA309/Loh9dhkYhOXj0oa', 2),
@@ -151,7 +151,7 @@ VALUES
     ('Zalety Swifta w aplikacjach mobilnych', 'Swift stał się popularnym wyborem dla programistów tworzących aplikacje mobilne na platformy Apple. Jego szybkość, bezpieczeństwo i łatwość użycia sprawiają, że jest preferowanym językiem do tworzenia aplikacji iOS. Dzięki silnemu systemowi typów, Swift pomaga uniknąć wielu typowych błędów programistycznych. Dodatkowo, nowoczesne funkcje takie jak automatyczne zarządzanie pamięcią oraz wsparcie dla rozwoju aplikacji przy użyciu SwiftUI sprawiają, że programowanie w Swift jest bardziej efektywne. Swift to również język, który jest stale rozwijany przez Apple, co oznacza, że programiści mogą liczyć na wsparcie i najnowsze funkcje.', '2024-11-17 16:30:00', true, 4, 15);
 
 INSERT INTO comments
-    (user_id, nickname, email, content, created_at, post_id)
+    (user_id, username, email, content, created_at, post_id)
 VALUES
     # Java
     (4, null, null, 'Java jest świetnym językiem, ale mam wrażenie, że staje się coraz bardziej przestarzała w porównaniu z nowoczesnymi technologiami, jak Kotlin czy TypeScript. Mimo to, wciąż ma swoje miejsce, szczególnie w aplikacjach korporacyjnych', '2024-11-18 14:00:00', 1),
@@ -290,18 +290,3 @@ VALUES
     (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Jako programista JavaScript, zauważyłam ogromną różnicę po przesiadce na TypeScript. Silne typowanie i mechanizmy obiektowe znacznie poprawiają organizację kodu, co jest szczególnie ważne w dużych aplikacjach.', '2024-11-20 15:15:00', 41),
     (null, 'AniaFrontend', 'aneczka.frontend@wp.pl', 'TypeScript poprawia jakość kodu i umożliwia wykrywanie błędów przed uruchomieniem aplikacji. Typowanie i wsparcie dla OOP to coś, co ułatwia zarządzanie dużymi projektami i współpracę z innymi programistami.', '2024-11-21 00:45:00', 41),
     (3, null, null, 'TypeScript to must-have w dużych aplikacjach. Dzięki temu, że mogę pracować z klasami, interfejsami i silnym typowaniem, rozwój aplikacji jest bardziej uporządkowany i bezpieczniejszy, co czyni TypeScript bardzo dobrym wyborem do dużych projektów.', '2024-11-21 01:15:00', 41);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

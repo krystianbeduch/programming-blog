@@ -1,11 +1,21 @@
 <?php
 // Informacja dla klienta (np. przegladarki), ze odpowiedz bedzie w formacie JSON
 header("Content-Type: application/json");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET");
+//$allowed_origins = ['http://localhost', 'http://127.0.0.1'];
+
+//if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {
+//    header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+//}
+
+header("Access-Control-Allow-Origin: *");
+
 require_once "../db-connect.php";
 
 // Pobierz parametry z URL
-$type = isset($_GET["type"]) ? $_GET["type"] : null;
-$value = isset($_GET["value"]) ? $_GET["value"] : null;
+$type = $_GET["type"] ?? null;
+$value = $_GET["value"] ?? null;
 
 // Walidacja parametrow
 if (!$type || !$value) {
@@ -24,10 +34,10 @@ try {
 
     $query = "";
     if ($type == "username") {
-        $query = "SELECT COUNT(*) FROM users WHERE nickname = ?";
+        $query = "SELECT COUNT(*) FROM users WHERE LOWER(username) = LOWER(?)";
     }
     else if ($type == "email") {
-        $query = "SELECT COUNT(*) FROM users WHERE email = ?";
+        $query = "SELECT COUNT(*) FROM users WHERE LOWER(email) = LOWER(?)";
     }
     else {
         http_response_code(400);
@@ -54,7 +64,7 @@ try {
 }
 catch (Exception $e) {
     http_response_code(500); // Internal Server Error - blad polaczenia z serwerem
-    echo json_encode(["success" => false, "message" => "Error: {$e}"]);
+    echo json_encode(["success" => false, "message" => "Error: $e"]);
     exit;
 }
 ?>

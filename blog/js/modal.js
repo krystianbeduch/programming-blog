@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let isRegister; // Flaga rejestacja/logowanie
     const SERVER_URI = "http://127.0.0.1:80/US/blog/db/api";
 
-    const form = document.getElementById("register-form");
+    const registerForm = document.getElementById("register-form");
+    const loginForm = document.getElementById("login-form");
 
     // Laczenie obu zestawow pol w jedna kolekcje
     // ... pozwala na rozpakowanie wszystkich elementow bezposrednio do nowej kolekcji
@@ -94,7 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
             field.addEventListener("blur", () => validateField(field));
         }); // forEach
 
-        form.addEventListener("submit", async  (e) => {
+        registerForm.addEventListener("submit", async  (e) => {
+            console.log(`Akcja: ${isRegister}`);
+            // Rejestracja
             if (isRegister) {
                 e.preventDefault();
                 // e.preventDefault();
@@ -125,33 +128,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         // console.log(usernameField.value);
                         if (usernameField) {
-                            // Sprawdź dostępność username
-                            // const isUsernameAvailable = await checkUsernameAvailability(usernameField.value);
+                            // Sprawdz dostępnosc username
                             const isUsernameAvailable = await checkAvailability("username", usernameField.value);
-                            console.log(isUsernameAvailable);
-                            if (isUsernameAvailable && isUsernameAvailable.success) {
-                                console.log("nazwa wolna");
-                            }
-                            else {
-                                console.log("nazwa zajeta");
+                            // console.log(isUsernameAvailable);
+                            if ( !(isUsernameAvailable && isUsernameAvailable.success)) {
+                                // console.log("nazwa wolna");
+                            // }
+                            // else {
+                            //     console.log("nazwa zajeta");
                                 isFormValid = false;
                                 fieldIsInvalid(
                                     usernameField,
                                     document.querySelector(`label[for="${usernameField.id}"]`)
                                 );
                                 usernameField.nextElementSibling.textContent = "Nazwa użytkownika jest zajęta!";
-                                console.log("nazwa zajeta12123");
+                                // console.log("nazwa zajeta12123");
                             }
-                        }
+                        } // if usernameField
                         if (emailField) {
                             // Sprawdz dostepnosc email
                             const isEmailAvailable = await checkAvailability("email", emailField.value);
-                            console.log(isEmailAvailable);
-                            if (isEmailAvailable && isEmailAvailable.success) {
-                                console.log("email wolna");
-                            }
-                            else {
-                                console.log("email zajety");
+                            // console.log(isEmailAvailable);
+                            if ( !(isEmailAvailable && isEmailAvailable.success)) {
                                 isFormValid = false;
                                 fieldIsInvalid(
                                     emailField,
@@ -159,18 +157,58 @@ document.addEventListener("DOMContentLoaded", () => {
                                 );
                                 emailField.nextElementSibling.textContent = "Konto z takim emailem już istnieje!";
                             }
-
-                        }
-                    }
-
-                }
-                // Jesli formularz nie jest poprawny, anuluj jego wyslanie
+                        } // if emailField
+                    } // if isFormValid
+                } // if isFormValid
+                // Jesli formularz jest poprawny, wyslij go
                 if (isFormValid) {
-                    form.submit();
+                    registerForm.submit();
                 }
-                // e.preventDefault();
-            } // if isRegiser
-        }); // form event submit
+            } // if isRegister
+        }); // registerForm event submit
+
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            // console.log(`Akcja: ${isRegister}`);
+            // Login
+            if (!isRegister) {
+                // Flaga poprawnosci formularza logowania
+                let isFormValid = true;
+
+                // Sprawdzenie poprawnosci kazdego pola w formularzu
+                loginFormFields.forEach(field => {
+                    if (!field.checkValidity()) {
+                        // Jesli pole jest niepoprawne ustaw flage
+                        isFormValid = false;
+                    }
+                });
+
+                // Sprawdz czy uzytkownik o takiej nazwie juz istnieje
+                if (isFormValid) {
+                    const usernameField = Array.from(loginFormFields).find(field =>
+                        field.id === "login-username"
+                    );
+
+                    // console.log(usernameField.value);
+                    if (usernameField) {
+                        // Sprawdz dostępnosc username
+                        const isUsernameAvailable = await checkUserExisting(usernameField.value);
+                        // console.log(isUsernameAvailable);
+                        if (isUsernameAvailable && !isUsernameAvailable.success) {
+                            isFormValid = false;
+                            fieldIsInvalid(
+                                usernameField,
+                                document.querySelector(`label[for="${usernameField.id}"]`)
+                            );
+                            usernameField.nextElementSibling.textContent = "Nazwa użytkownika nie istnieje!";
+                        }
+                    } // if usernameField
+                } // if isFormValid
+
+                console.log(isFormValid);
+
+            } // if !isRegister
+        }); // loginForm event submit
     }); // window event load
 
     const fieldIsInvalid = (field, label) => {
@@ -264,37 +302,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Funkcja oznaczona jako async bedzie wykonywana asynchronicznie, tzn.
     // pozwala na wykonywanie operacji, ktore moga zajac troche czasu, bez blokowania reszty program
-    const checkUsernameAvailability = async (username) => {
-        try {
-            // await to operator, ktory moze byc uzywany tylko w funkcji oznaczonej jako async.
-            // Powoduje, ze wykonanie kodu zostaje "zawieszone", dopoki obietnica (promise) nie zostanie rozwiązana
-            // (czyli dopoki np. serwer nie odpowie).
-
-            // Wyslanie zapytania GET do API z username
-            const response = await fetch(`${SERVER_URI}/check-username-availability.php?username=${encodeURIComponent(username)}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-
-            // if (!response.ok) {
-            //     throw new Error(`HTTP error! status: ${response.status}`);
-            // }
-
-            // console.log(response);
-
-            // Odczytanie odpowiedzi w JSON
-            return await response.json();
-        }
-        catch (error) {
-            console.error("Blad podczas sprawdzania dostepnosci nazwy uzytkownika: ", error);
-            return null;
-        }
-    }; // checkUsernameAvailability()
-
-    // Funkcja oznaczona jako async bedzie wykonywana asynchronicznie, tzn.
-    // pozwala na wykonywanie operacji, ktore moga zajac troche czasu, bez blokowania reszty program
     const checkAvailability = async (type, value) => {
         try {
             // await to operator, ktory moze byc uzywany tylko w funkcji oznaczonej jako async.
@@ -329,19 +336,32 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }; // checkAvailability()
 
-    const checkEmailAvailability = async (email) => {
+    const checkUserExisting = async (username) => {
       try {
-          const response = await fetch(`${SERVER_URI}/check-email-availability.php?email=${encodeURIComponent(email)}`, {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json"
-              }
-          });
+          const response = await fetch(
+              `${SERVER_URI}/check-user-exists.php?username=${encodeURIComponent(username)}`, {
+                  method: "GET",
+                  headers: {
+                      "Content-Type": "application/json"
+                  }
+              });
+
+          // Obsluga blednych odpowiedzi HTTP
+          if (!response.ok) {
+              const errorMessage = `Server responded with status: ${response.status} ${response.statusText}`;
+              alert(errorMessage);
+              return {
+                  success: false,
+                  message: errorMessage,
+              };
+          }
+
+          // Odczytanie odpowiedzi w JSON
           return await response.json();
       }
       catch (error) {
-          console.error("Blad podczas sprawdzania dostepnosci email: ", error);
-          return null;
+          console.error("Blad podczas sprawdzania czy uzytkownik o podanej nazwie istnieje: ", error);
+          return null
       }
     };
 }); // DOMContentLoaded

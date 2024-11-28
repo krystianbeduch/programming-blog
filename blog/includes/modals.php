@@ -6,18 +6,21 @@
         <!-- Formularz logowania -->
         <div id="login-container" class="auth-form">
             <h2>Zaloguj się</h2>
-            <form action="" id="login-form" name="login">
-                <label for="username">Nazwa użytkownika:</label>
-                <input type="text" id="username" name="username" required>
+            <form action="../db/mysql-operation.php" id="login-form" name="login" method="post">
+                <input type="hidden" value="loginUser" name="action">
+
+                <label for="login-username">Nazwa użytkownika:</label>
+                <input type="text" id="login-username" name="username" minlength="4" required>
                 <span class="error-message"></span>
 
-                <label for="password">Hasło:</label>
-                <input type="password" id="password" name="password" required>
+                <label for="login-password">Hasło:</label>
+                <input type="password" id="login-password" name="password" minlength="8" required>
                 <span class="error-message"></span>
 
                 <button type="submit">Zaloguj się</button>
             </form>
             <p class="toggle-auth">Utwórz konto: <a href="#">Zarejestruj się</a></p>
+
         </div>
         <?php
 //        echo "julzaw: " . password_hash("julzaw", PASSWORD_DEFAULT) . "<br>";
@@ -27,7 +30,6 @@
 //        echo "olabor: " . password_hash("olabor", PASSWORD_DEFAULT) . "<br>";
         ?>
 
-
         <!-- Formularz rejestracji -->
         <div id="register-container" class="auth-form" style="display: none;">
             <h2>Zarejestruj się</h2>
@@ -36,7 +38,7 @@
                 <input type="hidden" value="user" name="role">
 
                 <label for="reg-username">Nazwa użytkownika:</label>
-                <input type="text" id="reg-username" name="nickname" required placeholder="Wprowadź nazwę użytkownika" minlength="4">
+                <input type="text" id="reg-username" name="username" required placeholder="Wprowadź nazwę użytkownika (min. 4 znaki)" minlength="4">
                 <span class="error-message"></span>
 
                 <label for="reg-email">Email:</label>

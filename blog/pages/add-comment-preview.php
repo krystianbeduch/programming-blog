@@ -1,10 +1,17 @@
 <?php
 session_start();
-//session_destroy();
+
+// Dostep do strony mozliwy jest tylko po przeslaniu formularza
+if ( !(isset($_POST["post-id"]) && !isset($_POST["username"]) && !isset($_POST["email"]) && !isset($_POST["content"])) ) {
+    http_response_code(403); // Forbidden
+    include "../includes/403.html";
+    exit;
+}
+
 
 // Przetwarzanie danych formularza i przechowywanie ich w sesji
 $postId = $_POST["post-id"];
-$_SESSION['formData'][$postId] = $_POST;
+$_SESSION["formData"][$postId] = $_POST;
 
 // Funkcja konwersji BBCode na HTML
 function convertBBCodeToHTML($text) {
@@ -55,20 +62,21 @@ function convertBBCodeToHTML($text) {
     <section id="main-section" class="add-comment-preview-section">
         <h1>Sprawdź swój komentarz przed dodaniem</h1>
         <p><b>Numer postu:</b> <?php echo htmlspecialchars($_POST["post-id"]); ?></p>
-        <p><b>Nickname:</b> <?php echo htmlspecialchars($_POST["nick"]); ?></p>
+        <p><b>Nickname:</b> <?php echo htmlspecialchars($_POST["username"]); ?></p>
         <p><b>Email:</b> <?php echo htmlspecialchars($_POST["email"]); ?></p>
         <p><b>Komentarz:</b></p>
         <div class="comment-preview">
-            <?php echo convertBBCodeToHTML($_POST['content']); ?>
+            <?php echo convertBBCodeToHTML($_POST["content"]); ?>
         </div>
-
+<!--        --><?php //echo $_POST["url"];?>
         <form action="<?php echo $_POST["url"];?>" method="post" style="display: inline;">
-            <button type="submit" name="edit" value="1" class="form-button">Cofnij do poprawki</button>
+            <input type="hidden" name="action" value="editForm">
+            <button type="submit" name="edit" class="form-button">Cofnij do poprawki</button>
         </form>
 
 <!--        <form action="../comments/test-submit.php" method="post" style="display: inline;">-->
         <form action="../db/mysql-operation.php" method="post" style="display: inline;">
-            <button type="submit" name="confirm" value="1" class="form-button">Zatwierdź</button>
+            <button type="submit" name="confirm" class="form-button">Zatwierdź</button>
             <?php
             // Przesyłamy dane w ukrytych polach, aby były gotowe do zapisania w bazie
             foreach ($_POST as $key => $value) {

@@ -2,9 +2,16 @@
 session_start();
 //session_destroy();
 
+// Dostep do strony mozliwy jest tylko po przeslaniu formularza
+if ( !(isset($_POST["user-id"]) && !isset($_POST["title"]) && !isset($_POST["content"])) ) {
+    http_response_code(403); // Forbidden
+    include "../includes/403.html";
+    exit;
+}
+
 // Przetwarzanie danych formularza i przechowywanie ich w sesji
 $category = $_POST["category"];
-$_SESSION['formData'][$category] = $_POST;
+$_SESSION["formData"][$category] = $_POST;
 // docelowo $_SESSION['formData'][$userId][$category]
 
 // Funkcja konwersji BBCode na HTML
@@ -66,6 +73,7 @@ function convertBBCodeToHTML($text) {
         </div>
 
         <form action="<?php echo $_POST["url"];?>" method="post" style="display: inline;">
+            <input type="hidden" name="action" value="editForm">
             <button type="submit" name="edit" value="1" class="form-button">Cofnij do poprawki</button>
         </form>
 

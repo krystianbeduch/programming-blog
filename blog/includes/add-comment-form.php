@@ -5,23 +5,24 @@
 <script src="../js/add-comment-form-validation.js"></script>
 <script src="../js/add-comment-bbcode.js"></script>
 
-<form id="add-comment-form" class="add-form" name="add_comment_form" action="../pages/add-comment-preview.php" method="post">
+<form id="add-comment-form" class="add-form" name="add_comment_form" action="../pages/add-comment-preview.php?postId=<?php echo $postId ?? "" ?>" method="post">
 <!--    http://www.tomaszx.pl/materialy/test_przesylania.php-->
     <fieldset>
         <legend>Dodaj komentarz</legend>
 
         <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
         <input type="hidden" name="action" value="addComment">
-        <label for="topic">Numer postu:</label>
+<!--        --><?php //echo $_SESSION["formData"][$postId]["action"]; ?>
+        <label for="post-id">Numer postu:</label>
         <input type="text" name="post-id" id="post-id" value="<?php echo $postId ?? "null"; ?>" readonly>
 
-        <label for="nick">Nickname:</label>
-        <input type="text" name="nick" id="nick" value="<?php echo $_SESSION["formData"][$postId]["nick"] ?? ""; ?>">
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" name="username" id="username" value="<?php echo $_SESSION["formData"][$postId]["username"] ?? ""; ?>">
 
-        <span id="nick-error" class="error"">
+        <span id="username-error" class="error"">
 
 <!--        -->
-            <?php echo isset($_SESSION["errors"]["nick"]) ? $_SESSION["errors"]["nick"] : ""; ?>
+            <?php echo isset($_SESSION["errors"]["username"]) ? $_SESSION["errors"]["username"] : ""; ?>
 <!--        -->
         </span>
 
@@ -51,7 +52,7 @@
 
         <span id="content-error" class="error">
 <!--            -->
-            <?php echo isset($_SESSION["errors"]["comment"]) ? $_SESSION["errors"]["comment"] : ""; ?>
+            <?php echo isset($_SESSION["errors"]["content"]) ? $_SESSION["errors"]["content"] : ""; ?>
 <!--            -->
         </span>
         <span id="form-errors" class="error"></span>

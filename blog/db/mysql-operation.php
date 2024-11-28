@@ -1,6 +1,7 @@
 <?php
 require_once "db-connect.php";
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"] ?? null;
 
@@ -9,8 +10,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "addComment" => addCommentToMySQLDataBase($_POST),
         "addPost" => addPostToMySQLDataBase($_POST),
         "registerUser" => addUserToMySQLDataBase($_POST),
+        "editForm" => test(),
         default => handleUnknownAction($action),
     };
+}
+
+function test() {
+    echo "";
 }
 
 function handleUnknownAction(?string $action): void {
@@ -27,7 +33,7 @@ function getCategoryId(string $category) : int {
         );
         $query = 'SELECT category_id FROM categories WHERE LOWER(category_name) = LOWER("' . $category .'");';
         $result = $conn->query($query);
-        return $result->fetch_assoc()['category_id'];
+        return $result->fetch_assoc()["category_id"];
     }
     catch (mysqli_sql_exception $e) {
         echo "Błąd połączenia z bazą: ".$e->getMessage();
@@ -52,7 +58,7 @@ function getPosts(string $category) : array {
 //        $query = 'SELECT category_id FROM categories WHERE LOWER(category_name) = LOWER("' . $category .'");';
 //        $result = $conn->query($query);
 //        $categoryId = $result->fetch_assoc()['category_id'];
-        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.nickname, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.category_id = " . $categoryId . " ORDER BY p.created_at DESC;";
+        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.category_id = " . $categoryId . " ORDER BY p.created_at DESC;";
         $result = $conn->query($query);
         $conn->close();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -75,7 +81,7 @@ function getOnePost(int $postId): array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.nickname, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.post_id = " . $postId . " ORDER BY p.created_at DESC;";
+        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.post_id = " . $postId . " ORDER BY p.created_at DESC;";
         $result = $conn->query($query);
         $conn->close();
         return $result->fetch_assoc();
@@ -98,7 +104,7 @@ function getCommentsToPost(int $postId) : array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = 'SELECT c.post_id, u.user_id, IFNULL(u.nickname, c.nickname) AS nickname, IFNULL(u.email, c.email) AS email, c.created_at, c.content FROM comments c LEFT JOIN users u ON c.user_id = u.user_id WHERE post_id = ' . $postId . ' ORDER BY c.created_at DESC;';
+        $query = "SELECT c.post_id, u.user_id, IFNULL(u.username, c.username) AS username, IFNULL(u.email, c.email) AS email, c.created_at, c.content FROM comments c LEFT JOIN users u ON c.user_id = u.user_id WHERE post_id = " . $postId . " ORDER BY c.created_at DESC;";
         $result = $conn->query($query);
         $conn->close();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -121,13 +127,13 @@ function addCommentToMySQLDataBase(array $commentData) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = $conn->prepare("INSERT INTO comments (user_id, nickname, email, content, created_at, post_id) VALUES (null, ?, ?, ?, NOW(), ?)");
+        $query = $conn->prepare("INSERT INTO comments (user_id, username, email, content, created_at, post_id) VALUES (null, ?, ?, ?, NOW(), ?)");
         $query->bind_param(
             "sssi",
-            $commentData['nick'],
-            $commentData['email'],
-            $commentData['content'],
-            $commentData['post-id']
+            $commentData["username"],
+            $commentData["email"],
+            $commentData["content"],
+            $commentData["post-id"]
         );
         $query->execute();
         $query->close();
@@ -174,13 +180,13 @@ function addPostToMySQLDataBase(array $postData) : void {
         );
         $query = $conn->prepare("INSERT INTO posts (title, content, created_at, updated_at, is_published, user_id, category_id) VALUES (?, ?, NOW(), NOW(), ?, ?, ?)");
         $publish = 1;
-        $categoryId = getCategoryId($postData['category']);
+        $categoryId = getCategoryId($postData["category"]);
         $query->bind_param(
             "ssiii",
-            $postData['title'],
-            $postData['content'],
+            $postData["title"],
+            $postData["content"],
             $publish,
-            $postData['user-id'],
+            $postData["user-id"],
             $categoryId
         );
         $query->execute();
@@ -229,15 +235,15 @@ function addUserToMySQLDataBase(array $user) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = $conn->prepare("INSERT INTO users (nickname , email, password, created_at, role_id) VALUES (?, ?, ?, NOW(), ?)");
-        $password = password_hash($user['password'], PASSWORD_DEFAULT);
-        $roleId = getUserRole($user['role']);
+        $query = $conn->prepare("INSERT INTO users (username , email, password, created_at, role_id) VALUES (?, ?, ?, NOW(), ?)");
+        $password = password_hash($user["password"], PASSWORD_DEFAULT);
+        $roleId = getUserRole($user["role"]);
 //        echo $password;
 
         $query->bind_param(
             "sssi",
-            $user['nickname'],
-            $user['email'],
+            $user["username"],
+            $user["email"],
             $password,
             $roleId
         );

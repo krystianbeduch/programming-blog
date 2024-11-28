@@ -8,19 +8,19 @@ document.addEventListener("DOMContentLoaded", () => {
     form.onsubmit = (event) => {
 
         // Pobieranie wartosci pol formularza
-        const nick = form.nick.value.trim();
+        const username = form.username.value.trim();
         const email = form.email.value.trim();
-        const comment = form.comment.value.trim();
+        const content = form.content.value.trim();
 
         // Czyszczenie stylow blednych inputow
-        form.nick.classList.remove("input-error");
+        form.username.classList.remove("input-error");
         form.email.classList.remove("input-error");
-        form.comment.classList.remove("input-error");
+        form.content.classList.remove("input-error");
 
         // Pola bledow
-        const nickError = form.querySelector("#nick + .error");
+        const unsernameError = form.querySelector("#username + .error");
         const emailError = form.querySelector("#email + .error");
-        const commentError = form.querySelector("#comment + .error");
+        const contentError = form.querySelector("#content + .error");
         const formErrors = document.getElementById("form-errors");
         const captchaError = document.getElementById("captcha-error");
 
@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let formValid = true;
 
         // Czyszczenie komunikatow bledow
-        nickError.textContent = "";
+        unsernameError.textContent = "";
         emailError.textContent = "";
-        commentError.textContent = "";
+        contentError.textContent = "";
         formErrors.textContent = "";
         captchaError.textContent = "";
 
@@ -41,19 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
         let emailInvalid = false;
 
         // Walidacja pola Nickname
-        if (nick === "") {
-            missingFields.push({field: "nickname", message: "Nick jest wymagany"});
-            form.nick.classList.add("input-error");
+        if (username === "") {
+            missingFields.push({field: "username", message: "Nazwa użytkownika jest wymagana"});
+            form.username.classList.add("input-error");
         }
 
         // Walidacja pola "Tresc komentarza"
-        if (comment === "") {
+        if (content === "") {
             missingFields.push({field: "komentarz", message: "Komentarz jest wymagany"});
-            form.comment.classList.add("input-error");
+            form.content.classList.add("input-error");
         }
 
         // Walidacja pola "Email"
-        const emailPattern = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]{2,10}\.(pl|com)$/;
+        const emailPattern = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]{2,10}\.[a-zA-Z]{2,}$/;
         if (email === "") {
             missingFields.push({field: "email", message: "Email jest wymagany"});
             form.email.classList.add("input-error");
@@ -70,14 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const error = missingFields[0];
             // Wyswietlenie pojedynczego bledu
             switch (error.field) {
-                case "nickname":
-                    nickError.textContent = error.message;
+                case "username":
+                    unsernameError.textContent = error.message;
                     break;
                 case "email":
                     emailError.textContent = error.message;
                     break;
                 case "komentarz":
-                    commentError.textContent = error.message;
+                    contentError.textContent = error.message;
                     break;
             }
             // event.preventDefault(); // Zatrzymanie wysylania formularza
@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
             formValid = false;
         }
         else if (missingFields.length > 1) {
-            nickError.textContent = "";
-            commentError.textContent = "";
+            unsernameError.textContent = "";
+            contentError.textContent = "";
             if (!emailInvalid) {
                 emailError.textContent = "";
             }
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Walidacja CAPTCHA
-        console.log(captchaValid);
+        // console.log(captchaValid);
         if (!captchaValid) {
             captchaError.textContent = "Błąd CAPTCHA";
             // event.preventDefault();
@@ -112,14 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
             formValid = false;
         }
 
-        console.log(formValid);
-        if (formValid) {
-            // execeuteReptcha(form);
-            return true;
-        }
-        else {
-            return false;
-        }
+        // console.log(formValid);
+        return formValid;
     };
    // });
 

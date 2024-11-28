@@ -17,7 +17,7 @@ function renderPosts(array $posts) : void {
     foreach ($posts as $post) {
         echo "<div class='post'>";
         echo "<h4 class='post-title'>" . $post["title"] . "</h4>";
-        echo "<p class='post-author'>Autor: " . $post["nickname"]. ", " . $post["email"] .
+        echo "<p class='post-author'>Autor: " . $post["username"]. ", " . $post["email"] .
              "<span class='post-date'>Utworzono: " . date('d-m-Y H:i', strtotime($post["created_at"])) .
              "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
         echo "<p class='post-content'>" . $post["content"] . "</p>";
@@ -35,7 +35,7 @@ function renderCommentsOnMainPage(array $comments, int $postId) : void {
     if ($commentsCount >= 1) {
         $comment = $comments[0];
         echo "<div class='comment'>";
-        echo "<p class='comment-author'>Autor: " . $comment["nickname"]. ", " . $comment["email"] .
+        echo "<p class='comment-author'>Autor: " . $comment["username"]. ", " . $comment["email"] .
             "<span class='post-date'>Utworzono: " . date('d-m-Y H:i', strtotime($comment["created_at"])) .
              "</span></p>";
         echo "<p class='comment-author-comment'>";
@@ -56,16 +56,24 @@ function renderCommentsOnMainPage(array $comments, int $postId) : void {
 }
 
 function renderAllPostComments(array $comments) : void {
-    foreach ($comments as $comment) {
-        echo "<div class='comment'>";
-        echo "<p class='comment-author'>Autor: " . $comment["nickname"]. ", " . $comment["email"] .
-            "<span class='post-date'>Utworzono: " . date('d-m-Y H:i', strtotime($comment["created_at"])) .
-            "</span></p>";
-        echo "<p class='comment-author-comment'>";
-        echo $comment["content"];
-        echo "</p>";
-        echo "</div>";
+
+    if (count($comments) > 0) {
+        foreach ($comments as $comment) {
+            echo "<div class='comment'>";
+            echo "<p class='comment-author'>Autor: " . $comment["username"]. ", " . $comment["email"] .
+                "<span class='post-date'>Utworzono: " . date('d-m-Y H:i', strtotime($comment["created_at"])) .
+                "</span></p>";
+            echo "<p class='comment-author-comment'>";
+            echo $comment["content"];
+            echo "</p>";
+            echo "</div>";
+        }
     }
+    else {
+        echo "<p class='comment-author-comment'>Brak komentarzy</p>";
+    }
+
+
 }
 
 function renderPagination(int $currentPage, int $totalPages, string $languagePage) : void {

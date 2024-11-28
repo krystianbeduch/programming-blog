@@ -95,7 +95,7 @@ else {
 
                 <span id="content-error" class="error">
 <!--                    -->
-            <?php echo isset($_SESSION["errors"]["comment"]) ? $_SESSION["errors"]["comment"] : ""; ?>
+            <?php echo isset($_SESSION["errors"]["content"]) ? $_SESSION["errors"]["content"] : ""; ?>
 <!--                    -->
         </span>
                 <span id="form-errors" class="error"></span>
