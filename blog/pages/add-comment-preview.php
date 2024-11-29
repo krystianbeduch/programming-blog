@@ -2,9 +2,9 @@
 session_start();
 
 // Dostep do strony mozliwy jest tylko po przeslaniu formularza
-if ( !(isset($_POST["post-id"]) && !isset($_POST["username"]) && !isset($_POST["email"]) && !isset($_POST["content"])) ) {
+if ( !(isset($_POST["post-id"]) && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["content"])) ) {
     http_response_code(403); // Forbidden
-    include "../includes/403.html";
+    require "../errors/403.html";
     exit;
 }
 

@@ -1,16 +1,16 @@
 <?php
 require_once "db-connect.php";
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"] ?? null;
 
     match ($action) {
         // Wyslanie komentarza do bazy
-        "addComment" => addCommentToMySQLDataBase($_POST),
-        "addPost" => addPostToMySQLDataBase($_POST),
-        "registerUser" => addUserToMySQLDataBase($_POST),
+        "addComment" => addCommentToPost($_POST),
+        "addPost" => addPost($_POST),
+        "registerUser" => createUserAccount($_POST),
         "editForm" => test(),
+        "loginUser" => loginUser($_POST),
         default => handleUnknownAction($action),
     };
 }
@@ -31,9 +31,17 @@ function getCategoryId(string $category) : int {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = 'SELECT category_id FROM categories WHERE LOWER(category_name) = LOWER("' . $category .'");';
-        $result = $conn->query($query);
-        return $result->fetch_assoc()["category_id"];
+        $stmt = $conn->prepare("SELECT category_id FROM categories WHERE category_name = ?;");
+        $stmt->bind_param("s", $category);
+        $stmt->execute();
+        $stmt->bind_result($categoryId);
+        $stmt->fetch();
+        $stmt->close();
+        $conn->close();
+        if ($categoryId != null) {
+            return $categoryId;
+        }
+        return -1;
     }
     catch (mysqli_sql_exception $e) {
         echo "Błąd połączenia z bazą: ".$e->getMessage();
@@ -49,17 +57,22 @@ function getCategoryId(string $category) : int {
 function getPosts(string $category) : array {
     try {
         $categoryId = getCategoryId($category);
+        if ($categoryId == -1) {
+            throw new Exception("Nie znana kategoria");
+        }
+
         $conn = new mysqli(
             MySQLConfig::SERVER,
             MySQLConfig::USER,
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-//        $query = 'SELECT category_id FROM categories WHERE LOWER(category_name) = LOWER("' . $category .'");';
-//        $result = $conn->query($query);
-//        $categoryId = $result->fetch_assoc()['category_id'];
-        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.category_id = " . $categoryId . " ORDER BY p.created_at DESC;";
-        $result = $conn->query($query);
+        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.category_id = ? ORDER BY p.created_at DESC;";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $categoryId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
         $conn->close();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
@@ -81,8 +94,12 @@ function getOnePost(int $postId): array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.post_id = " . $postId . " ORDER BY p.created_at DESC;";
-        $result = $conn->query($query);
+        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.post_id = ? ORDER BY p.created_at DESC;";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
         $conn->close();
         return $result->fetch_assoc();
     }
@@ -104,8 +121,12 @@ function getCommentsToPost(int $postId) : array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT c.post_id, u.user_id, IFNULL(u.username, c.username) AS username, IFNULL(u.email, c.email) AS email, c.created_at, c.content FROM comments c LEFT JOIN users u ON c.user_id = u.user_id WHERE post_id = " . $postId . " ORDER BY c.created_at DESC;";
-        $result = $conn->query($query);
+        $query = "SELECT c.post_id, u.user_id, IFNULL(u.username, c.username) AS username, IFNULL(u.email, c.email) AS email, c.created_at, c.content FROM comments c LEFT JOIN users u ON c.user_id = u.user_id WHERE post_id = ? ORDER BY c.created_at DESC;";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
         $conn->close();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
@@ -119,7 +140,7 @@ function getCommentsToPost(int $postId) : array {
     }
 }
 
-function addCommentToMySQLDataBase(array $commentData) : void {
+function addCommentToPost(array $commentData) : void {
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -127,16 +148,16 @@ function addCommentToMySQLDataBase(array $commentData) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = $conn->prepare("INSERT INTO comments (user_id, username, email, content, created_at, post_id) VALUES (null, ?, ?, ?, NOW(), ?)");
-        $query->bind_param(
+        $stmt = $conn->prepare("INSERT INTO comments (user_id, username, email, content, created_at, post_id) VALUES (null, ?, ?, ?, NOW(), ?)");
+        $stmt->bind_param(
             "sssi",
             $commentData["username"],
             $commentData["email"],
             $commentData["content"],
             $commentData["post-id"]
         );
-        $query->execute();
-        $query->close();
+        $stmt->execute();
+        $stmt->close();
         $conn->close();
     }
     catch (mysqli_sql_exception $e) {
@@ -155,8 +176,11 @@ function checkCategory(string $language) : bool {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT 1 FROM categories WHERE LOWER(category_name) = LOWER('" . $language . "');";
-        $result = $conn->query($query);
+        $stmt = $conn->prepare("SELECT 1 FROM categories WHERE category_name = ?;");
+        $stmt->bind_param("s", $language);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
         $conn->close();
         return $result->num_rows > 0;
     }
@@ -170,7 +194,7 @@ function checkCategory(string $language) : bool {
     }
 }
 
-function addPostToMySQLDataBase(array $postData) : void {
+function addPost(array $postData) : void {
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -178,10 +202,10 @@ function addPostToMySQLDataBase(array $postData) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = $conn->prepare("INSERT INTO posts (title, content, created_at, updated_at, is_published, user_id, category_id) VALUES (?, ?, NOW(), NOW(), ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO posts (title, content, created_at, updated_at, is_published, user_id, category_id) VALUES (?, ?, NOW(), NOW(), ?, ?, ?)");
         $publish = 1;
         $categoryId = getCategoryId($postData["category"]);
-        $query->bind_param(
+        $stmt->bind_param(
             "ssiii",
             $postData["title"],
             $postData["content"],
@@ -189,8 +213,8 @@ function addPostToMySQLDataBase(array $postData) : void {
             $postData["user-id"],
             $categoryId
         );
-        $query->execute();
-        $query->close();
+        $stmt->execute();
+        $stmt->close();
         $conn->close();
     }
     catch (mysqli_sql_exception $e) {
@@ -211,9 +235,17 @@ function getUserRole(string $roleName) : int {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = 'SELECT role_id FROM roles WHERE LOWER(role_name) = LOWER("' . $roleName .'");';
-        $result = $conn->query($query);
-        return $result->fetch_assoc()['role_id'];
+        $stmt = $conn->prepare("SELECT role_id FROM roles WHERE role_name = ?;");
+        $stmt->bind_param("s", $roleName);
+        $stmt->execute();
+        $stmt->bind_result($roleId);
+        $stmt->fetch();
+        $stmt->close();
+        $conn->close();
+        if ($roleId !== null) {
+            return $roleId;
+        }
+        return -1;
     }
     catch (mysqli_sql_exception $e) {
         echo "Błąd połączenia z bazą: ".$e->getMessage();
@@ -226,30 +258,30 @@ function getUserRole(string $roleName) : int {
 }
 
 
-function addUserToMySQLDataBase(array $user) : void {
+function createUserAccount(array $user) : void {
     try {
-        print_r($user);
+        $roleId = getUserRole($user["role"]);
+        if ($roleId == -1) {
+            throw new Exception("Nieznana rola");
+        }
         $conn = new mysqli(
             MySQLConfig::SERVER,
             MySQLConfig::USER,
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = $conn->prepare("INSERT INTO users (username , email, password, created_at, role_id) VALUES (?, ?, ?, NOW(), ?)");
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
-        $roleId = getUserRole($user["role"]);
-//        echo $password;
-
-        $query->bind_param(
+        $query = "INSERT INTO users (username , email, password, created_at, role_id) VALUES (?, ?, ?, NOW(), ?);";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param(
             "sssi",
             $user["username"],
             $user["email"],
             $password,
             $roleId
         );
-//        echo "sas";
-        $query->execute();
-        $query->close();
+        $stmt->execute();
+        $stmt->close();
         $conn->close();
     }
     catch (mysqli_sql_exception $e) {
@@ -262,5 +294,38 @@ function addUserToMySQLDataBase(array $user) : void {
     }
 }
 
+function loginUser(array $user) : void {
+    try {
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $stmt = $conn->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
+        $stmt->bind_param("s",$user["username"]);
+        $stmt->execute();
+        $stmt->bind_result($userId, $username, $hashedPassword);
+        $stmt->fetch();
+        $stmt->close();
+        $conn->close();
+        if ($userId !== null && password_verify($user["password"], $hashedPassword)) {
+            session_start();
+            $_SESSION["loggedUser"]["id"] = $userId;
+            $_SESSION["loggedUser"]["username"] = $username;
+        }
+        // Powrot na strone z ktorej nastapilo logowanie
+        $redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";
+        header("Location: $redirectUrl");
+    }
+    catch (mysqli_sql_exception $e) {
+        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        exit;
+    }
+    catch (Exception $e) {
+        echo "Błąd: " . $e->getMessage();
+        exit;
+    }
+}
 ?>
 

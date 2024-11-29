@@ -43,7 +43,9 @@ $offset = $paginationData["offset"];
                 Nadzbiór języka JavaScript, który dodaje statyczne typowanie do jego składni. Ułatwia to pisanie i utrzymywanie większych aplikacji, eliminując wiele błędów na etapie programowania. TypeScript jest coraz częściej używany w dużych projektach webowych, w tym w rozbudowanych aplikacjach front-endowych, zwłaszcza w połączeniu z frameworkami takimi jak Angular czy React. Kompiluje się do czystego JavaScript, co zapewnia pełną kompatybilność z przeglądarkami.
             </p>
             <img src="../images/typescript_logo.png" alt="TypeScript logo" class="language-image">
-            <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
+            <?php if (isset($_SESSION["loggedUser"])): ?>
+                <a href="add-post.php?category=<?php echo $language;?>" class="post-comments-link add-post-link">Dodaj post</a>
+            <?php endif ?>
 
             <article id="comments-section">
                 <h3>Posty</h3>

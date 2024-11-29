@@ -8,13 +8,14 @@
             <h2>Zaloguj się</h2>
             <form action="../db/mysql-operation.php" id="login-form" name="login" method="post">
                 <input type="hidden" value="loginUser" name="action">
+                <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>"">
 
                 <label for="login-username">Nazwa użytkownika:</label>
                 <input type="text" id="login-username" name="username" minlength="4" required>
                 <span class="error-message"></span>
 
                 <label for="login-password">Hasło:</label>
-                <input type="password" id="login-password" name="password" minlength="8" required>
+                <input type="password" id="login-password" name="password" minlength="6" required>
                 <span class="error-message"></span>
 
                 <button type="submit">Zaloguj się</button>
@@ -22,13 +23,6 @@
             <p class="toggle-auth">Utwórz konto: <a href="#">Zarejestruj się</a></p>
 
         </div>
-        <?php
-//        echo "julzaw: " . password_hash("julzaw", PASSWORD_DEFAULT) . "<br>";
-//        echo "amawoz: " . password_hash("amawoz", PASSWORD_DEFAULT) . "<br>";
-//        echo "korcza: " . password_hash("korcza", PASSWORD_DEFAULT) . "<br>";
-//        echo "ariprz: " . password_hash("ariprz", PASSWORD_DEFAULT) . "<br>";
-//        echo "olabor: " . password_hash("olabor", PASSWORD_DEFAULT) . "<br>";
-        ?>
 
         <!-- Formularz rejestracji -->
         <div id="register-container" class="auth-form" style="display: none;">
@@ -46,11 +40,11 @@
                 <span class="error-message"></span>
 
                 <label for="reg-password">Hasło:</label>
-                <input type="password" id="reg-password" name="password" required minlength="8" placeholder="Min. 8 znaków">
+                <input type="password" id="reg-password" name="password" required minlength="6" placeholder="Min. 6 znaków">
                 <span class="error-message"></span>
 
                 <label for="confirm-password">Potwierdź hasło:</label>
-                <input type="password" id="confirm-password" name="confirm-password" required minlength="8" placeholder="Wprowadź ponownie hasło">
+                <input type="password" id="confirm-password" name="confirm-password" required minlength="6" placeholder="Wprowadź ponownie hasło">
                 <span class="error-message"></span>
 
                 <label for="about">O mnie</label>

@@ -43,7 +43,9 @@ $offset = $paginationData["offset"];
                 Dynamiczny, skryptowy język programowania, który jest szeroko stosowany do tworzenia interaktywnych i dynamicznych stron internetowych. Jego głównym celem jest dodawanie funkcji, takich jak walidacja formularzy, animacje, obsługa zdarzeń i interakcje użytkownika. JavaScript działa bezpośrednio w przeglądarce, co czyni go niezwykle ważnym narzędziem w tworzeniu nowoczesnych aplikacji webowych.
             </p>
             <img src="../images/javascript_logo.png" alt="JavaScript logo" class="language-image">
-            <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
+            <?php if (isset($_SESSION["loggedUser"])): ?>
+                <a href="add-post.php?category=<?php echo $language;?>" class="post-comments-link add-post-link">Dodaj post</a>
+            <?php endif ?>
 
             <article id="comments-section">
                 <h3>Posty</h3>

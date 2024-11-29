@@ -9,11 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const registerFormFields = document.querySelectorAll("#register-form input");
     const loginFormFields = document.querySelectorAll("#login-form input");
     const modalContent = document.getElementsByClassName("modal-content")[0];
-    let isRegister; // Flaga rejestacja/logowanie
     const SERVER_URI = "http://127.0.0.1:80/US/blog/db/api";
-
     const registerForm = document.getElementById("register-form");
     const loginForm = document.getElementById("login-form");
+    let isRegister; // Flaga rejestacja/logowanie
 
     // Laczenie obu zestawow pol w jedna kolekcje
     // ... pozwala na rozpakowanie wszystkich elementow bezposrednio do nowej kolekcji
@@ -77,9 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Zamkniecie modala po kliknieciu poza jego zawartoscia
-    window.addEventListener("click", (event) => {
-       if (event.target === authModal) {
-           authModal.style.display = "none";
+    window.addEventListener("click", (e) => {
+       if (e.target === authModal) {
+       //  if (!authModal.contains(e.target)) {
+           closeModal();
        }
     });
 
@@ -100,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
             // Rejestracja
             if (isRegister) {
                 e.preventDefault();
-                // e.preventDefault();
                 // Flaga poprawnosci formularza rejestracji
                 let isFormValid = true;
 
@@ -126,30 +125,24 @@ document.addEventListener("DOMContentLoaded", () => {
                             field.id === "reg-email"
                         );
 
-                        // console.log(usernameField.value);
                         if (usernameField) {
                             // Sprawdz dostępnosc username
                             const isUsernameAvailable = await checkAvailability("username", usernameField.value);
-                            // console.log(isUsernameAvailable);
                             if ( !(isUsernameAvailable && isUsernameAvailable.success)) {
-                                // console.log("nazwa wolna");
-                            // }
-                            // else {
-                            //     console.log("nazwa zajeta");
+                                // Username zajety
                                 isFormValid = false;
                                 fieldIsInvalid(
                                     usernameField,
                                     document.querySelector(`label[for="${usernameField.id}"]`)
                                 );
                                 usernameField.nextElementSibling.textContent = "Nazwa użytkownika jest zajęta!";
-                                // console.log("nazwa zajeta12123");
                             }
                         } // if usernameField
                         if (emailField) {
                             // Sprawdz dostepnosc email
                             const isEmailAvailable = await checkAvailability("email", emailField.value);
-                            // console.log(isEmailAvailable);
                             if ( !(isEmailAvailable && isEmailAvailable.success)) {
+                                // Email zajety
                                 isFormValid = false;
                                 fieldIsInvalid(
                                     emailField,
@@ -160,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         } // if emailField
                     } // if isFormValid
                 } // if isFormValid
+
                 // Jesli formularz jest poprawny, wyslij go
                 if (isFormValid) {
                     registerForm.submit();
@@ -169,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            // console.log(`Akcja: ${isRegister}`);
             // Login
             if (!isRegister) {
                 // Flaga poprawnosci formularza logowania
@@ -189,12 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         field.id === "login-username"
                     );
 
-                    // console.log(usernameField.value);
                     if (usernameField) {
                         // Sprawdz dostępnosc username
                         const isUsernameAvailable = await checkUserExisting(usernameField.value);
-                        // console.log(isUsernameAvailable);
                         if (isUsernameAvailable && !isUsernameAvailable.success) {
+                            // Username nie istnieje
                             isFormValid = false;
                             fieldIsInvalid(
                                 usernameField,
@@ -205,8 +197,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     } // if usernameField
                 } // if isFormValid
 
-                console.log(isFormValid);
-
+                // Jesli formularz jest poprawny, wyslij go
+                if (isFormValid) {
+                    loginForm.submit();
+                }
             } // if !isRegister
         }); // loginForm event submit
     }); // window event load
@@ -216,7 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
         field.style.borderColor = "var(--error-text)";
         field.classList.remove("valid-input");
         field.classList.add("invalid-input");
-        // field.classList.add("input-error");
         modalContent.classList.add("modal-content-invalid");
     };
 
@@ -329,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Odczytanie odpowiedzi w JSON
             return await response.json();
-        }
+        } // try
         catch (error) {
             console.error("Blad podczas sprawdzania dostepnosci nazwy uzytkownika oraz email: ", error);
             return null;
@@ -358,10 +351,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // Odczytanie odpowiedzi w JSON
           return await response.json();
-      }
+      } // try
       catch (error) {
           console.error("Blad podczas sprawdzania czy uzytkownik o podanej nazwie istnieje: ", error);
           return null
       }
-    };
+    }; // checkUserExisting()
 }); // DOMContentLoaded

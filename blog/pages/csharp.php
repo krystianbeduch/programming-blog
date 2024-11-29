@@ -43,7 +43,9 @@ $offset = $paginationData["offset"];
                 C-Sharp to nowoczesny, obiektowy język programowania opracowany przez Microsoft, który jest powszechnie używany do budowania aplikacji na platformę .NET. Dzięki swojej elastyczności, C# znajduje zastosowanie zarówno w tworzeniu aplikacji desktopowych, jak i gier komputerowych, zwłaszcza z wykorzystaniem silnika Unity. W sferze backendu, C# jest używany do tworzenia zaawansowanych aplikacji serwerowych, zwłaszcza w środowiskach opartych na Windows, z wykorzystaniem platformy ASP.NET, co umożliwia budowanie wydajnych i skalowalnych serwisów.
             </p>
             <img src="../images/csharp_logo.png" alt="C# logo" class="language-image">
-            <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
+            <?php if (isset($_SESSION["loggedUser"])): ?>
+                <a href="add-post.php?category=<?php echo $language;?>" class="post-comments-link add-post-link">Dodaj post</a>
+            <?php endif ?>
 
             <article id="comments-section">
                 <h3>Posty</h3>

@@ -43,7 +43,9 @@ $offset = $paginationData["offset"];
                 Jeden z najstarszych i najbardziej wpływowych języków programowania, który stanowi fundament wielu nowoczesnych technologii. Dzięki swojej niskopoziomowej naturze, C jest szeroko używany do tworzenia systemów operacyjnych, sterowników, oprogramowania sprzętowego oraz innych aplikacji wymagających bezpośredniego dostępu do zasobów sprzętowych. Jego efektywność i kontrola nad pamięcią czynią go idealnym do programowania systemów wbudowanych i krytycznych aplikacji, gdzie wydajność jest kluczowa.
             </p>
             <img src="../images/c_logo.png" alt="C logo" class="language-image">
-            <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
+            <?php if (isset($_SESSION["loggedUser"])): ?>
+                <a href="add-post.php?category=<?php echo $language;?>" class="post-comments-link add-post-link">Dodaj post</a>
+            <?php endif ?>
 
             <article id="comments-section">
                 <h3>Posty</h3>

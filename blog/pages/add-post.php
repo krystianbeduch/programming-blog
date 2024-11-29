@@ -1,23 +1,27 @@
 <?php
 session_start();
 require_once "../db/mysql-operation.php";
-//require_once "../includes/render-posts.php";
-//$currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
-if (isset($_GET['category'])) {
-    if (checkCategory($_GET['category'])) {
-        $category = $_GET['category'];
-    }
-    else {
-        echo "Nie ma takiej kategorii";
-        exit;
-    }
-}
-else {
-    echo "Brak kategorii posta.";
+if (!isset($_SESSION["loggedUser"])) {
+    http_response_code(401); // Unauthorized - nieuprawniony dostep
+    require "../errors/401.html";
     exit;
 }
 
+if (!isset($_GET["category"])) {
+    http_response_code(400); // Bad request - bledna skladnia
+    require "../errors/400.html";
+    exit;
+}
+
+if (!checkCategory($_GET["category"])) {
+    http_response_code(404); // Not Found - nie znaleziono zasobu
+    include "../errors/404.html"; // Dołączenie pliku z widokiem 404
+    exit;
+}
+else {
+    $category = $_GET["category"];
+}
 ?>
 
 <!DOCTYPE html>

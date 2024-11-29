@@ -43,7 +43,9 @@ $offset = $paginationData["offset"];
                 Dynamiczny, interpretowany język programowania, stworzony z myślą o prostocie i produktywności programistów. Dzięki eleganckiej i czytelnej składni, Ruby ułatwia szybkie tworzenie oprogramowania. Jego najpopularniejszym zastosowaniem jest rozwój aplikacji webowych z wykorzystaniem frameworka Ruby on Rails, który upraszcza budowanie backendu poprzez podejście „konwencji nad konfiguracją”. Ruby on Rails umożliwia szybki rozwój aplikacji o wysokiej funkcjonalności i jest popularny w startupach i projektach webowych.
             </p>
             <img src="../images/ruby_logo.png" alt="Ruby logo" class="language-image">
-            <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
+            <?php if (isset($_SESSION["loggedUser"])): ?>
+                <a href="add-post.php?category=<?php echo $language;?>" class="post-comments-link add-post-link">Dodaj post</a>
+            <?php endif ?>
 
             <article id="comments-section">
                 <h3>Posty</h3>

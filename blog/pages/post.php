@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once "../includes/render-posts.php";
-//$currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
 if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
     $postId = (int)$_GET["postId"];  // Pobranie postId z URL
@@ -9,9 +8,10 @@ if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
     include "../db/mysql-operation.php";
     $post = getOnePost($postId);
     $comments = getCommentsToPost($postId);
-} else {
-    // Jeśli nie ma postId w URL, możesz przekierować użytkownika na stronę błędu lub domyślną
-    echo "Brak ID posta.";
+}
+else {
+    http_response_code(400); // Bad request - bledna skladnia
+    require "../errors/400.html";
     exit;
 }
 

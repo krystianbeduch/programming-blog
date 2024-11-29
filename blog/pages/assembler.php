@@ -44,6 +44,9 @@ $offset = $paginationData["offset"];
             </p>
             <img src="../images/assembly_logo.png" alt="Assembler logo" class="language-image">
             <a href='add-post.php?category=<?php echo $language;?>' class='post-comments-link add-post-link'>Dodaj post</a>
+            <?php if (isset($_SESSION["loggedUser"])): ?>
+                <a href="add-post.php?category=<?php echo $language;?>" class="post-comments-link add-post-link">Dodaj post</a>
+            <?php endif ?>
 
             <article id="comments-section">
                 <h3>Posty</h3>

@@ -3,9 +3,9 @@ session_start();
 //session_destroy();
 
 // Dostep do strony mozliwy jest tylko po przeslaniu formularza
-if ( !(isset($_POST["user-id"]) && !isset($_POST["title"]) && !isset($_POST["content"])) ) {
+if ( !(isset($_POST["user-id"]) && isset($_POST["title"]) && isset($_POST["content"])) ) {
     http_response_code(403); // Forbidden
-    include "../includes/403.html";
+    require "../errors/403.html";
     exit;
 }
 
@@ -63,9 +63,6 @@ function convertBBCodeToHTML($text) {
     <section id="main-section" class="add-comment-preview-section">
         <h1>Sprawdź swój post przed dodaniem</h1>
         <p><b>Numer użytkownika:</b><?php echo $_POST["user-id"];?></p>
-<!--        <p><b>Numer postu:</b> --><?php //echo htmlspecialchars($_POST["post-id"]); ?><!--</p>-->
-<!--        <p><b>Nickname:</b> --><?php //echo htmlspecialchars($_POST["nick"]); ?><!--</p>-->
-<!--        <p><b>Email:</b> --><?php //echo htmlspecialchars($_POST["email"]); ?><!--</p>-->
         <p><b>Tytuł posta:</b><?php echo htmlspecialchars($_POST["title"])?></p>
         <p><b>Komentarz:</b></p>
         <div class="comment-preview">
@@ -89,7 +86,6 @@ function convertBBCodeToHTML($text) {
                 else {
                     echo "<input type='hidden' name='" . htmlspecialchars($key) . "' value='" . convertBBCodeToHTML($value) . "'>";
                 }
-
             }
             ?>
         </form>
