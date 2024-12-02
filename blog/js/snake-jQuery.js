@@ -11,12 +11,11 @@ $(document).ready(function () {
     let snake, direction, gameInterval, isGameOver, isPaused, gameScore;
     let gameSpeed, goldenFoodTimeout;
     let food = {};
-    let goldenFood = {}
-    // let goldenFoodDelay = getRandomGoldenFoodDelay();
+    let goldenFood = {};
+    let obstacles = [];
+    let teleports = [];
 
     startGameInfo();
-
-    // printHighScores();
 
     // Funkcja do resetowania gry
     const resetGame = () => {
@@ -33,6 +32,12 @@ $(document).ready(function () {
             generateGoldenFood(); // Pierwsze zlote jedzenie po losowym czasie
         }, getRandomGoldenFoodDelay(5, 10));
 
+        obstacles = [];
+        generateObstacles(5);
+
+        teleports = [];
+        generateTeleports();
+
         gameInfo.text(""); // Czyszczenie komunikatu
         gameScore = 0; // Restowanie punktow
         clearInterval(gameInterval); // Zatrzymanie poprzedniej gry, jesli trwala
@@ -48,7 +53,6 @@ $(document).ready(function () {
         ctx.textAlign = "center"; // Wyrównanie do lewej
         ctx.fillText("Aby rozpocząć kliknij P", canvasWidth / 2, canvasHeight / 2); // Wyświetlenie tekstu
     }
-
 
     // Rysowanie planszy
     const drawBoard = () => {
@@ -223,10 +227,14 @@ $(document).ready(function () {
         if (!isGameOver && !isPaused) {
             drawBoard();
             moveSnake();
-            checkSelfCollision();
-            checkFoodCollision();
             drawSnake();
             drawFood();
+            drawObstacles();
+            drawTeleports();
+            checkSelfCollision();
+            checkFoodCollision();
+            checkObstacleCollision();
+            checkTeleportCollision();
             drawScore();
             checkGameOver();
         }
@@ -255,15 +263,12 @@ $(document).ready(function () {
 
     const saveUserScore = () => {
       const userName = prompt("Podaj nazwę użytkownika");
-      // sessionStorage.setItem(userName, score);
-      let userEntity = {
-          "userName" : userName,
+      const userEntity = {
+          "user_name" : userName,
           "score": gameScore,
-          "type": "save"
       };
 
-
-      fetch(`${SERVER_URI}/mysql-endpoint.php`, {
+      fetch(`${SERVER_URI}/snake.php`, {
           method: "POST",
           body: JSON.stringify(userEntity),
           headers: {
@@ -272,35 +277,135 @@ $(document).ready(function () {
       })
           .then((response) => response.json())
           .then((result) => {
-              gameInfo.text(result.message);
-              getUserScores();
-          })
-          .catch(error => alert(error));
-    };
+              console.log(result);
+              // Sprawdzamy, czy success jest true w odpowiedzi
+              if (result.success) {
+                  gameInfo.text(result.message);
+                  getUserScores();
+              }
+              else {
+                  alert(result.message);
+              }
 
-    function getUserScores() {
-        // let scores = {};
-        fetch(`${SERVER_URI}/mysql-endpoint-get.php`, {
+          })
+          .catch(error => console.error(error));
+    }; // saveUserScore()
+
+    const getUserScores = () => {
+        fetch(
+            `${SERVER_URI}/snake.php`, {
             method: "GET",
             headers: {
-                "content-type": "application/json"
+                "Content-Type": "application/json"
             }
         })
             .then((response) => response.json())
             .then((data) => {
-                $(`#snake-scores > tbody > tr`).each(function (index, tr) {
-                    tr.remove();
-                });
-                // snakeScores.forEach()
-                for (const user of data) {
-                    snakeScores.append(`<tr><td>${user.user_name}</td><td>${user.score}</td></tr>`);
+                // Sprawdzamy, czy success jest true w odpowiedzi
+                if (data.success) {
+                    // Usuniecie poprzednich wierszy w tabeli wynikow
+                    $("#snake-scores > tbody > tr").remove();
+                    if (data.scores.length > 0) {
+                        data.scores.forEach(user => {
+                            // Dodawanie wiersza do tabeli
+                            snakeScores.append(`<tr><td>${user.user_name}</td><td>${user.score}</td></tr>`);
+                        });
+                    }
+                    else {
+                        snakeScores.append("<tr><td>Brak wyników</td><td>NA</td></tr>");
+                    }
+                }
+                else {
+                    alert(data.message);
                 }
             })
-            .catch(error => alert(error));
-    }
+            .catch(error => console.error(error));
+    } // getUserScores()
+
+    const generateObstacles = (count) => {
+        while (obstacles.length < count) {
+            const obstacle = {
+                x: Math.floor(Math.random() * canvasWidth/gridSize) * gridSize,
+                y: Math.floor(Math.random() * canvasHeight/gridSize) * gridSize,
+            };
+
+            // Sprawdzenie czy przeszkoda nie pojawi sie na wezu lub jedzeniu
+            if (
+                (snake.some(segment => segment.x === obstacle.x && segment.y === obstacle.y)) ||
+                (food && food.x === obstacle.x && food.y === obstacle.y) ||
+                (goldenFood && goldenFood.x === obstacle.x && goldenFood.y === obstacle.y)
+            ) {
+                continue; // Jesli koliduje, sprobuj ponownie
+            }
+            obstacles.push(obstacle);
+        } // while
+    } // generateObstacles()
+
+    const drawObstacles = () => {
+        ctx.shadowBlur = 5;
+        obstacles.forEach(obstacle => {
+            ctx.fillStyle = "#8B0000";
+            ctx.shadowColor = "#8B0000";
+            ctx.fillRect(obstacle.x, obstacle.y, gridSize, gridSize);
+        });
+        ctx.shadowBlur = 0; // Reset cienia
+    };
+
+    const checkObstacleCollision = () => {
+        const head = snake[0];
+        if (obstacles.some(obstacle => head.x === obstacle.x && head.y === obstacle.y)) {
+            endGame();
+        }
+    };
+
+    const generateTeleports = () => {
+        while (teleports.length < 2) {
+            const teleport = {
+                x: Math.floor(Math.random() * canvasWidth/gridSize) * gridSize,
+                y: Math.floor(Math.random() * canvasHeight/gridSize) * gridSize,
+            };
+
+            // Sprawdzenie czy teleport nie pojawi sie na wezu, jedzeniu lub przeszkodzie
+            if (
+                (teleports.some(t => t.x === teleport.x && t.y === teleport.y)) ||
+                (snake.some(segment => segment.x === teleport.x && segment.y === teleport.y)) ||
+                (food && food.x === teleport.x && food.y === teleport.y) ||
+                (goldenFood && goldenFood.x === teleport.x && goldenFood.y === teleport.y) ||
+                (obstacles.some(obstacle => obstacle.x === teleport.x && obstacle.y === teleport.y))
+            ) {
+                continue; // Jesli koliduje, sprobuj ponownie
+            }
+            teleports.push(teleport);
+        }
+    }; // generateTeleports()
+
+    const drawTeleports = () => {
+        ctx.shadowBlur = 15; // Efekt świecenia
+        teleports.forEach(teleport => {
+            ctx.fillStyle = "#800080";
+            ctx.shadowColor = "#800080";
+            ctx.fillRect(teleport.x, teleport.y, gridSize, gridSize);
+        });
+        ctx.shadowBlur = 0; // Reset cienia
+    };
+
+    // Funkcja obsługująca kolizję z teleportami
+    const checkTeleportCollision = () => {
+        const head = snake[0];
+
+        // Sprawdzanie, czy głowa węża dotknęła jednego z teleportów
+        const teleportIndex = teleports.findIndex(teleport => teleport.x === head.x && teleport.y === head.y);
+        if (teleportIndex !== -1) {
+            // Przenieś węża do drugiego teleportu
+            const otherTeleportIndex = teleportIndex === 0 ? 1 : 0;
+            snake[0].x = teleports[otherTeleportIndex].x;
+            snake[0].y = teleports[otherTeleportIndex].y;
+        }
+    }; // checkTeleportCollision()
+
 
     // Obsluga zdarzenia klawiatury
-    $(document).keydown(function (e) {
+    $(document).keydown((e) => {
         if (!isGameOver) {
             switch (e.key) {
                 case "ArrowUp":
@@ -347,21 +452,18 @@ $(document).ready(function () {
                     else {
                         scheduleNextGoldenFood();
                     }
-
-
                     e.preventDefault();
                     break;
 
-            }
-        }
+            } // switch
+        } // if !isGameOver
         else if (e.key === "r" || e.key === "R") {
             resetGame();
         }
         else if (e.key === "h" || e.key === "H") {
             saveUserScore();
         }
-
-    });
+    }); // keydown event
 
     resetGame();
 });

@@ -19,10 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const allFormFields = [...registerFormFields, ...loginFormFields];
 
     // Otworz okno modalne
-    loginLink.addEventListener("click", () => {
-        authModal.style.display = "flex";
-        showLoginForm();
-    });
+    if (loginLink) {
+        loginLink.addEventListener("click", () => {
+            authModal.style.display = "flex";
+            showLoginForm();
+        });
+    }
+
 
     // Zamknij okno modalne
     const closeModal = () => {

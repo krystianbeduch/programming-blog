@@ -302,10 +302,10 @@ function loginUser(array $user) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $stmt = $conn->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT user_id, username, password, email FROM users WHERE username = ?");
         $stmt->bind_param("s",$user["username"]);
         $stmt->execute();
-        $stmt->bind_result($userId, $username, $hashedPassword);
+        $stmt->bind_result($userId, $username, $hashedPassword, $email);
         $stmt->fetch();
         $stmt->close();
         $conn->close();
@@ -313,6 +313,7 @@ function loginUser(array $user) : void {
             session_start();
             $_SESSION["loggedUser"]["id"] = $userId;
             $_SESSION["loggedUser"]["username"] = $username;
+            $_SESSION["loggedUser"]["email"] = $email;
         }
         // Powrot na strone z ktorej nastapilo logowanie
         $redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";

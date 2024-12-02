@@ -5,8 +5,6 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Origin: *");
 
-
-
 require_once "../db-connect.php";
 
 // Pobierz parametry z URL
@@ -46,7 +44,7 @@ try {
 }
 catch (Exception $e) {
     http_response_code(500); // Internal Server Error - blad polaczenia z serwerem
-    echo json_encode(["success" => false, "message" => "Error: $e"]);
+    echo json_encode(["success" => false, "message" => "Error: " .$e->getMessage()]);
     exit;
 }
 ?>

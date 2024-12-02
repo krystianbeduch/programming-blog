@@ -14,10 +14,16 @@
         <input type="hidden" name="action" value="addComment">
 <!--        --><?php //echo $_SESSION["formData"][$postId]["action"]; ?>
         <label for="post-id">Numer postu:</label>
-        <input type="text" name="post-id" id="post-id" value="<?php echo $postId ?? "null"; ?>" readonly>
+        <input type="text" name="post-id" id="post-id" value="<?php echo $postId ?? ""; ?>" readonly>
 
         <label for="username">Nazwa użytkownika:</label>
-        <input type="text" name="username" id="username" value="<?php echo $_SESSION["formData"][$postId]["username"] ?? ""; ?>">
+        <?php if (isset($_SESSION["loggedUser"])): ?>
+            <input type="text" name="username" id="username" value="<?php echo $_SESSION["loggedUser"]["username"]; ?>" readonly>
+        <?php endif ?>
+
+        <?php if (!isset($_SESSION["loggedUser"])): ?>
+            <input type="text" name="username" id="username" value="<?php echo $_SESSION["formData"][$postId]["username"] ?? ""; ?>">
+        <?php endif ?>
 
         <span id="username-error" class="error"">
 
@@ -27,7 +33,15 @@
         </span>
 
         <label for="email">Email:</label>
-        <input type="text" name="email" id="email" value="<?php echo isset($_SESSION["formData"][$postId]["email"]) ? htmlspecialchars($_SESSION["formData"][$postId]["email"]) : "" ?>">
+        <?php if (isset($_SESSION["loggedUser"])): ?>
+            <input type="text" name="email" id="email" value="<?php echo $_SESSION["loggedUser"]["email"]?>" readonly>
+        <?php endif ?>
+
+        <?php if (!isset($_SESSION["loggedUser"])): ?>
+            <input type="text" name="email" id="email" value="<?php echo isset($_SESSION["formData"][$postId]["email"]) ? htmlspecialchars($_SESSION["formData"][$postId]["email"]) : "" ?>">
+        <?php endif ?>
+
+
         <span id="email-error" class="error">
 <!--            -->
             <?php echo $_SESSION["errors"]["email"] ?? ""; ?>

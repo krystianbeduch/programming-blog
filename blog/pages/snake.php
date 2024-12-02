@@ -87,7 +87,8 @@ if (isset($_POST["stand"])) {
                 </li>
                 <li>Po każdym posiłku wąż rośnie</li>
                 <li>Z każdym punktem zwiększa się szybkość gry</li>
-                <li>W każdej grze pojawią się inne przeszkody</li>
+                <li>W każdej grze pojawia sie 5 losowych przeszkód oznaczonym kolorem czerwonym</li>
+                <li>W każdej grze pojawiają 2 teleporty oznaczone kolorem fioletowym - wejście w jeden powoduje wyjście w drugim</li>
                 <li>Gre można zastopować klikąjąc przycisk P</li>
                 <li>Gre można zakończyć klikając przycisk E</li>
                 <li>Gre można zrestartować klikając przycisk R</li>

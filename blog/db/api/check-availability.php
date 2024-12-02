@@ -64,7 +64,7 @@ try {
 }
 catch (Exception $e) {
     http_response_code(500); // Internal Server Error - blad polaczenia z serwerem
-    echo json_encode(["success" => false, "message" => "Error: $e"]);
+    echo json_encode(["success" => false, "message" => "Error: " .$e->getMessage()]);
     exit;
 }
 ?>

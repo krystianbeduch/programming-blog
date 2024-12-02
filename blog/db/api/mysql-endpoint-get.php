@@ -1,8 +1,10 @@
 <?php
 // Ustaw nagłówki CORS i typ odpowiedzi
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Origin: *");
+
 require_once "../db-connect.php";
 
 try {
