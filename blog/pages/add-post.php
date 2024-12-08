@@ -54,26 +54,13 @@ else {
                 <legend>Dodaj post</legend>
 
                 <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
-                <input type="hidden" name="action" value="addPost">
 
                 <label for="category">Kategoria:</label>
                 <input type="text" name="category" id="category" value="<?php echo $category;?>" readonly>
 
                 <label for="user-id">Numer użytkownika:</label>
-                <input type="number" name="user-id" id="user-id" value="<?php echo $_SESSION["formData"][$category]["user-id"] ?? ""; ?>">
-<!--  readonly , value=$_SESSION["user_id"]-->
+                <input type="number" name="user-id" id="user-id" value="<?php echo $_SESSION["loggedUser"]["id"]; ?>" readonly>
 
-<!--                <label for="nick">Nickname:</label>-->
-<!--                <input type="text" name="nick" id="nick" value="--><?php //echo $_SESSION["user"]["nick"] ?? ""; ?><!--" required>-->
-<!--                <span id="nick-error" class="error">-->
-<!--                --><?php //echo isset($_SESSION["errors"]["nick"]) ? $_SESSION["errors"]["nick"] : ""; ?>
-<!--                </span>-->
-<!---->
-<!--                <label for="email">Email:</label>-->
-<!--                <input type="email" name="email" id="email" value="--><?php //echo isset($_SESSION["user"]["email"]) ? htmlspecialchars($_SESSION["user"]["email"]) : "" ?><!--" required>-->
-<!--                <span id="email-error" class="error">-->
-<!--            --><?php //echo $_SESSION["errors"]["email"] ?? ""; ?>
-<!--        </span>-->
                 <label for="title">Tytuł posta:</label>
                 <input type="text" name="title" id="title" required value="<?php echo $_SESSION["formData"][$category]["title"] ?? ""; ?>">
                 <span id="title-error" class="error"></span>

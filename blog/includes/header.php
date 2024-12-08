@@ -6,6 +6,33 @@ require_once ("modals.php");
 
 <header>
     <h1>Blog programistyczny</h1>
+
+        <?php if (isset($_SESSION["loginAlert"]) && $_SESSION["loginAlert"]["type"] == "danger"): ?>
+            <div class="alert alert-danger fade show">
+                <strong>Błąd!</strong> Nieprawidłowe hasło
+            </div>
+
+        <?php
+            unset($_SESSION["loginAlert"]);
+        endif ?>
+
+        <?php if (isset($_SESSION["loginAlert"]) && $_SESSION["loginAlert"]["type"] == "success"): ?>
+            <div class="alert alert-success">
+                <strong>Zalogowano!</strong> Witaj <?php echo $_SESSION["loggedUser"]["username"] ?>
+            </div>
+        <?php
+            unset($_SESSION["loginAlert"]);
+        endif ?>
+
+        <?php if (isset($_SESSION["logoutAlert"]) && $_SESSION["logoutAlert"]): ?>
+            <div class="alert alert-success">
+                Wylogowano pomyślnie
+            </div>
+            <?php
+            unset($_SESSION["logoutAlert"]);
+        endif ?>
+
+
         <?php if (!isset($_SESSION["loggedUser"])): ?>
         <!-- Przycisk logowania -->
         <a href="#" id="login-link">Zaloguj się</a>

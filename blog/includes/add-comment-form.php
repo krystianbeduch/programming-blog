@@ -11,7 +11,7 @@
         <legend>Dodaj komentarz</legend>
 
         <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
-        <input type="hidden" name="action" value="addComment">
+<!--        <input type="hidden" name="action" value="addComment">-->
 <!--        --><?php //echo $_SESSION["formData"][$postId]["action"]; ?>
         <label for="post-id">Numer postu:</label>
         <input type="text" name="post-id" id="post-id" value="<?php echo $postId ?? ""; ?>" readonly>

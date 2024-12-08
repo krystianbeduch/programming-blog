@@ -1,5 +1,6 @@
 <?php
 require_once "db-connect.php";
+//session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"] ?? null;
@@ -8,15 +9,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Wyslanie komentarza do bazy
         "addComment" => addCommentToPost($_POST),
         "addPost" => addPost($_POST),
+        "editForm" => correctForm(),
         "registerUser" => createUserAccount($_POST),
-        "editForm" => test(),
         "loginUser" => loginUser($_POST),
         default => handleUnknownAction($action),
     };
 }
 
-function test() {
-    echo "";
+function correctForm(): void {
+    header("Location: " . $_POST["url"]);
 }
 
 function handleUnknownAction(?string $action): void {
@@ -141,6 +142,8 @@ function getCommentsToPost(int $postId) : array {
 }
 
 function addCommentToPost(array $commentData) : void {
+    session_start();
+    $postId = $commentData["post-id"];
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -154,17 +157,26 @@ function addCommentToPost(array $commentData) : void {
             $commentData["username"],
             $commentData["email"],
             $commentData["content"],
-            $commentData["post-id"]
+            $postId
         );
         $stmt->execute();
-        $stmt->close();
-        $conn->close();
+
+        if ($_SESSION["formData"][$postId]) {
+            unset($_SESSION["formData"][$postId]);
+        }
+
+        $_SESSION["addCommentAlert"]["result"] = true;
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $_SESSION["addCommentAlert"]["result"] = false;
+        $_SESSION["addCommentAlert"]["error"] = "Błąd połączenia z bazą: ".$e->getMessage();
     }
     catch (Exception $e) {
+
         echo "Błąd: " . $e->getMessage();
+    }
+    finally {
+        header("Location: ../pages/post.php?postId=" . $postId);
     }
 }
 
@@ -195,6 +207,7 @@ function checkCategory(string $language) : bool {
 }
 
 function addPost(array $postData) : void {
+    session_start();
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -216,14 +229,24 @@ function addPost(array $postData) : void {
         $stmt->execute();
         $stmt->close();
         $conn->close();
+
+        if (isset($_SESSION["formData"][$postData["category"]])) {
+            unset($_SESSION["formData"][$postData["category"]]);
+        }
+
+        $_SESSION["addPostAlert"]["result"] = true;
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
-        exit;
+        $_SESSION["addPostAlert"]["result"] = false;
+        $_SESSION["addPostAlert"]["error"] = "Błąd połączenia z bazą: ".$e->getMessage();
+        echo "sd";
     }
     catch (Exception $e) {
         echo "Błąd: " . $e->getMessage();
         exit;
+    }
+    finally {
+        header("Location: ../pages/" . $postData["category"] . ".php");
     }
 }
 
@@ -283,6 +306,8 @@ function createUserAccount(array $user) : void {
         $stmt->execute();
         $stmt->close();
         $conn->close();
+        loginUser($user);
+
     }
     catch (mysqli_sql_exception $e) {
         echo "Błąd połączenia z bazą: ".$e->getMessage();
@@ -309,15 +334,23 @@ function loginUser(array $user) : void {
         $stmt->fetch();
         $stmt->close();
         $conn->close();
+
+        session_start();
         if ($userId !== null && password_verify($user["password"], $hashedPassword)) {
-            session_start();
             $_SESSION["loggedUser"]["id"] = $userId;
             $_SESSION["loggedUser"]["username"] = $username;
             $_SESSION["loggedUser"]["email"] = $email;
+
+            $_SESSION["loginAlert"] = ["type" => "success"];
         }
+        else {
+            $_SESSION["loginAlert"] = ["type" => "danger"];
+        }
+
         // Powrot na strone z ktorej nastapilo logowanie
         $redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";
         header("Location: $redirectUrl");
+
     }
     catch (mysqli_sql_exception $e) {
         echo "Błąd połączenia z bazą: ".$e->getMessage();

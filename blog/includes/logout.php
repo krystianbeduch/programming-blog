@@ -6,7 +6,8 @@ if (isset($_SESSION["loggedUser"])) {
 }
 
 // Zakonczenie całej sesji
-session_destroy();
+//session_destroy();
+$_SESSION["logoutAlert"] = true;
 
 // Przekierowanie na strone z ktorej nastalo wylogowanie
 $redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";

@@ -5,7 +5,7 @@ $(document).ready(function () {
     const canvasHeight = canvas.height;
     const gridSize = 20; // Wielkosc jednej komorki siatki
     const gameInfo = $("#game-info");
-    const SERVER_URI = "http://127.0.0.1:80/US/blog/db/api";
+    const SERVER_URI = "/US/blog/db/api";
     const snakeScores = $("#snake-scores");
 
     let snake, direction, gameInterval, isGameOver, isPaused, gameScore;
@@ -261,34 +261,58 @@ $(document).ready(function () {
         }, getRandomGoldenFoodDelay(7, 15))
     };
 
-    const saveUserScore = () => {
-      const userName = prompt("Podaj nazwę użytkownika");
-      const userEntity = {
-          "user_name" : userName,
-          "score": gameScore,
-      };
+    const saveUserScore = async () => {
+        const userEntity = {};
 
-      fetch(`${SERVER_URI}/snake.php`, {
-          method: "POST",
-          body: JSON.stringify(userEntity),
-          headers: {
-              "content-type": "application/json"
-          }
-      })
-          .then((response) => response.json())
-          .then((result) => {
-              console.log(result);
-              // Sprawdzamy, czy success jest true w odpowiedzi
-              if (result.success) {
-                  gameInfo.text(result.message);
-                  getUserScores();
-              }
-              else {
-                  alert(result.message);
-              }
+        // Wykonaj zapytanie do API w celu pobrania nazwy uzytkownika
+        fetch(`${SERVER_URI}/snake.php?getUserName`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then((response) => {
+                if (response.status === 404) {
+                    // Jesli uzytkownik nie jest zalogowany, popros o wprowadzenie nazwy
+                    userEntity.username = prompt("Podaj nazwę użytkownika");
+                    // Zwroc nowy obiekt
+                    return userEntity;
+                } else {
+                    // Jesli uzytkownik jest zalogowany, przeparsuj jąajako JSON
+                    return response.json();
+                }
 
-          })
-          .catch(error => console.error(error));
+            })
+            .then((result) => {
+                if (result && result.username) {
+                    // Jeśli API zwroclło dane, zaktualiuj userEntity
+                    userEntity.username = result.username;
+                }
+
+                userEntity.score = gameScore;
+
+                // Teraz wykonaj zapytanie POST, aby zapisac wynik uzytkownika
+                return fetch(`${SERVER_URI}/snake.php`, {
+                    method: "POST",
+                    body: JSON.stringify(userEntity),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+            })
+            .then((postResponse) => postResponse.json())
+            .then((postResult) => {
+                console.log(postResult);
+                // Sprawdzamy, czy success jest true w odpowiedzi
+                if (postResult.success) {
+                    gameInfo.text(postResult.message);
+                    getUserScores();
+                }
+                else {
+                  alert(postResult.message);
+                }
+            })
+            .catch(error => console.error(error));
     }; // saveUserScore()
 
     const getUserScores = () => {

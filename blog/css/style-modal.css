@@ -27,6 +27,8 @@ div.modal-content-invalid {
 
 div.modal-content h2 {
     margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 1.5em;
 }
 
 div.modal-content label {

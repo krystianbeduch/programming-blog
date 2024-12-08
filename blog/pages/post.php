@@ -29,6 +29,10 @@ else {
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="manifest" href="../images/favicons/site.webmanifest">
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Styles   -->
     <link rel="stylesheet" href="../css/main.css">
 </head>
@@ -41,6 +45,23 @@ else {
     <section id="main-section">
         <h1><?php echo $post["title"]; ?></h1>
         <p> <?php echo $post["content"]; ?> </p>
+
+        <?php if (isset($_SESSION["addCommentAlert"]) && $_SESSION["addCommentAlert"]["result"]): ?>
+            <div class="alert alert-success">
+                <strong>Sukces!</strong> Dodano nowy komentarz
+            </div>
+            <?php
+            unset($_SESSION["addCommentAlert"]);
+        endif ?>
+
+        <?php if (isset($_SESSION["addCommentAlert"]) && !$_SESSION["addCommentAlert"]["result"]): ?>
+            <div class="alert alert-danger">
+                <strong>Błąd!</strong> <?php echo $_SESSION["addCommentAlert"]["error"] ?>
+            </div>
+            <?php
+            unset($_SESSION["addCommentAlert"]);
+        endif ?>
+
 
         <article id="comments-section">
             <h3>Komentarze</h3>

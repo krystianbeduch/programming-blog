@@ -69,14 +69,18 @@ function convertBBCodeToHTML($text) {
             <?php echo convertBBCodeToHTML($_POST["content"]); ?>
         </div>
 <!--        --><?php //echo $_POST["url"];?>
-        <form action="<?php echo $_POST["url"];?>" method="post" style="display: inline;">
-            <input type="hidden" name="action" value="editForm">
-            <button type="submit" name="edit" class="form-button">Cofnij do poprawki</button>
-        </form>
+<!--        <form action="--><?php //echo $_POST["url"];?><!--" method="post" style="display: inline;">-->
+        <form action="../db/mysql-operation.php" method="post">
+            <input type="hidden" name="url" value="<?php echo $_POST['url'] ?>" >
+<!--            <input type="hidden" name="action" value="editForm">-->
+<!--            <input type="hidden" name="action" value="">-->
+            <button type="submit" name="action" class="form-button" value="editForm">Cofnij do poprawki</button>
+<!--        </form>-->
 
 <!--        <form action="../comments/test-submit.php" method="post" style="display: inline;">-->
-        <form action="../db/mysql-operation.php" method="post" style="display: inline;">
-            <button type="submit" name="confirm" class="form-button">Zatwierdź</button>
+
+<!--            <button type="submit" name="confirm" class="form-button" value="addComment">Zatwierdź</button>-->
+            <button type="submit" name="action" class="form-button" value="addComment">Zatwierdź</button>
             <?php
             // Przesyłamy dane w ukrytych polach, aby były gotowe do zapisania w bazie
             foreach ($_POST as $key => $value) {

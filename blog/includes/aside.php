@@ -48,4 +48,8 @@
     <section>
         <h3><a href="../pages/snake.php">Zagraj w Snake'a</a></h3>
     </section>
+
+    <section>
+        <h3><a href="../pages/whack-a-mole.php">Zagraj w Whack A Mole</a></h3>
+    </section>
 </aside>

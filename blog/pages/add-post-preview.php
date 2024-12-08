@@ -62,21 +62,22 @@ function convertBBCodeToHTML($text) {
 
     <section id="main-section" class="add-comment-preview-section">
         <h1>Sprawdź swój post przed dodaniem</h1>
-        <p><b>Numer użytkownika:</b><?php echo $_POST["user-id"];?></p>
-        <p><b>Tytuł posta:</b><?php echo htmlspecialchars($_POST["title"])?></p>
-        <p><b>Komentarz:</b></p>
+        <p><b>Numer użytkownika: </b><?php echo $_POST["user-id"];?></p>
+        <p><b>Tytuł posta: </b><?php echo htmlspecialchars($_POST["title"])?></p>
+        <p><b>Komentarz: </b></p>
         <div class="comment-preview">
             <?php echo convertBBCodeToHTML($_POST["content"]); ?>
         </div>
 
-        <form action="<?php echo $_POST["url"];?>" method="post" style="display: inline;">
-            <input type="hidden" name="action" value="editForm">
-            <button type="submit" name="edit" value="1" class="form-button">Cofnij do poprawki</button>
-        </form>
+<!--        <form action="--><?php //echo $_POST["url"];?><!--"
+ method="post" style="display: inline;">-->
+        <form action="../db/mysql-operation.php" method="post">
+<!--            <input type="hidden" name="action" value="editForm">-->
+            <button type="submit" name="action" class="form-button"  value="editForm">Cofnij do poprawki</button>
 
         <!--        <form action="../comments/test-submit.php" method="post" style="display: inline;">-->
-        <form action="../db/mysql-operation.php" method="post" style="display: inline;">
-            <button type="submit" name="confirm" value="1" class="form-button">Zatwierdź</button>
+
+            <button type="submit" name="action" class="form-button" value="addPost">Zatwierdź</button>
             <?php
             // Przesyłamy dane w ukrytych polach, aby były gotowe do zapisania w bazie
             foreach ($_POST as $key => $value) {

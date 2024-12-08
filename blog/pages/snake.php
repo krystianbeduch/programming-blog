@@ -1,49 +1,5 @@
 <?php
-require_once "../classes/Card.php";
-require_once "../classes/Deck.php";
-require_once "../classes/Game.php";
-require_once "../classes/Player.php";
-
-use blackjack\Game;
-
 session_start();
-//    session_destroy();
-
-if (isset($_POST["reset"])) {
-    session_unset();
-//    $_SESSION["game"] = null;
-    session_destroy();
-    header("Location: blackjackOOP.php");
-    exit;
-}
-
-if (!isset($_SESSION["game"])) {
-    $_SESSION["game"] = new Game();
-}
-
-if (isset($_POST["drawCard"])) {
-    // Sprawdz przed dobraniem ile gracz ma karti
-    if ($_SESSION["game"]->getUser()->getDeckCount() < 5) {
-        // Pobierz kolejna karte
-        $_SESSION["game"]->userDrawCard();
-    }
-    else {
-        // Gracz ma w talii juz maksymalna liczbe (5) kart - koniec gry
-        if (isset($_POST["changeAceValue"])) {
-            $_SESSION["game"]->getUser()->changeAceValues($_POST["changeAceValue"]);
-        }
-        $_SESSION["gameOver"] = true;
-    }
-    $_SESSION["game"]->croupierDrawCard();
-}
-
-if (isset($_POST["stand"])) {
-    $_SESSION["game"]->croupierDrawCard();
-    if (isset($_POST["changeAceValue"])) {
-        $_SESSION["game"]->getUser()->changeAceValues($_POST["changeAceValue"]);
-    }
-    $_SESSION["gameOver"] = true;
-}
 ?>
 
 <!DOCTYPE html>

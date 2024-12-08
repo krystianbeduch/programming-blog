@@ -29,6 +29,10 @@ $offset = $paginationData["offset"];
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="manifest" href="../images/favicons/site.webmanifest">
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Styles   -->
     <link rel="stylesheet" href="../css/main.css">
 </head>
@@ -44,6 +48,25 @@ $offset = $paginationData["offset"];
                 Język skryptowy, który jest szeroko stosowany do tworzenia dynamicznych stron internetowych i aplikacji serwerowych. Jest szczególnie przydatny przy tworzeniu systemów zarządzania treścią (CMS), takich jak WordPress, oraz w integracji z bazami danych, np. MySQL. PHP jest łatwy do nauki i oferuje szerokie możliwości, co czyni go idealnym narzędziem do tworzenia serwisów webowych o różnym stopniu zaawansowania.
             </p>
             <img src="../images/php_logo.png" alt="PHP logo" class="language-image">
+
+            <?php if (isset($_SESSION["addPostAlert"]) && $_SESSION["addPostAlert"]["result"]): ?>
+                <div class="alert alert-success">
+                    <strong>Sukces!</strong> Dodano nowy post
+                </div>
+            <?php
+                unset($_SESSION["addPostAlert"]);
+            endif ?>
+
+            <?php if (isset($_SESSION["addPostAlert"]) && !$_SESSION["addPostAlert"]["result"]): ?>
+                <div class="alert alert-danger">
+                    <strong>Błąd!</strong> <?php echo $_SESSION["addPostAlert"]["error"] ?>
+                </div>
+            <?php
+                unset($_SESSION["addPostAlert"]);
+            endif ?>
+
+
+
             <?php if (isset($_SESSION["loggedUser"])): ?>
                 <a href="add-post.php?category=<?php echo $language;?>" class="post-comments-link add-post-link">Dodaj post</a>
             <?php endif ?>
@@ -57,7 +80,6 @@ $offset = $paginationData["offset"];
                     ?>
                 </div>
             </article>
-<!--            --><?php //include "../includes/add-comment-form.php"; ?>
 
             <?php renderPagination($currentPage, $totalPages, $language); ?>
         </section>
