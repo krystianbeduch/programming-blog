@@ -52,4 +52,12 @@
     <section>
         <h3><a href="../pages/whack-a-mole.php">Zagraj w Whack A Mole</a></h3>
     </section>
+
+    <section>
+        <h3><a href="../pages/drag-racers.php">Zagraj w Drag Racers</a></h3>
+    </section>
+
+    <section>
+        <h3><a href="../pages/games.php">Zagraj w gry</a></h3>
+    </section>
 </aside>

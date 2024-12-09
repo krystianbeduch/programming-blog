@@ -38,7 +38,7 @@ $(document).ready(function () {
         teleports = [];
         generateTeleports();
 
-        gameInfo.text(""); // Czyszczenie komunikatu
+        gameInfo.empty(); // Czyszczenie komunikatu
         gameScore = 0; // Restowanie punktow
         clearInterval(gameInterval); // Zatrzymanie poprzedniej gry, jesli trwala
         gameInterval = setInterval(updateGame, gameSpeed); // Rozpoczecie nowej gry
@@ -261,7 +261,7 @@ $(document).ready(function () {
         }, getRandomGoldenFoodDelay(7, 15))
     };
 
-    const saveUserScore = async () => {
+    const saveUserScore = () => {
         const userEntity = {};
 
         // Wykonaj zapytanie do API w celu pobrania nazwy uzytkownika
@@ -429,7 +429,7 @@ $(document).ready(function () {
 
 
     // Obsluga zdarzenia klawiatury
-    $(document).keydown((e) => {
+    $(document).on("keydown", (e) => {
         if (!isGameOver) {
             switch (e.key) {
                 case "ArrowUp":
@@ -468,7 +468,7 @@ $(document).ready(function () {
                 case "p":
                 case "P":
                     isPaused = !isPaused; // Wlacz/wylacz pauze
-                    gameInfo.text("");
+                    gameInfo.empty();
                     if (isPaused) {
                         gameInfo.text("Gra zapauzowana! Wciśnij P, aby kontynuować");
                         clearInterval(goldenFoodTimeout);

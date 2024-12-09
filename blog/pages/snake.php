@@ -53,7 +53,6 @@ session_start();
 
             <div id="snake-game">
                 <canvas id="game-canvas" width="400" height="400"></canvas>
-
             </div>
             <span id="game-info"></span>
             <table id="snake-scores">

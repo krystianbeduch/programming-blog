@@ -10,25 +10,25 @@ $(document).ready(() => {
 
     let gameTime, gameTimer, moleRoleTimer,whackTimer, moleTimer, gamePlayed, points;
 
-    level1Button.click(function() {
+    level1Button.on("click", function() {
         disableButtons($(this));
         moleTimer = 2000;
         startGame();
     });
 
-    level2Button.click(function() {
+    level2Button.on("click", function() {
         disableButtons($(this));
         moleTimer = 1000;
         startGame();
     });
 
-    level3Button.click(function() {
+    level3Button.on("click", function() {
         disableButtons($(this));
         moleTimer = 500;
         startGame();
     });
 
-    endGameButton.click(() => {
+    endGameButton.on("click", () => {
         endGame();
     });
 
@@ -38,9 +38,6 @@ $(document).ready(() => {
          if ($(this).is(clickedButton)) {
              $(this).addClass("clicked-button");
          }
-         // else {
-         //     $(this).addClass("disabled-button");
-         // }
          $(this).attr("disabled", "true");
          $(this).removeClass("hover-style");
       });
@@ -59,12 +56,12 @@ $(document).ready(() => {
     const startGame = () => {
         createBoard();
         setGameTimer();
-        gameTime = 5;
+        gameTime = 60;
         points = 0;
         gameTimerSpan.text(gameTime);
         gamePointsSpan.text(points);
         gamePlayed = true;
-        gameResultsP.text("");
+        gameResultsP.empty();
     };
 
     const createBoard = () => {
@@ -79,8 +76,6 @@ $(document).ready(() => {
         }
     };
 
-
-
     const randMole = () => {
         if (gamePlayed) {
             // Usun wszystkie krety przed dodaniem nowego
@@ -89,7 +84,7 @@ $(document).ready(() => {
             // Wylosuj dziure
             let i = Math.floor(Math.random() * 4);
             let j = Math.floor(Math.random() * 4);
-            const cell = $(`td[id=${i}${j}]`);
+            const cell = $(`td[id="${i}${j}"]`);
 
             // Pokaz kreta
             cell.addClass("selected").find("img").show();

@@ -2,9 +2,6 @@ div#snake-game {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*height: 100vh;*/
-    /*margin: 0;*/
-    /*background-color: #222;*/
 }
 
 canvas {
@@ -12,24 +9,20 @@ canvas {
     background-color: #000;
 }
 
-/* Stylizacja dla informacji o grze */
 span#game-info {
     display: block;
     margin-top: 10px;
     font-size: 18px;
     font-weight: bold;
-    color: var(--primary-color); /* Tekst w jasnym kolorze */
+    color: var(--primary-color);
     text-align: center;
-    /*background-color: var(--primary-color); !* Główna zieleń strony *!*/
     padding: 10px;
-    /*border: 1px solid var(--border-color); !* Obramowanie *!*/
     border-radius: 5px;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Stylizacja dla tabelki z wynikami */
 table#snake-scores {
     margin-top: 20px;
     width: 90%;
@@ -38,46 +31,44 @@ table#snake-scores {
     border-collapse: collapse;
     text-align: center;
     font-size: 16px;
-    background-color: var(--background-light); /* Jasne tło */
-    color: var(--text-color-dark); /* Ciemny tekst */
-    border: 1px solid var(--border-color); /* Obramowanie tabeli */
+    background-color: var(--background-light);
+    color: var(--text-color-dark);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     overflow: hidden;
 }
 
-/* Nagłówki tabelki */
 table#snake-scores caption {
     font-size: 20px;
     font-weight: bold;
-    color: var(--primary-color); /* Główna zieleń dla tytułu */
+    color: var(--primary-color);
     margin-bottom: 10px;
 }
 
 table#snake-scores th {
     padding: 10px;
-    background-color: var(--hover-color); /* Subtelny odcień na nagłówkach */
-    color: var(--text-color-dark); /* Ciemny tekst */
+    background-color: var(--hover-color);
+    color: var(--text-color-dark);
     text-transform: uppercase;
     border-bottom: 2px solid var(--border-color);
 }
 
-/* Wiersze tabeli */
+/* Nieparzyste wiersze */
 table#snake-scores tbody tr:nth-child(odd) {
-    background-color: var(--background-light); /* Tło dla nieparzystych wierszy */
+    background-color: var(--background-light);
 }
 
+/* Parzyste wiersze */
 table#snake-scores tbody tr:nth-child(even) {
-    background-color: var(--background-dark); /* Tło dla parzystych wierszy */
+    background-color: var(--background-dark);
 }
 
-/* Stylizacja komórek */
 table#snake-scores td {
     padding: 8px;
-    border: 1px solid var(--border-color); /* Obrys komórek */
+    border: 1px solid var(--border-color);
 }
 
-/* Podświetlenie wiersza przy najechaniu */
 table#snake-scores tbody tr:hover {
-    background-color: var(--hover-color); /* Kolor hover */
-    color: var(--text-color-dark); /* Tekst pozostaje czytelny */
+    background-color: var(--hover-color);
+    color: var(--text-color-dark);
 }
