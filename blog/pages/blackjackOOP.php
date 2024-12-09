@@ -7,12 +7,9 @@ require_once "../classes/Player.php";
 use blackjack\Game;
 
 session_start();
-//    session_destroy();
 
 if (isset($_POST["reset"])) {
-    session_unset();
-//    $_SESSION["game"] = null;
-    session_destroy();
+    unset($_SESSION["game"]);
     header("Location: blackjackOOP.php");
     exit;
 }
@@ -63,8 +60,6 @@ if (isset($_POST["stand"])) {
     <link rel="stylesheet" href="../css/style-blackjack.css">
 </head>
 <body>
-<div id="wrapper">  <!--  ??? -->
-
     <?php require_once "../includes/header.php"; ?>
 
     <main>
@@ -142,6 +137,5 @@ if (isset($_POST["stand"])) {
     </main>
 
     <?php require_once "../includes/footer.php"; ?>
-</div>
 </body>
 </html>

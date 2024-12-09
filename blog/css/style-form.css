@@ -10,13 +10,17 @@ form.add-form fieldset {
 form.add-form legend {
     font-weight: bold;
     color: var(--text-color-dark);
+    float: none;
+    width: auto;
+    margin-bottom: 2px;
 }
 
 form#add-comment-form legend {
     font-size: 1.2em;
 }
 
-form#add-post-form legend {
+form#add-post-form legend,
+form#edit-user-form legend {
     font-size: 1.6em;
 }
 
@@ -27,7 +31,9 @@ form.add-form label {
 form.add-form input[type="text"],
 form.add-form input[type="email"],
 form.add-form input[type="number"],
-form.add-form textarea {
+form.add-form textarea,
+fieldset#edit-password input,
+fieldset#edit-password textarea {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -49,6 +55,7 @@ button.form-button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 0.9em;
 }
 
 button.form-button:hover {
@@ -178,6 +185,11 @@ form.add-form div.bbcode-toolbar button img {
     /* Ikony edytora */
     height: 14px;
     width: auto;
+}
+
+/* EDIT USER FORM */
+form#edit-user-form fieldset#edit-password legend {
+    font-size: 1.2em;
 }
 
 

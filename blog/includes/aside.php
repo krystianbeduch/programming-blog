@@ -1,9 +1,13 @@
 <aside>
     <!-- O autorze -->
+    <?php if (isset($post) && !empty($post["about_me"])): ?>
     <section>
         <h3>O autorze</h3>
-        <p>Cześć! Nazywam się Jan Kowalski i jestem pasjonatem programowania. Na tym blogu dzielę się swoją wiedzą i doświadczeniem w różnych językach programowania, od frontendowych po backendowe technologie.</p>
-    </section> 
+<!--        <p>Cześć! Nazywam się Jan Kowalski i jestem pasjonatem programowania. Na tym blogu dzielę się swoją wiedzą i doświadczeniem w różnych językach programowania, od frontendowych po backendowe technologie.</p>-->
+        <p><?php echo $post["about_me"] ?></p>
+    </section>
+
+    <?php endif ?>
 
     <!-- Kalendarz -->
     <section>

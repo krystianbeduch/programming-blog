@@ -30,6 +30,10 @@ $offset = $paginationData["offset"];
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="manifest" href="../images/favicons/site.webmanifest">
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Styles   -->
     <link rel="stylesheet" href="../css/main.css">
 </head>

@@ -14,15 +14,15 @@ session_start();
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="manifest" href="../images/favicons/site.webmanifest">
 
-    <!-- Styles   -->
+    <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/style-snake.css">
 
-    <script src="../js/jquery-3.7.1.min.js"></script>
-    <script src="../js/snake-jQuery.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/drag-racers-jQuery.js"></script>
 </head>
 <body>
-<div id="wrapper">  <!--  ??? -->
 
     <?php require_once "../includes/header.php"; ?>
 
@@ -69,6 +69,5 @@ session_start();
     </main>
 
     <?php require_once "../includes/footer.php"; ?>
-</div>
 </body>
 </html>

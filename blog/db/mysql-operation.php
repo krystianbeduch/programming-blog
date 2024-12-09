@@ -25,6 +25,7 @@ function handleUnknownAction(?string $action): void {
 }
 
 function getCategoryId(string $category) : int {
+    $categoryId = -1; // Domyslna wartosc w przypadku bledu lub braku rezultatu
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -35,27 +36,31 @@ function getCategoryId(string $category) : int {
         $stmt = $conn->prepare("SELECT category_id FROM categories WHERE category_name = ?;");
         $stmt->bind_param("s", $category);
         $stmt->execute();
-        $stmt->bind_result($categoryId);
-        $stmt->fetch();
-        $stmt->close();
-        $conn->close();
-        if ($categoryId != null) {
-            return $categoryId;
+        $stmt->bind_result($fetchedCategoryId);
+        if ($stmt->fetch()) {
+            $categoryId = $fetchedCategoryId;
         }
-        return -1;
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: ".$e->getMessage();
+        header("Location: index.php");
         exit;
     }
     catch (Exception $e) {
-        echo "Błąd: " . $e->getMessage();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
         exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $categoryId;
     }
 }
 
 
 function getPosts(string $category) : array {
+    $posts = [];
     try {
         $categoryId = getCategoryId($category);
         if ($categoryId == -1) {
@@ -73,21 +78,29 @@ function getPosts(string $category) : array {
         $stmt->bind_param("i", $categoryId);
         $stmt->execute();
         $result = $stmt->get_result();
-        $stmt->close();
-        $conn->close();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if ($result) {
+            $posts = $result->fetch_all(MYSQLI_ASSOC);
+        }
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
         exit;
     }
     catch (Exception $e) {
-        echo "Błąd: " . $e->getMessage();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
         exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $posts;
     }
 }
 
 function getOnePost(int $postId): array {
+    $post = [];
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -95,26 +108,34 @@ function getOnePost(int $postId): array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.post_id = ? ORDER BY p.created_at DESC;";
+        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email, u.about_me FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.post_id = ? ORDER BY p.created_at DESC;";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $postId);
         $stmt->execute();
         $result = $stmt->get_result();
-        $stmt->close();
-        $conn->close();
-        return $result->fetch_assoc();
+        if ($result) {
+            $post = $result->fetch_assoc();
+        }
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
         exit;
     }
     catch (Exception $e) {
-        echo "Błąd: " . $e->getMessage();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
         exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $post;
     }
 }
 
 function getCommentsToPost(int $postId) : array {
+    $comments = [];
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -127,17 +148,24 @@ function getCommentsToPost(int $postId) : array {
         $stmt->bind_param("i", $postId);
         $stmt->execute();
         $result = $stmt->get_result();
-        $stmt->close();
-        $conn->close();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        if ($result) {
+            $comments = $result->fetch_all(MYSQLI_ASSOC);
+        }
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
         exit;
     }
     catch (Exception $e) {
-        echo "Błąd: " . $e->getMessage();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
         exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $comments;
     }
 }
 
@@ -151,6 +179,10 @@ function addCommentToPost(array $commentData) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
+        // Rozpoczecie transakcji
+        $conn->begin_transaction();
+
+        // Przygotowanie i wykonanie zapytania
         $stmt = $conn->prepare("INSERT INTO comments (user_id, username, email, content, created_at, post_id) VALUES (null, ?, ?, ?, NOW(), ?)");
         $stmt->bind_param(
             "sssi",
@@ -161,26 +193,36 @@ function addCommentToPost(array $commentData) : void {
         );
         $stmt->execute();
 
+        if ($stmt->affected_rows == 0) {
+            throw new Exception("Nie udało się dodać komentarza");
+        }
+
         if ($_SESSION["formData"][$postId]) {
             unset($_SESSION["formData"][$postId]);
         }
 
         $_SESSION["addCommentAlert"]["result"] = true;
+
+        // Zatwierdzenie transkacji
+        $conn->commit();
     }
     catch (mysqli_sql_exception $e) {
+        $conn->rollback();
         $_SESSION["addCommentAlert"]["result"] = false;
         $_SESSION["addCommentAlert"]["error"] = "Błąd połączenia z bazą: ".$e->getMessage();
     }
     catch (Exception $e) {
-
         echo "Błąd: " . $e->getMessage();
     }
     finally {
+        $stmt?->close();
+        $conn?->close();
         header("Location: ../pages/post.php?postId=" . $postId);
     }
 }
 
 function checkCategory(string $language) : bool {
+    $result = false;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -192,22 +234,31 @@ function checkCategory(string $language) : bool {
         $stmt->bind_param("s", $language);
         $stmt->execute();
         $result = $stmt->get_result();
-        $stmt->close();
-        $conn->close();
-        return $result->num_rows > 0;
+        if ($result->num_rows > 0) {
+            $result = true;
+        }
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
         exit;
     }
     catch (Exception $e) {
-        echo "Błąd: " . $e->getMessage();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
         exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $result;
     }
 }
 
 function addPost(array $postData) : void {
     session_start();
+//    $conn = null;
+//    $stmt = null;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -215,6 +266,7 @@ function addPost(array $postData) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
+        $conn->begin_transaction();
         $stmt = $conn->prepare("INSERT INTO posts (title, content, created_at, updated_at, is_published, user_id, category_id) VALUES (?, ?, NOW(), NOW(), ?, ?, ?)");
         $publish = 1;
         $categoryId = getCategoryId($postData["category"]);
@@ -227,30 +279,34 @@ function addPost(array $postData) : void {
             $categoryId
         );
         $stmt->execute();
-        $stmt->close();
-        $conn->close();
 
         if (isset($_SESSION["formData"][$postData["category"]])) {
             unset($_SESSION["formData"][$postData["category"]]);
         }
 
         $_SESSION["addPostAlert"]["result"] = true;
+        $conn->commit();
     }
     catch (mysqli_sql_exception $e) {
+        $conn->rollback();
         $_SESSION["addPostAlert"]["result"] = false;
         $_SESSION["addPostAlert"]["error"] = "Błąd połączenia z bazą: ".$e->getMessage();
         echo "sd";
     }
     catch (Exception $e) {
+        $conn->rollback();
         echo "Błąd: " . $e->getMessage();
         exit;
     }
     finally {
+        $stmt->close();
+        $conn->close();
         header("Location: ../pages/" . $postData["category"] . ".php");
     }
 }
 
 function getUserRole(string $roleName) : int {
+    $roleId = -1;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -261,27 +317,33 @@ function getUserRole(string $roleName) : int {
         $stmt = $conn->prepare("SELECT role_id FROM roles WHERE role_name = ?;");
         $stmt->bind_param("s", $roleName);
         $stmt->execute();
-        $stmt->bind_result($roleId);
+        $stmt->bind_result($fetchedRoleId);
         $stmt->fetch();
-        $stmt->close();
-        $conn->close();
-        if ($roleId !== null) {
-            return $roleId;
+        if ($fetchedRoleId) {
+            $roleId = $fetchedRoleId;
         }
-        return -1;
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
         exit;
     }
     catch (Exception $e) {
-        echo "Błąd: " . $e->getMessage();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
         exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $roleId;
     }
 }
 
 
 function createUserAccount(array $user) : void {
+    $conn = null;
+    $stmt = null;
     try {
         $roleId = getUserRole($user["role"]);
         if ($roleId == -1) {
@@ -294,52 +356,58 @@ function createUserAccount(array $user) : void {
             MySQLConfig::DATABASE
         );
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
-        $query = "INSERT INTO users (username , email, password, created_at, role_id) VALUES (?, ?, ?, NOW(), ?);";
+        $conn->begin_transaction();
+        $query = "INSERT INTO users (username , email, password, created_at, about_me, role_id) VALUES (?, ?, ?, NOW(), ?, ?);";
         $stmt = $conn->prepare($query);
         $stmt->bind_param(
-            "sssi",
+            "ssssi",
             $user["username"],
             $user["email"],
             $password,
+            $user["about"],
             $roleId
         );
         $stmt->execute();
-        $stmt->close();
-        $conn->close();
+        $conn->commit();
         loginUser($user);
-
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $conn->rollback();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: ../pages/index.php");
         exit;
     }
     catch (Exception $e) {
-        echo "Błąd: " . $e->getMessage();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: ../pages/index.php");
         exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
     }
 }
 
 function loginUser(array $user) : void {
     try {
+        session_start();
         $conn = new mysqli(
             MySQLConfig::SERVER,
             MySQLConfig::USER,
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $stmt = $conn->prepare("SELECT user_id, username, password, email FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT user_id, username, password, email, about_me FROM users WHERE username = ?");
         $stmt->bind_param("s",$user["username"]);
         $stmt->execute();
-        $stmt->bind_result($userId, $username, $hashedPassword, $email);
+        $stmt->bind_result($userId, $username, $hashedPassword, $email, $aboutMe);
         $stmt->fetch();
-        $stmt->close();
-        $conn->close();
 
-        session_start();
         if ($userId !== null && password_verify($user["password"], $hashedPassword)) {
             $_SESSION["loggedUser"]["id"] = $userId;
             $_SESSION["loggedUser"]["username"] = $username;
             $_SESSION["loggedUser"]["email"] = $email;
+            $_SESSION["loggedUser"]["aboutMe"] = $aboutMe;
 
             $_SESSION["loginAlert"] = ["type" => "success"];
         }
@@ -353,12 +421,18 @@ function loginUser(array $user) : void {
 
     }
     catch (mysqli_sql_exception $e) {
-        echo "Błąd połączenia z bazą: ".$e->getMessage();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: ../pages/index.php");
         exit;
     }
     catch (Exception $e) {
-        echo "Błąd: " . $e->getMessage();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: ../pages/index.php");
         exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
     }
 }
 ?>

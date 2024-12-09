@@ -18,12 +18,13 @@ session_start();
     <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Styles   -->
+    <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/style-whack.css">
 
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../js/whack-jQuery.js"></script>
+    <script src="../js/drag-racers-jQuery.js"></script>
 
 </head>
 <body>

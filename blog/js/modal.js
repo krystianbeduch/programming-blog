@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (usernameField) {
                             // Sprawdz dostępnosc username
                             const isUsernameAvailable = await checkAvailability("username", usernameField.value);
-                            if ( !(isUsernameAvailable && isUsernameAvailable.success)) {
+                            if (!isUsernameAvailable?.success) {
                                 // Username zajety
                                 isFormValid = false;
                                 fieldIsInvalid(
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (emailField) {
                             // Sprawdz dostepnosc email
                             const isEmailAvailable = await checkAvailability("email", emailField.value);
-                            if ( !(isEmailAvailable && isEmailAvailable.success)) {
+                            if (!isEmailAvailable?.success) {
                                 // Email zajety
                                 isFormValid = false;
                                 fieldIsInvalid(
@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (usernameField) {
                         // Sprawdz dostępnosc username
                         const isUsernameAvailable = await checkUserExisting(usernameField.value);
-                        if (isUsernameAvailable && !isUsernameAvailable.success) {
+                        if (!isUsernameAvailable?.success) {
                             // Username nie istnieje
                             isFormValid = false;
                             fieldIsInvalid(

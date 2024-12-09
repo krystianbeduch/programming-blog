@@ -64,6 +64,8 @@ section.whack-section div#end-game-button {
 
 section.whack-section div#end-game-button button {
     padding: 10px;
+    width: 25%;
+    text-align: center;
 }
 
 section.whack-section button.hover-style:hover {
