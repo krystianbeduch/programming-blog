@@ -47,24 +47,28 @@ if (!isset($_SESSION["loggedUser"])) {
                 <input type="number" name="id" id="id" value="<?php echo $_SESSION["loggedUser"]["id"]?>" readonly>
 
                 <label for="username">Nazwa użytkownika:</label>
-                <input type="text" name="username" id="username" value="<?php echo $_SESSION["loggedUser"]["username"]?>" required minlength="6">
+                <button class="form-button edit-profile-button" name="username">Zmień</button>
+                <input type="text" name="username" id="username" value="<?php echo $_SESSION["loggedUser"]["username"]?>" disabled minlength="4">
 
                 <label for="email">Email:</label>
-                <input type="email" name="email" id="email" value="<?php echo $_SESSION["loggedUser"]["email"]?>">
+                <button class="form-button edit-profile-button" name="email">Zmień</button>
+                <input type="email" name="email" id="email" value="<?php echo $_SESSION["loggedUser"]["email"]?>" disabled>
 
                 <fieldset id="edit-password">
-                    <legend>Hasło</legend>
+                    <legend>
+                        Hasło <button class="form-button edit-profile-button" name="password">Zmień</button>
+                    </legend>
                     <label for="current-password">Obecne hasło:</label>
-                    <input type="password" name="current-password" id="current-password">
+                    <input type="password" name="current-password" id="current-password" disabled>
 
                     <label for="new-password">Nowe hasło:</label>
-                    <input type="password" name="new-password" id="new-password">
+                    <input type="password" name="new-password" id="new-password" minlength="6" disabled>
 
                     <label for="new-password-confirm">Powtórz nowe hasło:</label>
-                    <input type="password" name="new-password-confirm" id="new-password-confirm">
+                    <input type="password" name="new-password-confirm" id="new-password-confirm" minlength="6" disabled>
                 </fieldset>
                 <label for="about-me">O mnie:</label>
-                <textarea name="about-me" id="about-me" cols="30" rows="10"><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
+                <textarea name="about-me" id="about-me" cols="30" rows="10" disabled><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
                 <button type="submit" class="form-button">Zapisz zmiany</button>
                 </fieldset>
             </form>

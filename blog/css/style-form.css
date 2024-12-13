@@ -26,6 +26,8 @@ form#edit-user-form legend {
 
 form.add-form label {
     font-weight: bold;
+    color: #000;
+    border-color: #000;
 }
 
 form.add-form input[type="text"],
@@ -41,6 +43,10 @@ fieldset#edit-password textarea {
     border: 1px solid var(--text-color-dark);
     border-radius: 3px;
 }
+
+/*form#edit-user-form input {*/
+/**/
+/*}*/
 
 form.add-form textarea {
     resize: vertical;
@@ -76,6 +82,17 @@ form.add-form span.error {
 /*    color: #1a1a1a !important; !* Ustawienie koloru tekstu *!*/
 /*    border: 5px solid #4CAF50 !important; !* Dodanie stylu ramki *!*/
 /*}*/
+
+/*.invalid-input {*/
+/*    color: var(--error-text);*/
+/*    border-color: var(--error-text);*/
+/*}*/
+/**/
+/*.invalid-input {*/
+/*    color: var(--primary-color);*/
+/*    border-color: var(--primary-color);*/
+/*}*/
+
 form.add-form .invalid-input:-webkit-autofill {
     /*-webkit-box-shadow:0 0 0 50px #ffe6e6 inset; !* Change the color to your own background color *!*/
     -webkit-box-shadow: 0 0 0 50px var(--error-background) inset; /* Change the color to your own background color */
@@ -85,6 +102,14 @@ form.add-form .invalid-input:-webkit-autofill {
 form.add-form .valid-input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 50px #e6ffe6 inset; /* Change the color to your own background color */
     -webkit-text-fill-color: var(--button-hover);
+}
+
+form#edit-user-form input[readonly] {
+    background-color: var(--background-light);
+    color: var(--readonly-input);
+    border: 1px solid var(--readonly-input);
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 
@@ -191,5 +216,31 @@ form.add-form div.bbcode-toolbar button img {
 form#edit-user-form fieldset#edit-password legend {
     font-size: 1.2em;
 }
+
+button.edit-profile-button {
+    padding: 5px 15px;
+}
+
+form#edit-user-form label.invalid-label {
+    color: var(--error-text);
+}
+
+form#edit-user-form label.valid-label {
+    color: var(--primary-color);
+}
+
+form#edit-user-form label.invalid-field {
+    border-color: var(--error-text);
+}
+
+form#edit-user-form label.valid-field {
+    border-color: var(--primary-color);
+}
+
+form#edit-user-form label.edited-label {
+    color: var(--edited-input);
+}
+
+form#edit-user-form
 
 

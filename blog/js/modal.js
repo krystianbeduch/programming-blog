@@ -71,11 +71,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const showLoginForm = () => {
         loginContainer.style.display = "block";
         registerContainer.style.display = "none";
+        setFocusToUsernameField(loginFormFields);
     };
 
     const showRegisterForm = () => {
         registerContainer.style.display = "block";
         loginContainer.style.display = "none";
+        setFocusToUsernameField(registerFormFields);
+    };
+
+    const setFocusToUsernameField = (fields) => {
+        // Spread operator (...) - zamienia iterowalmny obiekt NodeList na pojedyncze elementy
+        // { } destrukturyzujemy name z obiektu field
+        const usernameField = [...fields].find(({ name }) =>
+            name === "username"
+        );
+        usernameField?.focus();
     };
 
     // Zamkniecie modala po kliknieciu poza jego zawartoscia

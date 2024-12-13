@@ -23,6 +23,8 @@
     --bbcode-button-hover: #b0b0b0;
     --pagination-background: #ccc;
     --pagination-hover: #ddd;
+    --readonly-input: #6c757d;
+    --edited-input: #125ed1;
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, input {
