@@ -42,7 +42,7 @@ if (!isset($_SESSION["loggedUser"])) {
         <form id="edit-user-form" class="add-form" name="edit_user_form" action="" method="post">
             <fieldset>
                 <legend>Edycja profilu</legend>
-
+                <input type="hidden" name="action" value="editUserAccount">
                 <label for="id">Numer użytkownika:</label>
                 <input type="number" name="id" id="id" value="<?php echo $_SESSION["loggedUser"]["id"]?>" readonly>
 
@@ -62,12 +62,13 @@ if (!isset($_SESSION["loggedUser"])) {
                     <input type="password" name="current-password" id="current-password" disabled>
 
                     <label for="new-password">Nowe hasło:</label>
-                    <input type="password" name="new-password" id="new-password" minlength="6" disabled>
+                    <input type="password" name="new-password" id="new-password" minlength="6" disabled placeholder="min. 6 znaków">
 
                     <label for="new-password-confirm">Powtórz nowe hasło:</label>
                     <input type="password" name="new-password-confirm" id="new-password-confirm" minlength="6" disabled>
                 </fieldset>
                 <label for="about-me">O mnie:</label>
+                <button class="form-button edit-profile-button" name="about-me">Zmień</button>
                 <textarea name="about-me" id="about-me" cols="30" rows="10" disabled><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
                 <button type="submit" class="form-button">Zapisz zmiany</button>
                 </fieldset>

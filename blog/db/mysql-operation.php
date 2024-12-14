@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "editForm" => correctForm(),
         "registerUser" => createUserAccount($_POST),
         "loginUser" => loginUser($_POST),
+        "editUserAccount" => editUserAccount($_POST),
         default => handleUnknownAction($action),
     };
 }
@@ -434,6 +435,10 @@ function loginUser(array $user) : void {
         $stmt->close();
         $conn->close();
     }
+}
+
+function editUserAccount(array $user) : void {
+    print_r($user);
 }
 ?>
 

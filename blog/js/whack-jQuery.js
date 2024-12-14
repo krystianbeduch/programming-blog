@@ -8,7 +8,7 @@ $(document).ready(() => {
     const endGameButton = $("#whack-end-game");
     const table = $("table");
 
-    let gameTime, gameTimer, moleRoleTimer,whackTimer, moleTimer, gamePlayed, points;
+    let gameTime, gameTimer, moleRoleTimer, whackTimer, moleTimer, gamePlayed, points;
 
     level1Button.on("click", function() {
         disableButtons($(this));

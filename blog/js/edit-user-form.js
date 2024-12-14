@@ -1,190 +1,185 @@
 $(document).ready(() => {
     const form = $("#edit-user-form");
-    // const form1 = document.forms.edit_user_form;
-    // console.log(form1.username);
-    const usernameInput = form.find("input[name='username']");
-    const labelUsername = form.find(`label[for="${usernameInput.attr('id')}"`);
-    const labelUsernameTextOriginal = labelUsername.text();
 
-    const emailInput = form.find("input[name='email']");
-    const labelEmail = form.find(`label[for="${emailInput.attr('id')}"`);
-    const labelEmailTextOriginal = labelEmail.text();
+    // Referencje do pol formularza
+    const inputs = {
+        username: form.find("input[name='username']"),
+        email: form.find("input[name='email']"),
+        currentPassword: form.find("input[name='current-password']"),
+        newPassword: form.find("input[name='new-password']"),
+        newPasswordConfirm: form.find("input[name='new-password-confirm']"),
+        aboutMe: form.find("textarea")
+    };
 
-    const currentPasswordInput = form.find("input[name='current-password']");
-    const newPasswordInput = form.find("input[name='new-password']");
-    const newPasswordConfirmInput = form.find("input[name='new-password-confirm']");
-    const labelPassword = form.find(`label[for="${newPasswordConfirmInput.attr('id')}`);
-    const labelPasswordOriginal = labelPassword.text();
+    // Referencje do etykiet
+    const labels = {
+        username: form.find(`label[for="${inputs.username.attr('id')}"`),
+        email: form.find(`label[for="${inputs.email.attr('id')}"`),
+        currentPassword: form.find(`label[for="${inputs.currentPassword.attr('id')}"`),
+        newPassword: form.find("label[for*='new-password']"),
+        passwordLegend: form.find("fieldset[id*='password']").find("legend"),
+        aboutMe: form.find(`label[for="${inputs.aboutMe.attr('id')}"`)
+    };
 
-    let editCorrect = true;
+    // Oryginalne tresci etykiet
+    const labelsOriginal = {
+        username: labels.username.text(),
+        email: labels.email.text(),
+    }
 
+    let editCorrect = true; // Flaga poprawnej edycji pola
 
+    const allFormFields = $("input, textarea"); //////// ??
 
-    const allFormFields = $("input, textarea");
-
-    // const email
     const editButtons = $(".edit-profile-button");
     const SERVER_URI = "/US/blog/db/api";
 
-    const handleEditableField = (fieldInput, label, labelTextOriginal, button, type) =>{
-        // Jesli pole jest zablokowane i przycisk to 'Zmien'
+    // Pokaz/ukryj przyciski edycji
+    const toggleButtons = (button, show = true) => {
+        editButtons.each(function() {
+            $(this).toggle(show);
+        });
+        button.show();
         if (button.text() === "Zmień") {
-            // Schowaj pozostale przyciski
-            editButtons.each(function() {
-                $(this).hide();
-            });
-            // Pokaz obecny przycisk i zmien jego nazwe
-            button.show();
             button.text("Zapisz");
-
-            // Odblkuj je, ustaw wlasciwosc required i ustaw focus
-            fieldInput.removeAttr("disabled");
-            fieldInput.removeAttr("readonly");
-            fieldInput.attr("required", "true");
-            fieldInput.focus();
-
-            label.removeClass("edited-label");
-            
-
-            // Odczytaj poprzednia wartosc, wartosc domyslna usera
-            const previousValue = fieldInput.val();
-            if (type === "username" || type === "email") {
-                fieldInput.on("blur", async function() {
-                    const newValue = fieldInput.val();
-                    if (newValue !== previousValue) {
-                        if (validateField(fieldInput)) {
-                            const result = await checkAvailability(type, newValue);
-                            /* ECMAScript 2020 wprowadzil opcjonalny lancuch dostepu
-                            (Optional Chaining Operator). Jesli result bedzie null lub undefined operator zwroci undefined
-                            */
-                            if (result?.success) {
-                                label.text(labelTextOriginal);
-                                fieldIsValid(fieldInput);
-                            }
-                            else {
-                                label.text(`${labelTextOriginal} (nazwa zajęta)`);
-                                fieldIsInvalid(fieldInput);
-                            }
-                        }
-                    }
-                    else {
-                        label.text(labelTextOriginal);
-                        fieldStyleRest($(this));
-                    }
-                }); // fieldInput blut
-            } // if type username || email
-            else if (type === "password") {
-                handlePasswordFields();
-            }
-
-
-        } // if button text Zmien
-        else if (button.text() === "Zapisz" && editCorrect) {
-        // else if ($(this).text() === "Zapisz") {
-                // Pokaz pozostale przyciski
-            editButtons.each(function() {
-                $(this).show();
-            });
-            // Zmien typ inputa na readonly
-            fieldInput.attr("readonly", "true");
-            // Pokaz obecny przycisk i zmien jego nazwe
-            // $(this).show();
-            button.text("Zmień");
-            label.addClass("edited-label");
-        } // else if button text Zapisz
-
-            // usernameButton.attr("disabled");
-            // usernameInput.removeAttr("required");
-
-    }; // handleEditableField()
-
-    const handlePasswordFields = () => {
-        const newPassword = newPasswordInput.text();
-        const newPasswordConfirm = newPasswordConfirmInput.text();
-        if (newPassword === newPasswordConfirm) {
-            alert("git");
         }
         else {
-            alert("nie git");
+            button.text("Zmień");
         }
     };
 
+    const enableField = (input) => {
+        input.removeAttr("disabled readonly").attr("required", true).focus();
+    };
+
+    const disableField = (input) => {
+        input.attr("readonly", true).removeAttr("required");
+    };
+
+    const validateAndSave = async (input, label, labelTextOriginal, type) => {
+        const newValue = input.val();
+        // Sprawdzenie czy wartosc sie zmienila
+        if (newValue !== input.data("originalValue")) {
+            if (validateField(input, label)) {
+                const result = await checkAvailability(type, newValue);
+                /* ECMAScript 2020 wprowadzil opcjonalny lancuch dostepu
+                (Optional Chaining Operator). Jesli result bedzie null lub undefined operator zwroci undefined
+                */
+                if (result?.success) {
+                    label.text(labelTextOriginal);
+                    fieldIsValid(input, label);
+                }
+                else {
+                    label.text(`${labelTextOriginal} (nazwa zajęta)`);
+                    fieldIsInvalid(input, label);
+                }
+            } // if validateField
+        } // if newValue
+        else {
+            label.text(labelTextOriginal);
+            fieldStyleReset(input, label);
+        }
+    }; // validateAndSave()
+
+    const handlePasswordFields = (button) => {
+        if (button.text() === "Zmień") {
+            toggleButtons(button, false);
+            // Wlaczenie wszystkich pol hasla
+            [inputs.currentPassword, inputs.newPassword, inputs.newPasswordConfirm]
+                .forEach(enableField);
+            inputs.currentPassword.focus();
+            labels.passwordLegend.removeClass("edited-label");
+            labels.newPassword.removeClass("invalid-label");
+        }
+        else if (button.text() === "Zapisz") {
+            // Sprawdz czy wprowadzono aktualne haslo
+            if (inputs.currentPassword.val().trim() === "") {
+                inputs.currentPassword.focus();
+                labels.currentPassword.addClass("invalid-label");
+            }
+            else {
+                labels.currentPassword.removeClass("invalid-label");
+                const passwordsMatch = inputs.newPassword.val() === inputs.newPasswordConfirm.val();
+                if (passwordsMatch && inputs.newPassword[0].validity.valid) {
+                    toggleButtons(button);
+                    // Wylaczenie wszystkich pol hasla
+                    [inputs.currentPassword, inputs.newPassword, inputs.newPasswordConfirm]
+                        .forEach(disableField);
+                    labels.passwordLegend.addClass("edited-label");
+                    labels.newPassword.removeClass("invalid-label");
+                }
+                else {
+                    labels.newPassword.addClass("invalid-label");
+                }
+            } // else
+        } // else if Zapisz
+    } // handlePasswordFields()
+
+    const handleAboutMeField = (button) => {
+        if (button.text() === "Zmień") {
+            toggleButtons(button, false);
+            enableField(inputs.aboutMe);
+            labels.aboutMe.removeClass("edited-label");
+        }
+        else if (button.text() === "Zapisz") {
+            disableField(inputs.aboutMe);
+            toggleButtons(button);
+            labels.aboutMe.addClass("edited-label");
+        }
+    }; // handleAboutMeField()
+
+    const handleEditableField = (fieldInput, label, labelTextOriginal, button, type) =>{
+        if (button.text() === "Zmień") {
+            toggleButtons(button, false);
+            enableField(fieldInput);
+            label.removeClass("edited-label");
+
+            // Zapisz oryginalna wartosc
+            fieldInput.data("originalValue", fieldInput.val());
+
+            if (type === "username" || type === "email") {
+                fieldInput.on("blur", async function() {
+                    await validateAndSave(fieldInput, label, labelTextOriginal, type)
+                });
+            } // if type username || email
+
+        } // if button text Zmien
+        else if (button.text() === "Zapisz" && editCorrect) {
+            toggleButtons(button);
+            disableField(fieldInput);
+            // button.text("Zmień");
+            label.addClass("edited-label");
+        } // else if button text Zapisz
+    }; // handleEditableField()
+
     editButtons.on("click", function(e) {
         e.preventDefault();
-        if ($(this).attr("name") === "username") {
+        const fieldType = $(this).attr("name")
+        if (fieldType === "username") {
             handleEditableField(
-                usernameInput,
-                labelUsername,
-                labelUsernameTextOriginal,
+                inputs.username,
+                labels.username,
+                labels.username.text(),
                 $(this),
                 "username"
             );
         }
-        else if ($(this).attr("name") === "email") {
+        else if (fieldType === "email") {
             handleEditableField(
-                emailInput,
-                labelEmail,
-                labelEmailTextOriginal,
+                inputs.email,
+                labels.email,
+                labels.email.text(),
                 $(this),
                 "email"
             );
         }
-        else if ($(this).attr("name") === "password") {
-            handleEditableField(
-                emailInput,
-                labelEmail,
-                labelEmailTextOriginal,
-                $(this),
-                "password"
-            );
+        else if (fieldType === "password") {
+            handlePasswordFields($(this));
         }
-    });
-
-
-
-    // usernameButton.on("click", function(e) {
-    //     e.preventDefault();
-    //     if (usernameInput.attr("disabled")) {
-    //         usernameInput.removeAttr("disabled");
-    //         usernameInput.attr("required", "true");
-    //         usernameInput.focus();
-    //         const previousValue = usernameInput.val();
-    //         $(this).hide();
-    //
-    //         usernameInput.on("blur", async function() {
-    //             const username = $(this).val();
-    //             if (username !== previousValue) {
-    //                 if (validateField($(this))) {
-    //                     const result = await checkAvailability("username", username);
-    //                     /* ECMAScript 2020 wprowadzil opcjonalny lancuch dostepu
-    //                     (Optional Chaining Operator). Jesli result bedzie null lub undefined operator zwroci undefined
-    //                     */
-    //                     if (result?.success) {
-    //                         labelUsername.text(labelUsernameTextOriginal);
-    //                         fieldIsValid($(this));
-    //                     }
-    //                     else {
-    //                         labelUsername.text(`${labelUsernameTextOriginal} (nazwa zajęta)`);
-    //                         fieldIsInvalid($(this));
-    //                     }
-    //                 }
-    //             }
-    //             else {
-    //                 labelUsername.text(labelUsernameTextOriginal);
-    //                 fieldStyleRest($(this));
-    //             }
-    //
-    //         });
-    //     }
-    //     else {
-    //         usernameButton.attr("disabled");
-    //         usernameInput.removeAttr("required");
-    //     }
-    // });
-
-    const unlockUsernameInput = () => {
-
-    };
+        else if (fieldType === "about-me") {
+            handleAboutMeField($(this));
+        }
+    }); // editButtons click
 
 
     $(window).on("load", () => {
@@ -197,74 +192,7 @@ $(document).ready(() => {
             // Zdarzenia 'input' i 'blur' - dynamiczne sprawdzanie poprawności
             // field.on("input blur", () => validateField(field));
         });
-    });
-
-    // allFormFields.on("input", async function(event) {
-    //     console.log("Input fired on: ", event.target);
-    //     // console.log($(this));
-    //     const previousValue = $(this).data("previousValue");
-    //     const value = $(this).val();
-    //     if (previousValue !== value && validateField($(this))) {
-    //         let type;
-    //         if ($(this).attr("name") === "username") {
-    //             type = "username";
-    //             // console.log("username");
-    //         }
-    //         else if ($(this).attr("name") === "email") {
-    //             type = "email";
-    //             // console.log("email");
-    //         }
-    //         const result = await checkAvailability(type, value);
-    //
-    //         /* ECMAScript 2020 wprowadzil opcjonalny lancuch dostepu
-    //         (Optional Chaining Operator). Jesli result bedzie null lub undefined operator zwroci undefined
-    //         */
-    //         if (result?.success) {
-    //             if (type === "username") {
-    //                 labelUsername.text(labelUsernameText);
-    //             }
-    //             else if (type === "email") {
-    //                 labelEmail.text(labelEmailText);
-    //             }
-    //             fieldIsValid($(this));
-    //         }
-    //         else {
-    //             if (type === "username") {
-    //                 labelUsername.text(`${labelUsernameText} (nazwa zajęta)`);
-    //             }
-    //             else if (type === "email") {
-    //                 labelEmail.text(`${labelEmailText} (email zajęty)`);
-    //             }
-    //             fieldIsInvalid($(this));
-    //         }
-    //     }
-    // });
-
-        // usernameInput.on("input blur", async function() {
-        //     const username = $(this).val();
-        //     const result = await checkAvailability("username", username);
-        //
-        //     /* ECMAScript 2020 wprowadzil opcjonalny lancuch dostepu
-        //     (Optional Chaining Operator). Jesli result bedzie null lub undefined operator zwroci undefined
-        //     */
-        //     if (result?.success) {
-        //         labelUsername.text(labelUsernameText);
-        //         fieldIsValid($(this));
-        //     }
-        //     else {
-        //         labelUsername.text(`${labelUsernameText} (nazwa zajęta)`);
-        //         fieldIsInvalid($(this));
-        //     }
-        // });
-
-
-
-        // button.on("click", function(e) {
-        //     e.preventDefault();
-        // });
-
-
-
+    }); // window load
 
     const checkAvailability = async (type, value) => {
         try {
@@ -289,69 +217,54 @@ $(document).ready(() => {
                 message: "Wystąpił błąd podczas komunikacji z serwerem."
             };
         }
-    };
+    }; // checkAvailability()
 
-    const validateField = (field) => {
+    const validateField = (field, label) => {
+        const fieldName = field.attr("name");
+        const labelTextOriginal = labelsOriginal[fieldName];
         if (!field[0].validity.valid) {
-            // console.log("inv");
-            fieldIsInvalid(field);
-            console.log(field[0].validity.tooShort);
+            fieldIsInvalid(field, label);
             if (field[0].validity.tooShort) {
-                labelUsername.text(`${labelUsernameTextOriginal} (wartość za krótka)`);
+                label.text(`${labelTextOriginal} (wartość za krótka)`);
             }
             else if (field[0].validity.valueMissing) {
-                labelUsername.text(`${labelUsernameTextOriginal} (brak wartości)`);
+                label.text(`${labelTextOriginal} (brak wartości)`);
+            }
+            else if (field[0].validity.typeMismatch) {
+                label.text(`${labelTextOriginal} (niepoprawny format)`);
             }
             return false;
         }
         else {
-            // console.log("va");
-            fieldIsValid(field)
+            fieldIsValid(field, label)
+            label.text(labelTextOriginal);
             return true;
         }
-    };
+    }; // validateField()
 
-    const fieldIsValid = (field) => {
-        const label = form.find(`label[for="${usernameInput.attr('id')}"`);
-        // label.css("color", "var(--primary-color)");
-        label.addClass("valid-label");
-        label.removeClass("invalid-label");
-
-        field.addClass("invalid-field");
-        field.removeClass("valid-field");
-        // console.log($(this));
-        // field.css("border-color", "var(--primary-color)");
-        field.removeClass("invalid-input");
-        field.addClass("valid-input");
+    const fieldIsValid = (field, label) => {
+        label.addClass("valid-label").removeClass("invalid-label");
+        field.addClass("invalid-field").removeClass("valid-field");
+        field.addClass("valid-input").removeClass("invalid-input")
         editCorrect = true;
     };
 
-    const fieldIsInvalid = (field) => {
-        const label = form.find(`label[for="${usernameInput.attr('id')}"`);
-        // label.css("color", "var(--error-text)");
-        label.removeClass("valid-label");
-        label.addClass("invalid-label");
-        // console.log($(this));
-        // field.css("border-color", "var(--error-text)");
-        field.removeClass("invalid-field");
-        field.addClass("valid-field");
-
-        field.addClass("invalid-input");
-        field.removeClass("valid-input");
+    const fieldIsInvalid = (field, label) => {
+        label.removeClass("valid-label").addClass("invalid-label");
+        field.removeClass("invalid-field").addClass("valid-field");
+        field.removeClass("valid-input").addClass("invalid-input");
         editCorrect = false;
     };
 
-    const fieldStyleRest = (field) => {
-        const label = form.find(`label[for="${usernameInput.attr('id')}"`);
-        // label.css("color", "#000");
-        // console.log($(this));
-        // field.css("border-color", "#000");
-        field.removeClass("invalid-field");
-        field.removeClass("valid-input");
-        field.removeClass("invalid-label");
-        field.removeClass("valid-label");
-        field.removeClass("invalid-input");
-        field.removeClass("valid-input");
+    const fieldStyleReset = (field, label) => {
+        field
+            .removeClass("invalid-field")
+            .removeClass("valid-input")
+            .removeClass("invalid-input")
+            .removeClass("valid-input");
+        label
+            .removeClass("invalid-label")
+            .removeClass("valid-label");
         editCorrect = true;
     }
 });
