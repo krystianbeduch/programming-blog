@@ -36,7 +36,7 @@ $(document).ready(() => {
 
     // Pokaz/ukryj przyciski edycji
     const toggleButtons = (button, show = true) => {
-        editButtons.each(function() {
+        $("form").find("button").each(function() {
             $(this).toggle(show);
         });
         button.show();
@@ -147,8 +147,7 @@ $(document).ready(() => {
         else if (button.text() === "Zapisz" && editCorrect) {
             toggleButtons(button);
             disableField(fieldInput);
-            // button.text("Zmień");
-            label.addClass("edited-label");
+            label.addClass("edited-label").removeClass("invalid-label").removeClass("valid-label");
         } // else if button text Zapisz
     }; // handleEditableField()
 
@@ -176,7 +175,7 @@ $(document).ready(() => {
         else if (fieldType === "password") {
             handlePasswordFields($(this));
         }
-        else if (fieldType === "about-me") {
+        else if (fieldType === "about_me") {
             handleAboutMeField($(this));
         }
     }); // editButtons click

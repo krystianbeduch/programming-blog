@@ -68,8 +68,8 @@ if (!isset($_SESSION["loggedUser"])) {
                     <input type="password" name="new-password-confirm" id="new-password-confirm" minlength="6" disabled>
                 </fieldset>
                 <label for="about-me">O mnie:</label>
-                <button class="form-button edit-profile-button" name="about-me">Zmień</button>
-                <textarea name="about-me" id="about-me" cols="30" rows="10" disabled><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
+                <button class="form-button edit-profile-button" name="about_me">Zmień</button>
+                <textarea name="about_me" id="about-me" cols="30" rows="10" disabled><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
                 <button type="submit" class="form-button">Zapisz zmiany</button>
                 </fieldset>
             </form>
@@ -80,7 +80,6 @@ if (!isset($_SESSION["loggedUser"])) {
     </main>
 
     <?php require_once "../includes/footer.php"; ?>
-</div>
 </body>
 
 </html>
