@@ -37,6 +37,7 @@ $(document).ready(() => {
             button.show();
             button.text("Zapisz");
 
+
             // Odblkuj je, ustaw wlasciwosc required i ustaw focus
             fieldInput.removeAttr("disabled");
             fieldInput.removeAttr("readonly");
@@ -44,7 +45,7 @@ $(document).ready(() => {
             fieldInput.focus();
 
             label.removeClass("edited-label");
-
+            
 
             // Odczytaj poprzednia wartosc, wartosc domyslna usera
             const previousValue = fieldInput.val();
