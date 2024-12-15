@@ -44,7 +44,7 @@ $(document).ready(() => {
             fieldInput.focus();
 
             label.removeClass("edited-label");
-            
+
 
             // Odczytaj poprzednia wartosc, wartosc domyslna usera
             const previousValue = fieldInput.val();
