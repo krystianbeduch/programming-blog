@@ -6,9 +6,9 @@
         <!-- Formularz logowania -->
         <div id="login-container" class="auth-form">
             <h2>Zaloguj się</h2>
-            <form action="../db/mysql-operation.php" id="login-form" name="login" method="post">
+            <form action="../db/mysql-operation.php" id="login-form" name="login" method="post" autocomplete="off">
                 <input type="hidden" value="loginUser" name="action">
-                <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>"">
+                <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 
                 <label for="login-username">Nazwa użytkownika:</label>
                 <input type="text" id="login-username" name="username" minlength="4" required>

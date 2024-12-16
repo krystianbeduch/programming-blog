@@ -598,12 +598,11 @@ function getUserPosts(int $userId) : array {
         );
         $query = "    
                 SELECT 
-                    p.post_id, p.title, p.content, p.updated_at, p.category_id, 
-                    COUNT(c.comment_id) AS comment_count 
-                FROM posts p LEFT JOIN comments c ON p.post_id = c.post_id 
+                    p.post_id, p.title, p.content, p.updated_at, ca.category_name, COUNT(c.comment_id) AS comment_count 
+                FROM posts p LEFT JOIN comments c ON p.post_id = c.post_id JOIN categories ca ON p.category_id = ca.category_id 
                 WHERE p.user_id = ? 
-                GROUP BY p.post_id, p.title, p.content, p.updated_at, p.category_id
-                ORDER BY p.updated_at DESC;";
+                GROUP BY p.post_id, p.title, p.content, p.updated_at, ca.category_name
+                ORDER BY p.updated_at DESC, comment_count DESC;";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $userId);
         $stmt->execute();

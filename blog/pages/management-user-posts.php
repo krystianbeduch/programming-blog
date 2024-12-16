@@ -45,7 +45,7 @@ $offset = $paginationData["offset"];
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../js/edit-user-form.js"></script>
+    <script src="../js/user-posts-management.js"></script>
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
@@ -54,11 +54,10 @@ $offset = $paginationData["offset"];
     <?php require_once "../includes/nav.php"; ?>
 
     <section id="main-section">
-        <h1>PHP</h1>
-        <p>
-            Język skryptowy, który jest szeroko stosowany do tworzenia dynamicznych stron internetowych i aplikacji serwerowych. Jest szczególnie przydatny przy tworzeniu systemów zarządzania treścią (CMS), takich jak WordPress, oraz w integracji z bazami danych, np. MySQL. PHP jest łatwy do nauki i oferuje szerokie możliwości, co czyni go idealnym narzędziem do tworzenia serwisów webowych o różnym stopniu zaawansowania.
-        </p>
-        <img src="../images/php_logo.png" alt="PHP logo" class="language-image">
+        <h1>Statystyki postów</h1>
+        <button class="toggle-stats-table form-button">Pokaż tabele ze statystykami</button>
+
+            <?php renderUserPostsStats($userPosts) ?>
 
         <?php if (isset($_SESSION["addPostAlert"]) && $_SESSION["addPostAlert"]["result"]): ?>
             <div class="alert alert-success">
@@ -90,20 +89,32 @@ $offset = $paginationData["offset"];
             </h3>
             <div class="posts-container">
                 <?php
-//                renderUserPosts($_SESSION["loggedUser"]["id"]);
-                renderUserPosts(array_slice($userPosts, $offset, $postsPerPage, true));
+                    renderUserPosts(array_slice($userPosts, $offset, $postsPerPage, true));
                 ?>
             </div>
         </article>
 
-        <?php renderPaginationUserPosts($currentPage, $totalPages); ?>
+        <?php if(count($userPosts) > 0) renderPaginationUserPosts($currentPage, $totalPages); ?>
     </section>
 
     <?php require_once "../includes/aside.php"; ?>
 
 </main>
 
+<div id="delete-post-modal" class="modal">
+    <div class="modal-content">
+        <p>Czy na pewno chcesz usunąć ten post?</p>
+        <div class="modal-buttons">
+            <button id="cancel-button" class="modal-button cancel-button">Anuluj</button>
+            <button id="confirm-button" class="modal-button confirm-button">Potwierdź</button>
+        </div>
+    </div>
+</div>
+
 <?php require_once "../includes/footer.php"; ?>
+
+
+
 </body>
 
 </html>

@@ -67,4 +67,3 @@ catch (Exception $e) {
     echo json_encode(["success" => false, "message" => "Error: " .$e->getMessage()]);
     exit;
 }
-?>

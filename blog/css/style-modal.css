@@ -142,3 +142,40 @@ div.modal-content div.auth-form {
     display: block;
 }
 
+/* Modal usun post */
+div#delete-post-modal {
+    /*display: none;*/
+    font-weight: bold;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+}
+
+.modal-container.active {
+    display: flex; /* Wyświetla modal jako flexbox */
+}
+
+div#delete-post-modal button.modal-button {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    /*justify-content: space-between;*/
+}
+
+div#delete-post-modal button.cancel-button {
+    background-color: var(--background-dark) !important;
+    color: var(--text-color-dark) !important;
+}
+
+div#delete-post-modal button.cancel-button:hover {
+    background-color: var(--hover-color) !important;
+}
+
+div#delete-post-modal button.confirm-button {
+    background-color: var(--delete-text) !important;
+    color: var(--text-color-light);
+}
+
+div#delete-post-modal button.confirm-button:hover {
+    background-color: var(--red-hover-text) !important;
+}
+

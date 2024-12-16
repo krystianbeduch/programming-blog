@@ -65,7 +65,7 @@ require_once ("modals.php");
                 <span class="arrow">▼</span>
             </button>
             <ul id="dropdown-menu">
-                <li><a href="../pages/edit-user-posts.php">Zarządzaj postami</a></li>
+                <li><a href="../pages/management-user-posts.php">Zarządzaj postami</a></li>
                 <li><a href="../pages/edit-profile.php">Edycja profilu</a></li>
                 <li><a href="../includes/logout.php">Wyloguj się</a></li>
             </ul>
