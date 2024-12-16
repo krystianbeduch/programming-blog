@@ -9,7 +9,8 @@ if (isset($_SESSION["loggedUser"])) {
 //session_destroy();
 $_SESSION["logoutAlert"] = true;
 
-// Przekierowanie na strone z ktorej nastalo wylogowanie
-$redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";
+// Przekierowanie na strone z ktorej nastapilo wylogowanie
+//$redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";
+$redirectUrl = "../pages/";
 header("Location: $redirectUrl");
 exit;

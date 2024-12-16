@@ -46,12 +46,12 @@ p.post-author {
     padding: 10px;
 }
 
-
 span.post-date, span.post-updated {
     font-size: 14px;
     color: #777;
     margin-left: 10px;
     text-align: right;
+    font-style: italic;
 }
 
 /* Style dla pojedynczych komenatarzy w poscie */
@@ -80,7 +80,7 @@ p.comment-author-comment {
     margin-bottom: 5px !important;
 }
 
-a.post-comments-link {
+.post-comments-link {
     display: inline-block;
     background-color: var(--primary-color);
     color: var(--text-color-light);
@@ -93,18 +93,44 @@ a.post-comments-link {
     transition: background-color 0.3s, transform 0.2s ease-in-out;
 }
 
-a.post-comments-link:hover {
+.post-comments-link:hover {
     background-color: #45a049;
     transform: translateY(-2px); /* Lekki efekt unoszenia */
 }
 
-a.post-comments-link:active {
+.post-comments-link:active {
     background-color: #388e3c;
     transform: translateY(0); /* Resetuje efekt unoszenia */
 }
 
-a.add-post-link {
+.add-post-link {
     padding: 15px 50px;
+}
+
+/* Zarzadzanie postami uzytkownika  */
+.post-link {
+    margin-top: 0;
+    margin-right: 20px;
+}
+
+.edit-post-link {
+    background-color: var(--border-color);
+    color: var(--text-color-dark);
+}
+
+.edit-post-link:hover {
+    background-color: var(--hover-color);
+}
+
+button.post-link {
+    border: none;
+    line-height: normal;
+    background-color: var(--error-text);
+    /*padding: 10px;*/
+}
+
+button.post-link:hover {
+    background-color: var(--red-hover-text);
 }
 
 

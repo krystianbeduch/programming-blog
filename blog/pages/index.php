@@ -23,9 +23,6 @@ include "../db/mysql-operation.php";
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-<div id="wrapper">  <!--  ??? -->
-
-
     <?php require_once "../includes/header.php"; ?>
 
     <main>
@@ -43,7 +40,6 @@ include "../db/mysql-operation.php";
     </main>
 
     <?php require_once "../includes/footer.php"; ?>
-</div>
 </body>
 
 </html>

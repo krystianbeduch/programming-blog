@@ -31,7 +31,7 @@ $(document).ready(() => {
 
     const allFormFields = $("input, textarea"); //////// ??
 
-    const editButtons = $(".edit-profile-button");
+    const editButtons = $(".edit-field-form-button");
     const SERVER_URI = "/US/blog/db/api";
 
     // Pokaz/ukryj przyciski edycji
@@ -181,17 +181,17 @@ $(document).ready(() => {
     }); // editButtons click
 
 
-    $(window).on("load", () => {
-        allFormFields.each(function() {
-           const field = $(this);
-           field.on("invalid", (e) => {
-               e.preventDefault();
-               alert("blad");
-           });
-            // Zdarzenia 'input' i 'blur' - dynamiczne sprawdzanie poprawności
-            // field.on("input blur", () => validateField(field));
-        });
-    }); // window load
+    // $(window).on("load", () => {
+    //     allFormFields.each(function() {
+    //        const field = $(this);
+    //        field.on("invalid", (e) => {
+    //            e.preventDefault();
+    //            alert("Blad");
+    //        });
+    //         // Zdarzenia 'input' i 'blur' - dynamiczne sprawdzanie poprawności
+    //         // field.on("input blur", () => validateField(field));
+    //     });
+    // }); // window load
 
     const checkAvailability = async (type, value) => {
         try {

@@ -7,6 +7,11 @@ if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
 
     include "../db/mysql-operation.php";
     $post = getOnePost($postId);
+    if (count($post) == 0 ) {
+        http_response_code(404); // Not Found - nie znaleziono zasobu
+        require "../errors/404.html";
+        exit;
+    }
     $comments = getCommentsToPost($postId);
 }
 else {

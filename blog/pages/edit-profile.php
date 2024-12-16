@@ -1,6 +1,5 @@
 <?php
 session_start();
-include "../db/mysql-operation.php";
 
 if (!isset($_SESSION["loggedUser"])) {
     http_response_code(401); // Unauthorized - nieuprawniony dostep
@@ -39,7 +38,7 @@ if (!isset($_SESSION["loggedUser"])) {
     <?php require_once "../includes/nav.php"; ?>
 
     <section id="main-section">
-        <form id="edit-user-form" class="add-form" name="edit_user_form" action="" method="post">
+        <form id="edit-user-form" class="post-form" action="../db/mysql-operation.php" method="post">
             <fieldset>
                 <legend>Edycja profilu</legend>
                 <input type="hidden" name="action" value="editUserAccount">
@@ -47,16 +46,16 @@ if (!isset($_SESSION["loggedUser"])) {
                 <input type="number" name="id" id="id" value="<?php echo $_SESSION["loggedUser"]["id"]?>" readonly>
 
                 <label for="username">Nazwa użytkownika:</label>
-                <button class="form-button edit-profile-button" name="username">Zmień</button>
+                <button class="form-button edit-field-form-button" name="username">Zmień</button>
                 <input type="text" name="username" id="username" value="<?php echo $_SESSION["loggedUser"]["username"]?>" disabled minlength="4">
 
                 <label for="email">Email:</label>
-                <button class="form-button edit-profile-button" name="email">Zmień</button>
+                <button class="form-button edit-field-form-button" name="email">Zmień</button>
                 <input type="email" name="email" id="email" value="<?php echo $_SESSION["loggedUser"]["email"]?>" disabled>
 
                 <fieldset id="edit-password">
                     <legend>
-                        Hasło <button class="form-button edit-profile-button" name="password">Zmień</button>
+                        Hasło <button class="form-button edit-field-form-button" name="password">Zmień</button>
                     </legend>
                     <label for="current-password">Obecne hasło:</label>
                     <input type="password" name="current-password" id="current-password" disabled>
@@ -68,7 +67,7 @@ if (!isset($_SESSION["loggedUser"])) {
                     <input type="password" name="new-password-confirm" id="new-password-confirm" minlength="6" disabled>
                 </fieldset>
                 <label for="about-me">O mnie:</label>
-                <button class="form-button edit-profile-button" name="about_me">Zmień</button>
+                <button class="form-button edit-field-form-button" name="about_me">Zmień</button>
                 <textarea name="about_me" id="about-me" cols="30" rows="10" disabled><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
                 <button type="submit" class="form-button">Zapisz zmiany</button>
                 </fieldset>

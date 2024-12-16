@@ -59,7 +59,6 @@ function getCategoryId(string $category) : int {
     }
 }
 
-
 function getPosts(string $category) : array {
     $posts = [];
     try {
@@ -74,7 +73,11 @@ function getPosts(string $category) : array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.category_id = ? ORDER BY p.created_at DESC;";
+        $query = "SELECT 
+                    p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, 
+                    u.username, u.email 
+                FROM posts p JOIN users u ON p.user_id = u.user_id 
+                WHERE p.category_id = ? ORDER BY p.created_at DESC;";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $categoryId);
         $stmt->execute();
@@ -109,12 +112,16 @@ function getOnePost(int $postId): array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, u.username, u.email, u.about_me FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.post_id = ? ORDER BY p.created_at DESC;";
+        $query = "SELECT 
+                    p.post_id, p.title, p.content, p.created_at, p.updated_at, p.is_published, 
+                    u.username, u.email, u.about_me 
+                FROM posts p JOIN users u ON p.user_id = u.user_id 
+                WHERE p.post_id = ? ORDER BY p.created_at DESC;";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $postId);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($result) {
+        if ($result && $result->num_rows > 0) {
             $post = $result->fetch_assoc();
         }
     }
@@ -135,6 +142,45 @@ function getOnePost(int $postId): array {
     }
 }
 
+function getOnePostToEdit(int $userId, int $postId): array {
+    $post = [];
+    try {
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $query = "SELECT post_id, title, content, LOWER(category_name) AS 'category_name' 
+                    FROM posts p JOIN categories ca ON p.category_id = ca.category_id 
+                    WHERE p.user_id = ? AND post_id = ?;";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ii", $userId, $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $result->num_rows > 0) {
+            $post = $result->fetch_assoc();
+        }
+    }
+    catch (mysqli_sql_exception $e) {
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    catch (Exception $e) {
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $post;
+    }
+}
+
+
+
 function getCommentsToPost(int $postId) : array {
     $comments = [];
     try {
@@ -144,7 +190,11 @@ function getCommentsToPost(int $postId) : array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT c.post_id, u.user_id, IFNULL(u.username, c.username) AS username, IFNULL(u.email, c.email) AS email, c.created_at, c.content FROM comments c LEFT JOIN users u ON c.user_id = u.user_id WHERE post_id = ? ORDER BY c.created_at DESC;";
+        $query = "SELECT 
+                    c.post_id, u.user_id, IFNULL(u.username, c.username) AS username, 
+                    IFNULL(u.email, c.email) AS email, c.created_at, c.content 
+                FROM comments c LEFT JOIN users u ON c.user_id = u.user_id 
+                WHERE post_id = ? ORDER BY c.created_at DESC;";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $postId);
         $stmt->execute();
@@ -184,7 +234,10 @@ function addCommentToPost(array $commentData) : void {
         $conn->begin_transaction();
 
         // Przygotowanie i wykonanie zapytania
-        $stmt = $conn->prepare("INSERT INTO comments (user_id, username, email, content, created_at, post_id) VALUES (null, ?, ?, ?, NOW(), ?)");
+        $stmt = $conn->prepare(
+            "INSERT INTO comments
+                    (user_id, username, email, content, created_at, post_id) 
+                    VALUES (null, ?, ?, ?, NOW(), ?)");
         $stmt->bind_param(
             "sssi",
             $commentData["username"],
@@ -258,8 +311,8 @@ function checkCategory(string $language) : bool {
 
 function addPost(array $postData) : void {
     session_start();
-//    $conn = null;
-//    $stmt = null;
+    $conn = null;
+    $stmt = null;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -268,7 +321,10 @@ function addPost(array $postData) : void {
             MySQLConfig::DATABASE
         );
         $conn->begin_transaction();
-        $stmt = $conn->prepare("INSERT INTO posts (title, content, created_at, updated_at, is_published, user_id, category_id) VALUES (?, ?, NOW(), NOW(), ?, ?, ?)");
+        $stmt = $conn->prepare(
+            "INSERT INTO posts 
+                    (title, content, created_at, updated_at, is_published, user_id, category_id) 
+                    VALUES (?, ?, NOW(), NOW(), ?, ?, ?)");
         $publish = 1;
         $categoryId = getCategoryId($postData["category"]);
         $stmt->bind_param(
@@ -358,7 +414,9 @@ function createUserAccount(array $user) : void {
         );
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
         $conn->begin_transaction();
-        $query = "INSERT INTO users (username , email, password, created_at, about_me, role_id) VALUES (?, ?, ?, NOW(), ?, ?);";
+        $query = "INSERT INTO 
+                    users (username , email, password, created_at, about_me, role_id) 
+                    VALUES (?, ?, ?, NOW(), ?, ?);";
         $stmt = $conn->prepare($query);
         $stmt->bind_param(
             "ssssi",
@@ -398,7 +456,8 @@ function loginUser(array $user) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $stmt = $conn->prepare("SELECT user_id, username, password, email, about_me FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT user_id, username, password, email, about_me 
+                                        FROM users WHERE username = ?");
         $stmt->bind_param("s",$user["username"]);
         $stmt->execute();
         $stmt->bind_result($userId, $username, $hashedPassword, $email, $aboutMe);
@@ -503,6 +562,7 @@ function editUserAccount(array $user) : void {
         $conn->query($query);
         $conn->commit();
 
+        session_start();
         if (isset($_SESSION["loggedUser"])) {
             unset($_SESSION["loggedUser"]);
         }
@@ -522,5 +582,49 @@ function editUserAccount(array $user) : void {
         $_SESSION["alert"]["error"] = $e->getMessage();
 //        header("Location: ../pages/index.php");
 //        exit;
+    }
+}
+
+function getUserPosts(int $userId) : array {
+//    $conn = null;
+    $comments = [];
+    try {
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+
+        );
+        $query = "    
+                SELECT 
+                    p.post_id, p.title, p.content, p.updated_at, p.category_id, 
+                    COUNT(c.comment_id) AS comment_count 
+                FROM posts p LEFT JOIN comments c ON p.post_id = c.post_id 
+                WHERE p.user_id = ? 
+                GROUP BY p.post_id, p.title, p.content, p.updated_at, p.category_id
+                ORDER BY p.updated_at DESC;";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result) {
+            $comments = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+    catch (mysqli_sql_exception $e) {
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    catch (Exception $e) {
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $comments;
     }
 }

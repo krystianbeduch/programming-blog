@@ -1,4 +1,4 @@
-form.add-form fieldset {
+form.post-form fieldset {
     background-color: var(--background-light);
     border: 1px solid var(--pagination-background);
     border-radius: 5px;
@@ -7,7 +7,7 @@ form.add-form fieldset {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-form.add-form legend {
+form.post-form legend {
     font-weight: bold;
     color: var(--text-color-dark);
     float: none;
@@ -24,16 +24,16 @@ form#edit-user-form legend {
     font-size: 1.6em;
 }
 
-form.add-form label {
+form.post-form label {
     font-weight: bold;
     color: #000;
     border-color: #000;
 }
 
-form.add-form input[type="text"],
-form.add-form input[type="email"],
-form.add-form input[type="number"],
-form.add-form textarea,
+form.post-form input[type="text"],
+form.post-form input[type="email"],
+form.post-form input[type="number"],
+form.post-form textarea,
 fieldset#edit-password input,
 fieldset#edit-password textarea {
     width: 100%;
@@ -44,11 +44,7 @@ fieldset#edit-password textarea {
     border-radius: 3px;
 }
 
-/*form#edit-user-form input {*/
-/**/
-/*}*/
-
-form.add-form textarea {
+form.post-form textarea {
     resize: vertical;
     height: 200px;
 }
@@ -68,7 +64,7 @@ button.form-button:hover {
     background-color: var(--button-hover);
 }
 
-form.add-form span.error {
+form.post-form span.error {
     font-size: 0.9em;
     margin-top: -10px;
     margin-bottom: 10px;
@@ -93,19 +89,19 @@ form.add-form span.error {
 /*    border-color: var(--primary-color);*/
 /*}*/
 
-form.add-form .invalid-input:-webkit-autofill {
+form.post-form .invalid-input:-webkit-autofill {
     /*-webkit-box-shadow:0 0 0 50px #ffe6e6 inset; !* Change the color to your own background color *!*/
     -webkit-box-shadow: 0 0 0 50px var(--error-background) inset; /* Change the color to your own background color */
     -webkit-text-fill-color: var(--error-text);
 }
 
-form.add-form .valid-input:-webkit-autofill {
+form.post-form .valid-input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 50px #e6ffe6 inset; /* Change the color to your own background color */
     -webkit-text-fill-color: var(--button-hover);
 }
 
-form#edit-user-form input[readonly],
-form#edit-user-form textarea[readonly]{
+form.post-form input[readonly],
+form.post-form textarea[readonly]{
     background-color: var(--background-light);
     color: var(--readonly-input);
     border: 1px solid var(--readonly-input);
@@ -123,29 +119,29 @@ div.comment-preview {
 }
 
 /* Captcha */
-form.add-form table button img {
+form.post-form table button img {
     width: 100px;
     height: 100px;
 }
 
-form.add-form table button {
+form.post-form table button {
     background-color: var(--background-light);
 }
 
-form.add-form table button:hover {
+form.post-form table button:hover {
     background-color: var(--background-dark);
 }
 
-form.add-form table button.checked-captcha-button {
+form.post-form table button.checked-captcha-button {
     border: 3px solid var(--button-background);
 }
 
-form.add-form span#captcha-error {
+form.post-form span#captcha-error {
     margin-top: 20px;
 }
 
 /* BBCode Editor */
-form.add-form div.bbcode-toolbar button {
+form.post-form div.bbcode-toolbar button {
     background-color: var(--bbcode-button-background);
     color: var(--text-color-dark);
     border: 1px solid #ccc;
@@ -156,17 +152,17 @@ form.add-form div.bbcode-toolbar button {
     transition: background-color 0.3s ease; /* Płynna zmiana koloru przy najechaniu */
 }
 
-form.add-form div.bbcode-toolbar button:hover {
+form.post-form div.bbcode-toolbar button:hover {
     background-color: var(--bbcode-button-hover);
 }
 
-form.add-form label.textarea-label {
+form.post-form label.textarea-label {
     display: flex; /* Ustawienie tekstu i ikony info w jednej linii */
     align-items: center; /* Wyrownanie tekstu i ikony w pionie */
     gap: 8px; /* Odstep miedzy elementami */
 }
 
-form.add-form img#bbcode-img {
+form.post-form img#bbcode-img {
     /* Ikona info */
     height: 14px;
     width: 14px;
@@ -179,7 +175,7 @@ form.add-form img#bbcode-img {
     position: relative;
 }
 
-form.add-form div.bbcode-tooltip-text {
+form.post-form div.bbcode-tooltip-text {
     /* Dymki pomocy */
     display: none; /* Domyslnie ukryty */
     position: absolute;
@@ -194,12 +190,12 @@ form.add-form div.bbcode-tooltip-text {
     font-weight: bold;
 }
 
-form.add-form .bbcode-info:hover + div.bbcode-tooltip-text,
-form.add-form .bbcode-info:hover div.bbcode-tooltip-text {
+form.post-form .bbcode-info:hover + div.bbcode-tooltip-text,
+form.post-form .bbcode-info:hover div.bbcode-tooltip-text {
     display: block; /* Pokaz dymek po najechaniu */
 }
 
-form.add-form div.bbcode-toolbar button img {
+form.post-form div.bbcode-toolbar button img {
     /* Ikony edytora */
     height: 14px;
     width: auto;
@@ -210,7 +206,7 @@ form#edit-user-form fieldset#edit-password legend {
     font-size: 1.2em;
 }
 
-button.edit-profile-button {
+button.edit-field-form-button {
     padding: 5px 15px;
 }
 

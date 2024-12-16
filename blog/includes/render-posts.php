@@ -72,21 +72,63 @@ function renderAllPostComments(array $comments) : void {
     else {
         echo "<p class='comment-author-comment'>Brak komentarzy</p>";
     }
-
-
 }
 
 function renderPagination(int $currentPage, int $totalPages, string $languagePage) : void {
-    echo '<nav class="pagination">';
+    echo "<nav class='pagination'>";
     if ($currentPage > 1) {
-        echo '<a href="' . $languagePage . '.php?page=' . ($currentPage - 1) . '">&laquo;</a>';
+        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage - 1) . "'>&laquo;</a>";
     }
-    echo '<span>Strona ' . $currentPage . ' z ' . $totalPages . '</span>';
+    echo "<span>Strona " . $currentPage . " z " . $totalPages . "</span>";
 
     if ($currentPage < $totalPages) {
-        echo '<a href="' . $languagePage . '.php?page=' . ($currentPage + 1) . '">&raquo;</a>';
+        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage + 1) . "'>&raquo;</a>";
     }
-    echo '</nav">';
+    echo "</nav>";
+}
+
+function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
+    echo "<nav class='pagination'>";
+
+    // Link do poprzedniej strony
+    if ($currentPage > 1) {
+        echo "<a href='../pages/edit-user-posts.php?page=" . ($currentPage - 1) . "'>&laquo;</a>";
+    }
+
+    // Link do 1 strony powyzej 3 strony
+    if ($currentPage > 3) {
+        echo "<a href='../pages/edit-user-posts.php?page=1'>1</a>";
+        if ($currentPage > 4) {
+            echo "<span>...</span>";
+        }
+    }
+
+    // Zakres stron wokol aktualnej
+    $start = max(1, $currentPage - 2);
+    $end = min($totalPages, $currentPage + 2);
+
+    for ($i = $start; $i <= $end; $i++) {
+        if ($i == $currentPage) {
+            echo "<span class='pagination-active'>" . $i . "</span>"; // Aktualna strona
+        }
+        else {
+            echo "<a href='../pages/edit-user-posts.php?page=" . $i . "'>" . $i . "</a>";
+        }
+    }
+
+    // Ostatnia strona
+    if ($currentPage < $totalPages - 2) {
+        if ($currentPage < $totalPages - 3) {
+            echo "<span>...</span>";
+        }
+        echo "<a href='../pages/edit-user-posts.php?page=" . $totalPages . "'>" . $totalPages . "</a>";
+    }
+
+    // Link do nastepnej strony
+    if ($currentPage < $totalPages) {
+        echo "<a href='../pages/edit-user-posts.php?page=" . ($currentPage + 1) . "'>&raquo;</a>";
+    }
+    echo "</nav>";
 }
 
 
@@ -111,4 +153,17 @@ function convertContentToHTMLL($text) {
     $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", '<a href="$1" target="_blank">$2</a>', $text);
 
     return nl2br($text); // Zamiana nowych linii na <br>
+}
+
+function renderUserPosts(array $userPosts) : void {
+    foreach ($userPosts as $post) {
+        echo "<div class='post'>";
+        echo "<h4 class='post-title'>" . $post["title"] . "</h4>";
+        echo "<span class='post-updated'>Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span>";
+        echo "<p class='post-content'>" . $post["content"] . "</p>";
+        echo "<a href='../pages/post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link'>Przejdź do strony posta</a>";
+        echo "<a href='../pages/edit-post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link edit-post-link'>Edytuj</a>";
+        echo "<button class='post-comments-link post-link'>Usuń</button>";
+        echo "</div>";
+    }
 }

@@ -1,27 +1,29 @@
 <?php
 session_start();
-require_once "../db/mysql-operation.php";
-
 if (!isset($_SESSION["loggedUser"])) {
     http_response_code(401); // Unauthorized - nieuprawniony dostep
     require "../errors/401.html";
     exit;
 }
 
-if (!isset($_GET["category"])) {
+if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
+    $postId = (int)$_GET["postId"];  // Pobranie postId z URL
+
+    include_once "../db/mysql-operation.php";
+    $post = getOnePostToEdit($_SESSION["loggedUser"]["id"], $postId);
+    if (count($post) == 0 ) {
+        http_response_code(404); // Not Found - nie znaleziono zasobu
+        require "../errors/404.html";
+        exit;
+    }
+//    $comments = getCommentsToPost($postId);
+}
+else {
     http_response_code(400); // Bad request - bledna skladnia
     require "../errors/400.html";
     exit;
 }
 
-if (!checkCategory($_GET["category"])) {
-    http_response_code(404); // Not Found - nie znaleziono zasobu
-    require "../errors/404.html";
-    exit;
-}
-else {
-    $category = $_GET["category"];
-}
 ?>
 
 <!DOCTYPE html>
@@ -42,9 +44,7 @@ else {
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
-
-    <script src="../js/add-post-form-validation.js"></script>
-    <script src="../js/add-comment-bbcode.js"></script>
+    <link rel="stylesheet" href="../css/style-posts.css">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -57,24 +57,25 @@ else {
     <?php require_once "../includes/nav.php"; ?>
 
     <section id="main-section">
-        <form id="add-post-form" class="post-form" name="add_post_form" action="add-post-preview.php" method="post">
+        <form id="edit-user-post" class="post-form" name="add_post_form" action="../db/mysql-operation.php" method="post">
             <fieldset>
-                <legend>Dodaj post</legend>
+                <legend>Edycja posta</legend>
 
                 <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 
                 <label for="category">Kategoria:</label>
-                <input type="text" name="category" id="category" value="<?php echo $category;?>" readonly>
+                <input type="text" name="category" id="category" value="<?php echo $post["category_name"];?>" readonly>
 
-                <label for="user-id">Numer użytkownika:</label>
-                <input type="number" name="user-id" id="user-id" value="<?php echo $_SESSION["loggedUser"]["id"]; ?>" readonly>
+                <label for="post-id">Numer posta:</label>
+                <input type="text" name="post-id" id="post-id" value="<?php echo $post["post_id"];?>" readonly>
 
                 <label for="title">Tytuł posta:</label>
-                <input type="text" name="title" id="title" required value="<?php echo $_SESSION["formData"][$category]["title"] ?? ""; ?>">
+                <button class="form-button edit-field-form-button" name="title">Zmień</button>
+                <input type="text" name="title" id="title" required value="<?php echo $post["title"]?>">
+
                 <span id="title-error" class="error"></span>
 
                 <label for="content" class="textarea-label">Treść posta (obsługuje BBCode):
-
                     <div class="bbcode-info">
                         <img src="../images/bbcode-icons/info-solid.svg" alt="info" id="bbcode-img" >
                         <!-- Dymek z instrukcją -->
@@ -84,37 +85,37 @@ else {
                             Najedź na przycisk w celu uzyskania szczegółowych informacji.
                         </div>
                     </div>
+                    <button class="form-button edit-field-form-button" name="title">Zmień</button>
                 </label>
 
                 <?php include "../includes/bbcode.php"; ?>
 
-                <textarea name="content" id="content" required><?php echo isset($_SESSION["formData"][$category]["content"]) ? trim(htmlspecialchars($_SESSION["formData"][$category]["content"])) : "" ?></textarea>
+                <textarea name="content" id="content" required><?php echo $post["content"] ?></textarea>
                 <?php //echo isset($_SESSION["formData"][$postId]["comment"]) ? trim(htmlspecialchars($_SESSION["formData"][$postId]["comment"])) : '' ?>
-<!--                </textarea>-->
+                <!--                </textarea>-->
 
-                <span id="content-error" class="error">
+<!--                <span id="content-error" class="error">-->
 <!--                    -->
-            <?php echo isset($_SESSION["errors"]["content"]) ? $_SESSION["errors"]["content"] : ""; ?>
+<!--            --><?php //echo isset($_SESSION["errors"]["content"]) ? $_SESSION["errors"]["content"] : ""; ?>
 <!--                    -->
-        </span>
-                <span id="form-errors" class="error"></span>
+<!--        </span>-->
+<!--                <span id="form-errors" class="error"></span>-->
 
-                <input type="hidden" name="recaptcha_response" id="recaptcha_response">
+<!--                <input type="hidden" name="recaptcha_response" id="recaptcha_response">-->
 
 
                 <!-- CAPTCHA -->
-                <div id="captcha">
-                   <?php require_once "../includes/captcha.php"; ?>
-                </div>
+<!--                <div id="captcha">-->
+<!--                    --><?php //require_once "../includes/captcha.php"; ?>
+<!--                </div>-->
 
-                <button type="submit" class="form-button">Dodaj komentarz</button>
+                <button type="submit" class="form-button">Zapisz zmiany</button>
             </fieldset>
         </form>
 
         <?php
-        unset($_SESSION["errors"]);
+//        unset($_SESSION["errors"]);
         ?>
-
     </section>
 
     <?php require_once "../includes/aside.php"; ?>

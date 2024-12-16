@@ -17,6 +17,7 @@
     --error-background: #f8d7da;
     /*--error-border: #f5c6cb;*/
     --error-text: #e3192c;
+    --red-hover-text: #b51621;
     --button-background: #28a745;
     --button-hover: #218838;
     --bbcode-button-background: #d3d3d3;
@@ -362,7 +363,8 @@ nav.pagination {
     display: block;
 }
 
-nav.pagination a {
+nav.pagination a,
+nav.pagination span.pagination-active {
     padding: 10px 15px;
     margin: 0 5px;
     border: 1px solid var(--pagination-background);
@@ -374,4 +376,8 @@ nav.pagination a {
 
 nav.pagination a:hover {
     background-color: var(--pagination-hover);
+}
+
+nav.pagination span.pagination-active {
+    background-color: var(--background-dark);
 }
