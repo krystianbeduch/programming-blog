@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "registerUser" => createUserAccount($_POST),
         "loginUser" => loginUser($_POST),
         "editUserAccount" => editUserAccount($_POST),
+        "editPost" => editPost($_POST),
         default => handleUnknownAction($action),
     };
 }
@@ -496,8 +497,27 @@ function loginUser(array $user) : void {
     }
 }
 
+//function createUpdateQuery($conn, array $data) : string {
+//    foreach ($data as $field => $value) {
+//        if ($field == "action") {
+//            continue; // Pomijamy pole "action"
+//        }
+//        $escapedField = $conn->real_escape_string($field);
+//        $escapedValue = $conn->real_escape_string($value);
+//        $setParts[] = "`$escapedField` = '$escapedValue'";
+//    }
+//
+//    if (empty($setParts)) {
+//        throw new Exception("Brak danych do aktualizacji");
+//    }
+//    $setParts[] = "`updated_at` = NOW()";
+//
+//    $setClause = implode(", ", $setParts);
+//}
+
 function editUserAccount(array $user) : void {
     $conn = null;
+    session_start();
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -541,20 +561,7 @@ function editUserAccount(array $user) : void {
         // Usuwamy pola zwiazane z haslem, aby nie zostaly dodane do innych pol
         unset($user["current-password"], $user["new-password"], $user["new-password-confirm"]);
 
-        foreach ($user as $field => $value) {
-            if ($field == "action") {
-                continue; // Pomijamy pole "action"
-            }
-            $escapedField = $conn->real_escape_string($field);
-            $escapedValue = $conn->real_escape_string($value);
-            $setParts[] = "`$escapedField` = '$escapedValue'";
-        }
-
-        if (empty($setParts)) {
-            throw new Exception("Brak danych do aktualizacji");
-        }
-
-        $setClause = implode(", ", $setParts);
+        $setClause = getSetClause($user, $conn, $setParts);
         $query = "UPDATE users SET $setClause WHERE user_id = $userId";
 
         // Wykonujemy zapytanie
@@ -574,15 +581,40 @@ function editUserAccount(array $user) : void {
     catch (mysqli_sql_exception $e) {
         $conn->rollback();
         $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
-//        header("Location: ../pages/index.php");
-//        exit;
+        header("Location: ../pages/edit-profile.php");
+        exit;
     }
     catch (Exception $e) {
         $conn->rollback();
         $_SESSION["alert"]["error"] = $e->getMessage();
-//        header("Location: ../pages/index.php");
-//        exit;
+        header("Location: ../pages/edit-profile.php");
+        exit;
     }
+}
+
+/**
+ * @param array $user
+ * @param mysqli $conn
+ * @param array $setParts
+ * @return string
+ * @throws Exception
+ */
+function getSetClause(array $user, mysqli $conn, array $setParts): string {
+    foreach ($user as $field => $value) {
+        if ($field == "action") {
+            continue; // Pomijamy pole "action"
+        }
+        $escapedField = $conn->real_escape_string($field);
+        $escapedValue = $conn->real_escape_string($value);
+        $setParts[] = "`$escapedField` = '$escapedValue'";
+    }
+
+    if (empty($setParts)) {
+        throw new Exception("Brak danych do aktualizacji");
+    }
+    $setParts[] = "`updated_at` = NOW()";
+
+    return implode(", ", $setParts);
 }
 
 function getUserPosts(int $userId) : array {
@@ -625,5 +657,77 @@ function getUserPosts(int $userId) : array {
         $stmt->close();
         $conn->close();
         return $comments;
+    }
+}
+
+function editPost(array $post) : void {
+    $conn = null;
+    session_start();
+    try {
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+
+        // Jesli nie ma id uzytkownika - blad
+        if (!isset($post["post-id"])) {
+            throw new Exception("Brak identyfikatora posta");
+        }
+        $postId = (int) $post["post-id"];
+        unset($post["post-id"]); // Nie aktualizujemy ID posta
+
+        $setParts = [];
+
+//        if (isset($post["current-password"], $post["new-password"], $post["new-password-confirm"])) {
+//            // Pobierz biezace haslo uzytkownika
+//            $stmt = $conn->prepare("SELECT password FROM users WHERE user_id = ?");
+//            $stmt->bind_param("i", $postId);
+//            $stmt->execute();
+//            $stmt->bind_result($currentPasswordHash);
+//            $stmt->fetch();
+//            $stmt->close();
+//
+//            // Sprawdz, czy biezace haslo sie zgadza
+//            if (!password_verify($post["current-password"], $currentPasswordHash)) {
+//                throw new Exception("Obecne hasło nie prawidłowe");
+//            }
+//
+//            // Sprawdz, czy nowe hasla są zgodne
+//            if ($post["new-password"] != $post["new-password-confirm"]) {
+//                throw new Exception("Nowe hasła nie są zgodne");
+//            }
+//
+//            // Hashowanie nowego hasla
+//            $hashedPassword = password_hash($post["new-password"], PASSWORD_DEFAULT);
+//            $setParts[] = "`password` = '$hashedPassword'";
+//        }
+        // Usuwamy pola zwiazane z haslem, aby nie zostaly dodane do innych pol
+//        unset($post["current-password"], $post["new-password"], $post["new-password-confirm"]);
+
+        $setClause = getSetClause($post, $conn, $setParts);
+        $query = "UPDATE posts SET $setClause WHERE post_id = $postId";
+
+        // Wykonujemy zapytanie
+        $conn->begin_transaction();
+        $conn->query($query);
+        $conn->commit();
+
+        $_SESSION["editPostAlert"] = true;
+        header("Location: ../pages/management-user-posts.php");
+        exit;
+    }
+    catch (mysqli_sql_exception $e) {
+        $conn->rollback();
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: ../pages/management-user-posts.php");
+        exit;
+    }
+    catch (Exception $e) {
+        $conn->rollback();
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: ../pages/management-user-posts.php");
+        exit;
     }
 }

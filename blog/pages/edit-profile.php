@@ -30,7 +30,7 @@ if (!isset($_SESSION["loggedUser"])) {
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../js/edit-user-form.js"></script>
+    <script src="../js/edit-user-form.js" type="module"></script>
 </head>
 <body>
     <?php require_once "../includes/header.php"; ?>
@@ -46,16 +46,20 @@ if (!isset($_SESSION["loggedUser"])) {
                 <input type="number" name="id" id="id" value="<?php echo $_SESSION["loggedUser"]["id"]?>" readonly>
 
                 <label for="username">Nazwa użytkownika:</label>
-                <button class="form-button edit-field-form-button" name="username">Zmień</button>
+                <button type="button" class="form-button edit-field-form-button" name="username">Zmień</button>
+                <button type="button" class="close" name="close-username">Anuluj</button>
                 <input type="text" name="username" id="username" value="<?php echo $_SESSION["loggedUser"]["username"]?>" disabled minlength="4">
 
                 <label for="email">Email:</label>
-                <button class="form-button edit-field-form-button" name="email">Zmień</button>
+                <button type="button" class="form-button edit-field-form-button" name="email">Zmień</button>
+                <button type="button" class="close" name="close-email">Anuluj</button>
                 <input type="email" name="email" id="email" value="<?php echo $_SESSION["loggedUser"]["email"]?>" disabled>
 
                 <fieldset id="edit-password">
                     <legend>
-                        Hasło <button class="form-button edit-field-form-button" name="password">Zmień</button>
+                        Hasło
+                        <button class="form-button edit-field-form-button" name="password">Zmień</button>
+                        <button type="button" class="close" name="close-password">Anuluj</button>
                     </legend>
                     <label for="current-password">Obecne hasło:</label>
                     <input type="password" name="current-password" id="current-password" disabled>
@@ -66,9 +70,10 @@ if (!isset($_SESSION["loggedUser"])) {
                     <label for="new-password-confirm">Powtórz nowe hasło:</label>
                     <input type="password" name="new-password-confirm" id="new-password-confirm" minlength="6" disabled>
                 </fieldset>
-                <label for="about-me">O mnie:</label>
-                <button class="form-button edit-field-form-button" name="about_me">Zmień</button>
-                <textarea name="about_me" id="about-me" cols="30" rows="10" disabled><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
+                <label for="about_me">O mnie:</label>
+                <button type="button" class="form-button edit-field-form-button" name="about_me">Zmień</button>
+                <button type="button" class="close" name="close-about_me">Anuluj</button>
+                <textarea name="about_me" id="about_me" cols="30" rows="10" disabled><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
                 <button type="submit" class="form-button">Zapisz zmiany</button>
                 </fieldset>
             </form>

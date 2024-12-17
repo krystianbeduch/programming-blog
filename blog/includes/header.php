@@ -51,6 +51,15 @@ require_once ("modals.php");
             unset($_SESSION["editProfileAlert"]);
         endif ?>
 
+        <!-- Zmiany posta poprawne -->
+        <?php if (isset($_SESSION["editPostAlert"]) && $_SESSION["editPostAlert"]): ?>
+            <div class="alert alert-success">
+                <strong>Zapisano zmiany!</strong> Post zaktualizowany
+            </div>
+            <?php
+            unset($_SESSION["editPostAlert"]);
+        endif ?>
+
 
         <?php if (!isset($_SESSION["loggedUser"])): ?>
         <!-- Przycisk logowania -->

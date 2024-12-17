@@ -1,3 +1,8 @@
+import {
+    validateField, fieldStyleReset, fieldIsInvalid,
+    fieldIsValid, toggleButtons, enableField, disableField
+} from "./modules/validate-field-edit-form.js";
+
 $(document).ready(() => {
     const form = $("#edit-user-form");
 
@@ -8,7 +13,7 @@ $(document).ready(() => {
         currentPassword: form.find("input[name='current-password']"),
         newPassword: form.find("input[name='new-password']"),
         newPasswordConfirm: form.find("input[name='new-password-confirm']"),
-        aboutMe: form.find("textarea")
+        about_me: form.find("textarea")
     };
 
     // Referencje do etykiet
@@ -18,7 +23,7 @@ $(document).ready(() => {
         currentPassword: form.find(`label[for="${inputs.currentPassword.attr('id')}"`),
         newPassword: form.find("label[for*='new-password']"),
         passwordLegend: form.find("fieldset[id*='password']").find("legend"),
-        aboutMe: form.find(`label[for="${inputs.aboutMe.attr('id')}"`)
+        about_me: form.find(`label[for="${inputs.about_me.attr('id')}"`)
     };
 
     // Oryginalne tresci etykiet
@@ -29,38 +34,21 @@ $(document).ready(() => {
 
     let editCorrect = true; // Flaga poprawnej edycji pola
 
-    const allFormFields = $("input, textarea"); //////// ??
+    const closeButtons = $("button[name*='close']");
+
 
     const editButtons = $(".edit-field-form-button");
     const SERVER_URI = "/US/blog/db/api";
 
-    // Pokaz/ukryj przyciski edycji
-    const toggleButtons = (button, show = true) => {
-        $("form").find("button").each(function() {
-            $(this).toggle(show);
-        });
-        button.show();
-        if (button.text() === "Zmień") {
-            button.text("Zapisz");
-        }
-        else {
-            button.text("Zmień");
-        }
-    };
-
-    const enableField = (input) => {
-        input.removeAttr("disabled readonly").attr("required", true).focus();
-    };
-
-    const disableField = (input) => {
-        input.attr("readonly", true).removeAttr("required");
-    };
-
     const validateAndSave = async (input, label, labelTextOriginal, type) => {
         const newValue = input.val();
+        // console.log(input.data("originalValue"));
         // Sprawdzenie czy wartosc sie zmienila
         if (newValue !== input.data("originalValue")) {
-            if (validateField(input, label)) {
+            const fieldName = input.attr("name");
+            const labelTextOriginal = labelsOriginal[fieldName];
+            editCorrect = validateField(input, label, labelTextOriginal);
+            if (editCorrect) {
                 const result = await checkAvailability(type, newValue);
                 /* ECMAScript 2020 wprowadzil opcjonalny lancuch dostepu
                 (Optional Chaining Operator). Jesli result bedzie null lub undefined operator zwroci undefined
@@ -72,18 +60,20 @@ $(document).ready(() => {
                 else {
                     label.text(`${labelTextOriginal} (nazwa zajęta)`);
                     fieldIsInvalid(input, label);
+                    editCorrect = false;
                 }
             } // if validateField
         } // if newValue
         else {
             label.text(labelTextOriginal);
             fieldStyleReset(input, label);
+            editCorrect = true;
         }
     }; // validateAndSave()
 
-    const handlePasswordFields = (button) => {
+    const handlePasswordFields = (button, closeButton) => {
         if (button.text() === "Zmień") {
-            toggleButtons(button, false);
+            toggleButtons(editButtons, button, closeButton, false);
             // Wlaczenie wszystkich pol hasla
             [inputs.currentPassword, inputs.newPassword, inputs.newPasswordConfirm]
                 .forEach(enableField);
@@ -101,7 +91,7 @@ $(document).ready(() => {
                 labels.currentPassword.removeClass("invalid-label");
                 const passwordsMatch = inputs.newPassword.val() === inputs.newPasswordConfirm.val();
                 if (passwordsMatch && inputs.newPassword[0].validity.valid) {
-                    toggleButtons(button);
+                    toggleButtons(editButtons, button, closeButton);
                     // Wylaczenie wszystkich pol hasla
                     [inputs.currentPassword, inputs.newPassword, inputs.newPasswordConfirm]
                         .forEach(disableField);
@@ -115,22 +105,25 @@ $(document).ready(() => {
         } // else if Zapisz
     } // handlePasswordFields()
 
-    const handleAboutMeField = (button) => {
+    const handleAboutMeField = (button, closeButton) => {
         if (button.text() === "Zmień") {
-            toggleButtons(button, false);
-            enableField(inputs.aboutMe);
-            labels.aboutMe.removeClass("edited-label");
+            toggleButtons(editButtons, button, closeButton, false);
+            enableField(inputs.about_me);
+            labels.about_me.removeClass("edited-label");
+
+            // Zapisz oryginalna wartosc
+            inputs.about_me.data("originalValue", inputs.about_me.val());
         }
         else if (button.text() === "Zapisz") {
-            disableField(inputs.aboutMe);
-            toggleButtons(button);
-            labels.aboutMe.addClass("edited-label");
+            disableField(inputs.about_me);
+            toggleButtons(editButtons, button, closeButton);
+            labels.about_me.addClass("edited-label");
         }
     }; // handleAboutMeField()
 
-    const handleEditableField = (fieldInput, label, labelTextOriginal, button, type) =>{
+    const handleEditableField = (fieldInput, label, labelTextOriginal, button, type, closeButton) => {
         if (button.text() === "Zmień") {
-            toggleButtons(button, false);
+            toggleButtons(editButtons, button, closeButton,false);
             enableField(fieldInput);
             label.removeClass("edited-label");
 
@@ -145,22 +138,25 @@ $(document).ready(() => {
 
         } // if button text Zmien
         else if (button.text() === "Zapisz" && editCorrect) {
-            toggleButtons(button);
+            toggleButtons(editButtons, button, closeButton);
             disableField(fieldInput);
             label.addClass("edited-label").removeClass("invalid-label").removeClass("valid-label");
+            $("button[type='submit']").show();
         } // else if button text Zapisz
     }; // handleEditableField()
 
     editButtons.on("click", function(e) {
         e.preventDefault();
-        const fieldType = $(this).attr("name")
+        const fieldType = $(this).attr("name");
+        const closeButton = closeButtons.filter(`[name="close-${fieldType}"]`);
         if (fieldType === "username") {
             handleEditableField(
                 inputs.username,
                 labels.username,
                 labels.username.text(),
                 $(this),
-                "username"
+                "username",
+                closeButton
             );
         }
         else if (fieldType === "email") {
@@ -169,29 +165,17 @@ $(document).ready(() => {
                 labels.email,
                 labels.email.text(),
                 $(this),
-                "email"
+                "email",
+                closeButton
             );
         }
         else if (fieldType === "password") {
-            handlePasswordFields($(this));
+            handlePasswordFields($(this), closeButton);
         }
         else if (fieldType === "about_me") {
-            handleAboutMeField($(this));
+            handleAboutMeField($(this), closeButton);
         }
     }); // editButtons click
-
-
-    // $(window).on("load", () => {
-    //     allFormFields.each(function() {
-    //        const field = $(this);
-    //        field.on("invalid", (e) => {
-    //            e.preventDefault();
-    //            alert("Blad");
-    //        });
-    //         // Zdarzenia 'input' i 'blur' - dynamiczne sprawdzanie poprawności
-    //         // field.on("input blur", () => validateField(field));
-    //     });
-    // }); // window load
 
     const checkAvailability = async (type, value) => {
         try {
@@ -218,52 +202,27 @@ $(document).ready(() => {
         }
     }; // checkAvailability()
 
-    const validateField = (field, label) => {
-        const fieldName = field.attr("name");
-        const labelTextOriginal = labelsOriginal[fieldName];
-        if (!field[0].validity.valid) {
-            fieldIsInvalid(field, label);
-            if (field[0].validity.tooShort) {
-                label.text(`${labelTextOriginal} (wartość za krótka)`);
-            }
-            else if (field[0].validity.valueMissing) {
-                label.text(`${labelTextOriginal} (brak wartości)`);
-            }
-            else if (field[0].validity.typeMismatch) {
-                label.text(`${labelTextOriginal} (niepoprawny format)`);
-            }
-            return false;
+    closeButtons.on("click", function() {
+        closeButtons.hide();
+        editButtons.show();
+        editButtons.text("Zmień");
+
+        const buttonName = $(this).attr("name");
+
+        // Usuwamy 'close-' z nazwy przycisku
+        const fieldName = buttonName.replace("close-", "");
+        let input, label;
+        if (fieldName === "password") {
+            input = $("input[name*='password']");
+            label = $("label[for*='password']");
         }
         else {
-            fieldIsValid(field, label)
-            label.text(labelTextOriginal);
-            return true;
+            input = inputs[fieldName];
+            label = labels[fieldName];
         }
-    }; // validateField()
 
-    const fieldIsValid = (field, label) => {
-        label.addClass("valid-label").removeClass("invalid-label");
-        field.addClass("invalid-field").removeClass("valid-field");
-        field.addClass("valid-input").removeClass("invalid-input")
-        editCorrect = true;
-    };
-
-    const fieldIsInvalid = (field, label) => {
-        label.removeClass("valid-label").addClass("invalid-label");
-        field.removeClass("invalid-field").addClass("valid-field");
-        field.removeClass("valid-input").addClass("invalid-input");
-        editCorrect = false;
-    };
-
-    const fieldStyleReset = (field, label) => {
-        field
-            .removeClass("invalid-field")
-            .removeClass("valid-input")
-            .removeClass("invalid-input")
-            .removeClass("valid-input");
-        label
-            .removeClass("invalid-label")
-            .removeClass("valid-label");
-        editCorrect = true;
-    }
+        disableField(input, false);
+        fieldStyleReset(input, label);
+        input.val(input.data("originalValue"));
+    }); // closeButtons click
 });

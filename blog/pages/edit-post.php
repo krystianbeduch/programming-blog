@@ -24,6 +24,34 @@ else {
     exit;
 }
 
+function convertHTMLToBBCode(string $text): string {
+// Zamiana znacznika <strong> na [b]
+    $text = preg_replace("/<strong>(.*?)<\/strong>/s", "[b]$1[/b]", $text);
+    // Zamiana znacznika <em> na [i]
+    $text = preg_replace("/<em>(.*?)<\/em>/s", "[i]$1[/i]", $text);
+    // Zamiana znacznika <u> na [u]
+    $text = preg_replace("/<u>(.*?)<\/u>/s", "[u]$1[/u]", $text);
+    // Zamiana znacznika <s> na [s]
+    $text = preg_replace("/<s>(.*?)<\/s>/s", "[s]$1[/s]", $text);
+    // Zamiana znacznika <ul> na [ul]
+    $text = preg_replace("/<ul>(.*?)<\/ul>/s", "[ul]$1[/ul]", $text);
+    // Zamiana znacznika <li> na [li]
+    $text = preg_replace("/<li>(.*?)<\/li>/s", "[li]$1[/li]", $text);
+    // Zamiana znacznika <q> na [quote]
+    $text = preg_replace("/<q>(.*?)<\/q>/s", "[quote]$1[/quote]", $text);
+    // Zamiana znacznika <a> na [url=]
+    $text = preg_replace("/<a href=\"(.*?)\".*?>(.*?)<\/a>/s", "[url=$1]$2[/url]", $text);
+
+    // Usunięcie <br> na nowe linie
+    $text = preg_replace("/<br\s*\/?>/i", "\n", $text);
+
+    // Usuwanie dodatkowych pustych linii
+    $text = preg_replace("/(\n\s*){2,}/", "\n", $text);
+
+    // Kodowanie specjalnych znaków HTML
+    return trim(htmlentities($text, ENT_QUOTES, 'UTF-8'));
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -44,11 +72,12 @@ else {
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/style-posts.css">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../js/edit-user-form.js"></script>
+
+    <script src="../js/edit-user-post-form.js" type="module"></script>
+    <script src="../js/add-comment-bbcode.js"></script>
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
@@ -60,18 +89,18 @@ else {
         <form id="edit-user-post" class="post-form" name="add_post_form" action="../db/mysql-operation.php" method="post">
             <fieldset>
                 <legend>Edycja posta</legend>
-
-                <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
+                <input type="hidden" name="action" value="editPost">
 
                 <label for="category">Kategoria:</label>
-                <input type="text" name="category" id="category" value="<?php echo $post["category_name"];?>" readonly>
+                <input type="text" name="category" id="category" value="<?php echo $post["category_name"];?>" readonly disabled>
 
                 <label for="post-id">Numer posta:</label>
                 <input type="text" name="post-id" id="post-id" value="<?php echo $post["post_id"];?>" readonly>
 
                 <label for="title">Tytuł posta:</label>
-                <button class="form-button edit-field-form-button" name="title">Zmień</button>
-                <input type="text" name="title" id="title" required value="<?php echo $post["title"]?>">
+                <button type="button" class="form-button edit-field-form-button" name="title">Zmień</button>
+                <button type="button" class="close" name="close-title">Anuluj</button>
+                <input type="text" name="title" id="title" required value="<?php echo $post["title"]?>" disabled>
 
                 <span id="title-error" class="error"></span>
 
@@ -85,37 +114,26 @@ else {
                             Najedź na przycisk w celu uzyskania szczegółowych informacji.
                         </div>
                     </div>
-                    <button class="form-button edit-field-form-button" name="title">Zmień</button>
+                    <button type="button" class="form-button edit-field-form-button" name="content">Zmień</button>
+                    <button type="button" class="form-button preview-button" id="preview-button">Podgląd HTML</button>
+                    <button type="button" class="close" name="close-content">Anuluj</button>
                 </label>
+
+                <!-- Kontener na podglad -->
+                <div id="preview-container" class="preview-container" style="display: none;">
+                    <h4>Podgląd treści</h4>
+                    <div id="preview-content" class="preview-content"></div>
+                    <button type="button" class="close close-preview-button">Zamknij podgląd</button>
+                </div>
 
                 <?php include "../includes/bbcode.php"; ?>
 
-                <textarea name="content" id="content" required><?php echo $post["content"] ?></textarea>
-                <?php //echo isset($_SESSION["formData"][$postId]["comment"]) ? trim(htmlspecialchars($_SESSION["formData"][$postId]["comment"])) : '' ?>
-                <!--                </textarea>-->
-
-<!--                <span id="content-error" class="error">-->
-<!--                    -->
-<!--            --><?php //echo isset($_SESSION["errors"]["content"]) ? $_SESSION["errors"]["content"] : ""; ?>
-<!--                    -->
-<!--        </span>-->
-<!--                <span id="form-errors" class="error"></span>-->
-
-<!--                <input type="hidden" name="recaptcha_response" id="recaptcha_response">-->
-
-
-                <!-- CAPTCHA -->
-<!--                <div id="captcha">-->
-<!--                    --><?php //require_once "../includes/captcha.php"; ?>
-<!--                </div>-->
+                <textarea name="content" id="content" required disabled><?php echo convertHTMLToBBCode($post["content"]);?></textarea>
 
                 <button type="submit" class="form-button">Zapisz zmiany</button>
             </fieldset>
         </form>
 
-        <?php
-//        unset($_SESSION["errors"]);
-        ?>
     </section>
 
     <?php require_once "../includes/aside.php"; ?>
