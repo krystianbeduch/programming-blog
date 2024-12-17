@@ -5,6 +5,6 @@ blog/comments/secret-key.php
 blog/db/db-connect.php
 przedKolokwium/
 Kolokwium/
-pages/english-words/
-js/english-words/
-pages/test.php
+blog/pages/english-words
+blog/js/english-words
+blog/pages/test.php
