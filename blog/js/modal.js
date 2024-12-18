@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("login-form");
     let isRegister; // Flaga rejestacja/logowanie
 
+    const captchaButton = document.getElementById("captcha-button");
+    const captchaModal = document.getElementById("captcha-modal");
+    const closeModalCaptcha = document.getElementById("close-modal-captcha");
+    const captchaVerifyButton = document.getElementById("captcha-verify");
+    const captchaExerciseP = document.getElementById("captcha-exercise");
+    const captchaExerciseAnswerInput = document.getElementById("captcha-exercise-answer");
+    const registerSubmit = document.getElementById("register-submit");
+
     // Laczenie obu zestawow pol w jedna kolekcje
     // ... pozwala na rozpakowanie wszystkich elementow bezposrednio do nowej kolekcji
     const allFormFields = [...registerFormFields, ...loginFormFields];
@@ -89,6 +97,133 @@ document.addEventListener("DOMContentLoaded", () => {
         usernameField?.focus();
     };
 
+    let captchaCorrectAnswer;
+    // Otwieranie modalnego okna captchy
+    captchaButton.addEventListener("click", () => {
+        captchaModal.style.display = "flex";
+        captchaExerciseAnswerInput.value = "";
+        captchaCorrectAnswer = generateCaptchaExercise();
+    });
+
+    // Zamknięcie modalnego okna captchy
+    closeModalCaptcha.addEventListener("click", () => {
+        captchaModal.style.display = "none";
+    });
+
+    // Symulacja weryfikacji captchy
+    captchaVerifyButton.addEventListener("click", () => {
+        if (checkCaptchaExerciseAnswer()) {
+            captchaModal.style.display = "none";
+            captchaButton.style.backgroundColor = "var(--readonly-input)";
+            captchaButton.disabled = true;
+            registerSubmit.style.display = "block";
+            registerSubmit.disabled = false;
+        }
+        else {
+            captchaModal.style.display = "none";
+        }
+    }); // captchaVerifyButton click
+
+    const generateCaptchaExercise = () => {
+        const operators = ["+", "-", "*", "/"];
+        const numbersToStringMapping = (number) => {
+            const strings = [
+                "zero", "jeden", "dwa", "trzy", "cztery",
+                "piec", "szesc", "siedem", "osiem", "dziewiec", "dziesiec"
+            ];
+            return strings[number];
+        };
+
+        let a, b, operator, result;
+        do {
+            a = Math.floor(Math.random() * 11) // 0-10
+            b = Math.floor(Math.random() * 11) // 0-10
+            operator = operators[Math.floor(Math.random() * operators.length)];
+            switch (operator) {
+                case '+':
+                    result = a + b;
+                    break;
+                case '-':
+                    // Zamiana miejscami jesli b > a
+                    [a, b] = b > a ? [b, a] : [a, b]
+                    result = a - b;
+                    break;
+                case '*':
+                    result = a * b;
+                    break;
+                case '/':
+                    if (b === 0) continue;
+                    // Zamiana miejscami jesli b > a
+                    [a, b] = b > a ? [b, a] : [a, b]
+                    result = Math.floor(a / b);
+                    break;
+            }
+        }
+        while (result < 0 || result > 10 || !Number.isInteger(result)); // Utrzymanie zakresu [0, 10]
+        let aString = numbersToStringMapping(a);
+        let bString = numbersToStringMapping(b)
+        if (operator === "/") {
+            captchaExerciseAnswerInput.placeholder = "Podaj wynik całkowity";
+        }
+        captchaExerciseP.textContent = `${aString} ${operator} ${bString}`;
+        return result;
+    }; // generateCaptchaExercise()
+
+    // const numbersToStringMapping = (number) => {
+    //     const numberStrings = {
+    //         0: "zero",
+    //         1: "jeden",
+    //         2: "dwa",
+    //         3: "trzy",
+    //         4: "cztery",
+    //         5: "piec",
+    //         6: "szesc",
+    //         7: "siedem",
+    //         8: "osiem",
+    //         9: "dziewiec",
+    //         10: "dziesiec"
+    //     };
+    //     return numberStrings[number];
+    // }; // numbersToStringMapping()
+
+    const stringToNumbersMapping = (stringNumber) => {
+        const polishChars = {
+            "ą": "a",
+            "ć": "c",
+            "ę": "e",
+            "ł": "l",
+            "ń": "n",
+            "ó": "o",
+            "ś": "s",
+            "ź": "z",
+            "ż": "z",
+        };
+        stringNumber = stringNumber
+            .toLowerCase()
+            .trim()
+            .replace(/[ąćęłńóśźż/]/g, char => polishChars[char]);
+
+        const strings = {
+            "zero": 0,
+            "jeden": 1,
+            "dwa": 2,
+            "trzy": 3,
+            "cztery": 4,
+            "piec": 5,
+            "szesc": 6,
+            "siedem": 7,
+            "osiem": 8,
+            "dziewiec": 9,
+            "dziesiec": 10
+        };
+        return strings[stringNumber];
+    }; // stringToNumbersMapping()
+
+    const checkCaptchaExerciseAnswer = () => {
+        const exerciseAnswer = stringToNumbersMapping(captchaExerciseAnswerInput.value);
+        return exerciseAnswer === captchaCorrectAnswer;
+    }
+
     // Zamkniecie modala po kliknieciu poza jego zawartoscia
     window.addEventListener("click", (e) => {
        if (e.target === authModal) {
@@ -110,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }); // forEach
 
         registerForm.addEventListener("submit", async  (e) => {
-            console.log(`Akcja: ${isRegister}`);
+            // console.log(`Akcja: ${isRegister}`);
             // Rejestracja
             if (isRegister) {
                 e.preventDefault();
@@ -167,6 +302,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         } // if emailField
                     } // if isFormValid
                 } // if isFormValid
+
+                // CAPTCHA
 
                 // Jesli formularz jest poprawny, wyslij go
                 if (isFormValid) {

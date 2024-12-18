@@ -23,34 +23,34 @@ else {
     require "../errors/400.html";
     exit;
 }
-
-function convertHTMLToBBCode(string $text): string {
-// Zamiana znacznika <strong> na [b]
-    $text = preg_replace("/<strong>(.*?)<\/strong>/s", "[b]$1[/b]", $text);
-    // Zamiana znacznika <em> na [i]
-    $text = preg_replace("/<em>(.*?)<\/em>/s", "[i]$1[/i]", $text);
-    // Zamiana znacznika <u> na [u]
-    $text = preg_replace("/<u>(.*?)<\/u>/s", "[u]$1[/u]", $text);
-    // Zamiana znacznika <s> na [s]
-    $text = preg_replace("/<s>(.*?)<\/s>/s", "[s]$1[/s]", $text);
-    // Zamiana znacznika <ul> na [ul]
-    $text = preg_replace("/<ul>(.*?)<\/ul>/s", "[ul]$1[/ul]", $text);
-    // Zamiana znacznika <li> na [li]
-    $text = preg_replace("/<li>(.*?)<\/li>/s", "[li]$1[/li]", $text);
-    // Zamiana znacznika <q> na [quote]
-    $text = preg_replace("/<q>(.*?)<\/q>/s", "[quote]$1[/quote]", $text);
-    // Zamiana znacznika <a> na [url=]
-    $text = preg_replace("/<a href=\"(.*?)\".*?>(.*?)<\/a>/s", "[url=$1]$2[/url]", $text);
-
-    // Usunięcie <br> na nowe linie
-    $text = preg_replace("/<br\s*\/?>/i", "\n", $text);
-
-    // Usuwanie dodatkowych pustych linii
-    $text = preg_replace("/(\n\s*){2,}/", "\n", $text);
-
-    // Kodowanie specjalnych znaków HTML
-    return trim(htmlentities($text, ENT_QUOTES, 'UTF-8'));
-}
+include_once "../includes/bbcode-functions.php";
+//function convertHTMLToBBCode(string $text): string {
+//// Zamiana znacznika <strong> na [b]
+//    $text = preg_replace("/<strong>(.*?)<\/strong>/s", "[b]$1[/b]", $text);
+//    // Zamiana znacznika <em> na [i]
+//    $text = preg_replace("/<em>(.*?)<\/em>/s", "[i]$1[/i]", $text);
+//    // Zamiana znacznika <u> na [u]
+//    $text = preg_replace("/<u>(.*?)<\/u>/s", "[u]$1[/u]", $text);
+//    // Zamiana znacznika <s> na [s]
+//    $text = preg_replace("/<s>(.*?)<\/s>/s", "[s]$1[/s]", $text);
+//    // Zamiana znacznika <ul> na [ul]
+//    $text = preg_replace("/<ul>(.*?)<\/ul>/s", "[ul]$1[/ul]", $text);
+//    // Zamiana znacznika <li> na [li]
+//    $text = preg_replace("/<li>(.*?)<\/li>/s", "[li]$1[/li]", $text);
+//    // Zamiana znacznika <q> na [quote]
+//    $text = preg_replace("/<q>(.*?)<\/q>/s", "[quote]$1[/quote]", $text);
+//    // Zamiana znacznika <a> na [url=]
+/*    $text = preg_replace("/<a href=\"(.*?)\".*?>(.*?)<\/a>/s", "[url=$1]$2[/url]", $text);*/
+//
+//    // Usunięcie <br> na nowe linie
+/*    $text = preg_replace("/<br\s*\/?>/i", "\n", $text);*/
+//
+//    // Usuwanie dodatkowych pustych linii
+//    $text = preg_replace("/(\n\s*){2,}/", "\n", $text);
+//
+//    // Kodowanie specjalnych znaków HTML
+//    return trim(htmlentities($text, ENT_QUOTES, 'UTF-8'));
+//}
 
 ?>
 

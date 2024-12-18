@@ -14,28 +14,29 @@ $postId = $_POST["post-id"];
 $_SESSION["formData"][$postId] = $_POST;
 
 // Funkcja konwersji BBCode na HTML
-function convertBBCodeToHTML($text) {
-    $text = html_entity_decode($text);
-    /*
-    \[b] - znacznik [b]
-    \[\/b] - znacznik [/b]
-    . - dowolny znak wraz ze znakiem nowej linii (ze wzgledu na ustawiona flage s
-    * - zero lub wiecej poprzedzajacego elementu (czyli kropki)
-    ? - wyrazenie nongreedy - dopasowanie zatrzyma sie na pierwszym wystapieniu [/b]
-    (.*?) - cale wyrazenie dopasowuje dowolny tekst miedzy znacznikami, zachowujac ten tekst jako grupe do pozniejszego uzycia jako $1
-    */
-
-    $text = preg_replace("/\[b](.*?)\[\/b]/s", "<strong>$1</strong>", $text);
-    $text = preg_replace("/\[i](.*?)\[\/i]/s", "<em>$1</em>", $text);
-    $text = preg_replace("/\[u](.*?)\[\/u]/s", "<u>$1</u>", $text);
-    $text = preg_replace("/\[s](.*?)\[\/s]/s", "<s>$1</s>", $text);
-    $text = preg_replace("/\[ul](.*?)\[\/ul]/s", "<ul>$1</ul>", $text);
-    $text = preg_replace("/\[li](.*?)\[\/li]/s", "<li>$1</li>", $text);
-    $text = preg_replace("/\[quote](.*?)\[\/quote]/s", "<q>$1</q>", $text);
-    $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", '<a href="$1" target="_blank">$2</a>', $text);
-
-    return nl2br($text); // Zamiana nowych linii na <br>
-}
+include_once ",../includes/bbcode-functions.php";
+//function convertBBCodeToHTML(string $text): string {
+//    $text = html_entity_decode($text);
+//    /*
+//    \[b] - znacznik [b]
+//    \[\/b] - znacznik [/b]
+//    . - dowolny znak wraz ze znakiem nowej linii (ze wzgledu na ustawiona flage s
+//    * - zero lub wiecej poprzedzajacego elementu (czyli kropki)
+//    ? - wyrazenie nongreedy - dopasowanie zatrzyma sie na pierwszym wystapieniu [/b]
+//    (.*?) - cale wyrazenie dopasowuje dowolny tekst miedzy znacznikami, zachowujac ten tekst jako grupe do pozniejszego uzycia jako $1
+//    */
+//
+//    $text = preg_replace("/\[b](.*?)\[\/b]/s", "<strong>$1</strong>", $text);
+//    $text = preg_replace("/\[i](.*?)\[\/i]/s", "<em>$1</em>", $text);
+//    $text = preg_replace("/\[u](.*?)\[\/u]/s", "<u>$1</u>", $text);
+//    $text = preg_replace("/\[s](.*?)\[\/s]/s", "<s>$1</s>", $text);
+//    $text = preg_replace("/\[ul](.*?)\[\/ul]/s", "<ul>$1</ul>", $text);
+//    $text = preg_replace("/\[li](.*?)\[\/li]/s", "<li>$1</li>", $text);
+//    $text = preg_replace("/\[quote](.*?)\[\/quote]/s", "<q>$1</q>", $text);
+//    $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", '<a href="$1" target="_blank">$2</a>', $text);
+//
+//    return nl2br($text); // Zamiana nowych linii na <br>
+//}
 ?>
 
 <!DOCTYPE html>

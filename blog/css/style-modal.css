@@ -109,8 +109,26 @@ div.modal-content button:hover {
     cursor: pointer;
 }
 
+form#register-form button#captcha-button {
+    background-color: var(--red-hover-text);
+}
+
+form#register-form button[type="submit"] {
+    margin-top: 10px;
+    display: none;
+}
+
+/*form#register-form div#captcha-modal {*/
+/*    width: 100px;*/
+/*    height: 100px;*/
+/*}*/
+
+div#captcha-modal button#captcha-verify {
+    margin-top: 10px;
+}
+
 /* Przycisk zamykający modal */
-span#close-modal {
+span.close-modal {
     position: absolute;
     top: 10px;
     right: 10px;

@@ -2,7 +2,7 @@
 
 <div id="auth-modal" class="modal">
     <div class="modal-content">
-        <span id="close-modal" accesskey="&#27">&times;</span>
+        <span id="close-modal" class="close-modal" accesskey="&#27">&times;</span>
         <!-- Formularz logowania -->
         <div id="login-container" class="auth-form">
             <h2>Zaloguj się</h2>
@@ -50,9 +50,22 @@
                 <label for="about">O mnie</label>
                 <textarea name="about" id="about" cols="30" rows="3" placeholder="Wpisz kilka zdań o sobie (nieobowiązkowe)"></textarea>
 
-                <button type="submit">Zarejestruj się</button>
+                <button type="button" id="captcha-button">Potwierdź, że jesteś człowiekiem</button>
+<!--                <span id="captcha-status" class="error-message">Niepotwierdzono!</span>-->
+                <button type="submit" id="register-submit" disabled>Zarejestruj się</button>
             </form>
             <p class="toggle-auth">Masz już konto? <a href="#">Zaloguj się</a></p>
+        </div>
+
+        <!-- Kontener na CAPTCHE -->
+        <div id="captcha-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span id="close-modal-captcha" class="close-modal" accesskey="&#27">&times;</span>
+                <p id="captcha-exercise"></p>
+                <label for="captcha-exercise-answer">Wprowadź wynik słownie:</label>
+                <input type="text" id="captcha-exercise-answer">
+                <button id="captcha-verify">Zweryfikuj</button>
+            </div>
         </div>
 
     </div>

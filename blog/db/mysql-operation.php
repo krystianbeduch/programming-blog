@@ -42,7 +42,7 @@ function getCategoryId(string $category) : int {
         if ($stmt->fetch()) {
             $categoryId = $fetchedCategoryId;
         }
-    }
+    } // try
     catch (mysqli_sql_exception $e) {
         $_SESSION["alert"]["error"] = "Problem połączenia z bazą: ".$e->getMessage();
         header("Location: index.php");
@@ -58,7 +58,7 @@ function getCategoryId(string $category) : int {
         $conn->close();
         return $categoryId;
     }
-}
+} // getCategoryId()
 
 function getPosts(string $category) : array {
     $posts = [];
@@ -102,7 +102,7 @@ function getPosts(string $category) : array {
         $conn->close();
         return $posts;
     }
-}
+} // getPosts()
 
 function getOnePost(int $postId): array {
     $post = [];
@@ -141,7 +141,7 @@ function getOnePost(int $postId): array {
         $conn->close();
         return $post;
     }
-}
+}// getOnePost()
 
 function getOnePostToEdit(int $userId, int $postId): array {
     $post = [];
@@ -178,9 +178,7 @@ function getOnePostToEdit(int $userId, int $postId): array {
         $conn->close();
         return $post;
     }
-}
-
-
+} // getOnePostToEdit()
 
 function getCommentsToPost(int $postId) : array {
     $comments = [];
@@ -219,7 +217,7 @@ function getCommentsToPost(int $postId) : array {
         $conn->close();
         return $comments;
     }
-}
+} // getCommentsToPost()
 
 function addCommentToPost(array $commentData) : void {
     session_start();
@@ -274,7 +272,7 @@ function addCommentToPost(array $commentData) : void {
         $conn?->close();
         header("Location: ../pages/post.php?postId=" . $postId);
     }
-}
+} // addCommentToPost()
 
 function checkCategory(string $language) : bool {
     $result = false;
@@ -308,7 +306,7 @@ function checkCategory(string $language) : bool {
         $conn->close();
         return $result;
     }
-}
+} // checkCategory()
 
 function addPost(array $postData) : void {
     session_start();
@@ -361,7 +359,7 @@ function addPost(array $postData) : void {
         $conn->close();
         header("Location: ../pages/" . $postData["category"] . ".php");
     }
-}
+} // addPost()
 
 function getUserRole(string $roleName) : int {
     $roleId = -1;
@@ -396,7 +394,7 @@ function getUserRole(string $roleName) : int {
         $conn->close();
         return $roleId;
     }
-}
+} // getUserRole()
 
 
 function createUserAccount(array $user) : void {
@@ -446,7 +444,7 @@ function createUserAccount(array $user) : void {
         $stmt->close();
         $conn->close();
     }
-}
+} // createUserAccount()
 
 function loginUser(array $user) : void {
     try {
@@ -495,25 +493,7 @@ function loginUser(array $user) : void {
         $stmt->close();
         $conn->close();
     }
-}
-
-//function createUpdateQuery($conn, array $data) : string {
-//    foreach ($data as $field => $value) {
-//        if ($field == "action") {
-//            continue; // Pomijamy pole "action"
-//        }
-//        $escapedField = $conn->real_escape_string($field);
-//        $escapedValue = $conn->real_escape_string($value);
-//        $setParts[] = "`$escapedField` = '$escapedValue'";
-//    }
-//
-//    if (empty($setParts)) {
-//        throw new Exception("Brak danych do aktualizacji");
-//    }
-//    $setParts[] = "`updated_at` = NOW()";
-//
-//    $setClause = implode(", ", $setParts);
-//}
+} // loginUser()
 
 function editUserAccount(array $user) : void {
     $conn = null;
@@ -561,6 +541,7 @@ function editUserAccount(array $user) : void {
         // Usuwamy pola zwiazane z haslem, aby nie zostaly dodane do innych pol
         unset($user["current-password"], $user["new-password"], $user["new-password-confirm"]);
 
+        // Przygotowanie zapytania UPDATE
         $setClause = getSetClause($user, $conn, $setParts);
         $query = "UPDATE users SET $setClause WHERE user_id = $userId";
 
@@ -590,7 +571,7 @@ function editUserAccount(array $user) : void {
         header("Location: ../pages/edit-profile.php");
         exit;
     }
-}
+} // editUserAccount()
 
 /**
  * @param array $user
@@ -602,7 +583,7 @@ function editUserAccount(array $user) : void {
 function getSetClause(array $user, mysqli $conn, array $setParts): string {
     foreach ($user as $field => $value) {
         if ($field == "action") {
-            continue; // Pomijamy pole "action"
+            continue;
         }
         $escapedField = $conn->real_escape_string($field);
         $escapedValue = $conn->real_escape_string($value);
@@ -615,7 +596,7 @@ function getSetClause(array $user, mysqli $conn, array $setParts): string {
     $setParts[] = "`updated_at` = NOW()";
 
     return implode(", ", $setParts);
-}
+} // getSetClause()
 
 function getUserPosts(int $userId) : array {
 //    $conn = null;
@@ -658,7 +639,7 @@ function getUserPosts(int $userId) : array {
         $conn->close();
         return $comments;
     }
-}
+} // getUserPosts()
 
 function editPost(array $post) : void {
     $conn = null;
@@ -678,34 +659,14 @@ function editPost(array $post) : void {
         $postId = (int) $post["post-id"];
         unset($post["post-id"]); // Nie aktualizujemy ID posta
 
+        // Konwersja BBCode na HTML tresci posta
+        if (isset($post["content"])) {
+            include_once "../includes/bbcode-functions.php";
+            $post["content"] = convertBBCodeToHTML($post["content"]);
+        }
+
+        // Przygotowanie zapytania UPDATE
         $setParts = [];
-
-//        if (isset($post["current-password"], $post["new-password"], $post["new-password-confirm"])) {
-//            // Pobierz biezace haslo uzytkownika
-//            $stmt = $conn->prepare("SELECT password FROM users WHERE user_id = ?");
-//            $stmt->bind_param("i", $postId);
-//            $stmt->execute();
-//            $stmt->bind_result($currentPasswordHash);
-//            $stmt->fetch();
-//            $stmt->close();
-//
-//            // Sprawdz, czy biezace haslo sie zgadza
-//            if (!password_verify($post["current-password"], $currentPasswordHash)) {
-//                throw new Exception("Obecne hasło nie prawidłowe");
-//            }
-//
-//            // Sprawdz, czy nowe hasla są zgodne
-//            if ($post["new-password"] != $post["new-password-confirm"]) {
-//                throw new Exception("Nowe hasła nie są zgodne");
-//            }
-//
-//            // Hashowanie nowego hasla
-//            $hashedPassword = password_hash($post["new-password"], PASSWORD_DEFAULT);
-//            $setParts[] = "`password` = '$hashedPassword'";
-//        }
-        // Usuwamy pola zwiazane z haslem, aby nie zostaly dodane do innych pol
-//        unset($post["current-password"], $post["new-password"], $post["new-password-confirm"]);
-
         $setClause = getSetClause($post, $conn, $setParts);
         $query = "UPDATE posts SET $setClause WHERE post_id = $postId";
 
@@ -730,4 +691,4 @@ function editPost(array $post) : void {
         header("Location: ../pages/management-user-posts.php");
         exit;
     }
-}
+} // editPost()
