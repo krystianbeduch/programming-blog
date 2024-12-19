@@ -303,8 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     } // if isFormValid
                 } // if isFormValid
 
-                // CAPTCHA
-
                 // Jesli formularz jest poprawny, wyslij go
                 if (isFormValid) {
                     registerForm.submit();

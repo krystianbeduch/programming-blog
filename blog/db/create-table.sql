@@ -13,22 +13,28 @@ CREATE TABLE comments (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     post_id    SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY (comment_id)
---     FOREIGN KEY (post_id) REFERENCES posts(post_id)
---     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE posts (
     post_id      SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title        VARCHAR(255) NOT NULL,
     content      TEXT NOT NULL,
+#     attachment   BLOB,
     created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    is_published BOOLEAN,
     user_id      SMALLINT UNSIGNED NOT NULL,
     category_id  SMALLINT UNSIGNED NOT NULL,
+    attachment_id SMALLINT UNSIGNED,
     PRIMARY KEY (post_id)
---     FOREIGN KEY (user_id) REFERENCES users(user_id),
---     FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+CREATE TABLE posts_attachments (
+    attachment_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    file_name VARCHAR(255) NOT NULL,
+    file_type VARCHAR(50) NOT NULL, -- Typ MIME (image/jpeg, image/png itp.)
+    file_size BIGINT NOT NULL,
+    file_data MEDIUMBLOB NOT NULL,
+    PRIMARY KEY (attachment_id)
 );
 
 CREATE TABLE roles (
@@ -47,14 +53,15 @@ CREATE TABLE users (
     about_me    TEXT,
     role_id     SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY (user_id)
---     FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
 
 ALTER TABLE comments ADD FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE;
 ALTER TABLE comments ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL;
 ALTER TABLE posts ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
 ALTER TABLE posts ADD FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE;
+ALTER TABLE posts ADD FOREIGN KEY (attachment_id) REFERENCES posts_attachments(attachment_id) ON DELETE CASCADE;
 ALTER TABLE users ADD FOREIGN KEY (role_id) REFERENCES roles(role_id);
+
 
 CREATE TABLE snake_scores (
     score_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,

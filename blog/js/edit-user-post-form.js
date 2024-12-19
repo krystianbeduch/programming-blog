@@ -8,13 +8,16 @@ $(document).ready(() => {
     // Referencje do pol formularza
     const inputs = {
         title: form.find("input[name='title']"),
-        content: form.find("textarea")
+        content: form.find("textarea"),
+        file: form.find("input[type='file']"),
+        attachmentId: form.find("input[name='attachment-id']")
     };
 
     // Referencje do etykiet
     const labels = {
         title: form.find(`label[for="${inputs.title.attr('id')}"`),
-        content: form.find(`label[for="${inputs.content.attr('id')}"`)
+        content: form.find(`label[for="${inputs.content.attr('id')}"`),
+        file: form.find(`label[for="${inputs.file.attr('id')}`)
     };
 
     // Oryginalne tresci etykiet
@@ -133,4 +136,19 @@ $(document).ready(() => {
     bbcodeClosePreviewButton.click(() => {
         $("#preview-container").fadeOut();
     });
+
+    inputs.file.on("change", function() {
+        // Sprawdzenie, czy wybrano plik
+        if (this.files && this.files.length > 0) {
+            labels.file.addClass("edited-label");
+            $("button[type='submit']").show();
+            inputs.attachmentId.removeAttr("disabled");
+        } else {
+            labels.file.removeClass("edited-label");
+            inputs.attachmentId.attr("disabled", true);
+            $("button[type='submit']").hide();
+        }
+    });
+
+
 });

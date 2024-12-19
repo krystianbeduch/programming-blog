@@ -9,34 +9,50 @@ if ( !(isset($_POST["user-id"]) && isset($_POST["title"]) && isset($_POST["conte
     exit;
 }
 
-// Przetwarzanie danych formularza i przechowywanie ich w sesji
+if (isset($_FILES["attachment"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR_OK) {
+    // Sprawdzanie rozmiaru pliku (max 5 MB)
+    $maxFileSize = 5 * 1024 * 1024; // 5 MB
+    if ($_FILES["attachment"]["size"] > $maxFileSize) {
+        $_SESSION["alert"]["error"] = "Plik jest za duży. Maksymalny rozmiar to 5 MB.";
+        header("Location: add-post.php?category=" . $_POST["category"]);
+        exit();
+    }
+
+    // Sprawdzanie formatu pliku
+    $allowedExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
+    $fileExtension = strtolower(pathinfo($_FILES["attachment"]["name"], PATHINFO_EXTENSION));
+    if (!in_array($fileExtension, $allowedExtensions)) {
+        $_SESSION["alert"]["error"] = "Nieobsługiwany format pliku. Dozwolone formaty to: JPG, PNG, GIF, BMP, SVG.";
+        header("Location: add-post.php?category=" . $_POST["category"]);
+        exit();
+    }
+
+    // Odczytanie zawartości pliku
+    $fileContent = file_get_contents($_FILES["attachment"]["tmp_name"]);
+
+    // Zapisanie danych pliku
+    $_SESSION["uploaded_file"] = [
+        // Nazwa pliku
+        "name" => $_FILES["attachment"]["name"],
+        // Typ MIME
+        "type" => $_FILES["attachment"]["type"],
+        // Rozmiar pliku
+        "size" => $_FILES["attachment"]["size"],
+        // Rozszerzenie pliku
+        "extension" => $fileExtension,
+        // Zakodowana zawartość pliku
+        "content" => base64_encode($fileContent)
+    ];
+
+}
+
+
+// Przetwarzanie danych formularza i przechowywanie ich w sesji (bez pliku)
 $category = $_POST["category"];
 $_SESSION["formData"][$category] = $_POST;
 // docelowo $_SESSION['formData'][$userId][$category]
+include_once "../includes/bbcode-functions.php";
 
-// Funkcja konwersji BBCode na HTML
-function convertBBCodeToHTML($text) {
-    $text = html_entity_decode($text);
-    /*
-    \[b] - znacznik [b]
-    \[\/b] - znacznik [/b]
-    . - dowolny znak wraz ze znakiem nowej linii (ze wzgledu na ustawiona flage s
-    * - zero lub wiecej poprzedzajacego elementu (czyli kropki)
-    ? - wyrazenie nongreedy - dopasowanie zatrzyma sie na pierwszym wystapieniu [/b]
-    (.*?) - cale wyrazenie dopasowuje dowolny tekst miedzy znacznikami, zachowujac ten tekst jako grupe do pozniejszego uzycia jako $1
-    */
-
-    $text = preg_replace("/\[b](.*?)\[\/b]/s", "<strong>$1</strong>", $text);
-    $text = preg_replace("/\[i](.*?)\[\/i]/s", "<em>$1</em>", $text);
-    $text = preg_replace("/\[u](.*?)\[\/u]/s", "<u>$1</u>", $text);
-    $text = preg_replace("/\[s](.*?)\[\/s]/s", "<s>$1</s>", $text);
-    $text = preg_replace("/\[ul](.*?)\[\/ul]/s", "<ul>$1</ul>", $text);
-    $text = preg_replace("/\[li](.*?)\[\/li]/s", "<li>$1</li>", $text);
-    $text = preg_replace("/\[quote](.*?)\[\/quote]/s", "<q>$1</q>", $text);
-    $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", '<a href="$1" target="_blank">$2</a>', $text);
-
-    return nl2br($text); // Zamiana nowych linii na <br>
-}
 ?>
 
 <!DOCTYPE html>
@@ -62,16 +78,28 @@ function convertBBCodeToHTML($text) {
 
     <section id="main-section" class="add-comment-preview-section">
         <h1>Sprawdź swój post przed dodaniem</h1>
-        <p><b>Numer użytkownika: </b><?php echo $_POST["user-id"];?></p>
-        <p><b>Tytuł posta: </b><?php echo htmlspecialchars($_POST["title"])?></p>
-        <p><b>Komentarz: </b></p>
+        <p>
+            <strong>Numer użytkownika: </strong>
+            <?php echo $_POST["user-id"];?>
+        </p>
+        <p>
+            <strong>Tytuł posta: </strong>
+            <?php echo htmlspecialchars($_POST["title"])?>
+        </p>
+        <p>
+            <strong>Komentarz: </strong>
+        </p>
         <div class="comment-preview">
             <?php echo convertBBCodeToHTML($_POST["content"]); ?>
         </div>
+        <p>
+            <strong>Załącznik: </strong>
+            <?php echo $_FILES["attachment"]["name"]; ?>
+        </p>
 
 <!--        <form action="--><?php //echo $_POST["url"];?><!--"
  method="post" style="display: inline;">-->
-        <form action="../db/mysql-operation.php" method="post">
+        <form action="../db/mysql-operation.php" method="post" enctype="multipart/form-data">
 <!--            <input type="hidden" name="action" value="editForm">-->
             <button type="submit" name="action" class="form-button"  value="editForm">Cofnij do poprawki</button>
 

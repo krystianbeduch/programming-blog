@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../includes/render-posts.php";
+require_once "../includes/posts-functions.php";
 
 if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
     $postId = (int)$_GET["postId"];  // Pobranie postId z URL
@@ -48,8 +48,20 @@ else {
     <?php require_once "../includes/nav.php"; ?>
 
     <section id="main-section">
-        <h1><?php echo $post["title"]; ?></h1>
-        <p> <?php echo $post["content"]; ?> </p>
+        <?php
+            echo "<h1>" . $post["title"] . "</h1>";
+            echo "<p class='post-author'>Autor: " . $post["username"]. ", " . $post["email"] .
+            "<span class='post-date'>Utworzono: " . date("d-m-Y H:i", strtotime($post["created_at"])) .
+             "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
+            echo "<p>" . $post["content"] . "</p>";
+
+            if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
+            // Wyswietlanie zalaczonego zdjecia, jeśsi istnieje
+            $base64Image = base64_encode($post["file_data"]);
+            echo "<h5>Załączone zdjęcie:</h5>";
+            echo "<img src='data:" . htmlspecialchars($post["file_type"]) . ";base64," . $base64Image . "' alt='Załączone zdjęcie' class='post-attachment'>";
+        }
+        ?>
 
         <?php if (isset($_SESSION["addCommentAlert"]) && $_SESSION["addCommentAlert"]["result"]): ?>
             <div class="alert alert-success">
@@ -67,21 +79,14 @@ else {
             unset($_SESSION["addCommentAlert"]);
         endif ?>
 
-
         <article id="comments-section">
             <h3>Komentarze</h3>
             <div class="comments-container">
-                <?php
-                // renderAllPostComments(array_slice($comments, $offset, $commentsPerPage, true));
-                // preserve_keys = true - zachowaj oryginalne klucze tablicy
-                renderAllPostComments($comments);
-
-                ?>
+                <?php renderAllPostComments($comments); ?>
             </div>
         </article>
         <?php include "../includes/add-comment-form.php"; ?>
 
-<!--        --><?php //renderPagination($currentPage, $totalPages, $language); ?>
     </section>
 
     <?php require_once "../includes/aside.php"; ?>

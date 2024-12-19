@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../includes/render-posts.php";
+require_once "../includes/posts-functions.php";
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 
 $language = "java";

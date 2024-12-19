@@ -57,7 +57,7 @@ else {
     <?php require_once "../includes/nav.php"; ?>
 
     <section id="main-section">
-        <form id="add-post-form" class="post-form" name="add_post_form" action="add-post-preview.php" method="post">
+        <form id="add-post-form" class="post-form" name="add_post_form" action="add-post-preview.php" method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>Dodaj post</legend>
 
@@ -98,9 +98,10 @@ else {
 <!--                    -->
         </span>
                 <span id="form-errors" class="error"></span>
+                <label for="attachment">Dodaj załącznik (tylko grafika):</label>
+                <input type="file" name="attachment" id="attachment" accept="image/*">
 
                 <input type="hidden" name="recaptcha_response" id="recaptcha_response">
-
 
                 <!-- CAPTCHA -->
                 <div id="captcha">

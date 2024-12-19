@@ -16,7 +16,6 @@ if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
         require "../errors/404.html";
         exit;
     }
-//    $comments = getCommentsToPost($postId);
 }
 else {
     http_response_code(400); // Bad request - bledna skladnia
@@ -24,33 +23,6 @@ else {
     exit;
 }
 include_once "../includes/bbcode-functions.php";
-//function convertHTMLToBBCode(string $text): string {
-//// Zamiana znacznika <strong> na [b]
-//    $text = preg_replace("/<strong>(.*?)<\/strong>/s", "[b]$1[/b]", $text);
-//    // Zamiana znacznika <em> na [i]
-//    $text = preg_replace("/<em>(.*?)<\/em>/s", "[i]$1[/i]", $text);
-//    // Zamiana znacznika <u> na [u]
-//    $text = preg_replace("/<u>(.*?)<\/u>/s", "[u]$1[/u]", $text);
-//    // Zamiana znacznika <s> na [s]
-//    $text = preg_replace("/<s>(.*?)<\/s>/s", "[s]$1[/s]", $text);
-//    // Zamiana znacznika <ul> na [ul]
-//    $text = preg_replace("/<ul>(.*?)<\/ul>/s", "[ul]$1[/ul]", $text);
-//    // Zamiana znacznika <li> na [li]
-//    $text = preg_replace("/<li>(.*?)<\/li>/s", "[li]$1[/li]", $text);
-//    // Zamiana znacznika <q> na [quote]
-//    $text = preg_replace("/<q>(.*?)<\/q>/s", "[quote]$1[/quote]", $text);
-//    // Zamiana znacznika <a> na [url=]
-/*    $text = preg_replace("/<a href=\"(.*?)\".*?>(.*?)<\/a>/s", "[url=$1]$2[/url]", $text);*/
-//
-//    // Usunięcie <br> na nowe linie
-/*    $text = preg_replace("/<br\s*\/?>/i", "\n", $text);*/
-//
-//    // Usuwanie dodatkowych pustych linii
-//    $text = preg_replace("/(\n\s*){2,}/", "\n", $text);
-//
-//    // Kodowanie specjalnych znaków HTML
-//    return trim(htmlentities($text, ENT_QUOTES, 'UTF-8'));
-//}
 
 ?>
 
@@ -86,7 +58,7 @@ include_once "../includes/bbcode-functions.php";
     <?php require_once "../includes/nav.php"; ?>
 
     <section id="main-section">
-        <form id="edit-user-post" class="post-form" name="add_post_form" action="../db/mysql-operation.php" method="post">
+        <form id="edit-user-post" class="post-form" name="add_post_form" action="../db/mysql-operation.php" method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>Edycja posta</legend>
                 <input type="hidden" name="action" value="editPost">
@@ -129,6 +101,18 @@ include_once "../includes/bbcode-functions.php";
                 <?php include "../includes/bbcode.php"; ?>
 
                 <textarea name="content" id="content" required disabled><?php echo convertHTMLToBBCode($post["content"]);?></textarea>
+
+                <div class="attachment-section">
+                    <?php if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
+                        echo "<p>Obecny załącznik:</p>";
+                        $base64Image = base64_encode($post["file_data"]);
+                        echo "<img src='data:" . htmlspecialchars($post["file_type"]) . ";base64," . $base64Image . "' alt='Załączone zdjęcie' class='post-attachment'>";
+                    }
+                    ?>
+                    <label for="attachment">Nowy załącznik (tylko zdjęcia):</label>
+                    <input type="file" name="attachment" id="attachment" accept="image/*">
+                    <input type="hidden" name="attachment-id" value="<?php echo $post["attachment_id"] ?? null ?>" disabled>
+                </div>
 
                 <button type="submit" class="form-button">Zapisz zmiany</button>
             </fieldset>
