@@ -237,8 +237,8 @@ function addCommentToPost(array $commentData) : void {
         // Przygotowanie i wykonanie zapytania
         $stmt = $conn->prepare(
             "INSERT INTO comments
-                    (user_id, username, email, content, created_at, post_id) 
-                    VALUES (null, ?, ?, ?, NOW(), ?)");
+                    (user_id, username, email, content, post_id) 
+                    VALUES (null, ?, ?, ?, ?)");
         $stmt->bind_param(
             "sssi",
             $commentData["username"],
@@ -330,8 +330,8 @@ function addPost(array $postData) : void {
         $conn->begin_transaction();
         $stmt = $conn->prepare(
             "INSERT INTO posts
-                    (title, content, created_at, updated_at, user_id, category_id, attachment_id)
-                    VALUES (?, ?, NOW(), NOW(), ?, ?, ?)");
+                    (title, content, user_id, category_id, attachment_id)
+                    VALUES (?, ?, ?, ?, ?)");
         $categoryId = getCategoryId($postData["category"]);
         $stmt->bind_param(
             "ssiii",
@@ -458,6 +458,7 @@ function getUserRole(string $roleName) : int {
 function createUserAccount(array $user) : void {
     $conn = null;
 //    $stmt = null;
+    session_start();
     try {
         $roleId = getUserRole($user["role"]);
         if ($roleId == -1) {
@@ -472,8 +473,8 @@ function createUserAccount(array $user) : void {
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
         $conn->begin_transaction();
         $query = "INSERT INTO 
-                    users (username , email, password, created_at, about_me, role_id) 
-                    VALUES (?, ?, ?, NOW(), ?, ?);";
+                    users (username , email, password, about_me, role_id) 
+                    VALUES (?, ?, ?, ?, ?);";
         $stmt = $conn->prepare($query);
         $stmt->bind_param(
             "ssssi",
@@ -485,7 +486,10 @@ function createUserAccount(array $user) : void {
         );
         $stmt->execute();
         $conn->commit();
-        loginUser($user);
+        $_SESSION["registerAlert"] = true;
+        // Powrot na strone z ktorej nastapila rejestracja
+        $redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";
+        header("Location: $redirectUrl");
     }
     catch (mysqli_sql_exception $e) {
         $conn->rollback();
@@ -505,31 +509,38 @@ function createUserAccount(array $user) : void {
 } // createUserAccount()
 
 function loginUser(array $user) : void {
+    session_start();
     try {
-        session_start();
         $conn = new mysqli(
             MySQLConfig::SERVER,
             MySQLConfig::USER,
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $stmt = $conn->prepare("SELECT user_id, username, password, email, about_me 
-                                        FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT user_id, username, password, email, about_me, is_active, role_name FROM users u JOIN roles r ON u.role_id = r.role_id WHERE username = ?");
         $stmt->bind_param("s",$user["username"]);
         $stmt->execute();
-        $stmt->bind_result($userId, $username, $hashedPassword, $email, $aboutMe);
+        $stmt->bind_result($userId, $username, $hashedPassword, $email, $aboutMe, $isActive, $roleName);
         $stmt->fetch();
 
         if ($userId !== null && password_verify($user["password"], $hashedPassword)) {
-            $_SESSION["loggedUser"]["id"] = $userId;
-            $_SESSION["loggedUser"]["username"] = $username;
-            $_SESSION["loggedUser"]["email"] = $email;
-            $_SESSION["loggedUser"]["aboutMe"] = $aboutMe;
+            if ($isActive == 1) {
+                $_SESSION["loggedUser"]["id"] = $userId;
+                $_SESSION["loggedUser"]["username"] = $username;
+                $_SESSION["loggedUser"]["email"] = $email;
+                $_SESSION["loggedUser"]["aboutMe"] = $aboutMe;
+                $_SESSION["loggedUser"]["role"] = $roleName;
 
-            $_SESSION["loginAlert"] = ["type" => "success"];
+                $_SESSION["loginAlert"]["success"] = true;
+            }
+            else {
+                $_SESSION["loginAlert"]["success"] = false;
+                $_SESSION["loginAlert"]["error"] = "Konto nie aktywne.<br>Poczekaj aż administrator aktywuje konto.";
+            }
         }
         else {
-            $_SESSION["loginAlert"] = ["type" => "danger"];
+            $_SESSION["loginAlert"]["success"] = false;
+            $_SESSION["loginAlert"]["error"] = "Nieprawidłowe hasło";
         }
 
         // Powrot na strone z ktorej nastapilo logowanie
@@ -651,7 +662,7 @@ function getSetClause(array $user, mysqli $conn, array $setParts): string {
     if (empty($setParts) && !$user["attachment-id"]) {
         throw new Exception("Brak danych do aktualizacji");
     }
-    $setParts[] = "`updated_at` = NOW()";
+//    $setParts[] = "`updated_at` = NOW()";
 
     return implode(", ", $setParts);
 } // getSetClause()
@@ -802,3 +813,37 @@ function editPost(array $post) : void {
         exit;
     }
 } // editPost()
+
+function getUsers() : array {
+    $users = [];
+    try {
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $query = "SELECT u.user_id, u.username, u.email, u.about_me, COUNT(p.user_id) AS 'posts_count', u.created_at, u.updated_at, u.is_active, r.role_name FROM users u JOIN roles r ON u.role_id = r.role_id LEFT JOIN posts p ON u.user_id = p.user_id GROUP BY u.user_id, u.username, u.email, u.about_me, u.created_at, u.updated_at, u.is_active, r.role_name ORDER BY 1;";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $result->num_rows > 0) {
+            $users = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+    catch (mysqli_sql_exception $e) {
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    catch (Exception $e) {
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $users;
+    }
+} // getUsers()

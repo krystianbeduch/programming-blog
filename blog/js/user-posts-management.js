@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    const table = $("table.user-posts-stats");
+    const table = $("#user-posts-stats");
     const buttonToggle = $("button.toggle-stats-table");
     const buttonDeletePost = $("button.delete-post-button");
     const buttonDeletePostCancel = $("button#cancel-button");

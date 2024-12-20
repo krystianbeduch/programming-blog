@@ -41,7 +41,7 @@ $offset = $paginationData["offset"];
 
     <!-- Styles   -->
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/style-posts.css">
+    <link rel="stylesheet" href="../css/style-table-stats.css">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

@@ -235,14 +235,14 @@ label.valid-field {
     color: var(--edited-input) !important;
 }
 
-/* Poglad edytora BBCode */
+/* Podglad edytora BBCode */
 form#edit-user-post button.preview-button {
     padding: 5px 15px;
 }
 
 div#preview-container {
     position: fixed;
-    top: 20%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -20%);
     background: var(--text-color-light);
@@ -284,4 +284,3 @@ div#preview-container button.close-preview-button {
     margin-top: 10px;
     display: block;
 }
-

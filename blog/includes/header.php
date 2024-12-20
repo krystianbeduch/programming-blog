@@ -15,17 +15,27 @@ require_once ("modals.php");
             unset($_SESSION["alert"]["error"]);
         endif ?>
 
+    <!-- Rejestracja sukces -->
+    <?php if (isset($_SESSION["registerAlert"]) && $_SESSION["registerAlert"]): ?>
+        <div class="alert alert-success">
+            <strong>Zarejestrowano!</strong> Poczekaj na aktywację konta przez administratora.
+        </div>
+        <?php
+        unset($_SESSION["registerAlert"]);
+    endif ?>
+
+
         <!-- Logowanie blad -->
-        <?php if (isset($_SESSION["loginAlert"]) && $_SESSION["loginAlert"]["type"] == "danger"): ?>
+        <?php if (isset($_SESSION["loginAlert"]) && !$_SESSION["loginAlert"]["success"]): ?>
             <div class="alert alert-danger fade show">
-                <strong>Błąd!</strong> Nieprawidłowe hasło
+                <strong>Błąd!</strong> <?php echo $_SESSION["loginAlert"]["error"] ?>
             </div>
             <?php
             unset($_SESSION["loginAlert"]);
         endif ?>
 
         <!-- Logowanie sukces -->
-        <?php if (isset($_SESSION["loginAlert"]) && $_SESSION["loginAlert"]["type"] == "success"): ?>
+        <?php if (isset($_SESSION["loginAlert"]) && $_SESSION["loginAlert"]["success"]): ?>
             <div class="alert alert-success">
                 <strong>Zalogowano!</strong> Witaj <?php echo $_SESSION["loggedUser"]["username"] ?>
             </div>

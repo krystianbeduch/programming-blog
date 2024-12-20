@@ -131,23 +131,23 @@ form#edit-user-post div.attachment-section p {
     margin-right: 20px;
 }
 
-.edit-post-link {
+.edit-link {
     background-color: var(--border-color);
     color: var(--text-color-dark);
 }
 
-.edit-post-link:hover {
+.edit-link:hover {
     background-color: var(--hover-color);
 }
 
-button.post-link {
+button.delete-button {
     border: none;
     line-height: normal;
     background-color: var(--delete-text);
     /*padding: 10px;*/
 }
 
-button.post-link:hover {
+button.delete-button:hover {
     background-color: var(--red-hover-text);
 }
 
@@ -194,86 +194,3 @@ div.comment {
 /*    margin-bottom: 5px;*/
 /*}*/
 
-table.user-posts-stats {
-    display: none;
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px auto;
-    font-size: 0.9em;
-    text-align: left;
-}
-
-table.user-posts-stats thead th {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 4px 7px;
-    border: 1px solid var(--border-color);
-}
-
-table.user-posts-stats th[colspan="4"] {
-    background-color: var(--background-dark);
-    text-align: center;
-    font-size: 1.1em;
-    font-weight: bold;
-    /*padding: 10px;*/
-    border: 1px solid var(--border-color);
-    /*display: flex;*/
-    /*align-items: center;*/
-}
-
-table.user-posts-stats th[colspan="4"] img {
-    margin-left: 8px;
-    width: 20px;
-    height: auto;
-}
-
-table.user-posts-stats tbody td {
-    padding: 4px 7px;
-    border: 1px solid var(--border-color);
-}
-
-table.user-posts-stats tbody tr:hover {
-    background-color: var(--hover-color);
-    transition: background-color 0.2s ease-in-out;
-}
-
-table.user-posts-stats tbody th:first-child,
-table.user-posts-stats tbody td:first-child{
-    max-width: 25vw;
-}
-
-table.user-posts-stats tbody .edit-post-link,
-table.user-posts-stats tbody .delete-post-button {
-    display: inline-flex;
-    margin: 0 5px;
-    padding: 6px 12px;
-    /*color: #fff;*/
-    /*background-color: #007bff;*/
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
-    text-align: center;
-}
-
-
-
-
-
-
-/* Dostosowanie tabeli do urządzeń mobilnych */
-/*@media (max-width: 768px) {*/
-/*    table {*/
-/*        font-size: 14px;*/
-/*    }*/
-
-/*    th[colspan="4"] {*/
-/*        font-size: 16px;*/
-/*    }*/
-
-/*    thead th,*/
-/*    tbody td {*/
-/*        padding: 8px;*/
-/*    }*/
-/*}*/

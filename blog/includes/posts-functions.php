@@ -151,7 +151,7 @@ function renderUserPosts(array $userPosts) : void {
             }
 
             echo "<a href='../pages/post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link'>Przejdź do strony posta</a>";
-            echo "<a href='../pages/edit-post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link edit-post-link'>Edytuj</a>";
+            echo "<a href='../pages/edit-post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link edit-link'>Edytuj</a>";
             echo "<button class='post-comments-link post-link delete-post-button' data-post-id='" . $post["post_id"] . "'>Usuń</button>";
             echo "</div>";
         }
@@ -163,7 +163,7 @@ function renderUserPosts(array $userPosts) : void {
 
 function renderUserPostsStats(array $userPosts) : void {
     if (count($userPosts) > 0) {
-        echo "<table class='user-posts-stats'>";
+        echo "<table id='user-posts-stats' class='table-stats'>";
         echo "<thead>";
         echo "<tr></th><th>Tytuł</th><th>Data aktualizacji</th><th>Komentarze</th><th>Akcje</th></tr>";
         echo "</thead>";
@@ -185,12 +185,12 @@ function renderUserPostsStats(array $userPosts) : void {
                     "<img src='../images/" . $category . "_logo.png' alt='" . $category . "_logo'></th></tr>";
             }
             echo "<td>" . $post["title"] . "</td>";
-            echo "<td>" . date('d-m-Y H:i', strtotime($post["updated_at"]))  . "</td>";
+            echo "<td>" . date("d-m-Y H:i", strtotime($post["updated_at"]))  . "</td>";
             echo "<td>" . $post["comment_count"] . "</td>";
             echo "<td>";
-            echo "<a href='../pages/edit-post.php?postId=" . $post["post_id"] . "' class='post-link edit-post-link'>";
+            echo "<a href='../pages/edit-post.php?postId=" . $post["post_id"] . "' class='post-link edit-link'>";
             echo "<img src='../images/edit.svg' alt='Edytuj'></a>";
-            echo "<button class='post-link delete-post-button' data-post-id='" . $post["post_id"] . "'>";
+            echo "<button class='post-link delete-button' data-post-id='" . $post["post_id"] . "'>";
             echo "<img src='../images/trash-fill.svg' alt='Usuń'></button>";
             echo "</td>";
             echo "</tr>";

@@ -344,6 +344,17 @@ footer {
     font-size: 14px;
 }
 
+footer p a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer p a:hover {
+    color: var(--hover-color);
+    cursor: pointer;
+}
+
 
 /* Floaty wewnętrzne */
 ul {

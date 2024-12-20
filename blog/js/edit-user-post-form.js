@@ -126,14 +126,14 @@ $(document).ready(() => {
         bbcodeButtons.hide();
     }); // closeButtons click
 
-    bbcodePreviewButton.click(() => {
+    bbcodePreviewButton.on("click", () => {
         const bbcodeContent = inputs.content.val();
         const htmlContent = convertBBCodeToHTML(bbcodeContent);
         $("#preview-content").html(htmlContent);
         $("#preview-container").fadeIn();
     });
 
-    bbcodeClosePreviewButton.click(() => {
+    bbcodeClosePreviewButton.on("click", () => {
         $("#preview-container").fadeOut();
     });
 
@@ -149,6 +149,4 @@ $(document).ready(() => {
             $("button[type='submit']").hide();
         }
     });
-
-
 });

@@ -1,0 +1,41 @@
+a.admin-link {
+    display: flex;
+    justify-content: center;
+    background-color: var(--button-background);
+    color: var(--text-color-light);
+    font-size: 1.3em;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    margin: 25px auto 0;
+    width: 75%;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+table.admin-users-tab {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-size: 0.85em;
+    text-align: left;
+}
+
+
+table.admin-users-tab thead th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 4px 7px;
+    border: 1px solid var(--border-color);
+}
+
+table.admin-users-tab tbody td {
+    padding: 4px 7px;
+    border: 1px solid var(--border-color);
+}
+
+table.admin-users-tab tbody tr:hover {
+    background-color: var(--hover-color);
+    transition: background-color 0.2s ease-in-out;
+}

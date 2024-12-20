@@ -1,4 +1,11 @@
 <aside>
+    <!-- Panel administracyjny -->
+    <?php if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin"): ?>
+    <section>
+        <h3><a href="../pages/admin-panel.php">Panel administracyjny</a></h3>
+    </section>
+    <?php endif; ?>
+
     <!-- O autorze -->
     <?php if (isset($post) && !empty($post["about_me"])): ?>
     <section>
@@ -6,7 +13,6 @@
 
         <p><?php echo $post["about_me"] ?></p>
     </section>
-
     <?php endif ?>
 
     <!-- Kalendarz -->
@@ -40,26 +46,23 @@
         </ul>       
     </section>
 
-    <!-- Panel administracyjny -->
-    <section>
-        <h3><a href="admin.php">Panel administracyjny</a></h3>
-    </section>
 
-    <section>
-        <h3><a href="../pages/blackjackOOP.php">Zagraj w BlackJacka</a></h3>
-    </section>
 
-    <section>
-        <h3><a href="../pages/snake.php">Zagraj w Snake'a</a></h3>
-    </section>
-
-    <section>
-        <h3><a href="../pages/whack-a-mole.php">Zagraj w Whack A Mole</a></h3>
-    </section>
-
-    <section>
-        <h3><a href="../pages/drag-racers.php">Zagraj w Drag Racers</a></h3>
-    </section>
+<!--    <section>-->
+<!--        <h3><a href="../pages/blackjackOOP.php">Zagraj w BlackJacka</a></h3>-->
+<!--    </section>-->
+<!---->
+<!--    <section>-->
+<!--        <h3><a href="../pages/snake.php">Zagraj w Snake'a</a></h3>-->
+<!--    </section>-->
+<!---->
+<!--    <section>-->
+<!--        <h3><a href="../pages/whack-a-mole.php">Zagraj w Whack A Mole</a></h3>-->
+<!--    </section>-->
+<!---->
+<!--    <section>-->
+<!--        <h3><a href="../pages/drag-racers.php">Zagraj w Drag Racers</a></h3>-->
+<!--    </section>-->
 
     <section>
         <h3><a href="../pages/games.php">Zagraj w gry</a></h3>
