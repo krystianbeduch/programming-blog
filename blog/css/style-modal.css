@@ -45,7 +45,6 @@ div.modal-content input[type="email"],
 div.modal-content textarea {
     width: 100%;
     padding: 8px;
-    /*margin-bottom: 15px;*/
     border: 1px solid var(--border-color);
     border-radius: 4px;
 }
@@ -160,40 +159,39 @@ div.modal-content div.auth-form {
     display: block;
 }
 
-/* Modal usun post */
-div#delete-post-modal {
-    /*display: none;*/
+/* Modal usun post/usera */
+div.delete-modal {
     font-weight: bold;
-    /*justify-content: center;*/
-    /*align-items: center;*/
+}
+
+div.delete-modal div.modal-content {
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
 }
 
 .modal-container.active {
-    display: flex; /* Wyświetla modal jako flexbox */
+    display: flex;
 }
 
-div#delete-post-modal button.modal-button {
+div.delete-modal button.modal-button {
     margin-top: 10px;
     display: flex;
     justify-content: center;
-    /*justify-content: space-between;*/
 }
 
-div#delete-post-modal button.cancel-button {
+div.delete-modal button.cancel-button {
     background-color: var(--background-dark) !important;
     color: var(--text-color-dark) !important;
 }
 
-div#delete-post-modal button.cancel-button:hover {
+div.delete-modal button.cancel-button:hover {
     background-color: var(--hover-color) !important;
 }
 
-div#delete-post-modal button.confirm-button {
+div.delete-modal button.confirm-button {
     background-color: var(--delete-text) !important;
     color: var(--text-color-light);
 }
 
-div#delete-post-modal button.confirm-button:hover {
+div.delete-modal button.confirm-button:hover {
     background-color: var(--red-hover-text) !important;
 }
-

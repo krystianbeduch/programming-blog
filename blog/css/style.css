@@ -87,7 +87,7 @@ header a#login-link {
     transform: translateY(-50%);
 
     color: var(--text-color-light);
-    font-size: 0.9em;
+    font-size: 1rem;
     text-decoration: none;
     padding: 8px 12px;
     border: 1px solid var(--text-color-light);
@@ -113,12 +113,14 @@ header div#user-menu {
     padding: 8px 12px;
     border: 1px solid var(--text-color-light);
     border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header div#user-menu:hover {
     cursor: pointer;
+    background-color: var(--text-color-light);
+    /*color: red;*/
 }
-
 
 header div#user-menu button#profile-button {
     color: var(--text-color-light);
@@ -129,6 +131,10 @@ header div#user-menu button#profile-button {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+header div#user-menu:hover span {
+    color: var(--primary-color);
 }
 
 header div#user-menu button#profile-button span.arrow {

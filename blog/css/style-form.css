@@ -256,6 +256,8 @@ div#preview-container {
 }
 div#preview-container h4 {
     margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 div#preview-container div.preview-content {

@@ -126,33 +126,37 @@ form#edit-user-post div.attachment-section p {
 
 
 /* Zarzadzanie postami uzytkownika  */
+div.post .edit-link, div.post button.delete-button {
+    font-size: 1em;
+}
+
 .post-link {
     margin-top: 0;
     margin-right: 20px;
 }
 
-.edit-link {
-    background-color: var(--border-color);
-    color: var(--text-color-dark);
-}
+/*.edit-link {*/
+/*    background-color: var(--border-color);*/
+/*    color: var(--text-color-dark);*/
+/*}*/
 
-.edit-link:hover {
-    background-color: var(--hover-color);
-}
+/*.edit-link:hover {*/
+/*    background-color: var(--hover-color);*/
+/*}*/
 
-button.delete-button {
-    border: none;
-    line-height: normal;
-    background-color: var(--delete-text);
-    /*padding: 10px;*/
-}
+/*button.delete-button {*/
+/*    border: none;*/
+/*    line-height: normal;*/
+/*    background-color: var(--delete-text);*/
+/*    !*padding: 10px;*!*/
+/*}*/
 
-button.delete-button:hover {
-    background-color: var(--red-hover-text);
-}
+/*button.delete-button:hover {*/
+/*    background-color: var(--red-hover-text);*/
+/*}*/
 
 
-/* Style dla strony z wybranym postem*/
+/* Style dla strony z wybranym postem */
 article#comments-section {
     margin-top: 20px;
     padding: 10px;

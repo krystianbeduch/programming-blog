@@ -34,6 +34,11 @@ table#user-posts-stats th[colspan="4"] img {
     height: auto;
 }
 
+table#user-posts-stats th:last-child,
+table#user-posts-stats td:last-child {
+    text-align: center;
+}
+
 table.table-stats tbody td {
     padding: 4px 7px;
     border: 1px solid var(--border-color);
@@ -51,6 +56,22 @@ table#user-posts-stats tbody td:first-child{
 
 table#admin-users-tab td.about-me-col {
     cursor: pointer;
+    max-width: 200px;
+    white-space: nowrap; /* Zapobiega zawijaniu tekstu */
+    overflow: hidden; /* Ukrywa nadmiarowy tekst */
+    text-overflow: ellipsis; /* Dodaje "..." na koncu tekstu */
+}
+
+@media (max-width: 768px) {
+    table#admin-users-tab td.about-me {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    table#admin-users-tab td.about-me {
+        max-width: 100px;
+    }
 }
 
 .edit-link, .delete-button {
@@ -63,6 +84,25 @@ table#admin-users-tab td.about-me-col {
     font-size: 14px;
     cursor: pointer;
     text-align: center;
+}
+
+.edit-link {
+    background-color: var(--border-color);
+    color: var(--text-color-dark);
+}
+
+.edit-link:hover {
+    background-color: var(--post-data);
+}
+
+button.delete-button {
+    border: none;
+    line-height: normal;
+    background-color: var(--delete-text);
+}
+
+button.delete-button:hover {
+    background-color: var(--red-hover-text);
 }
 
 

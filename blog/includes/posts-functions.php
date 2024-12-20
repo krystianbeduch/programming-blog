@@ -152,7 +152,7 @@ function renderUserPosts(array $userPosts) : void {
 
             echo "<a href='../pages/post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link'>Przejdź do strony posta</a>";
             echo "<a href='../pages/edit-post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link edit-link'>Edytuj</a>";
-            echo "<button class='post-comments-link post-link delete-post-button' data-post-id='" . $post["post_id"] . "'>Usuń</button>";
+            echo "<button class='post-comments-link post-link delete-button' data-post-id='" . $post["post_id"] . "'>Usuń</button>";
             echo "</div>";
         }
     }

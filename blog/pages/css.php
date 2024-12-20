@@ -44,6 +44,9 @@ $offset = $paginationData["offset"];
                 Cascading Style Sheets to język służący do opisywania wyglądu i stylu dokumentów HTML. Pozwala na zdefiniowanie układu elementów, kolorów, czcionek, animacji oraz wielu innych aspektów wizualnych strony internetowej. CSS oddziela treść od prezentacji, co ułatwia zarządzanie stylem witryny oraz jej estetykę na różnych urządzeniach. W połączeniu z HTML i JavaScript tworzy podstawowy zestaw technologii do tworzenia nowoczesnych, responsywnych stron internetowych.
             </p>
             <img src="../images/css_logo.png" alt="CSS logo" class="language-image">
+
+            <?php include_once "../includes/post-alerts.php"; ?>
+
             <?php if (isset($_SESSION["loggedUser"])): ?>
                 <a href="add-post.php?category=<?php echo $language;?>" class="post-comments-link add-post-link">Dodaj post</a>
             <?php endif ?>

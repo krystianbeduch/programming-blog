@@ -35,7 +35,7 @@ require_once "../includes/admin-functions.php";
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <!--    <script src="../js/edit-user-post-form.js" type="module"></script>-->
-        <script src="../js/admin-users.js"></script>
+        <script src="../js/admin-users.js" type="module"></script>
 <!--    <script src="../js/add-comment-bbcode.js"></script>-->
 </head>
 <body>
@@ -72,6 +72,16 @@ require_once "../includes/admin-functions.php";
             <h4>Podgląd "O mnie"</h4>
             <div id="preview-content" class="preview-content"></div>
             <button type="button" class="close close-preview-button">Zamknij podgląd</button>
+        </div>
+
+        <div id="delete-user-modal" class="modal delete-modal">
+            <div class="modal-content">
+                <p>Czy na pewno chcesz usunąć tego użytkownika?</p>
+                <div class="modal-buttons">
+                    <button id="cancel-button" class="modal-button cancel-button">Anuluj</button>
+                    <button id="confirm-button" class="modal-button confirm-button">Potwierdź</button>
+                </div>
+            </div>
         </div>
 
 

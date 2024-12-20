@@ -45,7 +45,7 @@ $offset = $paginationData["offset"];
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../js/user-posts-management.js"></script>
+    <script src="../js/user-posts-management.js" type="module"></script>
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
@@ -101,7 +101,7 @@ $offset = $paginationData["offset"];
 
 </main>
 
-<div id="delete-post-modal" class="modal">
+<div id="delete-post-modal" class="modal delete-modal">
     <div class="modal-content">
         <p>Czy na pewno chcesz usunąć ten post?</p>
         <div class="modal-buttons">

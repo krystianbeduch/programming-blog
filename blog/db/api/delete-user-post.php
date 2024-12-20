@@ -31,9 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
             $stmt->bind_param("i", $postId);
             $stmt->execute();
             if ($stmt->affected_rows > 0) {
+                http_response_code(200);
                 echo json_encode(["success" => true, "message" => "Usunięto post o numerze " . $postId]);
             }
             else {
+                http_response_code(404); // Not Found
                 echo json_encode(["success" => false, "message" => "Nie ma posta o numerze " . $postId]);
             }
             $stmt->close();
