@@ -6,24 +6,6 @@ if (!isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] != "Admin
     exit;
 }
 
-//if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
-//    $postId = (int)$_GET["postId"];  // Pobranie postId z URL
-//
-//    include_once "../db/mysql-operation.php";
-//    $post = getOnePostToEdit($_SESSION["loggedUser"]["id"], $postId);
-//    if (count($post) == 0 ) {
-//        http_response_code(404); // Not Found - nie znaleziono zasobu
-//        require "../errors/404.html";
-//        exit;
-//    }
-//}
-//else {
-//    http_response_code(400); // Bad request - bledna skladnia
-//    require "../errors/400.html";
-//    exit;
-//}
-//include_once "../includes/bbcode-functions.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -48,9 +30,7 @@ if (!isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] != "Admin
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <script src="../js/edit-user-post-form.js" type="module"></script>
-    <script src="../js/add-comment-bbcode.js"></script>
+    
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>

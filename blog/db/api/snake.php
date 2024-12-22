@@ -34,7 +34,7 @@ function getSessionUserName(): void  {
             $username = $_SESSION["loggedUser"]["username"];
         }
         else {
-            http_response_code(404);
+            http_response_code(404); // Not Found
             exit;
         }
 
@@ -46,7 +46,7 @@ function getSessionUserName(): void  {
         echo json_encode(["username" => $result->fetch_assoc()["username"]]);
     }
     catch (Exception $e) {
-        http_response_code(500);
+        http_response_code(500); // Internal Server Error
         echo json_encode(["message" => $e->getMessage()]);
     }
 }
@@ -65,7 +65,7 @@ function getUserScores() : void {
         echo json_encode(["success" => true, "scores" => $result->fetch_all(MYSQLI_ASSOC)]);
     }
     catch (Exception $e) {
-        http_response_code(500);
+        http_response_code(500); // Internal Server Error
         echo json_encode(["success" => false, "message" => "Error: ". $e->getMessage()]);
     }
 }
@@ -94,7 +94,7 @@ function addUserScore() : void {
             echo json_encode(["success" => true, "message" => "Zapisano wynik do bazy"]);
         }
         else {
-            http_response_code(400);
+            http_response_code(400); // Bad Request
             echo json_encode(["success" => false, "message" => "Invalid type parameter"]);
         }
     }

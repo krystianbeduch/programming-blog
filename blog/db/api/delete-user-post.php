@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
             $stmt->bind_param("i", $postId);
             $stmt->execute();
             if ($stmt->affected_rows > 0) {
-                http_response_code(200);
+                http_response_code(200); // OK
                 echo json_encode(["success" => true, "message" => "Usunięto post o numerze " . $postId]);
             }
             else {
@@ -49,31 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
         }
     }
     else {
-        http_response_code(400);
+        http_response_code(400); // Bad Request
         echo json_encode(["success" => false, "message" => "Invalid type parameter"]);
         exit();
     }
-
-
-
 }
 else {
-    http_response_code(405);
+    http_response_code(405); // Method Not Allowed
     echo json_encode(["success" => false, "message" => "Invalid request method"]);
     exit();
 }
-
-//$postId = $_GET["postId"] ?? null;
-//$value = $_GET["value"] ?? null;
-
-//// Walidacja parametrow
-//if (!$type || !$value) {
-//    http_response_code(400); // Bad request - bledna skladnia
-//    echo json_encode(["success" => false, "message" => "Invalid request parameters"]);
-//    exit();
-//}
-//
-//try {
-//    $conn = new mysqli(
-
-//}

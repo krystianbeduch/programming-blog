@@ -26,12 +26,14 @@ table#user-posts-stats th[colspan="4"] {
     border: 1px solid var(--border-color);
     /*display: flex;*/
     /*align-items: center;*/
+    /*justify-content: flex-start;*/
 }
 
 table#user-posts-stats th[colspan="4"] img {
     margin-left: 8px;
     width: 20px;
     height: auto;
+    vertical-align: middle;
 }
 
 table#user-posts-stats th:last-child,
@@ -60,6 +62,10 @@ table#admin-users-tab td.about-me-col {
     white-space: nowrap; /* Zapobiega zawijaniu tekstu */
     overflow: hidden; /* Ukrywa nadmiarowy tekst */
     text-overflow: ellipsis; /* Dodaje "..." na koncu tekstu */
+}
+
+table#admin-users-tab td.is-active-col {
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

@@ -96,16 +96,22 @@ div.modal-content input.valid-input:-webkit-autofill {
 div.modal-content button {
     width: 100%;
     padding: 10px;
-    background-color: var(--button-background);
-    color: var(--text-color-light);
     border: none;
     border-radius: 4px;
     font-size: 1em;
 }
 
+div#auth-modal button {
+    background-color: var(--button-background);
+    color: var(--text-color-light);
+}
+
 div.modal-content button:hover {
-    background-color: var(--button-hover);
     cursor: pointer;
+}
+
+div#auth-modal button:hover {
+    background-color: var(--button-hover);
 }
 
 form#register-form button#captcha-button {
@@ -126,7 +132,7 @@ div#captcha-modal button#captcha-verify {
     margin-top: 10px;
 }
 
-/* Przycisk zamykający modal */
+/* Przycisk zamykający modal logowania/rejestracji */
 span.close-modal {
     position: absolute;
     top: 10px;
@@ -159,8 +165,13 @@ div.modal-content div.auth-form {
     display: block;
 }
 
+.modal-container.active {
+    display: flex;
+}
+
 /* Modal usun post/usera */
-div.delete-modal {
+div.delete-modal,
+div#change-user-activity-modal {
     font-weight: bold;
 }
 
@@ -168,30 +179,47 @@ div.delete-modal div.modal-content {
     box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
 }
 
-.modal-container.active {
-    display: flex;
+div#change-user-activity-modal div.modal-content {
+    box-shadow: 0 0 30px rgba(76, 175, 80, 0.9);
 }
 
-div.delete-modal button.modal-button {
+button.modal-button {
     margin-top: 10px;
     display: flex;
     justify-content: center;
 }
 
-div.delete-modal button.cancel-button {
-    background-color: var(--background-dark) !important;
-    color: var(--text-color-dark) !important;
+button.cancel-button {
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
 }
 
-div.delete-modal button.cancel-button:hover {
-    background-color: var(--hover-color) !important;
+button.cancel-button:hover {
+    background-color: var(--hover-color);
 }
 
 div.delete-modal button.confirm-button {
-    background-color: var(--delete-text) !important;
+    background-color: var(--delete-text);
     color: var(--text-color-light);
 }
 
 div.delete-modal button.confirm-button:hover {
-    background-color: var(--red-hover-text) !important;
+    background-color: var(--red-hover-text);
 }
+
+div#change-user-activity-modal button.confirm-button,
+div#edit-user-modal button.confirm-button {
+    background-color: var(--button-background);
+    color: var(--text-color-light);
+}
+
+div#change-user-activity-modal button.confirm-button:hover,
+div#edit-user-modal button.confirm-button:hover {
+    background-color: var(--button-hover);
+}
+
+div#edit-user-modal button.confirm-button:disabled {
+    cursor: not-allowed;
+}
+
+/* Modal zmiany aktywnosci konta */

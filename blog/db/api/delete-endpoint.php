@@ -2,13 +2,6 @@
 // Informacja dla klienta (np. przegladarki), ze odpowiedz bedzie w formacie JSON
 header("Content-Type: application/json");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-//header("Access-Control-Allow-Methods: DELETE");
-//$allowed_origins = ['http://localhost', 'http://127.0.0.1'];
-
-//if (in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {
-//    header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
-//}
-
 header("Access-Control-Allow-Origin: *");
 
 require_once "../db-connect.php";
@@ -19,13 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
 
     // Sprawdzamy czy przekazano typ operacji i ID
     if (!isset($inputData->type) || !isset($inputData->id)) {
-        http_response_code(400);
+        http_response_code(400); // Bad Request
         echo json_encode(["success" => false, "message" => "Invalid type parameter"]);
         exit();
     }
 
-    // Sprawdzamy czy w ciele jest postId
-//    if (isset($inputData->postId)) {
     $type = $inputData->type;
     $id = $inputData->id;
     $conn = null;
@@ -46,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
         }
         else {
             // Nieznana operacja
-            http_response_code(400);
+            http_response_code(400); // Bad Request
             echo json_encode(["success" => false, "message" => "Invalid type parameter"]);
             exit();
         }
@@ -55,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
         $stmt->bind_param("i", $id);
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
-            http_response_code(200);
+            http_response_code(200); // OK
             echo json_encode(["success" => true, "message" => "Usunięto {$type}a o id " . $id]);
         }
         else {
@@ -76,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
     }
 } // if REQUEST_METHOD DELETE
 else {
-    http_response_code(405);
+    http_response_code(405); // Method Not Allowed
     echo json_encode(["success" => false, "message" => "Invalid request method"]);
     exit();
 }

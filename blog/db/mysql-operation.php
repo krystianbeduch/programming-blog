@@ -770,7 +770,7 @@ function editPost(array $post) : void {
             if ($attachmentId == null) {
                 $insertAttachmentQuery = "INSERT INTO posts_attachments (file_name, file_type, file_size, file_data) VALUES (?, ?, ?, ?)";
                 $stmt = $conn->prepare($insertAttachmentQuery);
-                $stmt->bind_param("ssis", $fileName, $fileType, $fileSize, $fileData);
+                $stmt->bind_param("ssib", $fileName, $fileType, $fileSize, $fileData);
                 $stmt->execute();
 
                 // Pobieramy attachmentId z ostatnio dodanego załącznika
@@ -783,7 +783,7 @@ function editPost(array $post) : void {
                 // Aktualizacja istniejacego zalacznika
                 $updateAttachmentQuery = "UPDATE posts_attachments SET file_name = ?, file_type = ?, file_size = ?, file_data = ? WHERE attachment_id = ?";
                 $stmt = $conn->prepare($updateAttachmentQuery);
-                $stmt->bind_param("ssisi", $fileName, $fileType, $fileSize, $fileData, $attachmentId);
+                $stmt->bind_param("ssibi", $fileName, $fileType, $fileSize, $fileData, $attachmentId);
                 $stmt->execute();
             }
         }

@@ -36,7 +36,7 @@
                 <span class="error-message"></span>
 
                 <label for="reg-email">Email:</label>
-                <input type="email" id="reg-email" name="email" required  placeholder="np. email@example.com">
+                <input type="email" id="reg-email" name="email" required placeholder="np. email@example.com">
                 <span class="error-message"></span>
 
                 <label for="reg-password">Hasło:</label>

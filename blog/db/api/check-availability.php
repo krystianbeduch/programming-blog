@@ -40,7 +40,7 @@ try {
         $query = "SELECT COUNT(*) FROM users WHERE LOWER(email) = LOWER(?)";
     }
     else {
-        http_response_code(400);
+        http_response_code(400); // Bad Request
         echo json_encode(["success" => false, "message" => "Invalid type parameter"]);
         exit();
     }
@@ -64,6 +64,6 @@ try {
 }
 catch (Exception $e) {
     http_response_code(500); // Internal Server Error - blad polaczenia z serwerem
-    echo json_encode(["success" => false, "message" => "Error: " .$e->getMessage()]);
+    echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
     exit;
 }

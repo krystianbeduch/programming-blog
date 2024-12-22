@@ -1,16 +1,12 @@
 import {
-    showErrorAlert, showSuccessAlert,
-    checkAndShowSuccessAlert, handleDelete
+    selectors, checkAndShowSuccessAlert, handleDelete
 } from "./modules/delete-utils.js";
 
 $(document).ready(() => {
     const table = $("#user-posts-stats");
     const buttonToggle = $("button.toggle-stats-table");
-    const buttonDeletePost = $("button.delete-button");
-    const buttonDeletePostCancel = $("button#cancel-button");
-    const buttonDeletePostConfirm = $("button#confirm-button")
-    const deleteModal = $("div#delete-post-modal");
-    const SERVER_URI = "/US/blog/db/api";
+
+    const { buttonDelete, buttonDeleteCancel, buttonDeleteConfirm, deleteModal } = selectors;
 
     let currentPostId;
 
@@ -26,45 +22,21 @@ $(document).ready(() => {
         }
     });
 
-    buttonDeletePost.on("click", function() {
+    buttonDelete.on("click", function() {
         currentPostId = $(this).data('post-id'); // Pobierz ID posta
         deleteModal.css('display', 'flex').hide().fadeIn();
     });
 
-    buttonDeletePostCancel.on("click", () =>{
+    buttonDeleteCancel.on("click", () =>{
         currentPostId = null;
         deleteModal.show().fadeOut();
     });
 
-    buttonDeletePostConfirm.on("click", function() {
+    buttonDeleteConfirm.on("click", function() {
         if (currentPostId) {
             handleDelete("post", currentPostId, deleteModal, () => location.reload());
         }
     }); // buttonDeletePostConfirm click
 
-    // const showErrorAlert = (message) => {
-    //     const alertDiv = $("<div>", {
-    //         class: "alert alert-danger",
-    //         html: `<strong>Błąd!</strong> ${message}`
-    //     });
-    //     $("header").prepend(alertDiv);
-    // }
-
-
-    // const showSuccessAlert = (message) => {
-    //     const alertDiv = $("<div>", {
-    //         class: "alert alert-success",
-    //         html: `<strong>Sukces!</strong> ${message}`
-    //     });
-    //     $("header").prepend(alertDiv);
-    // };
-
-    // // Sprawdzamy, czy jest zapisany komunikat o sukcesie
-    // const successMessage = sessionStorage.getItem("successMessage");
-    // if (successMessage) {
-    //     showSuccessAlert(successMessage);
-    //     // Po wyswietleniu, usuwamy komunikat z sessionStorage
-    //     sessionStorage.removeItem("successMessage");
-    // }
     checkAndShowSuccessAlert();
 });

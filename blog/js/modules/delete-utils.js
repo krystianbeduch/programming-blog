@@ -1,11 +1,19 @@
 const SERVER_URI = "/US/blog/db/api";
 
+export const selectors = {
+    buttonDelete: $("button.delete-button"),
+    buttonDeleteCancel: $("button#cancel-button"),
+    buttonDeleteConfirm: $("button#confirm-button"),
+    deleteModal: $("div.delete-modal")
+};
+
 export const showErrorAlert = (message) => {
     const alertDiv = $("<div>", {
         class: "alert alert-danger",
         html: `<strong>Błąd!</strong> ${message}`
     });
     $("header").prepend(alertDiv);
+    window.scrollTo(0, 0);
 };
 
 export const showSuccessAlert = (message) => {
@@ -19,6 +27,8 @@ export const showSuccessAlert = (message) => {
 export const checkAndShowSuccessAlert = () => {
     const successMessage = sessionStorage.getItem("successMessage");
     if (successMessage) {
+        // Przewijanie strony do gory
+        window.scrollTo(0, 0);
         showSuccessAlert(successMessage);
         // Po wyswietleniu, usuwamy komunikat z sessionStorage
         sessionStorage.removeItem("successMessage");

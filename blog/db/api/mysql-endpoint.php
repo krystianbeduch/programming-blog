@@ -31,8 +31,6 @@ try {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-//        $userName = $data["userName"];
-//        $score = $data["score"];
         $query = "SELECT * FROM snake_scores";
         $result = $conn->query($query);
         $conn->close();
