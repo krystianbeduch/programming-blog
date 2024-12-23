@@ -54,7 +54,7 @@ else {
 <?php require_once "../includes/header.php"; ?>
 
 <main>
-    <?php require_once "../includes/nav.php"; ?>
+    <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
         <form id="add-post-form" class="post-form" name="add_post_form" action="add-post-preview.php" method="post" enctype="multipart/form-data">
@@ -122,7 +122,7 @@ else {
 
 </main>
 
-<?php require_once "../includes/footer.php"; ?>
+<?php require_once "../includes/footer.html"; ?>
 </body>
 
 </html>

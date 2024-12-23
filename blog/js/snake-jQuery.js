@@ -69,7 +69,6 @@ $(document).ready(function () {
 
     // Rysowanie weza
     const drawSnake = () => {
-        // ctx.fillStyle = "#0f0"; // Kolor weza
         snake.forEach((segment, index) => {
             ctx.fillStyle = index === 0 ? "#218838" : "#0f0";
             // Rysowanie kazdego segmentu weza

@@ -70,7 +70,8 @@ export const enableField = (input) => {
 export const disableField = (input, edit = true) => {
     if (!edit) {
         input.removeAttr("readonly").attr("disabled", true);
-    } else {
+    }
+    else {
         input.attr("readonly", true).removeAttr("required");
     }
 };

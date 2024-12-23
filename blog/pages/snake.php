@@ -16,6 +16,7 @@ session_start();
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/style-games.css">
     <link rel="stylesheet" href="../css/style-snake.css">
 
     <!-- jQuery -->
@@ -23,15 +24,14 @@ session_start();
     <script src="../js/drag-racers-jQuery.js"></script>
 </head>
 <body>
-
     <?php require_once "../includes/header.php"; ?>
 
     <main>
-        <?php require_once "../includes/nav.php"; ?>
+        <?php require_once "../includes/nav.html"; ?>
 
-        <section id="main-section" class="blackjack-section">
-            <h1>Gra Snake</h1>
-            <h3>Zasady:</h3>
+        <section id="main-section" class="game-section">
+            <h2>Gra Snake</h2>
+            <h5>Zasady:</h5>
             <ul>
                 <li>Poruszanie odbywa się za pomocą strzałek.</li>
                 <li>Jedzenie pojawia się w losowym miejscu planszy</li>
@@ -48,7 +48,6 @@ session_start();
                 <li>Gre można zastopować klikąjąc przycisk P</li>
                 <li>Gre można zakończyć klikając przycisk E</li>
                 <li>Gre można zrestartować klikając przycisk R</li>
-
             </ul>
 
             <div id="snake-game">
@@ -68,6 +67,6 @@ session_start();
 
     </main>
 
-    <?php require_once "../includes/footer.php"; ?>
+    <?php require_once "../includes/footer.html"; ?>
 </body>
 </html>

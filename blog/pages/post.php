@@ -40,23 +40,36 @@ else {
 
     <!-- Styles   -->
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/style-table-stats.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/admin-posts.js" type="module"></script>
+
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
 
 <main>
-    <?php require_once "../includes/nav.php"; ?>
+    <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
         <?php
-            echo "<h1>" . $post["title"] . "</h1>";
+            echo "<img class='language-image' src='../images/" . strtolower($post["category_name"]) . "_logo.png' alt='" . $post["category_name"] . "' title='" . $post["category_name"] . "'>";
+            echo "<h2>" . $post["title"];
+            if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin") {
+                echo "<button class='post-link delete-button' data-post-id='" . $post["post_id"] . "' data-category-name='" . $post["category_name"] . "' title='Usuń post'>";
+                echo "<img src='../images/trash-fill.svg' alt='Usuń post'></button>";
+            }
+            echo "</h2>";
+
             echo "<p class='post-author'>Autor: " . $post["username"]. ", " . $post["email"] .
             "<span class='post-date'>Utworzono: " . date("d-m-Y H:i", strtotime($post["created_at"])) .
-             "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
+             "<span class='post-updated'>| Ostatnia aktualizacja: " . date("d-m-Y H:i", strtotime($post["updated_at"])) . "</span></span></p>";
             echo "<p>" . $post["content"] . "</p>";
 
             if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
-            // Wyswietlanie zalaczonego zdjecia, jeśsi istnieje
+            // Wyswietlanie zalaczonego zdjecia, jesli istnieje
             $base64Image = base64_encode($post["file_data"]);
             echo "<h5>Załączone zdjęcie:</h5>";
             echo "<img src='data:" . htmlspecialchars($post["file_type"]) . ";base64," . $base64Image . "' alt='Załączone zdjęcie' class='post-attachment'>";
@@ -87,13 +100,24 @@ else {
         </article>
         <?php include "../includes/add-comment-form.php"; ?>
 
+        <!-- Modal usuwania posta/komentarza przez admina -->
+        <div id="delete-post-modal" class="modal delete-modal">
+            <div class="modal-content">
+                <p>Czy na pewno chcesz usunąć ten <span></span>?</p>
+                <div class="modal-buttons">
+                    <button id="cancel-button" class="modal-button cancel-button">Anuluj</button>
+                    <button id="confirm-button" class="modal-button confirm-button">Potwierdź</button>
+                </div>
+            </div>
+        </div>
+
     </section>
 
     <?php require_once "../includes/aside.php"; ?>
 
 </main>
 
-<?php require_once "../includes/footer.php"; ?>
+<?php require_once "../includes/footer.html"; ?>
 </body>
 
 </html>

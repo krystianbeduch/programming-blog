@@ -26,6 +26,49 @@ function handleUnknownAction(?string $action): void {
     echo "Nieznana akcja: " . htmlspecialchars($action);
 }
 
+function getCategoryDescription(string $category): string {
+    $conn = null;
+    $description = "";
+    try {
+        $categoryId = getCategoryId($category);
+        if ($categoryId == -1) {
+            throw new Exception("Nieznana kategoria");
+        }
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $query = <<<SQL
+        SELECT 
+            description 
+        FROM categories 
+        WHERE category_id = ?;
+        SQL;
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $categoryId);
+        $stmt->execute();
+        $stmt->bind_result($fetchedDescription);
+        $stmt->fetch();
+        if ($fetchedDescription) {
+            $description = $fetchedDescription;
+        }
+    } catch (mysqli_sql_exception $e) {
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
+        exit;
+    } catch (Exception $e) {
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
+        exit;
+    } finally {
+        $stmt->close();
+        $conn->close();
+        return $description;
+    }
+} // getCategoryDescription()
+
 function getCategoryId(string $category) : int {
     $categoryId = -1; // Domyslna wartosc w przypadku bledu lub braku rezultatu
     try {
@@ -35,7 +78,13 @@ function getCategoryId(string $category) : int {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $stmt = $conn->prepare("SELECT category_id FROM categories WHERE category_name = ?;");
+        $query = <<<SQL
+        SELECT
+            category_id
+        FROM categories
+        WHERE category_name = ?;
+        SQL;
+        $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $category);
         $stmt->execute();
         $stmt->bind_result($fetchedCategoryId);
@@ -60,27 +109,95 @@ function getCategoryId(string $category) : int {
     }
 } // getCategoryId()
 
-function getPosts(string $category) : array {
+function getPosts(?string $category = null) : array {
     $posts = [];
     try {
-        $categoryId = getCategoryId($category);
-        if ($categoryId == -1) {
-            throw new Exception("Nie znana kategoria");
-        }
-
         $conn = new mysqli(
             MySQLConfig::SERVER,
             MySQLConfig::USER,
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT 
-                    p.post_id, p.title, p.content,
-                    p.created_at, p.updated_at, u.username, u.email,  pa.file_data, pa.file_type 
-                FROM posts p JOIN users u ON p.user_id = u.user_id LEFT JOIN posts_attachments pa ON p.attachment_id = pa.attachment_id
-                WHERE p.category_id = ? ORDER BY p.created_at DESC;";
+
+        $query = <<<SQL
+        SELECT 
+            p1.post_id,
+            c2.category_name,
+            p1.title, 
+            p1.content,
+            p1.created_at, 
+            p1.updated_at, 
+            u.username, 
+            u.email,
+            COUNT(c1.post_id) AS 'comments_count',
+            p2.file_data, 
+            p2.file_type 
+        FROM posts p1 
+        JOIN users u ON p1.user_id = u.user_id 
+        LEFT JOIN posts_attachments p2 ON p1.attachment_id = p2.attachment_id
+        LEFT JOIN comments c1 ON p1.post_id = c1.post_id
+        JOIN categories c2 ON p1.category_id = c2.category_id
+        SQL;
+
+        if ($category) {
+            $categoryId = getCategoryId($category);
+            if ($categoryId == -1) {
+                throw new Exception("Nieznana kategoria");
+            }
+            $query .= " WHERE p1.category_id = ? ";
+        }
+        $query .= " GROUP BY 
+                    p1.post_id, 
+                    c2.category_name,
+                    p1.title, 
+                    p1.content,
+                    p1.created_at, 
+                    p1.updated_at, 
+                    u.username, 
+                    u.email,
+                    p2.file_data, 
+                    p2.file_type
+                    ORDER BY p1.updated_at DESC;";
+//        else {
+//            // Zapytanie dla wszystkich postow
+//            $query = <<<SQL
+//            SELECT
+//                p1.post_id,
+//                c2.category_name,
+//                p1.title,
+//                p1.content,
+//                p1.created_at,
+//                p1.updated_at,
+//                u.username,
+//                u.email,
+//                COUNT(c1.post_id) AS 'comments_count',
+//                p2.file_data,
+//                p2.file_type
+//            FROM posts p1
+//            JOIN users u ON p1.user_id = u.user_id
+//            LEFT JOIN posts_attachments p2 ON p1.attachment_id = p2.attachment_id
+//            LEFT JOIN comments c1 ON p1.post_id = c1.post_id
+//            JOIN categories c2 ON p1.category_id = c2.category_id
+//            GROUP BY
+//                p1.post_id,
+//                p1.title,
+//                p1.content,
+//                p1.created_at,
+//                p1.updated_at,
+//                u.username,
+//                u.email,
+//                p2.file_data,
+//                p2.file_type
+//            ORDER BY p1.post_id DESC;
+//            SQL;
+//            $stmt = $conn->prepare($query);
+//        }
+//        echo $query;
+
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $categoryId);
+        if ($category) {
+            $stmt->bind_param("i", $categoryId);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result) {
@@ -89,12 +206,13 @@ function getPosts(string $category) : array {
     }
     catch (mysqli_sql_exception $e) {
         $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
-        header("Location: index.php");
+//        echo $e->getMessage();
+        header("Location: ../pages/index.php");
         exit;
     }
     catch (Exception $e) {
         $_SESSION["alert"]["error"] = $e->getMessage();
-        header("Location: index.php");
+        header("Location: ../pages/index.php");
         exit;
     }
     finally {
@@ -113,12 +231,26 @@ function getOnePost(int $postId): array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT 
-                    p.post_id, p.title, p.content,
-                    p.created_at, p.updated_at,  
-                    u.username, u.email, u.about_me, pa.file_data, pa.file_type 
-                FROM posts p JOIN users u ON p.user_id = u.user_id LEFT JOIN posts_attachments pa ON p.attachment_id = pa.attachment_id
-                WHERE p.post_id = ? ORDER BY p.created_at DESC;";
+        $query = <<<SQL
+        SELECT 
+            p.post_id,
+            c.category_name,
+            p.title,
+            p.content,
+            p.created_at,
+            p.updated_at, 
+            u.username,
+            u.email,
+            u.about_me,
+            pa.file_data,
+            pa.file_type 
+        FROM posts p 
+        JOIN users u ON p.user_id = u.user_id 
+        LEFT JOIN posts_attachments pa ON p.attachment_id = pa.attachment_id
+        JOIN categories c ON p.category_id = c.category_id
+        WHERE p.post_id = ? 
+        ORDER BY p.created_at DESC;
+        SQL;
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $postId);
         $stmt->execute();
@@ -153,10 +285,20 @@ function getOnePostToEdit(int $userId, int $postId): array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT post_id, title, content, LOWER(category_name) AS 'category_name', pa.attachment_id,file_data, file_type 
-                    FROM posts p JOIN categories ca ON p.category_id = ca.category_id 
-                    LEFT JOIN posts_attachments pa ON p.attachment_id = pa.attachment_id 
-                    WHERE p.user_id = ? AND post_id = ?;";
+        $query = <<<SQL
+        SELECT 
+            p.post_id,
+            p.title,
+            p.content,
+            LOWER(c.category_name) AS 'category_name',
+            pa.attachment_id,
+            pa.file_data,
+            pa.file_type
+        FROM posts p 
+        JOIN categories c ON p.category_id = c.category_id 
+        LEFT JOIN posts_attachments pa ON p.attachment_id = pa.attachment_id 
+        WHERE p.user_id = ? AND p.post_id = ?;
+        SQL;
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ii", $userId, $postId);
         $stmt->execute();
@@ -191,11 +333,20 @@ function getCommentsToPost(int $postId) : array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT 
-                    c.post_id, u.user_id, IFNULL(u.username, c.username) AS username, 
-                    IFNULL(u.email, c.email) AS email, c.created_at, c.content 
-                FROM comments c LEFT JOIN users u ON c.user_id = u.user_id 
-                WHERE post_id = ? ORDER BY c.created_at DESC;";
+        $query = <<<SQL
+        SELECT
+            c.comment_id,
+            c.post_id,
+            u.user_id,
+            IFNULL(u.username, c.username) AS username,
+            IFNULL(u.email, c.email) AS email,
+            c.created_at,
+            c.content
+        FROM comments c 
+        LEFT JOIN users u ON c.user_id = u.user_id 
+        WHERE post_id = ? 
+        ORDER BY c.created_at DESC;
+        SQL;
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $postId);
         $stmt->execute();
@@ -224,6 +375,7 @@ function getCommentsToPost(int $postId) : array {
 function addCommentToPost(array $commentData) : void {
     session_start();
     $postId = $commentData["post-id"];
+    $conn = null;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -235,10 +387,14 @@ function addCommentToPost(array $commentData) : void {
         $conn->begin_transaction();
 
         // Przygotowanie i wykonanie zapytania
-        $stmt = $conn->prepare(
-            "INSERT INTO comments
-                    (user_id, username, email, content, post_id) 
-                    VALUES (null, ?, ?, ?, ?)");
+        $query = <<<SQL
+        INSERT INTO comments 
+            (username, email, content, post_id)
+        VALUES 
+            (?, ?, ?, ?)
+        SQL;
+
+        $stmt = $conn->prepare($query);
         $stmt->bind_param(
             "sssi",
             $commentData["username"],
@@ -285,7 +441,13 @@ function checkCategory(string $language) : bool {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $stmt = $conn->prepare("SELECT 1 FROM categories WHERE category_name = ?;");
+        $query = <<<SQL
+        SELECT 
+            1 
+        FROM categories 
+        WHERE category_name = ?;
+        SQL;
+        $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $language);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -328,10 +490,14 @@ function addPost(array $postData) : void {
             MySQLConfig::DATABASE
         );
         $conn->begin_transaction();
-        $stmt = $conn->prepare(
-            "INSERT INTO posts
-                    (title, content, user_id, category_id, attachment_id)
-                    VALUES (?, ?, ?, ?, ?)");
+        $query = <<<SQL
+        INSERT INTO posts
+            (title, content, user_id, category_id, attachment_id)
+        VALUES 
+            (?, ?, ?, ?, ?)
+        SQL;
+
+        $stmt = $conn->prepare($query);
         $categoryId = getCategoryId($postData["category"]);
         $stmt->bind_param(
             "ssiii",
@@ -370,7 +536,6 @@ function addAttachmentToPost($attachmentData) : int {
     $fileSize = $attachmentData["size"];
     $fileContent = base64_decode($attachmentData["content"]);
     $conn = null;
-//    $insertedId = null;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -379,10 +544,13 @@ function addAttachmentToPost($attachmentData) : int {
             MySQLConfig::DATABASE
         );
         $conn->begin_transaction();
-        $stmt = $conn->prepare(
-            "INSERT INTO posts_attachments
-                    (file_name, file_type, file_size, file_data)
-                    VALUES (?, ?, ?, ?)");
+        $query = <<<SQL
+        INSERT INTO posts_attachments
+            (file_name, file_type, file_size, file_data)
+        VALUES 
+            (?, ?, ?, ?)
+        SQL;
+        $stmt = $conn->prepare($query);
         $stmt->bind_param(
             "ssis",
             $fileName,
@@ -396,7 +564,6 @@ function addAttachmentToPost($attachmentData) : int {
         $insertedId = $conn->insert_id;
 
         $conn->commit();
-
     }
     catch (mysqli_sql_exception $e) {
         $conn->rollback();
@@ -415,8 +582,7 @@ function addAttachmentToPost($attachmentData) : int {
         $conn->close();
         return $insertedId;
     }
-
-}
+} // addAtachmentToPost()
 
 
 function getUserRole(string $roleName) : int {
@@ -428,7 +594,13 @@ function getUserRole(string $roleName) : int {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $stmt = $conn->prepare("SELECT role_id FROM roles WHERE role_name = ?;");
+        $query = <<<SQL
+        SELECT 
+            role_id 
+        FROM roles 
+        WHERE role_name = ?;
+        SQL;
+        $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $roleName);
         $stmt->execute();
         $stmt->bind_result($fetchedRoleId);
@@ -457,7 +629,6 @@ function getUserRole(string $roleName) : int {
 
 function createUserAccount(array $user) : void {
     $conn = null;
-//    $stmt = null;
     session_start();
     try {
         $roleId = getUserRole($user["role"]);
@@ -472,9 +643,12 @@ function createUserAccount(array $user) : void {
         );
         $password = password_hash($user["password"], PASSWORD_DEFAULT);
         $conn->begin_transaction();
-        $query = "INSERT INTO 
-                    users (username , email, password, about_me, role_id) 
-                    VALUES (?, ?, ?, ?, ?);";
+        $query = <<<SQL
+        INSERT INTO users 
+            (username, email, password, about_me, role_id) 
+        VALUES 
+            (?, ?, ?, ?, ?)
+        SQL;
         $stmt = $conn->prepare($query);
         $stmt->bind_param(
             "ssssi",
@@ -517,7 +691,20 @@ function loginUser(array $user) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $stmt = $conn->prepare("SELECT user_id, username, password, email, about_me, is_active, role_name FROM users u JOIN roles r ON u.role_id = r.role_id WHERE username = ?");
+        $query = <<<SQL
+        SELECT 
+            u.user_id, 
+            u.username, 
+            u.password, 
+            u.email, 
+            u.about_me, 
+            u.is_active, 
+            r.role_name 
+        FROM users u 
+        JOIN roles r ON u.role_id = r.role_id 
+        WHERE username = ?
+        SQL;
+        $stmt = $conn->prepare($query);
         $stmt->bind_param("s",$user["username"]);
         $stmt->execute();
         $stmt->bind_result($userId, $username, $hashedPassword, $email, $aboutMe, $isActive, $roleName);
@@ -546,7 +733,6 @@ function loginUser(array $user) : void {
         // Powrot na strone z ktorej nastapilo logowanie
         $redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";
         header("Location: $redirectUrl");
-
     }
     catch (mysqli_sql_exception $e) {
         $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
@@ -574,6 +760,7 @@ function editUserAccount(array $user) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
+        print_r($user);
 
         // Jesli nie ma id uzytkownika - blad
         if (!isset($user["id"])) {
@@ -583,10 +770,18 @@ function editUserAccount(array $user) : void {
         unset($user["id"]); // Nie aktualizujemy ID uzytkownika
 
         $setParts = [];
+        echo $userId;
 
         if (isset($user["current-password"], $user["new-password"], $user["new-password-confirm"])) {
             // Pobierz biezace haslo uzytkownika
-            $stmt = $conn->prepare("SELECT password FROM users WHERE user_id = ?");
+            $query = <<<SQL
+            SELECT
+                password
+            FROM users
+            WHERE user_id = ?
+            SQL;
+
+            $stmt = $conn->prepare($query);
             $stmt->bind_param("i", $userId);
             $stmt->execute();
             $stmt->bind_result($currentPasswordHash);
@@ -612,14 +807,18 @@ function editUserAccount(array $user) : void {
 
         // Przygotowanie zapytania UPDATE
         $setClause = getSetClause($user, $conn, $setParts);
-        $query = "UPDATE users SET $setClause WHERE user_id = $userId";
+        $query = <<<SQL
+        UPDATE 
+            users 
+        SET $setClause 
+        WHERE user_id = $userId;
+        SQL;
 
         // Wykonujemy zapytanie
         $conn->begin_transaction();
         $conn->query($query);
         $conn->commit();
 
-        session_start();
         if (isset($_SESSION["loggedUser"])) {
             unset($_SESSION["loggedUser"]);
         }
@@ -663,6 +862,8 @@ function getSetClause(array $user, mysqli $conn, array $setParts): string {
         throw new Exception("Brak danych do aktualizacji");
     }
 //    $setParts[] = "`updated_at` = NOW()";
+//    print_r($setParts);
+
 
     return implode(", ", $setParts);
 } // getSetClause()
@@ -678,13 +879,32 @@ function getUserPosts(int $userId) : array {
             MySQLConfig::DATABASE
 
         );
-        $query = "    
-                SELECT 
-                    p.post_id, p.title, p.content, p.updated_at, ca.category_name, COUNT(c.comment_id) AS comment_count, pa.file_data, pa.file_type
-                FROM posts p LEFT JOIN comments c ON p.post_id = c.post_id JOIN categories ca ON p.category_id = ca.category_id LEFT JOIN posts_attachments pa ON p.attachment_id = pa.attachment_id 
-                WHERE p.user_id = ? 
-                GROUP BY p.post_id, p.title, p.content, p.updated_at, ca.category_name
-                ORDER BY p.updated_at DESC, comment_count DESC;";
+        $query = <<<SQL
+        SELECT
+            p.post_id, 
+            p.title, 
+            p.content,
+            p.created_at,
+            p.updated_at, 
+            ca.category_name, 
+            COUNT(c.comment_id) AS comment_count, 
+            pa.file_data, 
+            pa.file_type
+        FROM posts p 
+        LEFT JOIN comments c ON p.post_id = c.post_id 
+        JOIN categories ca ON p.category_id = ca.category_id 
+        LEFT JOIN posts_attachments pa ON p.attachment_id = pa.attachment_id 
+        WHERE p.user_id = ? 
+        GROUP BY 
+            p.post_id, 
+            p.title,
+            p.content,
+            p.updated_at,
+            ca.category_name
+        ORDER BY
+            p.updated_at DESC,
+            comment_count DESC;
+        SQL;
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $userId);
         $stmt->execute();
@@ -768,9 +988,14 @@ function editPost(array $post) : void {
 
             // Jesli attachmentId jest null, dodajemy nowy załącznik
             if ($attachmentId == null) {
-                $insertAttachmentQuery = "INSERT INTO posts_attachments (file_name, file_type, file_size, file_data) VALUES (?, ?, ?, ?)";
+                $insertAttachmentQuery = <<<SQL
+                INSERT INTO posts_attachments 
+                    (file_name, file_type, file_size, file_data) 
+                VALUES 
+                    (?, ?, ?, ?)
+                SQL;
                 $stmt = $conn->prepare($insertAttachmentQuery);
-                $stmt->bind_param("ssib", $fileName, $fileType, $fileSize, $fileData);
+                $stmt->bind_param("ssis", $fileName, $fileType, $fileSize, $fileData);
                 $stmt->execute();
 
                 // Pobieramy attachmentId z ostatnio dodanego załącznika
@@ -781,13 +1006,27 @@ function editPost(array $post) : void {
             }
             else {
                 // Aktualizacja istniejacego zalacznika
-                $updateAttachmentQuery = "UPDATE posts_attachments SET file_name = ?, file_type = ?, file_size = ?, file_data = ? WHERE attachment_id = ?";
+                $updateAttachmentQuery = <<<SQL
+                UPDATE 
+                    posts_attachments 
+                SET 
+                    file_name = ?, 
+                    file_type = ?, 
+                    file_size = ?, 
+                    file_data = ? 
+                WHERE attachment_id = ?
+                SQL;
                 $stmt = $conn->prepare($updateAttachmentQuery);
-                $stmt->bind_param("ssibi", $fileName, $fileType, $fileSize, $fileData, $attachmentId);
+                $stmt->bind_param("ssisi", $fileName, $fileType, $fileSize, $fileData, $attachmentId);
                 $stmt->execute();
             }
         }
-        $query = "UPDATE posts SET $setClause WHERE post_id = $postId";
+        $query = <<<SQL
+            UPDATE
+                posts 
+            SET $setClause 
+            WHERE post_id = $postId
+        SQL;
 
         // Wykonujemy zapytanie
         $conn->query($query);
@@ -814,7 +1053,7 @@ function editPost(array $post) : void {
     }
 } // editPost()
 
-function getUsers() : array {
+function getUsers_Admin() : array {
     $users = [];
     try {
         $conn = new mysqli(
@@ -823,7 +1062,31 @@ function getUsers() : array {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT u.user_id, u.username, u.email, u.about_me, COUNT(p.user_id) AS 'posts_count', u.created_at, u.updated_at, u.is_active, r.role_name FROM users u JOIN roles r ON u.role_id = r.role_id LEFT JOIN posts p ON u.user_id = p.user_id GROUP BY u.user_id, u.username, u.email, u.about_me, u.created_at, u.updated_at, u.is_active, r.role_name ORDER BY 1;";
+        $query = <<<SQL
+        SELECT 
+            u.user_id, 
+            u.username, 
+            u.email, 
+            u.about_me, 
+            COUNT(p.user_id) AS 'posts_count', 
+            u.created_at, 
+            u.updated_at, 
+            u.is_active, 
+            r.role_name 
+        FROM users u 
+        JOIN roles r ON u.role_id = r.role_id 
+        LEFT JOIN posts p ON u.user_id = p.user_id 
+        GROUP BY 
+            u.user_id, 
+            u.username, 
+            u.email, 
+            u.about_me, 
+            u.created_at, 
+            u.updated_at, 
+            u.is_active, 
+            r.role_name 
+        ORDER BY 1;
+        SQL;
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -846,4 +1109,115 @@ function getUsers() : array {
         $conn->close();
         return $users;
     }
-} // getUsers()
+} // getUsers_Admin()
+
+function getPosts_Admin(int $category) : array {
+    $posts = [];
+    try {
+//        if (empty($category)) {
+//            $query
+//        }
+//        $categoryId = getCategoryId($category);
+//        if ($categoryId == -1) {
+//            throw new Exception("Nie znana kategoria");
+//        }
+
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $query = <<<SQL
+        SELECT 
+            p.post_id, 
+            p.title, 
+            p.content,
+            p.created_at, 
+            p.updated_at, 
+            u.username, 
+            u.email,
+            COUNT(c.post_id) AS 'comments_count',
+            pa.file_data, 
+            pa.file_type 
+        FROM posts p 
+        JOIN users u ON p.user_id = u.user_id 
+        LEFT JOIN posts_attachments pa ON p.attachment_id = pa.attachment_id
+        LEFT JOIN comments c ON p.post_id = c.post_id
+        WHERE p.category_id = ? 
+        GROUP BY 
+            p.post_id, 
+            p.title, 
+            p.content,
+            p.created_at, 
+            p.updated_at, 
+            u.username, 
+            u.email,
+            pa.file_data, 
+            pa.file_type
+        ORDER BY p.created_at DESC
+        SQL;
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $categoryId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result) {
+            $posts = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+    catch (mysqli_sql_exception $e) {
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    catch (Exception $e) {
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $posts;
+    }
+} // getPosts_Admin()
+
+function getCategories() : array {
+    $categories = [];
+    try {
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $query = <<<SQL
+        SELECT
+            category_id,
+            category_name
+        FROM categories
+        ORDER BY category_name;
+        SQL;
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result) {
+            $categories = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    }
+    catch (mysqli_sql_exception $e) {
+        $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    catch (Exception $e) {
+        $_SESSION["alert"]["error"] = $e->getMessage();
+        header("Location: index.php");
+        exit;
+    }
+    finally {
+        $stmt->close();
+        $conn->close();
+        return $categories;
+    }
+} // getCategories()

@@ -27,7 +27,7 @@ session_start();
     <?php require_once "../includes/header.php"; ?>
 
     <main>
-        <?php require_once "../includes/nav.php"; ?>
+        <?php require_once "../includes/nav.html"; ?>
 
         <section id="main-section" class="games-section">
             <h2>Gry</h2>
@@ -57,11 +57,11 @@ session_start();
                     <a href="drag-racers.php" class="play-button">Zagraj</a>
                 </div>
 
-                <div class="game-tile">
-                    <h3>Nauka angielskiego</h3>
-                    <img src="../images/games/drag-racers.jpg" alt="drag-racers-game">
-                    <a href="english-words/conf.html" class="play-button">Zagraj</a>
-                </div>
+<!--                <div class="game-tile">-->
+<!--                    <h3>Nauka angielskiego</h3>-->
+<!--                    <img src="../images/games/drag-racers.jpg" alt="drag-racers-game">-->
+<!--                    <a href="english-words/conf.html" class="play-button">Zagraj</a>-->
+<!--                </div>-->
             </div>
         </section>
 
@@ -69,7 +69,6 @@ session_start();
 
     </main>
 
-    <?php require_once "../includes/footer.php"; ?>
+    <?php require_once "../includes/footer.html"; ?>
 </body>
-
 </html>

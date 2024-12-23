@@ -169,22 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return result;
     }; // generateCaptchaExercise()
 
-    // const numbersToStringMapping = (number) => {
-    //     const numberStrings = {
-    //         0: "zero",
-    //         1: "jeden",
-    //         2: "dwa",
-    //         3: "trzy",
-    //         4: "cztery",
-    //         5: "piec",
-    //         6: "szesc",
-    //         7: "siedem",
-    //         8: "osiem",
-    //         9: "dziewiec",
-    //         10: "dziesiec"
-    //     };
-    //     return numberStrings[number];
-    // }; // numbersToStringMapping()
 
     const stringToNumbersMapping = (stringNumber) => {
         const polishChars = {
@@ -502,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return await response.json();
       } // try
       catch (error) {
-          console.error("Blad podczas sprawdzania czy uzytkownik o podanej nazwie istnieje: ", error);
+          console.error("Błąd podczas sprawdzania czy użytkownik o podanej nazwie istnieje: ", error);
           return null
       }
     }; // checkUserExisting()

@@ -1,25 +1,29 @@
 <?php
-session_start();
+require_once "../includes/page-setup.php";
+//session_start();
 if (!isset($_SESSION["loggedUser"])) {
     http_response_code(401); // Unauthorized - nieuprawniony dostep
     require "../errors/401.html";
     exit;
 }
 
+
 //session_destroy();
-require_once "../includes/posts-functions.php";
-$currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-
-//$language = "php";
-include "../db/mysql-operation.php";
-$userPosts= getUserPosts($_SESSION["loggedUser"]["id"]);
-$totalPosts = count($userPosts);
-$postsPerPage = 3;
-
-$paginationData = getPaginationData($currentPage, $totalPosts, $postsPerPage);
-$currentPage = $paginationData["currentPage"];
-$totalPages = $paginationData["totalPages"];
-$offset = $paginationData["offset"];
+//require_once "../includes/posts-functions.php";
+//$currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+//
+////$language = "php";
+//include "../db/mysql-operation.php";
+//$userPosts= getUserPosts();
+//$pagination = new Pagination($userPosts);
+//$totalPosts = count($userPosts);
+//$postsPerPage = 3;
+//
+//$paginationData = getPaginationData($currentPage, $totalPosts, $postsPerPage);
+//$currentPage = $paginationData["currentPage"];
+//$totalPages = $paginationData["totalPages"];
+//$offset = $paginationData["offset"];
+$pageData = new PageSetup($_SESSION["loggedUser"]["id"]);
 
 ?>
 
@@ -51,13 +55,13 @@ $offset = $paginationData["offset"];
 <?php require_once "../includes/header.php"; ?>
 
 <main>
-    <?php require_once "../includes/nav.php"; ?>
+    <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
-        <h1>Statystyki postów</h1>
+        <h2>Statystyki postów</h2>
         <button class="toggle-stats-table form-button">Pokaż tabele ze statystykami</button>
 
-            <?php renderUserPostsStats($userPosts) ?>
+            <?php renderUserPostsStats($pageData->posts) ?>
 
         <?php if (isset($_SESSION["addPostAlert"]) && $_SESSION["addPostAlert"]["result"]): ?>
             <div class="alert alert-success">
@@ -72,14 +76,8 @@ $offset = $paginationData["offset"];
                 <strong>Błąd!</strong> <?php echo $_SESSION["addPostAlert"]["error"] ?>
             </div>
             <?php
-            unset($_SESSION["addPostAlert"]);
-        endif ?>
-
-
-
-<!--        --><?php //if (isset($_SESSION["loggedUser"])): ?>
-<!--            <a href="add-post.php?category=--><?php //echo $language;?><!--" class="post-comments-link add-post-link">Dodaj post</a>-->
-<!--        --><?php //endif ?>
+                unset($_SESSION["addPostAlert"]);
+            endif ?>
 
         <article id="posts-section">
             <h3>Posty użytkownika
@@ -89,12 +87,13 @@ $offset = $paginationData["offset"];
             </h3>
             <div class="posts-container">
                 <?php
-                    renderUserPosts(array_slice($userPosts, $offset, $postsPerPage, true));
+                    renderUserPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true));
                 ?>
             </div>
         </article>
 
-        <?php if(count($userPosts) > 0) renderPaginationUserPosts($currentPage, $totalPages); ?>
+        <?php if(count($pageData->posts) > 0)
+            renderPaginationUserPosts($pageData->getCurrentPage(), $pageData->getTotalPages()); ?>
     </section>
 
     <?php require_once "../includes/aside.php"; ?>
@@ -111,7 +110,7 @@ $offset = $paginationData["offset"];
     </div>
 </div>
 
-<?php require_once "../includes/footer.php"; ?>
+<?php require_once "../includes/footer.html"; ?>
 
 
 

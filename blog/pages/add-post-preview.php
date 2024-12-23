@@ -74,10 +74,10 @@ include_once "../includes/bbcode-functions.php";
 <?php require_once "../includes/header.php"; ?>
 
 <main>
-    <?php require_once "../includes/nav.php"; ?>
+    <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section" class="add-comment-preview-section">
-        <h1>Sprawdź swój post przed dodaniem</h1>
+        <h2>Sprawdź swój post przed dodaniem</h2>
         <p>
             <strong>Numer użytkownika: </strong>
             <?php echo $_POST["user-id"];?>
@@ -125,6 +125,6 @@ include_once "../includes/bbcode-functions.php";
 
 </main>
 
-<?php require_once "../includes/footer.php"; ?>
+<?php require_once "../includes/footer.html"; ?>
 </body>
 </html>

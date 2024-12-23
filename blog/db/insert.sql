@@ -1,21 +1,21 @@
 INSERT INTO categories
-    (category_name)
+    (category_name, description)
 VALUES
-    ('HTML'),
-    ('CSS'),
-    ('JavaScript'),
-    ('TypeScript'),
-    ('PHP'),
-    ('Java'),
-    ('Python'),
-    ('Csharp'),
-    ('Ruby'),
-    ('Assembler'),
-    ('C'),
-    ('Cpp'),
-    ('SQL'),
-    ('Kotlin'),
-    ('Swift');
+    ('HTML', 'HyperText Markup Language to podstawowy język służący do tworzenia stron internetowych. Jego głównym zadaniem jest strukturyzowanie treści, takich jak teksty, obrazy czy linki, oraz ich prawidłowe wyświetlanie w przeglądarce. HTML jest fundamentem każdej strony WWW i współpracuje z innymi technologiami, takimi jak CSS i JavaScript, by stworzyć pełnowartościową, interaktywną witrynę. Dzięki swojej prostocie jest idealny dla początkujących programistów.'),
+    ('CSS', 'Cascading Style Sheets to język służący do opisywania wyglądu i stylu dokumentów HTML. Pozwala na zdefiniowanie układu elementów, kolorów, czcionek, animacji oraz wielu innych aspektów wizualnych strony internetowej. CSS oddziela treść od prezentacji, co ułatwia zarządzanie stylem witryny oraz jej estetykę na różnych urządzeniach. W połączeniu z HTML i JavaScript tworzy podstawowy zestaw technologii do tworzenia nowoczesnych, responsywnych stron internetowych.'),
+    ('JavaScript', 'Dynamiczny, skryptowy język programowania, który jest szeroko stosowany do tworzenia interaktywnych i dynamicznych stron internetowych. Jego głównym celem jest dodawanie funkcji, takich jak walidacja formularzy, animacje, obsługa zdarzeń i interakcje użytkownika. JavaScript działa bezpośrednio w przeglądarce, co czyni go niezwykle ważnym narzędziem w tworzeniu nowoczesnych aplikacji webowych.'),
+    ('TypeScript', 'Nadzbiór języka JavaScript, który dodaje statyczne typowanie do jego składni. Ułatwia to pisanie i utrzymywanie większych aplikacji, eliminując wiele błędów na etapie programowania. TypeScript jest coraz częściej używany w dużych projektach webowych, w tym w rozbudowanych aplikacjach front-endowych, zwłaszcza w połączeniu z frameworkami takimi jak Angular czy React. Kompiluje się do czystego JavaScript, co zapewnia pełną kompatybilność z przeglądarkami.'),
+    ('PHP' , 'Język skryptowy, który jest szeroko stosowany do tworzenia dynamicznych stron internetowych i aplikacji serwerowych. Jest szczególnie przydatny przy tworzeniu systemów zarządzania treścią (CMS), takich jak WordPress, oraz w integracji z bazami danych, np. MySQL. PHP jest łatwy do nauki i oferuje szerokie możliwości, co czyni go idealnym narzędziem do tworzenia serwisów webowych o różnym stopniu zaawansowania.'),
+    ('Java', 'Wszechstronny, obiektowy język programowania, który jest używany do budowy rozbudowanych aplikacji desktopowych, webowych oraz mobilnych. Jego główną zaletą jest przenośność – kod napisany w Javie może działać na różnych platformach dzięki mechanizmowi JVM (Java Virtual Machine). Java znajduje szerokie zastosowanie w systemach backendowych, gdzie wraz z popularnymi frameworkami, takimi jak Spring czy Hibernate, umożliwia tworzenie skalowalnych i wydajnych aplikacji serwerowych. Dzięki temu jest jednym z najczęściej wybieranych języków w dużych korporacyjnych systemach i rozwiązaniach o wysokiej wydajności.'),
+    ('Python', 'Wszechstronny, interpretowany język programowania, ceniony za swoją prostą składnię i czytelność, co czyni go idealnym wyborem dla początkujących programistów. Jego zastosowania obejmują rozwój aplikacji webowych, automatyzację, analizę danych, a także sztuczną inteligencję i uczenie maszynowe. W kontekście backendu, Python jest często wykorzystywany wraz z frameworkami takimi jak Django czy Flask, co pozwala na szybkie tworzenie skalowalnych i bezpiecznych aplikacji internetowych.'),
+    ('Csharp', 'C-Sharp to nowoczesny, obiektowy język programowania opracowany przez Microsoft, który jest powszechnie używany do budowania aplikacji na platformę .NET. Dzięki swojej elastyczności, C# znajduje zastosowanie zarówno w tworzeniu aplikacji desktopowych, jak i gier komputerowych, zwłaszcza z wykorzystaniem silnika Unity. W sferze backendu, C# jest używany do tworzenia zaawansowanych aplikacji serwerowych, zwłaszcza w środowiskach opartych na Windows, z wykorzystaniem platformy ASP.NET, co umożliwia budowanie wydajnych i skalowalnych serwisów.'),
+    ('Ruby' , 'Dynamiczny, interpretowany język programowania, stworzony z myślą o prostocie i produktywności programistów. Dzięki eleganckiej i czytelnej składni, Ruby ułatwia szybkie tworzenie oprogramowania. Jego najpopularniejszym zastosowaniem jest rozwój aplikacji webowych z wykorzystaniem frameworka Ruby on Rails, który upraszcza budowanie backendu poprzez podejście „konwencji nad konfiguracją”. Ruby on Rails umożliwia szybki rozwój aplikacji o wysokiej funkcjonalności i jest popularny w startupach i projektach webowych.'),
+    ('Assembler', 'Niskopoziomowy język programowania, który pozwala na bezpośrednie komunikowanie się z procesorem komputera. Jest używany tam, gdzie wymagana jest pełna kontrola nad zasobami sprzętowymi, np. w systemach operacyjnych, sterownikach i systemach wbudowanych. Asembler, choć trudniejszy w nauce i pisaniu niż wyżej poziomowe języki, umożliwia maksymalną optymalizację kodu, co jest kluczowe w systemach o ograniczonych zasobach. Jego znajomość jest niezbędna dla programistów tworzących krytyczne oprogramowanie, które musi działać blisko sprzętu.'),
+    ('C', 'Jeden z najstarszych i najbardziej wpływowych języków programowania, który stanowi fundament wielu nowoczesnych technologii. Dzięki swojej niskopoziomowej naturze, C jest szeroko używany do tworzenia systemów operacyjnych, sterowników, oprogramowania sprzętowego oraz innych aplikacji wymagających bezpośredniego dostępu do zasobów sprzętowych. Jego efektywność i kontrola nad pamięcią czynią go idealnym do programowania systemów wbudowanych i krytycznych aplikacji, gdzie wydajność jest kluczowa.'),
+    ('Cpp', 'Rozszerzenie języka C, wprowadzające elementy programowania obiektowego, co czyni go potężnym narzędziem do tworzenia zarówno niskopoziomowych systemów, jak i złożonych aplikacji. C++ jest wykorzystywany w rozwoju oprogramowania systemowego, aplikacji desktopowych, gier komputerowych oraz systemów o wysokiej wydajności. Jego zdolność do pracy na poziomie sprzętu oraz obsługa zaawansowanych struktur danych sprawiają, że jest często wybierany do tworzenia silników gier, symulatorów oraz zaawansowanych systemów backendowych w krytycznych aplikacjach.'),
+    ('SQL', 'Structured Query Language to język służący do zarządzania i manipulacji danymi w relacyjnych bazach danych. Jest standardem do tworzenia, modyfikowania i pobierania danych z baz danych takich jak MySQL, PostgreSQL, Oracle czy Microsoft SQL Server. SQL jest szeroko stosowany w aplikacjach, które wymagają przechowywania i przetwarzania dużych ilości danych, zarówno w systemach frontendowych, jak i backendowych. Jego zastosowanie obejmuje również analizy danych, raportowanie oraz zarządzanie danymi w biznesowych aplikacjach i systemach ERP.'),
+    ('Kotlin' , 'Nowoczesny, wieloplatformowy język programowania, który jest w pełni interoperacyjny z Javą. Zyskał popularność przede wszystkim jako oficjalny język do tworzenia aplikacji na system Android, oferując nowoczesne podejście i większą zwięzłość kodu w porównaniu do Javy. Kotlin jest wykorzystywany zarówno w aplikacjach mobilnych, jak i na backendzie, gdzie współpracuje z popularnymi frameworkami jak Spring Boot, co czyni go wszechstronnym językiem do tworzenia skalowalnych aplikacji.'),
+    ('Swift' , 'Język programowania opracowany przez Apple, służący głównie do tworzenia aplikacji na platformy iOS, macOS, watchOS i tvOS. Jest prosty w użyciu, bezpieczny i nowoczesny, co ułatwia tworzenie wydajnych aplikacji mobilnych oraz desktopowych. Swift zastąpił Objective-C, wprowadzając nowoczesne funkcje, które upraszczają kodowanie, a jednocześnie poprawiają wydajność i bezpieczeństwo. Swift jest stosowany głównie w rozwoju aplikacji dla ekosystemu Apple, jednak jego otwarty kod źródłowy umożliwia użycie również w projektach na inne platformy.');
 
 INSERT INTO roles (role_name) VALUES ('Admin'), ('User');
 
@@ -235,7 +235,7 @@ VALUES
     (2, null, null, 'Zdecydowanie popieram używanie semantycznych tagów. Ułatwia to późniejszą pracę z CSS i JS.', '2024-11-24 13:15:00', 21),
     (null, 'Janek123', 'janek123@o2.pl', 'Dzięki za ten post! Często zapominam o &lt;section&gt;, mimo że to świetny sposób na organizację treści.', '2024-11-24 13:30:00', 21),
 
-    (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Ciekawy wpis, ale brakuje mi przykładów kodu z użyciem <canvas> – mógłbyś coś takiego dodać?', '2024-11-24 15:00:00', 22),
+    (null, 'ŁukaszWeb', 'lukas.programowanie@gmail.com', 'Ciekawy wpis, ale brakuje mi przykładów kodu z użyciem &lt;canvas&gt; – mógłbyś coś takiego dodać?', '2024-11-24 15:00:00', 22),
 
     (4, null, null, 'Bardzo dobry wpis. SEO w obrazach jest często pomijane, a ma ogromne znaczenie.', '2024-11-22 16:00:00', 24),
     (null, 'MaciekFrontend', 'maciek.frontend@yahoo.com', 'Mam pytanie: co zrobić, jeśli obraz jest tylko dekoracyjny? Czy alt powinien być wtedy pusty?', '2024-11-23 06:07:00', 24),

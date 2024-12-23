@@ -20,6 +20,7 @@ session_start();
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/style-games.css">
     <link rel="stylesheet" href="../css/style-whack.css">
 
     <!-- jQuery -->
@@ -31,11 +32,11 @@ session_start();
     <?php require_once "../includes/header.php"; ?>
 
     <main>
-        <?php require_once "../includes/nav.php"; ?>
+        <?php require_once "../includes/nav.html"; ?>
 
-        <section id="main-section" class="whack-section">
+        <section id="main-section" class="whack-section game-section">
             <h2>Gra Whack A Mole</h2>
-            <h3>Zasady:</h3>
+            <h5>Zasady:</h5>
             <ul>
                 <li>Ubij jak najwięcej kretów</li>
                 <li>Gra trwa 1 minute</li>
@@ -65,6 +66,6 @@ session_start();
 
     </main>
 
-    <?php require_once "../includes/footer.php"; ?>
+    <?php require_once "../includes/footer.html"; ?>
 </body>
 </html>

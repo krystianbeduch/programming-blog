@@ -1,11 +1,12 @@
 <?php
 require_once ("modals.php");
 ?>
-
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="../js/user-account.js"></script>
 
 <header>
-    <h1>Blog programistyczny</h1>
+    <h1><a href="../pages/">Blog programistyczny</a></h1>
         <?php if (isset($_SESSION["alert"]["error"])): ?>
             <div class="alert alert-danger">
                 <strong>Błąd!</strong>

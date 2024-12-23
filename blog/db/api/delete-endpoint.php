@@ -35,6 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
             $query = "DELETE FROM users WHERE user_id = ?";
             $type = "użytkownik";
         }
+        else if ($type == "comment") {
+            $query = "DELETE FROM comments WHERE comment_id = ?";
+            $type = "komentarz";
+        }
         else {
             // Nieznana operacja
             http_response_code(400); // Bad Request

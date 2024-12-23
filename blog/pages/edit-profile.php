@@ -35,7 +35,7 @@ if (!isset($_SESSION["loggedUser"])) {
 <body>
     <?php require_once "../includes/header.php"; ?>
 <main>
-    <?php require_once "../includes/nav.php"; ?>
+    <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
         <form id="edit-user-form" class="post-form" action="../db/mysql-operation.php" method="post">
@@ -83,7 +83,7 @@ if (!isset($_SESSION["loggedUser"])) {
 
     </main>
 
-    <?php require_once "../includes/footer.php"; ?>
+    <?php require_once "../includes/footer.html"; ?>
 </body>
 
 </html>

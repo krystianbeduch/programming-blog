@@ -1,6 +1,7 @@
 CREATE TABLE categories (
     category_id   SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     category_name VARCHAR(50) NOT NULL UNIQUE,
+    description VARCHAR(1000) NOT NULL,
     PRIMARY KEY (category_id)
 );
 

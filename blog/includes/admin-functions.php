@@ -1,7 +1,7 @@
 <?php
 require_once "../db/mysql-operation.php";
 function renderUsers() : void {
-    $users = getUsers();
+    $users = getUsers_Admin();
     foreach ($users as $user) {
         echo "<tr data-user-id='" . $user["user_id"] . "'>";
         echo "<td>" . $user["user_id"] . "</td>";
@@ -26,3 +26,48 @@ function renderUsers() : void {
         echo "</tr>";
     }
 } // renderUsers()
+
+function renderPosts_Admin(?string $category = null) : void {
+    $posts = getPosts($category);
+    foreach ($posts as $post) {
+        echo "<tr data-post-id='" . $post["post_id"] . "' data-post-content='" . $post["content"] . "'>";
+        echo "<td>" . $post["post_id"] . "</td>";
+        echo "<td class='post-category'>" ."<img src='../images/" . $post["category_name"] . "_logo.png' alt='" . $post["category_name"] . "_logo' title='" . $post["category_name"] . "'></td>";
+        echo "<td>" . $post["title"] . "</td>";
+        echo "<td>" . $post["username"] . " - " . $post["email"] . "</td>";
+        echo "<td>" . date("d-m-Y H:i", strtotime($post["created_at"])) . "</td>";
+        echo "<td>" . date("d-m-Y H:i", strtotime($post["updated_at"])) . "</td>";
+        echo "<td>" . $post["comments_count"] . "</td>";
+        echo "<td>";
+        echo "<button class='post-link view-button' title='Podgląd treści'><img src='../images/preview.png' alt='Pogląd treści'></button>";
+
+//        echo "<a href='../pages/post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link'>Przejdź do strony posta</a>";
+
+        echo "<a href='../pages/post.php?postId=" . $post["post_id"] . "' class='post-link edit-link view-comments-button' title='Zobacz post'>";
+        echo "<img src='../images/view_comments.png' alt='Zobacz post' ></a>";
+        echo "<button class='post-link delete-button' data-post-id='" . $post["post_id"] . "' title='Usuń post'>";
+        echo "<img src='../images/trash-fill.svg' alt='Usuń'></button>";
+        echo "</td>";
+        echo "</tr>";
+    }
+}
+
+function renderFilter(?string $selectedCategory = null) : void {
+    $categories = getCategories();
+    echo "<form method='GET' id='filterForm'>";
+    echo "<select class='form-select' name='category' onchange='document.getElementById(\"filterForm\").submit();'>";
+    echo "<option value=''>Wszystkie kategorie</option>";
+    foreach ($categories as $category) {
+        $displayCategory = $category["category_name"];
+        if ($displayCategory == "Cpp") {
+            $displayCategory = "C++";
+        }
+        else if ($displayCategory == "Csharp") {
+            $displayCategory = "C#";
+        }
+        $selected = ($selectedCategory === $category["category_name"]) ? "selected" : "";
+        echo "<option value='" . $category["category_name"] . "' $selected>" . $displayCategory . "</option>";
+    }
+    echo "</select>";
+    echo "</form>";
+}

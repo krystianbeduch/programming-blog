@@ -1,14 +1,14 @@
 import {
     selectors, checkAndShowSuccessAlert, handleDelete, showErrorAlert, showSuccessAlert
-} from "./modules/delete-utils.js";
+} from "./modules/utils.js";
 
 import {
     checkAvailability
 } from "./modules/user-availability.js";
 
 $(document).ready(() => {
-    const table = $("#admin-users-tab");
     const SERVER_URI = "/US/blog/db/api";
+    const adminId = parseInt($("#admin-id").text());
 
     const aboutMeTd = $("td.about-me-col");
     const aboutMeModalCloseButton = $("button.close-preview-button");
@@ -48,9 +48,6 @@ $(document).ready(() => {
         $("#preview-container").fadeOut();
     });
 
-
-
-
     isActiveTd.each((index, element) => {
         const cell = $(element);
         const row = cell.closest("tr");
@@ -63,11 +60,16 @@ $(document).ready(() => {
     // Zmiana aktywnosci uzytkownika
     isActiveTd.on("click", function() {
         isActiveVal = $(this).data("is-active");
-        const isActiveText = isActiveVal === 1 ? "Nieaktywne" : "Aktywne";
-        currentUserId = $(this).closest("tr").data('user-id'); // Pobierz ID uzytkownika
-        const changeUserActivityText = `Czy chcesz zmienić aktywność konta o id ${currentUserId} na \"${isActiveText}\"`;
-        changeUserActivityModal.find("p").text(changeUserActivityText);
-        changeUserActivityModal.css("display", "flex").hide().fadeIn();
+        currentUserId = $(this).closest("tr").data("user-id"); // Pobierz ID uzytkownika
+        if (currentUserId === adminId) {
+            alert("Nie możesz zmienić aktywności swojego konta.");
+        }
+        else {
+            const isActiveText = isActiveVal === 1 ? "Nieaktywne" : "Aktywne";
+            const changeUserActivityTxt = `Czy chcesz zmienić aktywność konta o id ${currentUserId} na \"${isActiveText}\"`;
+            changeUserActivityModal.find("p").text(changeUserActivityTxt);
+            changeUserActivityModal.css("display", "flex").hide().fadeIn();
+        }
     });
 
     buttonChangeActivityCancel.on("click", () => {
@@ -79,7 +81,8 @@ $(document).ready(() => {
     buttonChangeActivityConfirm.on("click", () => {
         if (currentUserId) {
             $.ajax({
-                url: `${SERVER_URI}/change-user-activity.php`,
+                // url: `${SERVER_URI}/change-user-activity.php`,
+                url: `${SERVER_URI}/admin-management.php`,
                 method: "PATCH",
                 contentType: "application/json",
                 data: JSON.stringify({
@@ -209,7 +212,8 @@ $(document).ready(() => {
                 }
 
                 $.ajax({
-                    url: `${SERVER_URI}/edit-user-endpoint.php`,
+                    // url: `${SERVER_URI}/edit-user-endpoint.php`,
+                    url: `${SERVER_URI}/admin-management.php`,
                     method: "PATCH",
                     contentType: "application/json",
                     data: JSON.stringify(requestData),
@@ -217,9 +221,17 @@ $(document).ready(() => {
                     success: (response) => {
                         console.log(response);
                         if (response.success) {
-                            sessionStorage.setItem("successMessage", response.message);
-                            // Odswiezenie strony
-                            location.reload();
+                            if (parseInt(requestData.id) === adminId) {
+                                showSuccessAlert("Zaktualizowałeś swoje konto<br>Za chwile nastąpi wylogowanie");
+                                setTimeout(() => {
+                                    location.href = "../includes/logout.php";
+                                 }, 5000);
+                            }
+                            else {
+                                sessionStorage.setItem("successMessage", response.message);
+                                // Odswiezenie strony
+                                location.reload();
+                            }
                         }
                         else {
                             showErrorAlert(response.message);

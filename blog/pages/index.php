@@ -1,14 +1,13 @@
 <?php
 session_start();
-include "../db/mysql-operation.php";
-//print_r($_SESSION);
+require_once "../db/mysql-operation.php";
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Blog | Strona Główna</title>
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
@@ -26,10 +25,10 @@ include "../db/mysql-operation.php";
     <?php require_once "../includes/header.php"; ?>
 
     <main>
-        <?php require_once "../includes/nav.php"; ?>
+        <?php require_once "../includes/nav.html"; ?>
 
         <section id="main-section">
-            <h1>Witam na blogu</h1>
+            <h2>Witam na blogu</h2>
             <p>
                 Na tym blogu znajdziesz informacje o różnych językach programowania. Dowiesz się, jakie są ich zalety, wady oraz zastosowania. Blog jest podzielony na różne grupy języków, dzięki czemu łatwo znajdziesz interesujące Cię tematy.
             </p>
@@ -39,7 +38,6 @@ include "../db/mysql-operation.php";
 
     </main>
 
-    <?php require_once "../includes/footer.php"; ?>
+    <?php require_once "../includes/footer.html"; ?>
 </body>
-
 </html>

@@ -1,9 +1,14 @@
+section.game-section h5 {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
 section.games-section {
     padding: 20px;
     text-align: center;
 }
 
-section.games-section h2 {
+section.games-section h4 {
     margin-bottom: 20px;
     font-weight: bold;
     font-size: 1.5em;

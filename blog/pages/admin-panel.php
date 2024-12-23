@@ -30,16 +30,16 @@ if (!isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] != "Admin
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    
+
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
 
 <main>
-    <?php require_once "../includes/nav.php"; ?>
+    <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
-        <h1>Panel Administracyjny</h1>
+        <h2>Panel Administracyjny</h2>
         <a href="admin-users-management.php" class="admin-link">Zarządzanie użytkownikami</a>
         <a href="admin-posts-management.php" class="admin-link">Zarządzanie postami</a>
     </section>
@@ -48,7 +48,7 @@ if (!isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] != "Admin
 
 </main>
 
-<?php require_once "../includes/footer.php"; ?>
+<?php require_once "../includes/footer.html"; ?>
 </body>
 
 </html>

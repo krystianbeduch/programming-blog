@@ -97,8 +97,9 @@ $(document).ready(() => {
                 if (passwordsMatch && inputs.newPassword[0].validity.valid) {
                     toggleButtons(editButtons, button, closeButton);
                     // Wylaczenie wszystkich pol hasla
-                    [inputs.currentPassword, inputs.newPassword, inputs.newPasswordConfirm]
-                        .forEach(disableField);
+                    $([inputs.currentPassword, inputs.newPassword, inputs.newPasswordConfirm]).each((index, element) => {
+                        disableField($(element));
+                    });
                     labels.passwordLegend.addClass("edited-label");
                     labels.newPassword.removeClass("invalid-label");
                 }

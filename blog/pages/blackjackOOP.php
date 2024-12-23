@@ -57,17 +57,18 @@ if (isset($_POST["stand"])) {
 
     <!-- Styles   -->
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/style-games.css">
     <link rel="stylesheet" href="../css/style-blackjack.css">
 </head>
 <body>
     <?php require_once "../includes/header.php"; ?>
 
     <main>
-        <?php require_once "../includes/nav.php"; ?>
+        <?php require_once "../includes/nav.html"; ?>
 
-        <section id="main-section" class="blackjack-section">
-            <h1>Gra BlackJack</h1>
-            <h3>Zasady:</h3>
+        <section id="main-section" class="blackjack-section game-section">
+            <h2>Gra BlackJack</h2>
+            <h5>Zasady:</h5>
             <ul>
                 <li>Za pomocą przycisków gracz może dobierać
                     karty lub spasować.</li>
@@ -90,13 +91,13 @@ if (isset($_POST["stand"])) {
 
             <div id="blackjack-game">
                 <form action="blackjackOOP.php" method="post" id="blackjack-form">
-                    <h2>Karty gracza:</h2>
+                    <h4>Karty gracza:</h4>
                     <?php
                     $_SESSION["game"]->showUserDeck();
                     echo "<p>Punkty gracza: " . $_SESSION["game"]->getUserPoints() . "</p>";
                     echo "<br>";
                     ?>
-                    <h2>Karty krupiera:</h2>
+                    <h4>Karty krupiera:</h4>
                     <?php
                     if (isset($_SESSION["gameOver"]) && $_SESSION["gameOver"]) {
                         $_SESSION["game"]->showCroupierDeck();
@@ -136,6 +137,6 @@ if (isset($_POST["stand"])) {
 
     </main>
 
-    <?php require_once "../includes/footer.php"; ?>
+    <?php require_once "../includes/footer.html"; ?>
 </body>
 </html>

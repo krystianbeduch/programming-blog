@@ -1,21 +1,29 @@
 <?php
-//include_once "bbcode-functions.php";
-function getPaginationData(int $currentPage, int $totalComments, int $commentsPerPage) : array {
-    $totalPages = (int) ceil($totalComments / $commentsPerPage);
-    $currentPage = max(1, min($currentPage, $totalPages));
-    $offset = ($currentPage - 1) * $commentsPerPage;
 
-    return [
-        "currentPage" => $currentPage,
-        "totalPages" => $totalPages,
-        "offset" => $offset,
-    ];
-}
+//function renderContent(array $post) : void {
+//    echo "<p class='post-author'>Autor: " . $post["username"]. ", " . $post["email"] .
+//             "<span class='post-date'>Utworzono: " . date("d-m-Y H:i", strtotime($post["created_at"])) .
+//             "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
+//        echo "<p class='post-content'>" . $post["content"] . "</p>";
+//
+//        // Wyswietlanie zalaczonego zdjecia, jeśsi istnieje
+//        if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
+//            $base64Image = base64_encode($post["file_data"]);
+//            echo "<h5>Załączone zdjęcie:</h5>";
+//            echo "<img src='data:" . htmlspecialchars($post["file_type"]) . ";base64," . $base64Image . "' alt='Załączone zdjęcie' class='post-attachment'>";
+//        }
+//}
 
 function renderPosts(array $posts) : void {
     foreach ($posts as $post) {
         echo "<div class='post'>";
-        echo "<h4 class='post-title'>" . $post["title"] . "</h4>";
+        echo "<h4 class='post-title'>" . $post["title"];
+        if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin") {
+            echo "<button class='post-link delete-button' data-post-id='" . $post["post_id"] . "' data-category-name='" . $post["category_name"] . "' title='Usuń post'>";
+            echo "<img src='../images/trash-fill.svg' alt='Usuń post'></button>";
+        }
+        echo "</h4>";
+//        renderContent($post);
         echo "<p class='post-author'>Autor: " . $post["username"]. ", " . $post["email"] .
              "<span class='post-date'>Utworzono: " . date("d-m-Y H:i", strtotime($post["created_at"])) .
              "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
@@ -35,7 +43,7 @@ function renderPosts(array $posts) : void {
 
 function renderCommentsOnMainPage(array $comments, int $postId) : void {
     $commentsCount = count($comments);
-    echo "<h4>Komentarze: {$commentsCount}</h4>";
+    echo "<h5>Komentarze: {$commentsCount}</h5>";
     if ($commentsCount >= 1) {
         $comment = $comments[0];
         echo "<div class='comment'>";
@@ -70,6 +78,10 @@ function renderAllPostComments(array $comments) : void {
             echo "<p class='comment-author-comment'>";
             echo $comment["content"];
             echo "</p>";
+            if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin") {
+                echo "<button class='post-link delete-button' data-comment-id='" . $comment["comment_id"] . "' title='Usuń komentarz'>";
+                echo "<img src='../images/trash-fill.svg' alt='Usuń komentarz'></button>";
+            }
             echo "</div>";
         }
     }
@@ -141,6 +153,7 @@ function renderUserPosts(array $userPosts) : void {
             echo "<div class='post'>";
             echo "<h4 class='post-title'>" . $post["title"] . "</h4>";
             echo "<span class='post-updated'>Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span>";
+//            renderContent($userPosts);
             echo "<p class='post-content'>" . $post["content"] . "</p>";
 
             if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
@@ -162,10 +175,11 @@ function renderUserPosts(array $userPosts) : void {
 }
 
 function renderUserPostsStats(array $userPosts) : void {
+//    print_r($userPosts);
     if (count($userPosts) > 0) {
-        echo "<table id='user-posts-stats' class='table-stats'>";
+        echo "<table id='user-posts-stats' class='table-stats posts-stats'>";
         echo "<thead>";
-        echo "<tr></th><th>Tytuł</th><th>Data aktualizacji</th><th>Komentarze</th><th>Akcje</th></tr>";
+        echo "<tr></th><th>Tytuł</th><th>Data aktualizacji</th><th>Data utworzenia</th><th>Komentarze</th><th>Akcje</th></tr>";
         echo "</thead>";
         echo "<tbody>";
         $category = "";
@@ -174,18 +188,19 @@ function renderUserPostsStats(array $userPosts) : void {
             $tmp = $post["category_name"];
             // Zmiana nazwy kategorii dla C# i C++
             $displayCategory = $tmp;
-            if ($tmp === "Cpp") {
+            if ($tmp == "Cpp") {
                 $displayCategory = "C++";
-            } elseif ($tmp === "Csharp") {
+            } elseif ($tmp == "Csharp") {
                 $displayCategory = "C#";
             }
             if ($category != $tmp) {
                 $category = $tmp;
-                echo "<tr><th colspan='4'>" . $displayCategory .
-                    "<img src='../images/" . $category . "_logo.png' alt='" . $category . "_logo'></th></tr>";
+                echo "<tr><th colspan='5'>" . $displayCategory .
+                    "<img src='../images/" . $category . "_logo.png' alt='" . $category . "_logo' title='" . $displayCategory . "'></th></tr>";
             }
             echo "<td>" . $post["title"] . "</td>";
             echo "<td>" . date("d-m-Y H:i", strtotime($post["updated_at"]))  . "</td>";
+            echo "<td>" . date("d-m-Y H:i", strtotime($post["created_at"]))  . "</td>";
             echo "<td>" . $post["comment_count"] . "</td>";
             echo "<td>";
             echo "<a href='../pages/edit-post.php?postId=" . $post["post_id"] . "' class='post-link edit-link'>";

@@ -1,6 +1,6 @@
 import {
     selectors, checkAndShowSuccessAlert, handleDelete
-} from "./modules/delete-utils.js";
+} from "./modules/utils.js";
 
 $(document).ready(() => {
     const table = $("#user-posts-stats");

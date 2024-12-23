@@ -188,15 +188,14 @@
     <link rel="stylesheet" href="../css/style-blackjack.css">
 </head>
 <body>
-<div id="wrapper">  <!--  ??? -->
 
     <?php require_once "../includes/header.php"; ?>
 
     <main>
-        <?php require_once "../includes/nav.php"; ?>
+        <?php require_once "../includes/nav.html"; ?>
 
         <section id="main-section" class="blackjack-section">
-            <h1>Gra BlackJack</h1>
+            <h2>Gra BlackJack</h2>
             <h3>Zasady:</h3>
             <ul>
                 <li>Za pomocą przycisków gracz może dobierać
@@ -265,7 +264,6 @@
 
     </main>
 
-    <?php require_once "../includes/footer.php"; ?>
-</div>
+    <?php require_once "../includes/footer.html"; ?>
 </body>
 </html>

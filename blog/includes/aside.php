@@ -2,6 +2,7 @@
     <!-- Panel administracyjny -->
     <?php if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin"): ?>
     <section>
+        <span id="admin-id"><?php echo $_SESSION["loggedUser"]["id"] ?></span>
         <h3><a href="../pages/admin-panel.php">Panel administracyjny</a></h3>
     </section>
     <?php endif; ?>
@@ -10,7 +11,6 @@
     <?php if (isset($post) && !empty($post["about_me"])): ?>
     <section>
         <h3>O autorze</h3>
-
         <p><?php echo $post["about_me"] ?></p>
     </section>
     <?php endif ?>

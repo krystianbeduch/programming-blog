@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "PATCH") {
     // Odbieramy dane z ciala zadania
     $inputData = json_decode(file_get_contents("php://input"));
 
-//    echo json_encode($inputData);
     // Sprawdzamy czy przekazano id, username, email i role
     if (!isset($inputData->id) || !isset($inputData->username) || !isset($inputData->email) || !isset($inputData->role)) {
         http_response_code(400); // Bad Request
@@ -18,16 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "PATCH") {
         exit();
     }
 
-//    $id = $inputData->id;
-//    $username = $inputData->username;
-//    $email = $inputData->email;
-//    $role = $inputData->role;
-
     $query = "UPDATE users SET username = ?, email = ?, role_id = ?";
 
     // Sprawdzamy czy przekazano about-me
     if (isset($inputData->aboutMe)) {
-//        $aboutMe = $inputData->aboutMe;
         $query .= ", about_me = ?";
     }
 
@@ -45,21 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "PATCH") {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-//        if ($type == "post") {
-//            // Usuwamy post
-//            $query = "DELETE FROM posts WHERE post_id = ?";
-//        }
-//        else if ($type == "user") {
-//            $query = "DELETE FROM users WHERE user_id = ?";
-//            $type = "użytkownik";
-//        }
-//        else {
-//            // Nieznana operacja
-//            http_response_code(400);
-//            echo json_encode(["success" => false, "message" => "Invalid type parameter"]);
-//            exit();
-//        }
-//        $query =
         $conn->begin_transaction();
         $stmt = $conn->prepare($query);
         if (isset($inputData->password)) {
@@ -84,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "PATCH") {
                     $inputData->id
                 );
             }
-        }// if isset($inputData->password)
+        } // if isset($inputData->password)
         else {
             if (isset($inputData->aboutMe)) {
                 $stmt->bind_param(
@@ -107,8 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "PATCH") {
             }
         } // else
 
-//    }
-//        $stmt->bind_param("i", $id);
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
             http_response_code(200);

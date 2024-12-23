@@ -7,7 +7,7 @@ article#posts-section {
 }
 
 article#posts-section h3 {
-    font-size: 1.5em;
+    font-size: 1.8em;
     margin-bottom: 15px;
 }
 
@@ -26,11 +26,17 @@ div.post {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-h4.post-title {
+article h4.post-title {
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 1.6em;
 }
+
+/*h4.post-category-name {*/
+/*    font-style: italic;*/
+/*    margin-bottom: 10px;*/
+/*    font-size: 1em;*/
+/*}*/
 
 p.post-author {
     font-style: italic;
@@ -62,6 +68,8 @@ div.post div.comment {
     padding: 15px;
     margin-top: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    /*position: relative;*/
 }
 
 p.comment-author {
@@ -124,7 +132,6 @@ form#edit-user-post div.attachment-section p {
     padding: 15px 50px;
 }
 
-
 /* Zarzadzanie postami uzytkownika  */
 div.post .edit-link, div.post button.delete-button {
     font-size: 1em;
@@ -165,9 +172,16 @@ article#comments-section {
     background-color: var(--background-light);
 }
 
-article#comments-section h3 {
-    font-size: 1.5em;
+article#comments-section h4 {
+    font-size: 1.4em;
     margin-bottom: 15px;
+    font-weight: bold;
+}
+
+article#comments-section h5 {
+    font-size: 1em;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 div.comment-container {

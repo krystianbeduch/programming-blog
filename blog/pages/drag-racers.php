@@ -20,6 +20,7 @@ session_start();
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/style-games.css">
     <link rel="stylesheet" href="../css/style-drag-racers.css">
 
     <!-- jQuery -->
@@ -31,11 +32,11 @@ session_start();
     <?php require_once "../includes/header.php"; ?>
 
     <main>
-        <?php require_once "../includes/nav.php"; ?>
+        <?php require_once "../includes/nav.html"; ?>
 
-        <section id="main-section" class="drag-section">
+        <section id="main-section" class="drag-section game-section">
             <h2>Gra Drag Racers</h2>
-            <h3>Zasady:</h3>
+            <h5>Zasady:</h5>
             <ul>
                 <li>Celem gry jest dojechanie jako pierwszym na mete</li>
                 <li>Postęp jest widoczny na pasku progresu</li>
@@ -56,6 +57,6 @@ session_start();
 
     </main>
 
-    <?php require_once "../includes/footer.php"; ?>
+    <?php require_once "../includes/footer.html"; ?>
 </body>
 </html>

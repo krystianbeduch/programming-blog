@@ -17,6 +17,8 @@ export const showErrorAlert = (message) => {
 };
 
 export const showSuccessAlert = (message) => {
+    // Przewijanie strony do gory
+    window.scrollTo(0, 0);
     const alertDiv = $("<div>", {
         class: "alert alert-success",
         html: `<strong>Sukces!</strong> ${message}`
@@ -27,17 +29,16 @@ export const showSuccessAlert = (message) => {
 export const checkAndShowSuccessAlert = () => {
     const successMessage = sessionStorage.getItem("successMessage");
     if (successMessage) {
-        // Przewijanie strony do gory
-        window.scrollTo(0, 0);
         showSuccessAlert(successMessage);
         // Po wyswietleniu, usuwamy komunikat z sessionStorage
         sessionStorage.removeItem("successMessage");
     }
 };
 
-export const handleDelete  = (type, id, modal, successCallback) => {
+export const handleDelete  = (type, postCategory, id, modal, successCallback) => {
     $.ajax({
-        url: `${SERVER_URI}/delete-endpoint.php`,
+        // url: `${SERVER_URI}/delete-endpoint.php`,
+        url: `${SERVER_URI}/admin-management.php`,
         method: "DELETE",
         contentType: "application/json",
         data: JSON.stringify({type, id }),
@@ -45,9 +46,32 @@ export const handleDelete  = (type, id, modal, successCallback) => {
         success: (response) => {
             console.log(response);
             if (response.success) {
+                let displayType = null;
+                switch (type) {
+                    case "user":
+                        displayType = "Użytkownik";
+                        break;
+                    case "post":
+                        displayType = "Post";
+                        break;
+                    case "comment":
+                        displayType = "Komentarz";
+                        break;
+                }
                 // Zapisujemy informacje o sukcesie w sessionStorage
-                sessionStorage.setItem("successMessage", `${type === "user" ? "Użytkownik" : "Post"} o numerze ${id} usunięty`);
-                successCallback();
+                sessionStorage.setItem("successMessage", `${displayType} o numerze ${id} usunięty`);
+
+                // Sprawdzamy z jakiej strony pochodzi zapytanie
+                const currentPage = window.location.pathname;
+                if (currentPage.includes("post.php")) {
+                    // Jeśli zapytanie pochodzi z post.php, to przekierowujemy do kategorii
+                    if (postCategory) {
+                        window.location.href = `../pages/${postCategory}.php`;
+                    }
+                }
+                else {
+                    successCallback();
+                }
             }
             else {
                 showErrorAlert(response.message);

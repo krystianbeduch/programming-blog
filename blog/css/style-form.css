@@ -73,30 +73,13 @@ form.post-form span.error {
     display: block;
 }
 
-/*form.add-form .input-error input:-webkit-autofill   {*/
-/*    background-color: #dcbb17 !important; !* Ustawienie tła *!*/
-/*    color: #1a1a1a !important; !* Ustawienie koloru tekstu *!*/
-/*    border: 5px solid #4CAF50 !important; !* Dodanie stylu ramki *!*/
-/*}*/
-
-/*.invalid-input {*/
-/*    color: var(--error-text);*/
-/*    border-color: var(--error-text);*/
-/*}*/
-/**/
-/*.invalid-input {*/
-/*    color: var(--primary-color);*/
-/*    border-color: var(--primary-color);*/
-/*}*/
-
 form.post-form .invalid-input:-webkit-autofill {
-    /*-webkit-box-shadow:0 0 0 50px #ffe6e6 inset; !* Change the color to your own background color *!*/
-    -webkit-box-shadow: 0 0 0 50px var(--error-background) inset; /* Change the color to your own background color */
+    -webkit-box-shadow: 0 0 0 50px var(--error-background) inset;
     -webkit-text-fill-color: var(--error-text);
 }
 
 form.post-form .valid-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 50px #e6ffe6 inset; /* Change the color to your own background color */
+    -webkit-box-shadow: 0 0 0 50px #e6ffe6 inset;
     -webkit-text-fill-color: var(--button-hover);
 }
 
@@ -149,7 +132,7 @@ form.post-form div.bbcode-toolbar button {
     padding: 4px 8px 2px; /* 4px gora, 8px lewo-prawo, 2px dol */
     font-size: 0.9em;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Płynna zmiana koloru przy najechaniu */
+    transition: background-color 0.3s ease; /* Plynna zmiana koloru przy najechaniu */
 }
 
 form.post-form div.bbcode-toolbar button:hover {

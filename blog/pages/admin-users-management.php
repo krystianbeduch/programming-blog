@@ -42,10 +42,10 @@ require_once "../includes/admin-functions.php";
 <?php require_once "../includes/header.php"; ?>
 
 <main>
-    <?php require_once "../includes/nav.php"; ?>
+    <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
-        <h1>Panel Administracyjny - zarządzanie użytkownikami</h1>
+        <h2>Panel Administracyjny - zarządzanie użytkownikami</h2>
         <table id="admin-users-tab" class="table-stats">
             <colgroup>
                 <col style="width: 2%;">
@@ -161,7 +161,7 @@ require_once "../includes/admin-functions.php";
 
 </main>
 
-<?php require_once "../includes/footer.php"; ?>
+<?php require_once "../includes/footer.html"; ?>
 </body>
 
 </html>

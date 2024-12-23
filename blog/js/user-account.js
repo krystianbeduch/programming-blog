@@ -1,22 +1,26 @@
-document.addEventListener("DOMContentLoaded", () => {
-   const userMenuDiv = document.getElementById("user-menu");
+$(document).ready(() => {
+    const userMenuDiv = $("#user-menu");
 
-    if (userMenuDiv) {
-        const dropdownMenu = document.getElementById("dropdown-menu");
+    if (userMenuDiv.length) {
+        const dropdownMenu = $("#dropdown-menu");
 
-        userMenuDiv.addEventListener("click", () => {
-            const isMenuVisible = dropdownMenu.style.display === "block";
-            dropdownMenu.style.display = isMenuVisible ? "none" : "block";
+        userMenuDiv.on("click", () => {
+            if (dropdownMenu.is(":visible")) {
+                dropdownMenu.fadeOut();
+            }
+            else {
+                dropdownMenu.fadeIn();
+            }
         });
 
         // Zamknij menu uzytkownika
         const closeUserMenu = () => {
-            dropdownMenu.style.display = "none";
+            dropdownMenu.fadeOut();
         };
 
         // Zamkniecie menu po kliknieciu poza jego zawartoscia
-        window.addEventListener("click", (e) => {
-            if (!userMenuDiv.contains(e.target)) {
+        $(window).on("click", (e) => {
+            if (!userMenuDiv.is(e.target) && userMenuDiv.has(e.target).length === 0) {
                 closeUserMenu();
             }
         });
