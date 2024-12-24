@@ -41,8 +41,6 @@ function renderPosts_Admin(?string $category = null) : void {
         echo "<td>";
         echo "<button class='post-link view-button' title='Podgląd treści'><img src='../images/preview.png' alt='Pogląd treści'></button>";
 
-//        echo "<a href='../pages/post.php?postId=" . $post["post_id"] . "' class='post-comments-link post-link'>Przejdź do strony posta</a>";
-
         echo "<a href='../pages/post.php?postId=" . $post["post_id"] . "' class='post-link edit-link view-comments-button' title='Zobacz post'>";
         echo "<img src='../images/view_comments.png' alt='Zobacz post' ></a>";
         echo "<button class='post-link delete-button' data-post-id='" . $post["post_id"] . "' title='Usuń post'>";

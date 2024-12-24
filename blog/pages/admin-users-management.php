@@ -1,13 +1,14 @@
 <?php
 session_start();
+require_once "../errors/error-codes.php";
+
 if (!isset($_SESSION["loggedUser"]) || $_SESSION["loggedUser"]["role"] != "Admin") {
-    http_response_code(401); // Unauthorized - nieuprawniony dostep
+    http_response_code(HttpStatus::UNAUTHORIZED);
     require "../errors/401.html";
-    exit;
+    exit();
 }
 
 require_once "../includes/admin-functions.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@ require_once "../includes/admin-functions.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Blog | Panel administracyjny</title>
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
@@ -33,10 +34,7 @@ require_once "../includes/admin-functions.php";
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<!--    <script src="../js/edit-user-post-form.js" type="module"></script>-->
-        <script src="../js/admin-users.js" type="module"></script>
-<!--    <script src="../js/add-comment-bbcode.js"></script>-->
+    <script src="../js/admin-users.js" type="module"></script>
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
@@ -134,7 +132,6 @@ require_once "../includes/admin-functions.php";
                 </form>
                 <div class="modal-buttons">
                     <button id="cancel-edit-button" class="modal-button cancel-button">Anuluj</button>
-<!--                    <input type="submit" value="Send">-->
                     <button id="confirm-edit-button" class="modal-button confirm-button" type="submit">Potwierdź</button>
                 </div>
             </div>
@@ -151,10 +148,6 @@ require_once "../includes/admin-functions.php";
             </div>
         </div>
 
-
-
-
-
     </section>
 
     <?php require_once "../includes/aside.php"; ?>
@@ -162,6 +155,6 @@ require_once "../includes/admin-functions.php";
 </main>
 
 <?php require_once "../includes/footer.html"; ?>
-</body>
 
+</body>
 </html>

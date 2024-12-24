@@ -39,7 +39,7 @@ class PageSetup {
         // Obiekt Pagination z odpowiednimi danymi
         $this->pagination = new Pagination($this->currentPage, $this->totalPosts, $this->postsPerPage);
     }
-    
+
     private function getLanguageHeader(): string {
         $categoryName = $this->posts[0]["category_name"];
         if ($categoryName == "Cpp") {

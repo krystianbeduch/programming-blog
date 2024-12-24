@@ -7,7 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Blog | Whack-a-Mole</title>
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
@@ -26,7 +26,6 @@ session_start();
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../js/drag-racers-jQuery.js"></script>
-
 </head>
 <body>
     <?php require_once "../includes/header.php"; ?>
@@ -67,5 +66,6 @@ session_start();
     </main>
 
     <?php require_once "../includes/footer.html"; ?>
+
 </body>
 </html>

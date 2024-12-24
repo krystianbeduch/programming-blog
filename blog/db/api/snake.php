@@ -5,53 +5,80 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Origin: *");
 
 require_once "../db-connect.php";
+require_once "../../errors/error-codes.php";
 
 $method = $_SERVER["REQUEST_METHOD"];
-if ($method == "GET" && isset($_GET["getUserName"])) {
-    getSessionUserName();
-}
-else if ($method == "GET") {
-    getUserScores();
-}
-else if ($method == "POST") {
-    addUserScore();
-}
-else {
-    http_response_code(405);
-    echo json_encode(["message" => "Method not allowed"]);
-}
+switch ($method) {
+    case "POST":
+        addUserScore();
+        break;
+    case "GET":
+        if (isset($_GET["getUserName"])) {
+            getSessionUserName();
+        }
+        else {
+            getUserScores();
+        }
+        break;
+    default:
+        http_response_code(HttpStatus::METHOD_NOT_ALLOWED);
+        echo json_encode(["message" => "Method not allowed"]);
+        exit();
+} // switch
 
 function getSessionUserName(): void  {
+    $conn = null;
+    $stmt = null;
     try {
         session_start();
+
+        if (empty($_SESSION["loggedUser"]["username"])) {
+            http_response_code(HttpStatus::NOT_FOUND);
+            echo json_encode(["message" => "User not logged in"]);
+            exit();
+        }
+
+        $username = $_SESSION["loggedUser"]["username"];
+
         $conn = new mysqli(
             MySQLConfig::SERVER,
             MySQLConfig::USER,
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        if (isset($_SESSION["loggedUser"]["username"])) {
-            $username = $_SESSION["loggedUser"]["username"];
-        }
-        else {
-            http_response_code(404); // Not Found
-            exit;
-        }
 
-        $query = "SELECT username FROM users WHERE username = ?";
+        $query = <<<SQL
+        SELECT 
+            username 
+        FROM users 
+        WHERE username = ?;
+        SQL;
+
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        echo json_encode(["username" => $result->fetch_assoc()["username"]]);
+
+        if ($row = $result->fetch_object()) {
+            echo json_encode(["username" => $row->username]);
+        }
+        else {
+            http_response_code(HttpStatus::NOT_FOUND); // Not Found
+            echo json_encode(["message" => "Username not found"]);
+        }
     }
     catch (Exception $e) {
-        http_response_code(500); // Internal Server Error
+        http_response_code(HttpStatus::INTERNAL_SERVER_ERROR);
         echo json_encode(["message" => $e->getMessage()]);
     }
-}
+    finally {
+        $stmt?->close();
+        $conn?->close();
+    }
+} // getSessionUserName()
 
 function getUserScores() : void {
+    $conn = null;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -59,46 +86,64 @@ function getUserScores() : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        $query = "SELECT user_name, score FROM snake_scores ORDER BY score DESC LIMIT 10";
+        $query = <<<SQL
+        SELECT 
+            user_name, 
+            score 
+        FROM snake_scores 
+        ORDER BY score DESC LIMIT 10;
+        SQL;
         $result = $conn->query($query);
-        $conn->close();
         echo json_encode(["success" => true, "scores" => $result->fetch_all(MYSQLI_ASSOC)]);
     }
     catch (Exception $e) {
-        http_response_code(500); // Internal Server Error
+        http_response_code(HttpStatus::INTERNAL_SERVER_ERROR);
         echo json_encode(["success" => false, "message" => "Error: ". $e->getMessage()]);
     }
-}
+    finally {
+        $conn?->close();
+    }
+} // getUserScores()
 
 function addUserScore() : void {
+    $conn = null;
+    $stmt = null;
     try {
-        $data = json_decode(file_get_contents("php://input"), true);
+        $data = json_decode(file_get_contents("php://input"));
 
-        if (isset($data["username"]) && isset($data["score"])) {
-            $conn = new mysqli(
-                MySQLConfig::SERVER,
-                MySQLConfig::USER,
-                MySQLConfig::PASSWORD,
-                MySQLConfig::DATABASE
-            );
-            $query = "INSERT INTO snake_scores (user_name, score) VALUES (?, ?)";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param(
-                "si",
-                $data["username"],
-                $data["score"]
-            );
-            $stmt->execute();
-            $stmt->close();
-            $conn->close();
-            echo json_encode(["success" => true, "message" => "Zapisano wynik do bazy"]);
-        }
-        else {
-            http_response_code(400); // Bad Request
+        if (empty($data->username) || !isset($data->score)) {
+            http_response_code(HttpStatus::BAD_REQUEST);
             echo json_encode(["success" => false, "message" => "Invalid type parameter"]);
+            exit();
         }
+
+        $conn = new mysqli(
+            MySQLConfig::SERVER,
+            MySQLConfig::USER,
+            MySQLConfig::PASSWORD,
+            MySQLConfig::DATABASE
+        );
+        $query = <<<SQL
+        INSERT INTO snake_scores 
+            (user_name, score) 
+        VALUES 
+            (?, ?);
+        SQL;
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param(
+            "si",
+            $data->username,
+            $data->score
+        );
+        $stmt->execute();
+        echo json_encode(["success" => true, "message" => "Zapisano wynik do bazy"]);
     }
     catch (Exception $e) {
+        http_response_code(HttpStatus::INTERNAL_SERVER_ERROR);
         echo json_encode(["success" => false, "message" => "Error: ". $e->getMessage()]);
     }
-}
+    finally {
+        $stmt?->close();
+        $conn?->close();
+    }
+} // addUserScore()

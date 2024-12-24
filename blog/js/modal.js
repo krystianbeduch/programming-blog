@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 usernameField,
                                 document.querySelector(`label[for="${usernameField.id}"]`)
                             );
-                            usernameField.nextElementSibling.textContent = "Nazwa użytkownika nie istnieje!";
+                            usernameField.nextElementSibling.textContent = "Użytkownik o takiej nazwie nie istnieje";
                         }
                     } // if usernameField
                 } // if isFormValid

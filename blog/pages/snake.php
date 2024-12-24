@@ -21,7 +21,7 @@ session_start();
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../js/drag-racers-jQuery.js"></script>
+    <script src="../js/snake-game.js"></script>
 </head>
 <body>
     <?php require_once "../includes/header.php"; ?>

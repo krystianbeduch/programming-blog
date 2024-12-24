@@ -325,7 +325,7 @@ $(document).ready(function () {
             .then((response) => response.json())
             .then((data) => {
                 // Sprawdzamy, czy success jest true w odpowiedzi
-                if (data.success) {
+                if (data?.success) {
                     // Usuniecie poprzednich wierszy w tabeli wynikow
                     $("#snake-scores > tbody > tr").remove();
                     if (data.scores.length > 0) {

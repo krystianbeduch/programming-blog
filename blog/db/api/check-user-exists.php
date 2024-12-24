@@ -6,17 +6,20 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Origin: *");
 
 require_once "../db-connect.php";
+require_once "../../errors/error-codes.php";
 
 // Pobierz parametry z URL
 $username = $_GET["username"] ?? null;
 
 // Walidacja parametru
 if (!$username) {
-    http_response_code(400); // Bad request - bledna skladnia
+    http_response_code(HttpStatus::BAD_REQUEST);
     echo json_encode(["success" => false, "message" => "Invalid request parameters"]);
     exit();
 }
 
+$conn = null;
+$stmt = null;
 try {
     $conn = new mysqli(
         MySQLConfig::SERVER,
@@ -26,24 +29,31 @@ try {
     );
 
     // Przygotowanie zapytania SQL
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE LOWER(username) = LOWER(?)");
+    $query = <<<SQL
+    SELECT 
+        COUNT(*) 
+    FROM users 
+    WHERE username = ?;
+    SQL;
+    $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $username);
     $stmt->bind_result($count);
     $stmt->execute();
     $stmt->fetch();
-    $stmt->close();
-    $conn->close();
 
     // Zwrot odpowiedzi w formacie JSON
-    if ($count == 1) {
-        echo json_encode(["success" => true, "message" => "User exists"]);
-    }
-    else {
-        echo json_encode(["success" => false, "message" => "User is not exists"]);
-    }
+    $response = [
+        "success" => $count == 1,
+        "message" => $count == 1 ? "User exists" : "User does not exists"
+    ];
+    echo json_encode($response);
 }
 catch (Exception $e) {
-    http_response_code(500); // Internal Server Error - blad polaczenia z serwerem
+    http_response_code(HttpStatus::INTERNAL_SERVER_ERROR);
     echo json_encode(["success" => false, "message" => "Error: " .$e->getMessage()]);
-    exit;
+    exit();
+}
+finally {
+    $stmt?->close();
+    $conn?->close();
 }

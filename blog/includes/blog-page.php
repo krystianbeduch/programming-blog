@@ -15,8 +15,6 @@ $pageData = new PageSetup();
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="manifest" href="../images/favicons/site.webmanifest">
 
-
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
@@ -26,20 +24,18 @@ $pageData = new PageSetup();
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!--    <script src="../js/user-account.js"></script>-->
     <script src="../js/admin-posts.js" type="module"></script>
 </head>
 <body>
-    <?php
-    require_once "../includes/header.php"; ?>
+    <?php require_once "../includes/header.php"; ?>
 
     <main>
         <?php require_once "../includes/nav.html"; ?>
 
         <section id="main-section">
-            <h2><?php echo $pageData->languageHeader; ?></h2>
-            <p><?php echo getCategoryDescription($pageData->language); ?></p>
-            <?php echo "<img src='../images/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
+            <h2><?= $pageData->languageHeader; ?></h2>
+            <p><?= getCategoryDescription($pageData->language); ?></p>
+            <?= "<img src='../images/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
 
             <?php include_once "../includes/post-alerts.php"; ?>
 
@@ -51,8 +47,7 @@ $pageData = new PageSetup();
                 <h3>Posty</h3>
                 <div class="comment-container">
 
-                    <?php
-                    renderPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true));
+                    <?php renderPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true));
                     // preserve_keys = true - zachowaj oryginalne klucze tablicy
                     ?>
                 </div>
@@ -66,6 +61,8 @@ $pageData = new PageSetup();
         <?php require_once "../includes/aside.php"; ?>
 
     </main>
+
     <?php require_once "../includes/footer.html"; ?>
+
 </body>
 </html>

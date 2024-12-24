@@ -92,7 +92,11 @@ form.post-form textarea[readonly]{
     opacity: 0.7;
 }
 
-/* Add Comment Previw */
+form#add-post-form button[type=submit] {
+    padding: 10px 35px;
+}
+
+/* Add Comment Preview */
 section.add-comment-preview-section p {
     margin-bottom: 5px !important;
 }
@@ -105,10 +109,17 @@ div.comment-preview {
 form.post-form table button img {
     width: 100px;
     height: 100px;
+    /*object-fit: cover;  !* Zapewnia, że obrazek będzie przycięty w sposób proporcjonalny *!*/
+    /*display: block;*/
+    /*max-width: 100%;*/
+    /*max-height: 100%;*/
 }
 
 form.post-form table button {
     background-color: var(--background-light);
+    border: 3px solid transparent; /* Przycisk bedzie mial stala wielkosc, nawet gdy nie ma ramki */
+    box-sizing: border-box; /* Obramowanie nie wplywa na rozmiar przycisku */
+    transition: border-color 0.3s ease;
 }
 
 form.post-form table button:hover {

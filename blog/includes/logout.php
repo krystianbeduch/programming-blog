@@ -5,6 +5,10 @@ if (isset($_SESSION["loggedUser"])) {
     unset($_SESSION["loggedUser"]);
 }
 
+if (isset($_SESSION["formData"])) {
+    unset($_SESSION["formData"]);
+}
+
 // Zakonczenie całej sesji
 //session_destroy();
 $_SESSION["logoutAlert"] = true;
@@ -13,4 +17,4 @@ $_SESSION["logoutAlert"] = true;
 //$redirectUrl = $_SERVER["HTTP_REFERER"] ?? "../pages/";
 $redirectUrl = "../pages/";
 header("Location: $redirectUrl");
-exit;
+exit();

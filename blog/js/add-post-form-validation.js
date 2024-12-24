@@ -1,112 +1,71 @@
-// import {validateForm} from "./modules/form-validation";
-
-// import {validateForm} from "./modules/form-validation";
-
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.forms.add_post_form;
+$(document).ready(() => {
+    const form = $("form[name='add-post-form']");
 
     // Pobieranie wszystkich pol formularza
-    const formFields = form.querySelectorAll("input, textarea");
-    const captchaButtons = Array.from(document.getElementsByClassName("captcha-button"));
-    let captchaValid = false;
-    const captchaError = document.getElementById("captcha-error");
+    const formFields = form.find("input, textarea");
+    const captchaButtons = $(".captcha-button");
+    let isCaptchaValid = false;
+    const captchaError = $("#captcha-error");
 
-    window.addEventListener("load", () => {
-        // console.log("simea");
-        formFields.forEach(field => {
-            // if (field.classList.contains("invalid-input")) {
-            //     console.log(`check: ${field}`);
-            //     validateField(field);
-            // }
-            // validateField(field)
-            // console.log("simea");
-            field.addEventListener("invalid", (e) => {
-                // console.log("siea");
-                e.preventDefault();
-                // e.stopPropagation();
-                validateField(field);
-            });
-            // Sluchacze na zdarzenia 'input' i 'blur' dla dynamicznego sprawdzania poprawnosci
-            field.addEventListener("input", () => validateField(field));
-            field.addEventListener("blur", () => validateField(field));
-            // form.addEventListener("submit", () => validateForm(field));
+    formFields.each(function() {
+        const field = $(this);
+
+        field.on("invalid", (e) => {
+            e.preventDefault();
+            validateField(field);
         });
+        // Sluchacze na zdarzenia 'input' i 'blur' dla dynamicznego sprawdzania poprawnosci
+        field.on("input blur", () => validateField(field));
+    });
 
-        // Sprawdzenie calosci formularza przed wysylka wraz z captcha
-        form.addEventListener("submit", (e) => {
-            // Flaga poprawnosci formularza
-            let isFormValid = true;
+    form.on("submit", (e) => {
+        // Sprawdzenie poprawnosci kazdego pola w formularzu oraz captchy
+        const isFormValid = [...formFields].every(field => field.checkValidity()) && isCaptchaValid;
 
-            // Sprawdzenie poprawnosci kazdego pola w formularzu
-            formFields.forEach(field => {
-                if (!field.checkValidity()) {
-                    // Jesli pole jest niepoprawne ustaw flage
-                    isFormValid = false;
-                }
-            });
-
-            // Sprawdzenie, czy CAPTCHA zostala zaznaczona poprawnie
-            if (!captchaValid) {
-                // Jesli CAPTCHA jest niepoprawna, ustaw flage na false
-                isFormValid = false;
-            }
-
-            // Jesli formularz nie jest poprawny, anuluj jego wyslanie
-            if (!isFormValid) {
-                e.preventDefault();
-            }
-        });
-
+        // Jesli formularz nie jest poprawny, anuluj jego wyslanie
+        if (!isFormValid) {
+            e.preventDefault();
+        }
     });
 
     const validateField = (field) => {
-        // Znajdz label powiązany z polem za pomocą atrybutu "for" i "id"
-        const label = document.querySelector(`label[for="${field.id}"]`);
+        // Znajdz label powiazany z polem za pomoca atrybutu "for" i "id"
+        const label = $(`label[for="${field.attr("id")}"]`);
 
         // Znajdz pole bledu powiazane z polem
-        const spanError = document.querySelector(`#${field.id}\-error`);
+        const spanError = $(`#${field.attr("id")}-error`);
 
-        if (label && spanError) {
-            if (!field.validity.valid) {
-                label.style.color = "#e3192c";
-                field.style.borderColor = "#e3192c";
-                field.classList.remove("valid-input");
-                field.classList.add("invalid-input");
-                // field.classList.add("input-error");
-                spanError.textContent = `Pole ${field.id} niepoprawne`;
+        if (label.length && spanError.length) {
+            if (!field[0].validity.valid) {
+                label.css({
+                    "color" : "var(--error-text)",
+                    "border-color" : "var(--error-text)",
+                });
+                field
+                    .css("color", "var(--error-text)")
+                    .addClass("invalid-input")
+                    .removeClass("valid-input");
+                spanError.text(`Pole \"${field.data("polish-name")}\" niepoprawne`);
             }
             else {
-                label.style.color = "#218838";
-                field.style.borderColor = "#218838";
-                field.classList.remove("invalid-input");
-                field.classList.add("valid-input");
-                spanError.textContent = "";
+                label.css("color", "var(--primary-text)");
+                field
+                    .css("border-color", "var(--primary-text)")
+                    .addClass("valid-input")
+                    .removeClass("invalid-input");
+                spanError.text("");
             }
         }
-    };
+    }; // validateField()
 
-    // Dla kazdego przycisku obsluz zdarzenie klikniecia
-    captchaButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            captchaButtons.forEach(btn => btn.classList.remove("checked-captcha-button"));
-            button.classList.add("checked-captcha-button");
-            captchaValid = button.classList.contains("correct-captcha-button");
-            if (!captchaValid) {
-                captchaError.textContent = "Błędna captcha";
-            }
-            else {
-                captchaError.textContent = "";
-            }
-        });
+    captchaButtons.each(function() {
+       const button = $(this);
+
+       button.on("click", () => {
+           captchaButtons.removeClass("checked-captcha-button");
+           button.addClass("checked-captcha-button");
+           isCaptchaValid = button.hasClass("correct-captcha-button");
+           captchaError.text(isCaptchaValid ? "" : "Błędna captcha");
+       });
     });
-
-    // const execeuteReptcha = (form) => {
-    //     console.log("ca");
-    //     grecaptcha.ready(function() {
-    //         grecaptcha.execute('6Lee1W8qAAAAAMwE7w2suh1TsFE9Gku9HZFfP0vB', { action: 'submit' }).then(function(token) {
-    //             document.getElementById('recaptcha_response').value = token;
-    //             form.submit();
-    //         });
-    //     });
-    // };
 });

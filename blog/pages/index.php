@@ -39,5 +39,6 @@ require_once "../db/mysql-operation.php";
     </main>
 
     <?php require_once "../includes/footer.html"; ?>
+
 </body>
 </html>

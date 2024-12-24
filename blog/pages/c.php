@@ -1,1 +1,1 @@
-<?php require_once "../includes/main-page.php";
+<?php require_once "../includes/blog-page.php";

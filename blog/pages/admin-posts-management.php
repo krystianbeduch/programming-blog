@@ -1,30 +1,16 @@
 <?php
 session_start();
+require_once "../errors/error-codes.php";
+
 if (!isset($_SESSION["loggedUser"])) {
-    http_response_code(401); // Unauthorized - nieuprawniony dostep
+    http_response_code(HttpStatus::UNAUTHORIZED);
     require "../errors/401.html";
-    exit;
+    exit();
 }
 
-//session_destroy();
-//require_once "../includes/posts-functions.php";
 require_once "../includes/admin-functions.php";
 
 $category = $_GET["category"] ?? null;
-
-//$currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-
-//$language = "php";
-//include "../db/mysql-operation.php";
-//$userPosts= getUserPosts($_SESSION["loggedUser"]["id"]);
-//$totalPosts = count($userPosts);
-//$postsPerPage = 3;
-//
-//$paginationData = getPaginationData($currentPage, $totalPosts, $postsPerPage);
-//$currentPage = $paginationData["currentPage"];
-//$totalPages = $paginationData["totalPages"];
-//$offset = $paginationData["offset"];
-
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +18,7 @@ $category = $_GET["category"] ?? null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Blog | Panel administracyjny</title>
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
@@ -107,5 +93,4 @@ $category = $_GET["category"] ?? null;
 <?php require_once "../includes/footer.html"; ?>
 
 </body>
-
 </html>

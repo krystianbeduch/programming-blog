@@ -1,9 +1,11 @@
 <?php
 session_start();
+require_once "../errors/error-codes.php";
+
 if (!isset($_SESSION["loggedUser"])) {
-    http_response_code(401); // Unauthorized - nieuprawniony dostep
+    http_response_code(HttpStatus::UNAUTHORIZED);
     require "../errors/401.html";
-    exit;
+    exit();
 }
 
 if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
@@ -12,18 +14,17 @@ if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
     include_once "../db/mysql-operation.php";
     $post = getOnePostToEdit($_SESSION["loggedUser"]["id"], $postId);
     if (count($post) == 0 ) {
-        http_response_code(404); // Not Found - nie znaleziono zasobu
+        http_response_code(HttpStatus::NOT_FOUND);
         require "../errors/404.html";
-        exit;
+        exit();
     }
 }
 else {
-    http_response_code(400); // Bad request - bledna skladnia
+    http_response_code(HttpStatus::BAD_REQUEST);
     require "../errors/400.html";
-    exit;
+    exit();
 }
 include_once "../includes/bbcode-functions.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +46,12 @@ include_once "../includes/bbcode-functions.php";
     <!-- Styles -->
     <link rel="stylesheet" href="../css/main.css">
 
+    <!-- JavaScript Scripts -->
+    <script src="../js/add-comment-bbcode.js"></script>
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script src="../js/edit-user-post-form.js" type="module"></script>
-    <script src="../js/add-comment-bbcode.js"></script>
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
@@ -64,15 +66,15 @@ include_once "../includes/bbcode-functions.php";
                 <input type="hidden" name="action" value="editPost">
 
                 <label for="category">Kategoria:</label>
-                <input type="text" name="category" id="category" value="<?php echo $post["category_name"];?>" readonly disabled>
+                <input type="text" name="category" id="category" value="<?= $post["category_name"]; ?>" readonly disabled>
 
                 <label for="post-id">Numer posta:</label>
-                <input type="text" name="post-id" id="post-id" value="<?php echo $post["post_id"];?>" readonly>
+                <input type="text" name="post-id" id="post-id" value="<?= $post["post_id"]; ?>" readonly>
 
                 <label for="title">Tytuł posta:</label>
                 <button type="button" class="form-button edit-field-form-button" name="title">Zmień</button>
                 <button type="button" class="close" name="close-title">Anuluj</button>
-                <input type="text" name="title" id="title" required value="<?php echo $post["title"]?>" disabled>
+                <input type="text" name="title" id="title" required value="<?= $post["title"]; ?>" disabled>
 
                 <span id="title-error" class="error"></span>
 
@@ -100,7 +102,7 @@ include_once "../includes/bbcode-functions.php";
 
                 <?php include "../includes/bbcode.php"; ?>
 
-                <textarea name="content" id="content" required disabled><?php echo convertHTMLToBBCode($post["content"]);?></textarea>
+                <textarea name="content" id="content" required disabled><?= convertHTMLToBBCode($post["content"]); ?></textarea>
 
                 <div class="attachment-section">
                     <?php if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
@@ -111,7 +113,7 @@ include_once "../includes/bbcode-functions.php";
                     ?>
                     <label for="attachment">Nowy załącznik (tylko zdjęcia):</label>
                     <input type="file" name="attachment" id="attachment" accept="image/*">
-                    <input type="hidden" name="attachment-id" value="<?php echo $post["attachment_id"] ?? null ?>" disabled>
+                    <input type="hidden" name="attachment-id" value="<?= $post["attachment_id"] ?? null; ?>" disabled>
                 </div>
 
                 <button type="submit" class="form-button">Zapisz zmiany</button>
@@ -125,6 +127,6 @@ include_once "../includes/bbcode-functions.php";
 </main>
 
 <?php require_once "../includes/footer.html"; ?>
-</body>
 
+</body>
 </html>

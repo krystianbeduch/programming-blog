@@ -1,12 +1,13 @@
 <?php
 session_start();
-//session_destroy();
+
+require_once "../errors/error-codes.php";
 
 // Dostep do strony mozliwy jest tylko po przeslaniu formularza
 if ( !(isset($_POST["user-id"]) && isset($_POST["title"]) && isset($_POST["content"])) ) {
-    http_response_code(403); // Forbidden
+    http_response_code(HttpStatus::FORBIDDEN);
     require "../errors/403.html";
-    exit;
+    exit();
 }
 
 if (isset($_FILES["attachment"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR_OK) {
@@ -27,7 +28,7 @@ if (isset($_FILES["attachment"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR
         exit();
     }
 
-    // Odczytanie zawartości pliku
+    // Odczytanie zawartosci pliku
     $fileContent = file_get_contents($_FILES["attachment"]["tmp_name"]);
 
     // Zapisanie danych pliku
@@ -40,7 +41,7 @@ if (isset($_FILES["attachment"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR
         "size" => $_FILES["attachment"]["size"],
         // Rozszerzenie pliku
         "extension" => $fileExtension,
-        // Zakodowana zawartość pliku
+        // Zakodowana zawartosc pliku
         "content" => base64_encode($fileContent)
     ];
 
@@ -50,9 +51,7 @@ if (isset($_FILES["attachment"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR
 // Przetwarzanie danych formularza i przechowywanie ich w sesji (bez pliku)
 $category = $_POST["category"];
 $_SESSION["formData"][$category] = $_POST;
-// docelowo $_SESSION['formData'][$userId][$category]
 include_once "../includes/bbcode-functions.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +59,7 @@ include_once "../includes/bbcode-functions.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Blog | Sprawdź post</title>
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
@@ -80,43 +79,34 @@ include_once "../includes/bbcode-functions.php";
         <h2>Sprawdź swój post przed dodaniem</h2>
         <p>
             <strong>Numer użytkownika: </strong>
-            <?php echo $_POST["user-id"];?>
+            <?= $_POST["user-id"];?>
         </p>
         <p>
             <strong>Tytuł posta: </strong>
-            <?php echo htmlspecialchars($_POST["title"])?>
+            <?= htmlspecialchars($_POST["title"], ENT_QUOTES | ENT_HTML5)?>
         </p>
         <p>
             <strong>Komentarz: </strong>
         </p>
         <div class="comment-preview">
-            <?php echo convertBBCodeToHTML($_POST["content"]); ?>
+            <?= convertBBCodeToHTML($_POST["content"]); ?>
         </div>
         <p>
             <strong>Załącznik: </strong>
-            <?php echo $_FILES["attachment"]["name"]; ?>
+            <?= $_FILES["attachment"]["name"]; ?>
         </p>
 
-<!--        <form action="--><?php //echo $_POST["url"];?><!--"
- method="post" style="display: inline;">-->
         <form action="../db/mysql-operation.php" method="post" enctype="multipart/form-data">
-<!--            <input type="hidden" name="action" value="editForm">-->
-            <button type="submit" name="action" class="form-button"  value="editForm">Cofnij do poprawki</button>
-
-        <!--        <form action="../comments/test-submit.php" method="post" style="display: inline;">-->
+            <button type="submit" name="action" class="form-button" value="editForm">Cofnij do poprawki</button>
 
             <button type="submit" name="action" class="form-button" value="addPost">Zatwierdź</button>
-            <?php
-            // Przesyłamy dane w ukrytych polach, aby były gotowe do zapisania w bazie
-            foreach ($_POST as $key => $value) {
-                if ($key != "content") {
-                    echo "<input type='hidden' name='" . htmlspecialchars($key) . "' value='" . htmlspecialchars($value) . "'>";
-                }
-                else {
-                    echo "<input type='hidden' name='" . htmlspecialchars($key) . "' value='" . convertBBCodeToHTML($value) . "'>";
-                }
-            }
-            ?>
+            <!-- Przesylamy dane w ukrytych polach, aby byly gotowe do zapisania w bazie -->
+            <?php foreach ($_POST as $key => $value): ?>
+                <input
+                        type="hidden"
+                        name="<?= htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) ?>"
+                        value="<?= $key == "content" ? convertBBCodeToHTML($value) : htmlspecialchars($value, ENT_QUOTES | ENT_HTML5) ?>"
+            <?php endforeach; ?>
         </form>
 
     </section>
@@ -126,5 +116,6 @@ include_once "../includes/bbcode-functions.php";
 </main>
 
 <?php require_once "../includes/footer.html"; ?>
+
 </body>
 </html>

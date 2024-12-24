@@ -1,12 +1,12 @@
 <?php
 session_start();
+require_once "../errors/error-codes.php";
 
 if (!isset($_SESSION["loggedUser"])) {
-    http_response_code(401); // Unauthorized - nieuprawniony dostep
+    http_response_code(HttpStatus::UNAUTHORIZED);
     require "../errors/401.html";
-    exit;
+    exit();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -33,7 +33,8 @@ if (!isset($_SESSION["loggedUser"])) {
     <script src="../js/edit-user-form.js" type="module"></script>
 </head>
 <body>
-    <?php require_once "../includes/header.php"; ?>
+<?php require_once "../includes/header.php"; ?>
+
 <main>
     <?php require_once "../includes/nav.html"; ?>
 
@@ -43,17 +44,17 @@ if (!isset($_SESSION["loggedUser"])) {
                 <legend>Edycja profilu</legend>
                 <input type="hidden" name="action" value="editUserAccount">
                 <label for="id">Numer użytkownika:</label>
-                <input type="number" name="id" id="id" value="<?php echo $_SESSION["loggedUser"]["id"]?>" readonly>
+                <input type="number" name="id" id="id" value="<?= $_SESSION["loggedUser"]["id"]; ?>" readonly>
 
                 <label for="username">Nazwa użytkownika:</label>
                 <button type="button" class="form-button edit-field-form-button" name="username">Zmień</button>
                 <button type="button" class="close" name="close-username">Anuluj</button>
-                <input type="text" name="username" id="username" value="<?php echo $_SESSION["loggedUser"]["username"]?>" disabled minlength="4">
+                <input type="text" name="username" id="username" value="<?= $_SESSION["loggedUser"]["username"]; ?>" disabled minlength="4">
 
                 <label for="email">Email:</label>
                 <button type="button" class="form-button edit-field-form-button" name="email">Zmień</button>
                 <button type="button" class="close" name="close-email">Anuluj</button>
-                <input type="email" name="email" id="email" value="<?php echo $_SESSION["loggedUser"]["email"]?>" disabled>
+                <input type="email" name="email" id="email" value="<?= $_SESSION["loggedUser"]["email"]; ?>" disabled>
 
                 <fieldset id="edit-password">
                     <legend>
@@ -73,7 +74,7 @@ if (!isset($_SESSION["loggedUser"])) {
                 <label for="about_me">O mnie:</label>
                 <button type="button" class="form-button edit-field-form-button" name="about_me">Zmień</button>
                 <button type="button" class="close" name="close-about_me">Anuluj</button>
-                <textarea name="about_me" id="about_me" cols="30" rows="10" disabled><?php echo $_SESSION["loggedUser"]["aboutMe"] ?></textarea>
+                <textarea name="about_me" id="about_me" cols="30" rows="10" disabled><?= $_SESSION["loggedUser"]["aboutMe"]; ?></textarea>
                 <button type="submit" class="form-button">Zapisz zmiany</button>
                 </fieldset>
             </form>
@@ -84,6 +85,6 @@ if (!isset($_SESSION["loggedUser"])) {
     </main>
 
     <?php require_once "../includes/footer.html"; ?>
-</body>
 
+</body>
 </html>

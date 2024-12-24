@@ -1,19 +1,4 @@
 <?php
-
-//function renderContent(array $post) : void {
-//    echo "<p class='post-author'>Autor: " . $post["username"]. ", " . $post["email"] .
-//             "<span class='post-date'>Utworzono: " . date("d-m-Y H:i", strtotime($post["created_at"])) .
-//             "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
-//        echo "<p class='post-content'>" . $post["content"] . "</p>";
-//
-//        // Wyswietlanie zalaczonego zdjecia, jeśsi istnieje
-//        if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
-//            $base64Image = base64_encode($post["file_data"]);
-//            echo "<h5>Załączone zdjęcie:</h5>";
-//            echo "<img src='data:" . htmlspecialchars($post["file_type"]) . ";base64," . $base64Image . "' alt='Załączone zdjęcie' class='post-attachment'>";
-//        }
-//}
-
 function renderPosts(array $posts) : void {
     foreach ($posts as $post) {
         echo "<div class='post'>";

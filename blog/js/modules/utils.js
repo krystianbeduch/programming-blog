@@ -37,7 +37,6 @@ export const checkAndShowSuccessAlert = () => {
 
 export const handleDelete  = (type, postCategory, id, modal, successCallback) => {
     $.ajax({
-        // url: `${SERVER_URI}/delete-endpoint.php`,
         url: `${SERVER_URI}/admin-management.php`,
         method: "DELETE",
         contentType: "application/json",

@@ -1,57 +1,35 @@
-<?php
-//session_destroy();
-//include "bbcode.php";
-?>
 <script src="../js/add-comment-form-validation.js"></script>
 <script src="../js/add-comment-bbcode.js"></script>
 
-<form id="add-comment-form" class="post-form" name="add_comment_form" action="../pages/add-comment-preview.php?postId=<?php echo $postId ?? "" ?>" method="post">
-<!--    http://www.tomaszx.pl/materialy/test_przesylania.php-->
+<form id="add-comment-form" class="post-form" name="add_comment_form" action="../pages/add-comment-preview.php?postId=<?= $postId ?? ""; ?>" method="post">
     <fieldset>
         <legend>Dodaj komentarz</legend>
 
-        <input type="hidden" name="url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
-<!--        <input type="hidden" name="action" value="addComment">-->
-<!--        --><?php //echo $_SESSION["formData"][$postId]["action"]; ?>
+        <input type="hidden" name="url" value="<?= $_SERVER["REQUEST_URI"]; ?>">
         <label for="post-id">Numer postu:</label>
-        <input type="text" name="post-id" id="post-id" value="<?php echo $postId ?? ""; ?>" readonly>
+        <input type="text" name="post-id" id="post-id" value="<?= $postId ?? ""; ?>" readonly>
 
         <label for="username">Nazwa użytkownika:</label>
         <?php if (isset($_SESSION["loggedUser"])): ?>
-            <input type="text" name="username" id="username" value="<?php echo $_SESSION["loggedUser"]["username"]; ?>" readonly>
-        <?php endif ?>
-
-        <?php if (!isset($_SESSION["loggedUser"])): ?>
-            <input type="text" name="username" id="username" value="<?php echo $_SESSION["formData"][$postId]["username"] ?? ""; ?>">
-        <?php endif ?>
-
-        <span id="username-error" class="error"">
-
-<!--        -->
-            <?php echo isset($_SESSION["errors"]["username"]) ? $_SESSION["errors"]["username"] : ""; ?>
-<!--        -->
-        </span>
+            <input type="text" name="username" id="username" value="<?= $_SESSION["loggedUser"]["username"]; ?>" readonly>
+        <?php else: ?>
+            <input type="text" name="username" id="username" value="<?= $_SESSION["formData"][$postId]["username"] ?? ""; ?>">
+        <?php endif; ?>
+        <span id="username-error" class="error"></span>
 
         <label for="email">Email:</label>
         <?php if (isset($_SESSION["loggedUser"])): ?>
-            <input type="text" name="email" id="email" value="<?php echo $_SESSION["loggedUser"]["email"]?>" readonly>
-        <?php endif ?>
+            <input type="text" name="email" id="email" value="<?= $_SESSION["loggedUser"]["email"]; ?>" readonly>
 
-        <?php if (!isset($_SESSION["loggedUser"])): ?>
-            <input type="text" name="email" id="email" value="<?php echo isset($_SESSION["formData"][$postId]["email"]) ? htmlspecialchars($_SESSION["formData"][$postId]["email"]) : "" ?>">
-        <?php endif ?>
-
-
-        <span id="email-error" class="error">
-<!--            -->
-            <?php echo $_SESSION["errors"]["email"] ?? ""; ?>
-<!--            -->
-        </span>
+        <?php else: ?>
+            <input type="text" name="email" id="email" value="<?= isset($_SESSION["formData"][$postId]["email"]) ? htmlspecialchars($_SESSION["formData"][$postId]["email"]) : ""; ?>">
+        <?php endif; ?>
+        <span id="email-error" class="error"></span>
 
         <label for="content" class="textarea-label">Treść komentarza (obsługuje BBCode):
             <div class="bbcode-info">
                 <img src="../images/bbcode-icons/info-solid.svg" alt="info" id="bbcode-img" >
-                <!-- Dymek z instrukcją -->
+                <!-- Dymek z instrukcja -->
                 <div class="bbcode-tooltip-text">
                     Możesz użyć BBCode aby sformatować swój tekst.<br>
                     Zaznacz tekst a następnie kliknij na odpowiedni przycisk.<br>
@@ -60,21 +38,13 @@
             </div>
         </label>
 
-        <?php include "bbcode.php"; ?>
+        <?php include_once "bbcode.php"; ?>
 
-        <textarea name="content" id="content"><?php echo isset($_SESSION["formData"][$postId]["content"]) ? trim(htmlspecialchars($_SESSION["formData"][$postId]["content"])) : "" ?></textarea>
+        <textarea name="content" id="content"><?= isset($_SESSION["formData"][$postId]["content"]) ? trim(htmlspecialchars($_SESSION["formData"][$postId]["content"], ENT_QUOTES | ENT_HTML5)) : "" ?></textarea>
+        <span id="content-error" class="error"></span>
 
-        <span id="content-error" class="error">
-<!--            -->
-            <?php echo isset($_SESSION["errors"]["content"]) ? $_SESSION["errors"]["content"] : ""; ?>
-<!--            -->
-        </span>
         <span id="form-errors" class="error"></span>
 
-        <input type="hidden" name="recaptcha_response" id="recaptcha_response">
-
-
-        <!-- CAPTCHA -->
         <div id="captcha">
             <?php require_once "captcha.php"; ?>
         </div>
@@ -82,7 +52,3 @@
         <button type="submit" class="form-button">Dodaj komentarz</button>
     </fieldset>
 </form>
-
-<?php
-unset($_SESSION["errors"]);
-?>

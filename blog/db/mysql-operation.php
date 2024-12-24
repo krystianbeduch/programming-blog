@@ -669,12 +669,12 @@ function createUserAccount(array $user) : void {
         $conn->rollback();
         $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
         header("Location: ../pages/index.php");
-        exit;
+        exit();
     }
     catch (Exception $e) {
         $_SESSION["alert"]["error"] = $e->getMessage();
         header("Location: ../pages/index.php");
-        exit;
+        exit();
     }
     finally {
         $stmt->close();
@@ -684,6 +684,8 @@ function createUserAccount(array $user) : void {
 
 function loginUser(array $user) : void {
     session_start();
+    $conn = null;
+    $stmt = null;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -737,22 +739,23 @@ function loginUser(array $user) : void {
     catch (mysqli_sql_exception $e) {
         $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
         header("Location: ../pages/index.php");
-        exit;
+        exit();
     }
     catch (Exception $e) {
         $_SESSION["alert"]["error"] = $e->getMessage();
         header("Location: ../pages/index.php");
-        exit;
+        exit();
     }
     finally {
-        $stmt->close();
-        $conn->close();
+        $stmt?->close();
+        $conn?->close();
     }
 } // loginUser()
 
 function editUserAccount(array $user) : void {
-    $conn = null;
     session_start();
+    $conn = null;
+    $stmt = null;
     try {
         $conn = new mysqli(
             MySQLConfig::SERVER,
@@ -760,7 +763,7 @@ function editUserAccount(array $user) : void {
             MySQLConfig::PASSWORD,
             MySQLConfig::DATABASE
         );
-        print_r($user);
+        $conn->begin_transaction();
 
         // Jesli nie ma id uzytkownika - blad
         if (!isset($user["id"])) {
@@ -770,7 +773,6 @@ function editUserAccount(array $user) : void {
         unset($user["id"]); // Nie aktualizujemy ID uzytkownika
 
         $setParts = [];
-        echo $userId;
 
         if (isset($user["current-password"], $user["new-password"], $user["new-password-confirm"])) {
             // Pobierz biezace haslo uzytkownika
@@ -815,9 +817,9 @@ function editUserAccount(array $user) : void {
         SQL;
 
         // Wykonujemy zapytanie
-        $conn->begin_transaction();
         $conn->query($query);
         $conn->commit();
+//        $conn->close();
 
         if (isset($_SESSION["loggedUser"])) {
             unset($_SESSION["loggedUser"]);
@@ -825,19 +827,23 @@ function editUserAccount(array $user) : void {
 
         $_SESSION["editProfileAlert"] = true;
         header("Location: ../pages/index.php");
-        exit;
+//        exit();
     }
     catch (mysqli_sql_exception $e) {
         $conn->rollback();
         $_SESSION["alert"]["error"] = "Problem połączenia z bazą: " . $e->getMessage();
         header("Location: ../pages/edit-profile.php");
-        exit;
+        exit();
     }
     catch (Exception $e) {
         $conn->rollback();
         $_SESSION["alert"]["error"] = $e->getMessage();
         header("Location: ../pages/edit-profile.php");
-        exit;
+        exit();
+    }
+    finally {
+        $stmt?->close();
+        $conn?->close();
     }
 } // editUserAccount()
 
