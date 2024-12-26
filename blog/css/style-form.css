@@ -280,3 +280,9 @@ div#preview-container button.close-preview-button {
     margin-top: 10px;
     display: block;
 }
+
+/* Contact Form */
+form#contact-form label {
+    font-weight: bold;
+    font-size: 0.9em;
+}

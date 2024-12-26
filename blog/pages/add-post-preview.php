@@ -44,9 +44,7 @@ if (isset($_FILES["attachment"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR
         // Zakodowana zawartosc pliku
         "content" => base64_encode($fileContent)
     ];
-
 }
-
 
 // Przetwarzanie danych formularza i przechowywanie ich w sesji (bez pliku)
 $category = $_POST["category"];
@@ -57,17 +55,8 @@ include_once "../includes/bbcode-functions.php";
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php require_once "../includes/head.html"; ?>
     <title>Blog | Sprawdź post</title>
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="../images/favicons/site.webmanifest">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>
@@ -97,15 +86,15 @@ include_once "../includes/bbcode-functions.php";
         </p>
 
         <form action="../db/mysql-operation.php" method="post" enctype="multipart/form-data">
-            <button type="submit" name="action" class="form-button" value="editForm">Cofnij do poprawki</button>
+            <button type="submit" name="action" class="form-button" value="correctForm">Cofnij do poprawki</button>
 
             <button type="submit" name="action" class="form-button" value="addPost">Zatwierdź</button>
             <!-- Przesylamy dane w ukrytych polach, aby byly gotowe do zapisania w bazie -->
             <?php foreach ($_POST as $key => $value): ?>
                 <input
-                        type="hidden"
-                        name="<?= htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) ?>"
-                        value="<?= $key == "content" ? convertBBCodeToHTML($value) : htmlspecialchars($value, ENT_QUOTES | ENT_HTML5) ?>"
+                    type="hidden"
+                    name="<?= htmlspecialchars($key, ENT_QUOTES | ENT_HTML5) ?>"
+                    value="<?= $key == "content" ? convertBBCodeToHTML($value) : htmlspecialchars($value, ENT_QUOTES | ENT_HTML5) ?>">
             <?php endforeach; ?>
         </form>
 

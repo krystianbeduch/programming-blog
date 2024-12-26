@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../errors/error-codes.php";
+require_once "../db/posts-management.php";
 
 if (!isset($_SESSION["loggedUser"])) {
     http_response_code(HttpStatus::UNAUTHORIZED);
@@ -11,7 +12,6 @@ if (!isset($_SESSION["loggedUser"])) {
 if (isset($_GET["postId"]) && is_numeric($_GET["postId"])) {
     $postId = (int)$_GET["postId"];  // Pobranie postId z URL
 
-    include_once "../db/mysql-operation.php";
     $post = getOnePostToEdit($_SESSION["loggedUser"]["id"], $postId);
     if (count($post) == 0 ) {
         http_response_code(HttpStatus::NOT_FOUND);
@@ -30,27 +30,9 @@ include_once "../includes/bbcode-functions.php";
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php require_once "../includes/head.html"; ?>
     <title>Blog</title>
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="../images/favicons/site.webmanifest">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="../css/main.css">
-
-    <!-- JavaScript Scripts -->
-    <script src="../js/add-comment-bbcode.js"></script>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/add-bbcode.js"></script>
     <script src="../js/edit-user-post-form.js" type="module"></script>
 </head>
 <body>
@@ -111,9 +93,9 @@ include_once "../includes/bbcode-functions.php";
                         echo "<img src='data:" . htmlspecialchars($post["file_type"]) . ";base64," . $base64Image . "' alt='Załączone zdjęcie' class='post-attachment'>";
                     }
                     ?>
-                    <label for="attachment">Nowy załącznik (tylko zdjęcia):</label>
+                    <label for="attachment">Nowy obraz:</label>
                     <input type="file" name="attachment" id="attachment" accept="image/*">
-                    <input type="hidden" name="attachment-id" value="<?= $post["attachment_id"] ?? null; ?>" disabled>
+                    <input type="hidden" name="attachment-id" value="<?= $post["attachment_id"] ?? -1; ?>" disabled>
                 </div>
 
                 <button type="submit" class="form-button">Zapisz zmiany</button>

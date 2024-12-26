@@ -81,7 +81,6 @@ $(document).ready(() => {
     buttonChangeActivityConfirm.on("click", () => {
         if (currentUserId) {
             $.ajax({
-                // url: `${SERVER_URI}/change-user-activity.php`,
                 url: `${SERVER_URI}/admin-management.php`,
                 method: "PATCH",
                 contentType: "application/json",
@@ -180,7 +179,7 @@ $(document).ready(() => {
         }
     }
 
-    passwordCheckbox.on("change", function() {
+    passwordCheckbox.on("change", () => {
         passwordInputsDisable();
     });
 

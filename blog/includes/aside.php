@@ -46,7 +46,12 @@
         </ul>       
     </section>
 
+    <!-- Gry -->
     <section>
         <h3><a href="../pages/games.php">Zagraj w gry</a></h3>
+    </section>
+
+    <section>
+        <h3><a href="../pages/contact-form.php">Formularz kontaktowy</a></h3>
     </section>
 </aside>

@@ -32,7 +32,7 @@
                 <input type="hidden" value="user" name="role">
 
                 <label for="reg-username">Nazwa użytkownika:</label>
-                <input type="text" id="reg-username" name="username" required placeholder="Wprowadź nazwę użytkownika (min. 4 znaki)" minlength="4">
+                <input type="text" id="reg-username" name="username" required placeholder="Min. 4 znaki" minlength="4">
                 <span class="error-message"></span>
 
                 <label for="reg-email">Email:</label>

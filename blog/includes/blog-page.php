@@ -1,4 +1,5 @@
 <?php
+//require_once "../db/posts-management.php";
 require_once "../includes/page-setup.php";
 $pageData = new PageSetup();
 ?>
@@ -27,42 +28,40 @@ $pageData = new PageSetup();
     <script src="../js/admin-posts.js" type="module"></script>
 </head>
 <body>
-    <?php require_once "../includes/header.php"; ?>
+<?php require_once "../includes/header.php"; ?>
 
-    <main>
-        <?php require_once "../includes/nav.html"; ?>
+<main>
+    <?php require_once "../includes/nav.html"; ?>
 
-        <section id="main-section">
-            <h2><?= $pageData->languageHeader; ?></h2>
-            <p><?= getCategoryDescription($pageData->language); ?></p>
-            <?= "<img src='../images/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
+    <section id="main-section">
+        <h2><?= $pageData->languageHeader; ?></h2>
+        <p><?= getCategoryDescription($pageData->language); ?></p>
+        <?= "<img src='../images/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
 
-            <?php include_once "../includes/post-alerts.php"; ?>
+        <?php if (isset($_SESSION["loggedUser"])): ?>
+            <a href="../pages/add-post.php?category=<?php echo $pageData->language;?>" class="post-comments-link add-post-link">Dodaj post</a>
+        <?php endif ?>
 
-            <?php if (isset($_SESSION["loggedUser"])): ?>
-                <a href="../pages/add-post.php?category=<?php echo $pageData->language;?>" class="post-comments-link add-post-link">Dodaj post</a>
-            <?php endif ?>
+        <article id="comments-section">
+            <h3>Posty</h3>
+            <div class="comment-container">
 
-            <article id="comments-section">
-                <h3>Posty</h3>
-                <div class="comment-container">
+                <?php renderPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true));
+                // preserve_keys = true - zachowaj oryginalne klucze tablicy
+                ?>
+            </div>
+        </article>
 
-                    <?php renderPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true));
-                    // preserve_keys = true - zachowaj oryginalne klucze tablicy
-                    ?>
-                </div>
-            </article>
+        <?php renderPagination($pageData->getCurrentPage(), $pageData->getTotalPages(), $pageData->language); ?>
 
-            <?php renderPagination($pageData->getCurrentPage(), $pageData->getTotalPages(), $pageData->language); ?>
+    </section>
 
-        </section>
+    <?php require_once "../includes/delete-post-modal.html"; ?>
+    <?php require_once "../includes/aside.php"; ?>
 
-        <?php require_once "../includes/delete-post-modal.html"; ?>
-        <?php require_once "../includes/aside.php"; ?>
+</main>
 
-    </main>
-
-    <?php require_once "../includes/footer.html"; ?>
+<?php require_once "../includes/footer.html"; ?>
 
 </body>
 </html>

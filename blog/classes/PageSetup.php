@@ -1,6 +1,7 @@
 <?php
 require_once "../includes/posts-functions.php";
 require_once "../db/mysql-operation.php";
+require_once "../db/posts-management.php";
 require_once "Pagination.php";
 class PageSetup {
     public string $language;

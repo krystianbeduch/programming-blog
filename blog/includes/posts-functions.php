@@ -53,7 +53,6 @@ function renderCommentsOnMainPage(array $comments, int $postId) : void {
 }
 
 function renderAllPostComments(array $comments) : void {
-
     if (count($comments) > 0) {
         foreach ($comments as $comment) {
             echo "<div class='comment'>";

@@ -1,5 +1,7 @@
 <?php
 require_once "../db/mysql-operation.php";
+require_once "../db/posts-management.php";
+
 function renderUsers() : void {
     $users = getUsers_Admin();
     foreach ($users as $user) {
@@ -43,7 +45,7 @@ function renderPosts_Admin(?string $category = null) : void {
 
         echo "<a href='../pages/post.php?postId=" . $post["post_id"] . "' class='post-link edit-link view-comments-button' title='Zobacz post'>";
         echo "<img src='../images/view_comments.png' alt='Zobacz post' ></a>";
-        echo "<button class='post-link delete-button' data-post-id='" . $post["post_id"] . "' title='Usuń post'>";
+        echo "<button class='post-link delete-button' data-post-id='" . $post["post_id"] . "' title='Usuń post' data-category-name='" . $post["category_name"] . "'>";
         echo "<img src='../images/trash-fill.svg' alt='Usuń'></button>";
         echo "</td>";
         echo "</tr>";
@@ -69,3 +71,30 @@ function renderFilter(?string $selectedCategory = null) : void {
     echo "</select>";
     echo "</form>";
 }
+
+function getCategories() : array {
+    $categories = [];
+    $conn = null;
+    $stmt = null;
+    try {
+        $conn = createMySQLiConnection();
+        $query = <<<SQL
+        SELECT
+            category_id,
+            category_name
+        FROM categories
+        ORDER BY category_name;
+        SQL;
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $categories = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
+    }
+    catch (mysqli_sql_exception|Exception $e) {
+        handleDatabaseError($e);
+    }
+    finally {
+        $stmt?->close();
+        $conn?->close();
+    }
+    return $categories;
+} // getCategories()

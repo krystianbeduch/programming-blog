@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Origin: *");
 
-require_once "../db-connect.php";
+require_once "../mysql-operation.php";
 require_once "../../errors/error-codes.php";
 
 if ($_SERVER["REQUEST_METHOD"] != "GET") {
@@ -33,12 +33,7 @@ if (!in_array($type, ["username", "email"], )) {
 $conn = null;
 $stmt = null;
 try {
-    $conn = new mysqli(
-        MySQLConfig::SERVER,
-        MySQLConfig::USER,
-        MySQLConfig::PASSWORD,
-        MySQLConfig::DATABASE
-    );
+    $conn = createMySQLiConnection();
 
     $query = [
         "username" => "SELECT COUNT(*) FROM users WHERE username = ?;",

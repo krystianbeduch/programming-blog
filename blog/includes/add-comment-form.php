@@ -1,5 +1,5 @@
 <script src="../js/add-comment-form-validation.js"></script>
-<script src="../js/add-comment-bbcode.js"></script>
+<script src="../js/add-bbcode.js"></script>
 
 <form id="add-comment-form" class="post-form" name="add_comment_form" action="../pages/add-comment-preview.php?postId=<?= $postId ?? ""; ?>" method="post">
     <fieldset>

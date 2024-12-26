@@ -229,5 +229,6 @@ $(document).ready(() => {
         disableField(input, false);
         fieldStyleReset(input, label);
         input.val(input.data("originalValue"));
+        label.text(labelsOriginal[fieldName]);
     }); // closeButtons click
 });

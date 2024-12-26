@@ -4,7 +4,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Origin: *");
 
-require_once "../db-connect.php";
+require_once "../mysql-operation.php";
 require_once "../../errors/error-codes.php";
 
 $method = $_SERVER["REQUEST_METHOD"];
@@ -40,12 +40,7 @@ function getSessionUserName(): void  {
 
         $username = $_SESSION["loggedUser"]["username"];
 
-        $conn = new mysqli(
-            MySQLConfig::SERVER,
-            MySQLConfig::USER,
-            MySQLConfig::PASSWORD,
-            MySQLConfig::DATABASE
-        );
+        $conn = createMySQLiConnection();
 
         $query = <<<SQL
         SELECT 
@@ -63,7 +58,7 @@ function getSessionUserName(): void  {
             echo json_encode(["username" => $row->username]);
         }
         else {
-            http_response_code(HttpStatus::NOT_FOUND); // Not Found
+            http_response_code(HttpStatus::NOT_FOUND);
             echo json_encode(["message" => "Username not found"]);
         }
     }
@@ -80,12 +75,7 @@ function getSessionUserName(): void  {
 function getUserScores() : void {
     $conn = null;
     try {
-        $conn = new mysqli(
-            MySQLConfig::SERVER,
-            MySQLConfig::USER,
-            MySQLConfig::PASSWORD,
-            MySQLConfig::DATABASE
-        );
+        $conn = createMySQLiConnection();
         $query = <<<SQL
         SELECT 
             user_name, 
@@ -117,12 +107,7 @@ function addUserScore() : void {
             exit();
         }
 
-        $conn = new mysqli(
-            MySQLConfig::SERVER,
-            MySQLConfig::USER,
-            MySQLConfig::PASSWORD,
-            MySQLConfig::DATABASE
-        );
+        $conn = createMySQLiConnection();
         $query = <<<SQL
         INSERT INTO snake_scores 
             (user_name, score) 

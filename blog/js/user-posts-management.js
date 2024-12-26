@@ -23,8 +23,8 @@ $(document).ready(() => {
     });
 
     buttonDelete.on("click", function() {
-        currentPostId = $(this).data('post-id'); // Pobierz ID posta
-        deleteModal.css('display', 'flex').hide().fadeIn();
+        currentPostId = $(this).data("post-id"); // Pobierz ID posta
+        deleteModal.css("display", "flex").hide().fadeIn();
     });
 
     buttonDeleteCancel.on("click", () =>{

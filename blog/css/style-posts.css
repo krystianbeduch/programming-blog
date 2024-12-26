@@ -128,6 +128,10 @@ form#edit-user-post div.attachment-section p {
     margin-bottom: 0;
 }
 
+form#edit-user-post button[type="submit"] {
+    margin-top: 10px;
+}
+
 .add-post-link {
     padding: 15px 50px;
 }

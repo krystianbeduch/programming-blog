@@ -2,9 +2,6 @@
 class HttpStatus {
     // Success codes
     public const OK = 200;
-    public const CREATED = 201;
-    public const ACCEPTED = 202;
-    public const NO_CONTENT = 204;
 
     // Client error codes
     public const BAD_REQUEST = 400;
@@ -13,6 +10,6 @@ class HttpStatus {
     public const NOT_FOUND = 404;
     public const METHOD_NOT_ALLOWED = 405;
 
-    // Server error coes
+    // Server error codes
     public const INTERNAL_SERVER_ERROR = 500;
 }
