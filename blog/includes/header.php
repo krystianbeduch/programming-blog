@@ -23,7 +23,7 @@ require_once "modals.php";
         <div class="alert alert-success">
             <strong><?= $_SESSION["alert"]["successStrong"] ?? "Sukces!"; ?></strong> <?= $_SESSION["alert"]["success"]; ?>
         </div>
-        <?php unset($_SESSION["alert"]["success"]); ?>
+        <?php unset($_SESSION["alert"]); ?>
     <?php endif; ?>
 
     <?php if (!isset($_SESSION["loggedUser"])): ?>

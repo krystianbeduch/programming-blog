@@ -84,7 +84,7 @@ include_once "../includes/bbcode-functions.php";
             <?= $_FILES["attachment"]["name"]; ?>
         </p>
 
-        <form action="../db/mysql-operation.php" method="post" enctype="multipart/form-data">
+        <form action="../includes/forms.php" method="post" enctype="multipart/form-data">
             <button type="submit" name="action" class="form-button" value="correctForm">Cofnij do poprawki</button>
 
             <button type="submit" name="action" class="form-button" value="addPost">Zatwierdź</button>

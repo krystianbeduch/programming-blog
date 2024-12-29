@@ -8,6 +8,7 @@ $(document).ready(() => {
         list: $("#bbcode-add-li-button"),
         quote: $("#bbcode-add-quote-button"),
         link: $("#bbcode-add-link-button"),
+        htmlTag: $("#bbcode-add-html-tag-button")
     };
 
     const insertBBCodeTextFormat = (tagStart, tagEnd) => {
@@ -59,4 +60,5 @@ $(document).ready(() => {
     buttons.list.on("click", insertList);
     buttons.quote.on("click", () => insertBBCodeTextFormat("[quote]", "[/quote]"));
     buttons.link.on("click", insertLink);
+    buttons.htmlTag.on("click", () => insertBBCodeTextFormat("[html]", "[/html]"));
 });

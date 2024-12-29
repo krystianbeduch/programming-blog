@@ -19,6 +19,15 @@ function convertBBCodeToHTML(string $text): string {
     $text = preg_replace("/\[quote](.*?)\[\/quote]/s", "<q>$1</q>", $text);
     $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", "<a href='$1' target='_blank'>$2</a>", $text);
 
+    // Zamiana [html] na bezpośredni kod HTML
+    $text = preg_replace_callback("/\[html](.*?)\[\/html]/s", function ($matches) {
+        // Kodowanie tekstu na HTML tak, aby <header> stał się &lt;header&gt;
+        return htmlspecialchars('&lt;' . $matches[1] . '&gt;', ENT_QUOTES | ENT_HTML5, "UTF-8");
+    }, $text);
+
+    // Zamiana podwojnych cudzysłowow na pojedyncze
+    $text = str_replace('"', "'", $text);
+
     return nl2br($text); // Zamiana nowych linii na <br>
 }
 

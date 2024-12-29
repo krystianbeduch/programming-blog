@@ -78,8 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("captcha-error").textContent = "Błąd CAPTCHA";
             isValid = false;
         }
-
-        return isValid;
+        if (isValid) {
+            form.submit();
+        }
     };
 
     // Dla kazdego przycisku obsluz zdarzenie klikniecia

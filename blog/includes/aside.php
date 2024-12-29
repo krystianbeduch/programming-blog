@@ -12,10 +12,7 @@ $categoryNames = array_map(function($category) {
 
 require_once "../classes/DateFilter.php";
 $dateFilter = new DateFilter();
-//$isEndDate = $dateFilter->endDate;
-//echo $isEndDate != null;
 ?>
-
 
 <aside>
     <!-- Panel administracyjny -->
@@ -42,6 +39,7 @@ $dateFilter = new DateFilter();
             <input type="hidden" name="action" value="getPostsByDate">
             <input type="hidden" name="category" value="<?= $pageName; ?>">
             <label for="start-date">Wyświetl posty z dnia:</label>
+            <button class="btn" id="calendar-reset-button" type="button"><img src="../images/x-circle.svg" alt="Reset"></button>
             <input type="text" class="form-control form-control-sm mb-2" id="start-date" placeholder="Data" autocomplete="off" name="start-date" value="<?= $dateFilter->startDate; ?>">
 
             <div class="form-check form-switch">
@@ -56,9 +54,7 @@ $dateFilter = new DateFilter();
 
             <div id="button-group" class="input-group">
                 <button class="form-button" id="calendar-button" type="button">Wyświetl</button>
-                <button class="form-button" id="calendar-reset-button" type="button">Wyczyść filtr</button>
             </div>
-
 
         </form>
     </section>
@@ -68,10 +64,10 @@ $dateFilter = new DateFilter();
     <section>
         <h3>Archiwum</h3>
         <ul>
-            <li><a href="#">Wrzesień 2024</a></li>
-            <li><a href="#">Sierpień 2024</a></li>
-            <li><a href="#">Lipiec 2024</a></li>
-            <li><a href="#">Czerwiec 2024</a></li>
+            <li><a href="../pages/archive.php?month=10.2024">Październik 2024</a></li>
+            <li><a href="../pages/archive.php?month=11.2024">Listopad 2024</a></li>
+            <li><a href="../pages/archive.php?month=12.2024">Grudzień 2024</a></li>
+            <li><a href="../pages/archive.php?month=01.2025">Styczeń 2025</a></li>
         </ul>
     </section>
 

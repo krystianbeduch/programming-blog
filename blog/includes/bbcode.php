@@ -58,14 +58,14 @@
             Prawidłowy format: [url=https://site.com]Tekst[/url]
         </div>
     </button>
-    <button id="bbcode-add-html-tag" class="bbcode-info" type="button">
+    <button id="bbcode-add-html-tag-button" class="bbcode-info" type="button">
         <img src="../images/bbcode-icons/code.svg" alt="html-tag">
         <!-- Dymek z instrukcją -->
         <div class="bbcode-tooltip-text">
             Znacznik HTML<br>
-            Jeśli chcesz wprowadzić do swojej treści znacznik HTML np. &lt;html&gt; użyj tej opcji<br>
-            Wprowadź w okienku znacznik HTML który chcesz zastosować<br>
-            Prawidłowy format: [&amp;lt;]tag[&amp;gt;]
+            Jeśli chcesz wprowadzić do swojej treści znacznik HTML np. &lt;html&gt; zaznacz znacznik i użyj tej opcji<br>
+            Prawidłowy format: [html]tag[/html]<br>
+            Na podglądzie treści powinno pojawić się &amp;lt;tag&amp;gt;
         </div>
     </button>
 </div>

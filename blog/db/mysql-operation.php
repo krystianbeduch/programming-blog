@@ -5,25 +5,26 @@ require_once "db-connect.php";
 require_once "user-management.php";
 require_once "posts-management.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start(); // Sprawdzanie, czy sesja jest juz aktywna
-    }
-
-    $action = $_POST["action"] ?? null;
-
-    match ($action) {
-        // Wyslanie komentarza do bazy
-        "addComment" => addCommentToPost($_POST),
-        "addPost" => addPost($_POST),
-        "editForm" => correctForm(),
-        "registerUser" => createUserAccount($_POST),
-        "loginUser" => loginUser($_POST),
-        "editUserAccount" => editUserAccount($_POST),
-        "editPost" => editPost($_POST),
-        "getPostsByDate" => getPostsByDate($_POST),
-    };
-}
+//if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//    if (session_status() === PHP_SESSION_NONE) {
+//        session_start(); // Sprawdzanie, czy sesja jest juz aktywna
+//    }
+//
+//    $action = $_POST["action"] ?? null;
+//
+//    match ($action) {
+//        // Wyslanie komentarza do bazy
+//        "addComment" => addCommentToPost($_POST),
+//        "addPost" => addPost($_POST),
+//        "editForm" => correctForm(),
+//        "registerUser" => createUserAccount($_POST),
+//        "loginUser" => loginUser($_POST),
+//        "editUserAccount" => editUserAccount($_POST),
+//        "editPost" => editPost($_POST),
+//        "getPostsByDate" => getPostsByDate($_POST),
+//        default => ""
+//    };
+//}
 
 #[NoReturn]
 function correctForm(): void {

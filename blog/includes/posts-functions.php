@@ -10,7 +10,6 @@ function renderPosts(array $posts) : void {
             echo "<img src='../images/trash-fill.svg' alt='Usuń post'></button>";
         }
         echo "</h4>";
-//        renderContent($post);
         echo "<p class='post-author'>Autor: " . $post["username"]. ", " . $post["email"] .
              "<span class='post-date'>Utworzono: " . date("d-m-Y H:i", strtotime($post["created_at"])) .
              "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
@@ -90,15 +89,15 @@ function renderPagination(int $currentPage, int $totalPages, string $languagePag
     }
 }
 
-function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
+function renderPaginationPosts(int $currentPage, int $totalPages, ?string $link = "management-user-posts.php?") : void {
     // Link do poprzedniej strony
     if ($currentPage > 1) {
-        echo "<a href='../pages/management-user-posts.php?page=" . ($currentPage - 1) . "'>&laquo;</a>";
+        echo "<a href='../pages/" . $link. "page=" . ($currentPage - 1) . "'>&laquo;</a>";
     }
 
     // Link do 1 strony powyzej 3 strony
     if ($currentPage > 3) {
-        echo "<a href='../pages/management-user-posts.php?page=1'>1</a>";
+        echo "<a href='../pages/" . $link. "page=" . "1'>1</a>";
         if ($currentPage > 4) {
             echo "<span>...</span>";
         }
@@ -113,7 +112,7 @@ function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
             echo "<span class='pagination-active'>" . $i . "</span>"; // Aktualna strona
         }
         else {
-            echo "<a href='../pages/management-user-posts.php?page=" . $i . "'>" . $i . "</a>";
+            echo "<a href='../pages/" . $link. "page=" . $i . "'>" . $i . "</a>";
         }
     }
 
@@ -122,12 +121,12 @@ function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
         if ($currentPage < $totalPages - 3) {
             echo "<span>...</span>";
         }
-        echo "<a href='../pages/management-user-posts.php?page=" . $totalPages . "'>" . $totalPages . "</a>";
+        echo "<a href='../pages/" . $link. "page=" . $totalPages . "'>" . $totalPages . "</a>";
     }
 
     // Link do nastepnej strony
     if ($currentPage < $totalPages) {
-        echo "<a href='../pages/management-user-posts.php?page=" . ($currentPage + 1) . "'>&raquo;</a>";
+        echo "<a href='../pages/" . $link. "page=" . ($currentPage + 1) . "'>&raquo;</a>";
     }
 }
 

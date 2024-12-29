@@ -48,7 +48,7 @@ include_once "../includes/bbcode-functions.php";
             <?= convertBBCodeToHTML($_POST["content"]); ?>
         </div>
 
-        <form action="../db/mysql-operation.php" method="post">
+        <form action="../includes/forms.php" method="post">
             <input type="hidden" name="url" value="<?= $_POST["url"] ?>" >
             <button type="submit" name="action" class="form-button" value="correctForm">Cofnij do poprawki</button>
             <button type="submit" name="action" class="form-button" value="addComment">Zatwierdź</button>

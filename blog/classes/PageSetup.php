@@ -12,7 +12,7 @@ class PageSetup {
     public int $currentPage;
     public Pagination $pagination;
 
-    public function __construct(?int $userId = null) {
+    public function __construct(?int $userId = null, ?string $month = null) {
         // Ustalenie biezacej strony
         $this->currentPage = isset($_GET["page"]) && is_numeric($_GET["page"]) ? (int)$_GET["page"] : 1;
 
@@ -20,13 +20,15 @@ class PageSetup {
             // Pobranie postow uzytkownika
             $this->posts = getUserPosts($userId);
         }
+        else if ($month) {
+            $this->posts = getPosts(month: $month);
+        }
         else {
             // Pobranie jezyka na podstawie nazwy pliku
             $this->language = basename($_SERVER["PHP_SELF"], ".php");
 
             // Pobranie postow dla jezyka
             $this->posts = $this->getPosts($this->language);
-
 
 
             // Ustalenie nazwy naglowkowej
@@ -60,16 +62,10 @@ class PageSetup {
         $endDate = $_GET["endDate"] ?? null;
         if ($startDate) {
             $startDate = date_format(date_create($startDate), "Y-m-d");
-//            print_r($startDate);
         }
         if ($endDate) {
             $endDate = date_format(date_create($endDate), "Y-m-d");
         }
-//        echo $startDate . " - " . $endDate . "<br>";
-//        print_r(date_create($startDate));
-//        echo date_format(strtotime($startDate), "yyyy-mm-dd");
-
-
 
         if ($startDate || $endDate) {
             $filteredPosts = [];
@@ -77,9 +73,6 @@ class PageSetup {
             foreach ($this->posts as $post) {
                 // Wyodrębnij datę (yyyy-mm-dd) z pola created_at
                 $postDate = substr($post["created_at"], 0, 10);
-//                $postDate = strtotime($post["created_at"]);
-//                echo $postDate . " <Br>";
-//                echo $startDate;
 
                 // Jeśli tylko startDate, sprawdź równość
                 if ($startDate && !$endDate && $postDate === $startDate) {
@@ -93,7 +86,6 @@ class PageSetup {
             $this->posts = $filteredPosts;
         }
     }
-
 
     private function getPosts(string $language): array {
         // getPosts z mysql-operation.php

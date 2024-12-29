@@ -86,7 +86,7 @@ function getCategoryId(string $category) : int {
     return $categoryId;
 } // getCategoryId()
 
-function getPosts(?string $category = null) : array {
+function getPosts(?string $category = null, ?string $month = null) : array {
     $conn = null;
     $stmt = null;
     try {
@@ -118,6 +118,9 @@ function getPosts(?string $category = null) : array {
             }
             $query .= " WHERE p1.category_id = ? ";
         }
+        else if ($month) {
+            $query .= " WHERE DATE_FORMAT(p1.created_at, '%m.%Y') = ? ";
+        }
         $query .= " GROUP BY 
                     p1.post_id, 
                     c2.category_name,
@@ -134,6 +137,9 @@ function getPosts(?string $category = null) : array {
         $stmt = $conn->prepare($query);
         if ($category) {
             $stmt->bind_param("i", $categoryId);
+        }
+        else if ($month) {
+            $stmt->bind_param("s", $month);
         }
         $stmt->execute();
         $posts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -294,7 +300,7 @@ function addCommentToPost(array $commentData) : void {
             unset($_SESSION["formData"][$postId]);
         }
 
-        $_SESSION["alert"]["success"] = "Dodano nowy post";
+        $_SESSION["alert"]["success"] = "Dodano nowy komentarz";
 
         // Zatwierdzenie transkacji
         $conn->commit();

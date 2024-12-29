@@ -59,7 +59,7 @@ $pageData = new PageSetup($_SESSION["loggedUser"]["id"]);
 
         <?php if(count($pageData->posts) > 0): ?>
             <nav class="pagination">
-                <?php renderPaginationUserPosts($pageData->getCurrentPage(), $pageData->getTotalPages()); ?>
+                <?php renderPaginationPosts($pageData->getCurrentPage(), $pageData->getTotalPages()); ?>
             </nav>
         <?php endif; ?>
     </section>
