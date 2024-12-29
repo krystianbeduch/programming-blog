@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once "../errors/error-codes.php";
 
 // Dostep do strony mozliwy jest tylko po przeslaniu formularza

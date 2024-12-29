@@ -1,6 +1,4 @@
 export const validateField = (field, label, labelTextOriginal) => {
-    // const fieldName = field.attr("name");
-    // const labelTextOriginal = labelsOriginal[fieldName];
     if (!field[0].validity.valid) {
         fieldIsInvalid(field, label);
         if (field[0].validity.tooShort) {
@@ -24,15 +22,13 @@ export const validateField = (field, label, labelTextOriginal) => {
 export const fieldIsValid = (field, label) => {
     label.addClass("valid-label").removeClass("invalid-label");
     field.addClass("invalid-field").removeClass("valid-field");
-    field.addClass("valid-input").removeClass("invalid-input")
-    // return true;
+    field.addClass("valid-input").removeClass("invalid-input");
 };
 
 export const fieldIsInvalid = (field, label) => {
     label.removeClass("valid-label").addClass("invalid-label");
     field.removeClass("invalid-field").addClass("valid-field");
     field.removeClass("valid-input").addClass("invalid-input");
-    // return false;
 };
 
 export const fieldStyleReset = (field, label) => {
@@ -44,7 +40,6 @@ export const fieldStyleReset = (field, label) => {
     label
         .removeClass("invalid-label")
         .removeClass("valid-label");
-    // return true;
 };
 
 export const toggleButtons = (editButtons, button, closeButton, show = true) => {

@@ -98,7 +98,7 @@ $(document).ready(() => {
 
 
 
-    // Obsługa kliknięcia na komórki
+    // Obsluga klikniecia na komorki
     table.on("click", "td", function() {
         if (gamePlayed && $(this).hasClass("selected")) {
             gamePointsSpan.text(++points);

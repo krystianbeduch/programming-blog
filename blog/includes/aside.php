@@ -42,7 +42,7 @@ $dateFilter = new DateFilter();
             <input type="hidden" name="action" value="getPostsByDate">
             <input type="hidden" name="category" value="<?= $pageName; ?>">
             <label for="start-date">Wyświetl posty z dnia:</label>
-            <input type="text" class="form-control form-control-sm mb-2" id="start-date" placeholder="Data początkowa" autocomplete="off" name="start-date" value="<?= $dateFilter->startDate; ?>">
+            <input type="text" class="form-control form-control-sm mb-2" id="start-date" placeholder="Data" autocomplete="off" name="start-date" value="<?= $dateFilter->startDate; ?>">
 
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="single-date" name="single-date"
@@ -54,21 +54,15 @@ $dateFilter = new DateFilter();
                 <input type="text" class="form-control form-control-sm mt-2" id="end-date" placeholder="Data końcowa" autocomplete="off" name="end-date" value="<?= $dateFilter->endDate; ?>">
             </div>
 
-            <button class="form-button" id="calendar-button" type="button">Wyświetl</button>
+            <div id="button-group" class="input-group">
+                <button class="form-button" id="calendar-button" type="button">Wyświetl</button>
+                <button class="form-button" id="calendar-reset-button" type="button">Wyczyść filtr</button>
+            </div>
+
+
         </form>
     </section>
     <?php endif; ?>
-
-    <!-- Kalendarz -->
-    <section>
-        <h3>Kalendarz</h3>
-        <p>Wydarzenia w nadchodzącym miesiącu:</p>
-        <ul>
-            <li>15.10.2024 - Web Dev Conference</li>
-            <li>22.10.2024 - Warsztaty z Javy</li>
-            <li>30.10.2024 - Hackathon Pythonowy</li>
-        </ul>
-    </section>
 
     <!-- Archiwum -->
     <section>

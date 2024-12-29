@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(() => {
     const canvas = $("canvas")[0];
     const ctx = canvas.getContext("2d");
     const canvasWidth = canvas.width;

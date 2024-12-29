@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(() => {
     const canvas = $("#game-canvas")[0]; // Pobieranie elementu canvas
     const ctx = canvas.getContext("2d"); // Kontekst 2D do rysowania
     const canvasWidth = canvas.width;

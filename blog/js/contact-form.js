@@ -1,7 +1,6 @@
 $(document).ready(() => {
     const form = $("form#contact-form");
 
-
     form.on("submit", function(e){
         let isValid = true;
 
@@ -15,7 +14,6 @@ $(document).ready(() => {
             }
         });
 
-        // Jeśli formularz nie jest poprawny, zapobiegamy wysłaniu
         if (!isValid) {
             e.preventDefault();
             e.stopPropagation();

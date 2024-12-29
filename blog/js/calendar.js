@@ -24,18 +24,33 @@ $(document).ready(() => {
     const singleDateCheckbox = $("#single-date");
     const endDateContainer = $("#end-date-con");
     const button = $("#calendar-button");
+    const buttonReset = $("#calendar-reset-button");
+    const currentURL = window.location.pathname
+        .split("/")
+        .pop();
 
     const enableEndDate = () => {
         // Wlaczamy date koncowa, gdy wybieramy przedzial
         endDateContainer.show();
         endDatePicker.prop("disabled", false);
-        startDatePicker.datepicker("option", "maxDate", "today");
-    }
+        startDatePicker
+            .datepicker("option", "maxDate", "today")
+            .attr("placeholder", "Data początkowa");
+
+        const startDate = formatDateToISO(startDatePicker.val());
+        const endDate = formatDateToISO(endDatePicker.val());
+        startDatePicker.datepicker("option", "maxDate", endDate);
+        endDatePicker.datepicker("option", "minDate", startDate);
+    };
 
     const disableEndDate = () => {
         endDateContainer.hide();
-        endDatePicker.prop("disabled", true).val("");
-        startDatePicker.datepicker("option", "maxDate", "today");
+        endDatePicker
+            .prop("disabled", true)
+            .val("");
+        startDatePicker
+            .datepicker("option", "maxDate", "today")
+            .attr("placeholder", "Data");
     };
 
     const formatDateToISO = (dateStr) => {
@@ -45,17 +60,6 @@ $(document).ready(() => {
         const day = dateParts[0];
         return new Date(year, month, day);
     };
-
-    const startDateValue = startDatePicker.val();
-    const endDateValue = endDatePicker.val();
-
-    // Ustawienie poczatkowe w zaleznosci od checkboxa
-    if (singleDateCheckbox.is(":checked")) {
-        enableEndDate();
-    }
-    else {
-        disableEndDate();
-    }
 
     startDatePicker.datepicker({
         changeMonth: true,
@@ -89,17 +93,16 @@ $(document).ready(() => {
         }
     });
 
-    // Ustawienie przedzialu dat, jesli wartości sa juz ustawione (po przeladowaniu strony)
-    if (startDateValue || endDateValue) {
-        // Ustawienie przedzialow na kalendarzach po odswiezeniu strony
-        const startDate = formatDateToISO(startDatePicker.val());
-        const endDate = formatDateToISO(endDatePicker.val());
-        startDatePicker.datepicker("option", "maxDate", endDate);
-        endDatePicker.datepicker("option", "minDate", startDate);
+    // Ustawienie w zaleznosci od checkboxa
+    if (singleDateCheckbox.is(":checked")) {
+        enableEndDate();
+    }
+    else {
+        disableEndDate();
     }
 
     // Zmiana trybu na pojedyncza datę lub przedzial dat
-    singleDateCheckbox.change(function() {
+    singleDateCheckbox.on("change", function() {
         if ($(this).is(":checked")) {
             enableEndDate()
         }
@@ -109,9 +112,6 @@ $(document).ready(() => {
     });
 
     button.on("click", () => {
-        const currentURL = window.location.pathname
-            .split("/")
-            .pop();
         const startDate = startDatePicker.val();
         const endDate = endDatePicker.val();
         const dataToSend = { startDate: startDate };
@@ -126,5 +126,9 @@ $(document).ready(() => {
             // Przekierowanie na nowy URL z parametrami
             window.location.href = `${currentURL}?${queryParams}`;
         }
+    });
+
+    buttonReset.on("click", () => {
+        window.location.href = currentURL;
     });
 });

@@ -1,40 +1,34 @@
-document.addEventListener("DOMContentLoaded", () => {
-   const textarea = document.getElementById("content");
-   const bbcodeAddB_Button = document.getElementById("bbcode-add-b-button");
-   const bbcodeAddI_Button = document.getElementById("bbcode-add-i-button");
-   const bbcodeAddU_Button = document.getElementById("bbcode-add-u-button");
-   const bbcodeAddS_Button = document.getElementById("bbcode-add-s-button");
-   const bbcodeAddLi_Button = document.getElementById("bbcode-add-li-button");
-   const bbcodeAddQuote_Button = document.getElementById("bbcode-add-quote-button");
-   const bbcodeAddLink_Button = document.getElementById("bbcode-add-link-button");
+$(document).ready(() => {
+    const textarea = $("#content");
+    const buttons = {
+        bold: $("#bbcode-add-b-button"),
+        italic: $("#bbcode-add-i-button"),
+        underline: $("#bbcode-add-u-button"),
+        strikethrough: $("#bbcode-add-s-button"),
+        list: $("#bbcode-add-li-button"),
+        quote: $("#bbcode-add-quote-button"),
+        link: $("#bbcode-add-link-button"),
+    };
 
-   const insertBBCodeTextFormat = (tagStart, tagEnd) => {
-       const start = textarea.selectionStart;
-       const end = textarea.selectionEnd;
-       const text = textarea.value;
+    const insertBBCodeTextFormat = (tagStart, tagEnd) => {
+        const start = textarea.prop("selectionStart");
+        const end = textarea.prop("selectionEnd");
+        const text = textarea.val();
+        const selectedText = text.substring(start, end);
 
-       // Wstaw BBCode w wybranej pozycji
-       const selectedText = text.substring(start, end);
-       textarea.value = text.substring(0, start) + tagStart +
-           selectedText + tagEnd + text.substring(end);
+        // Wstaw BBCode w wybranej pozycji
+        textarea.val(text.substring(0, start) + tagStart + selectedText + tagEnd + text.substring(end));
+        textarea[0].setSelectionRange(start + tagStart.length, start + tagStart.length + selectedText.length);
+        textarea.focus();
+    }; // insertBBCodeTextFormat()
 
-       // Ustaw kursor na koncu wstawionego kodu
-       textarea.setSelectionRange(start + tagStart.length, start + tagStart.length + selectedText.length);
-       textarea.focus();
-   };
+    const insertList = () => {
+        const start = textarea.prop("selectionStart");
+        const end = textarea.prop("selectionEnd");
+        const text = textarea.val();
+        const selectedText = text.substring(start, end);
 
-    // Dodanie zdarzenia click do przycisku bez natychmiastowego wywołania funkcji
-    bbcodeAddB_Button.addEventListener("click", () => insertBBCodeTextFormat("[b]", "[/b]"));
-    bbcodeAddI_Button.addEventListener("click", () => insertBBCodeTextFormat("[i]", "[/i]"));
-    bbcodeAddU_Button.addEventListener("click", () => insertBBCodeTextFormat("[u]", "[/u]"));
-    bbcodeAddS_Button.addEventListener("click", () => insertBBCodeTextFormat("[s]", "[/s]"));
-    bbcodeAddLi_Button.addEventListener("click", () => {
-        // Dodanie pelnej listy
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        const selectedText = textarea.value.substring(start, end);
-
-        // Przeksztalc kazda linię tekstu w element listy
+        // Przeksztalc kazda linie tekstu w element listy
         const listItems = selectedText
             .split("\n") // Przeksztalc na tablice
             .map(line => line.trim()) // Usun dodatkowe spacje
@@ -42,20 +36,27 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(line => `[li]${line}[/li]`) // Dodaj tagi [li] do kazdej linii
             .join(""); // Polacz w całosc
 
-        // Dodaj otaczające tagi [ul] i [ul]
+        // Dodaj otaczajace tagi [ul] i [ul]
         const listBBCode = `[ul]${listItems}[/ul]`;
-        textarea.value = textarea.value.substring(0, start) + listBBCode + textarea.value.substring(end);
+        textarea.val(text.substring(0, start) + listBBCode + text.substring(end));
 
-        // Ustaw kursor po wstawionej liście
-        textarea.setSelectionRange(start + listBBCode.length, start + listBBCode.length);
+        // Ustaw kursor po wstawionej liscie
+        textarea[0].setSelectionRange(start + listBBCode.length, start + listBBCode.length);
         textarea.focus();
-    });
+    }; // insertList()
 
-    bbcodeAddQuote_Button.addEventListener("click", () => insertBBCodeTextFormat("[quote]", "[/quote]"));
-    bbcodeAddLink_Button.addEventListener("click", () => {
+    const insertLink = () => {
         const url = prompt("Podaj pełny adres URL", "https://")
         if (url) {
             insertBBCodeTextFormat(`[url=${url}]`, "[/url]");
         }
-    });
+    };
+
+    buttons.bold.on("click", () => insertBBCodeTextFormat("[b]", "[/b]"));
+    buttons.italic.on("click", () => insertBBCodeTextFormat("[i]", "[/i]"));
+    buttons.underline.on("click", () => insertBBCodeTextFormat("[u]", "[/u]"));
+    buttons.strikethrough.on("click", () => insertBBCodeTextFormat("[s]", "[/s]"));
+    buttons.list.on("click", insertList);
+    buttons.quote.on("click", () => insertBBCodeTextFormat("[quote]", "[/quote]"));
+    buttons.link.on("click", insertLink);
 });

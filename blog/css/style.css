@@ -353,23 +353,21 @@ aside #admin-id {
     display: none;
 }
 
-/*aside input {*/
-/*    margin*/
-/*}*/
-
 .ui-datepicker {
     margin-left: -40px;
 }
 
-/*aside div#end-date-con {*/
-/*    display: none;*/
-/*}*/
 
-aside button#calendar-button {
+aside div#button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
     width: 100%;
-    /*padding: 20px;*/
-    /*background-color: var(--text-color-light);*/
+}
+
+aside div#button-group button {
+    flex: 1;
 }
 
 footer {

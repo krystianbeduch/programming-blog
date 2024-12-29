@@ -8,7 +8,7 @@ $(document).ready(() => {
 
     const { buttonDelete, buttonDeleteCancel, buttonDeleteConfirm, deleteModal } = selectors;
 
-    let currentPostId;
+    let currentPostId = null;
 
     buttonToggle.on("click", function() {
         // Sprawdz czy przycisk zawiera slowa 'Pokaz'
@@ -36,7 +36,7 @@ $(document).ready(() => {
         if (currentPostId) {
             handleDelete("post", currentPostId, deleteModal, () => location.reload());
         }
-    }); // buttonDeletePostConfirm click
+    });
 
     checkAndShowSuccessAlert();
 });

@@ -229,7 +229,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }); // forEach
 
         registerForm.addEventListener("submit", async  (e) => {
-            // console.log(`Akcja: ${isRegister}`);
             // Rejestracja
             if (isRegister) {
                 e.preventDefault();
@@ -352,7 +351,6 @@ document.addEventListener("DOMContentLoaded", () => {
         field.classList.remove("invalid-input");
         field.classList.add("valid-input");
     };
-
 
     const validateField = (field) => {
         // Pobierz label przed polem
@@ -481,7 +479,6 @@ document.addEventListener("DOMContentLoaded", () => {
                   message: errorMessage,
               };
           }
-
           // Odczytanie odpowiedzi w JSON
           return await response.json();
       } // try

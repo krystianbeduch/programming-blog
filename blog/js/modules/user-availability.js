@@ -7,8 +7,8 @@ export const checkAvailability = async (type, value) => {
             url: `${SERVER_URI}/check-availability.php`,
             method: "GET",
             data: {
-                type: type, // typ zapytania
-                value: value // wartość do sprawdzenia
+                type: type, // Typ zapytania
+                value: value // Wartosc do sprawdzenia
             },
             dataType: "json", // Oczekiwany format odpowiedzi
             headers: {

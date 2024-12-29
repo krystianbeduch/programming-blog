@@ -1,11 +1,9 @@
 <?php
-
 use JetBrains\PhpStorm\NoReturn;
 
 require_once "db-connect.php";
 require_once "user-management.php";
 require_once "posts-management.php";
-//require_once "../errors/error-codes.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (session_status() === PHP_SESSION_NONE) {
@@ -24,23 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "editUserAccount" => editUserAccount($_POST),
         "editPost" => editPost($_POST),
         "getPostsByDate" => getPostsByDate($_POST),
-        default => handleUnknownAction($action),
     };
 }
-//else {
-//    http_response_code(HttpStatus::FORBIDDEN);
-//    require "../errors/403.html";
-//}
 
 #[NoReturn]
 function correctForm(): void {
     header("Location: " . $_POST["url"]);
-    exit();
-}
-
-#[NoReturn]
-function handleUnknownAction(?string $action): void {
-    echo "Nieznana akcja: " . htmlspecialchars($action);
     exit();
 }
 
