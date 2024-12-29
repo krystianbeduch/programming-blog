@@ -28,8 +28,11 @@ class PageSetup {
             $this->posts = $this->getPosts($this->language);
 
 
+
             // Ustalenie nazwy naglowkowej
             $this->languageHeader = $this->getLanguageHeader();
+
+            $this->filterPostsByDate();
         }
 
         $this->totalPosts = count($this->posts);
@@ -51,6 +54,46 @@ class PageSetup {
         }
         return $categoryName;
     }
+
+    private function filterPostsByDate(): void {
+        $startDate = $_GET["startDate"] ?? null;
+        $endDate = $_GET["endDate"] ?? null;
+        if ($startDate) {
+            $startDate = date_format(date_create($startDate), "Y-m-d");
+//            print_r($startDate);
+        }
+        if ($endDate) {
+            $endDate = date_format(date_create($endDate), "Y-m-d");
+        }
+//        echo $startDate . " - " . $endDate . "<br>";
+//        print_r(date_create($startDate));
+//        echo date_format(strtotime($startDate), "yyyy-mm-dd");
+
+
+
+        if ($startDate || $endDate) {
+            $filteredPosts = [];
+
+            foreach ($this->posts as $post) {
+                // Wyodrębnij datę (yyyy-mm-dd) z pola created_at
+                $postDate = substr($post["created_at"], 0, 10);
+//                $postDate = strtotime($post["created_at"]);
+//                echo $postDate . " <Br>";
+//                echo $startDate;
+
+                // Jeśli tylko startDate, sprawdź równość
+                if ($startDate && !$endDate && $postDate === $startDate) {
+                    $filteredPosts[] = $post;
+                }
+                // Jeśli startDate i endDate, sprawdź zakres
+                else if ($startDate && $endDate && $postDate >= $startDate && $postDate <= $endDate) {
+                    $filteredPosts[] = $post;
+                }
+            }
+            $this->posts = $filteredPosts;
+        }
+    }
+
 
     private function getPosts(string $language): array {
         // getPosts z mysql-operation.php

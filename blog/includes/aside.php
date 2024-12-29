@@ -1,3 +1,22 @@
+<?php
+require_once "../db/posts-management.php";
+$categories = getCategories();
+
+// Pobranie nazwy biezacej strony
+$pageName = basename($_SERVER["PHP_SELF"], ".php");
+
+// Wyodrebnienie 'category_name' do zwyklej tablicy
+$categoryNames = array_map(function($category) {
+    return strtolower($category["category_name"]);
+}, $categories);
+
+require_once "../classes/DateFilter.php";
+$dateFilter = new DateFilter();
+//$isEndDate = $dateFilter->endDate;
+//echo $isEndDate != null;
+?>
+
+
 <aside>
     <!-- Panel administracyjny -->
     <?php if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin"): ?>
@@ -13,6 +32,31 @@
             <h3>O autorze</h3>
             <p><?= $post["about_me"]; ?></p>
         </section>
+    <?php endif; ?>
+
+    <!-- Kalendarz -->
+    <?php if (in_array($pageName, $categoryNames)): ?>
+    <section>
+        <h3>Kalendarz</h3>
+        <form id="calendar-form" action="../db/mysql-operation.php" method="POST">
+            <input type="hidden" name="action" value="getPostsByDate">
+            <input type="hidden" name="category" value="<?= $pageName; ?>">
+            <label for="start-date">Wyświetl posty z dnia:</label>
+            <input type="text" class="form-control form-control-sm mb-2" id="start-date" placeholder="Data początkowa" autocomplete="off" name="start-date" value="<?= $dateFilter->startDate; ?>">
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="single-date" name="single-date"
+                       <?= $dateFilter->hasFilterEndDate() ? "checked" : ""; ?>/>
+                <label class="form-check-label" for="single-date">Przedział dat:</label>
+            </div>
+
+            <div id="end-date-con">
+                <input type="text" class="form-control form-control-sm mt-2" id="end-date" placeholder="Data końcowa" autocomplete="off" name="end-date" value="<?= $dateFilter->endDate; ?>">
+            </div>
+
+            <button class="form-button" id="calendar-button" type="button">Wyświetl</button>
+        </form>
+    </section>
     <?php endif; ?>
 
     <!-- Kalendarz -->

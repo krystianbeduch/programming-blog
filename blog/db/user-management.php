@@ -109,12 +109,7 @@ function loginUser(array $user) : void {
                     "aboutMe" => $userData->about_me,
                     "role" => $userData->role_name,
                 ];
-//                $_SESSION["loggedUser"]["id"] = $userId;
-//                $_SESSION["loggedUser"]["username"] = $username;
-//                $_SESSION["loggedUser"]["email"] = $email;
-//                $_SESSION["loggedUser"]["aboutMe"] = $aboutMe;
-//                $_SESSION["loggedUser"]["role"] = $roleName;
-//
+
                 $_SESSION["alert"]["successStrong"] = "Zalogowano!";
                 $_SESSION["alert"]["success"] = "Witaj " . $userData->username;
             }
@@ -140,7 +135,6 @@ function loginUser(array $user) : void {
 } // loginUser()
 
 function editUserAccount(array $user) : void {
-//    session_start();
     $conn = null;
     $stmt = null;
     $headerLocation = "../pages/edit-profile.php";

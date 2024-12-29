@@ -57,7 +57,6 @@ try {
 catch (Exception $e) {
     http_response_code(HttpStatus::INTERNAL_SERVER_ERROR);
     echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
-    exit;
 }
 finally {
     $stmt?->close();

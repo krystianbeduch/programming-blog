@@ -3,7 +3,12 @@ require_once "modals.php";
 ?>
 
 <header>
-    <h1><a href="../pages/">Blog programistyczny</a></h1>
+<!--    <div class="header-container">-->
+        <a href="../pages/">
+        <img src="../images/favicons/logo_szare.png" alt="Logo">
+            <h1>Blog programistyczny</h1>
+        </a>
+<!--    </div>-->
     <!-- Bledy -->
     <?php if (isset($_SESSION["alert"]["error"])): ?>
         <div class="alert alert-danger">

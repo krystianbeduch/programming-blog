@@ -67,9 +67,20 @@ header {
     position: relative; /* Pozwala na pozycjonowanie elementow wewnatrz */
 }
 
-header h1 a {
-    color: var(--text-color-light);
+header a {
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+header img {
+    max-height: 50px;
+}
+
+header h1 {
+    color: var(--text-color-light);
     font-weight: bold;
     font-size: 2em;
 }
@@ -340,6 +351,25 @@ aside section h3 a:hover {
 
 aside #admin-id {
     display: none;
+}
+
+/*aside input {*/
+/*    margin*/
+/*}*/
+
+.ui-datepicker {
+    margin-left: -40px;
+}
+
+/*aside div#end-date-con {*/
+/*    display: none;*/
+/*}*/
+
+aside button#calendar-button {
+    margin-top: 10px;
+    width: 100%;
+    /*padding: 20px;*/
+    /*background-color: var(--text-color-light);*/
 }
 
 footer {

@@ -57,8 +57,11 @@ $pageData = new PageSetup($_SESSION["loggedUser"]["id"]);
             </div>
         </article>
 
-        <?php if(count($pageData->posts) > 0)
-            renderPaginationUserPosts($pageData->getCurrentPage(), $pageData->getTotalPages()); ?>
+        <?php if(count($pageData->posts) > 0): ?>
+            <nav class="pagination">
+                <?php renderPaginationUserPosts($pageData->getCurrentPage(), $pageData->getTotalPages()); ?>
+            </nav>
+        <?php endif; ?>
     </section>
 
     <div id="delete-post-modal" class="modal delete-modal">

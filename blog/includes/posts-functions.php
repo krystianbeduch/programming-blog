@@ -1,4 +1,6 @@
 <?php
+require_once "../classes/DateFilter.php";
+
 function renderPosts(array $posts) : void {
     foreach ($posts as $post) {
         echo "<div class='post'>";
@@ -14,7 +16,7 @@ function renderPosts(array $posts) : void {
              "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
         echo "<p class='post-content'>" . $post["content"] . "</p>";
 
-        // Wyswietlanie zalaczonego zdjecia, jeśsi istnieje
+        // Wyswietlanie zalaczonego zdjecia, jesli istnieje
         if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
             $base64Image = base64_encode($post["file_data"]);
             echo "<h5>Załączone zdjęcie:</h5>";
@@ -75,21 +77,20 @@ function renderAllPostComments(array $comments) : void {
 }
 
 function renderPagination(int $currentPage, int $totalPages, string $languagePage) : void {
-    echo "<nav class='pagination'>";
+    $dateFilter = new DateFilter();
+    $dateParams = $dateFilter->getDateParams();
+
     if ($currentPage > 1) {
-        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage - 1) . "'>&laquo;</a>";
+        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage - 1) . $dateParams . "'>&laquo;</a>";
     }
     echo "<span>Strona " . $currentPage . " z " . $totalPages . "</span>";
 
     if ($currentPage < $totalPages) {
-        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage + 1) . "'>&raquo;</a>";
+        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage + 1) . $dateParams . "'>&raquo;</a>";
     }
-    echo "</nav>";
 }
 
 function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
-    echo "<nav class='pagination'>";
-
     // Link do poprzedniej strony
     if ($currentPage > 1) {
         echo "<a href='../pages/management-user-posts.php?page=" . ($currentPage - 1) . "'>&laquo;</a>";
@@ -128,7 +129,6 @@ function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
     if ($currentPage < $totalPages) {
         echo "<a href='../pages/management-user-posts.php?page=" . ($currentPage + 1) . "'>&raquo;</a>";
     }
-    echo "</nav>";
 }
 
 function renderUserPosts(array $userPosts) : void {

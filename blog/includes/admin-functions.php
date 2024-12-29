@@ -72,29 +72,29 @@ function renderFilter(?string $selectedCategory = null) : void {
     echo "</form>";
 }
 
-function getCategories() : array {
-    $categories = [];
-    $conn = null;
-    $stmt = null;
-    try {
-        $conn = createMySQLiConnection();
-        $query = <<<SQL
-        SELECT
-            category_id,
-            category_name
-        FROM categories
-        ORDER BY category_name;
-        SQL;
-        $stmt = $conn->prepare($query);
-        $stmt->execute();
-        $categories = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
-    }
-    catch (mysqli_sql_exception|Exception $e) {
-        handleDatabaseError($e);
-    }
-    finally {
-        $stmt?->close();
-        $conn?->close();
-    }
-    return $categories;
-} // getCategories()
+//function getCategories() : array {
+//    $categories = [];
+//    $conn = null;
+//    $stmt = null;
+//    try {
+//        $conn = createMySQLiConnection();
+//        $query = <<<SQL
+//        SELECT
+//            category_id,
+//            category_name
+//        FROM categories
+//        ORDER BY category_name;
+//        SQL;
+//        $stmt = $conn->prepare($query);
+//        $stmt->execute();
+//        $categories = $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?? [];
+//    }
+//    catch (mysqli_sql_exception|Exception $e) {
+//        handleDatabaseError($e);
+//    }
+//    finally {
+//        $stmt?->close();
+//        $conn?->close();
+//    }
+//    return $categories;
+//} // getCategories()
