@@ -487,12 +487,14 @@ function editPost(array $post) : void {
     try {
         $conn = createMySQLiConnection();
 
+
         // Jesli nie ma id uzytkownika - blad
         if (!isset($post["post-id"])) {
             throw new Exception("Brak identyfikatora posta");
         }
         $postId = (int) $post["post-id"];
         unset($post["post-id"]); // Nie aktualizujemy ID posta
+        unset($post["url"]);
 
         // Konwersja BBCode na HTML tresci posta
         if (isset($post["content"])) {
@@ -503,6 +505,9 @@ function editPost(array $post) : void {
         // Przygotowanie zapytania UPDATE
         $setParts = [];
         $setClause = getSetClause($post, $conn, $setParts);
+
+        $attachmentId = $post["attachment-id"] ?? null;
+        unset($post["attachment-id"]);
 
         $conn->begin_transaction();
 
@@ -526,19 +531,19 @@ function editPost(array $post) : void {
             }
 
             // Odczytanie zawartosci pliku
-            $attachmentId = $post["attachment-id"] ?? null;
             $fileName = $_FILES["attachment"]["name"];
             $fileType = $_FILES["attachment"]["type"];
             $fileSize = $_FILES["attachment"]["size"];
             $fileData = file_get_contents($_FILES["attachment"]["tmp_name"]);
 
-            // Jesli attachmentId jest null, dodajemy nowy załącznik
-            if ($attachmentId == null) {
+
+            // Jesli attachmentId jest -1, dodajemy nowy zalacznik
+            if ($attachmentId == -1) {
                 $insertAttachmentQuery = <<<SQL
                 INSERT INTO posts_attachments 
                     (file_name, file_type, file_size, file_data) 
                 VALUES 
-                    (?, ?, ?, ?)
+                    (?, ?, ?, ?);
                 SQL;
                 $stmt = $conn->prepare($insertAttachmentQuery);
                 $stmt->bind_param("ssis", $fileName, $fileType, $fileSize, $fileData);
@@ -548,8 +553,12 @@ function editPost(array $post) : void {
                 $attachmentId = $conn->insert_id;
 
                 // Dodajemy wpis do klauzuli UPDATE posts
-                $setClause .= ", `attachment_id` = $attachmentId";
-
+                if ($setClause) {
+                    $setClause .= ", `attachment_id` = $attachmentId ";
+                }
+                else {
+                    $setClause .= " `attachment_id` = $attachmentId ";
+                }
             }
             else {
                 // Aktualizacja istniejacego zalacznika
@@ -590,6 +599,151 @@ function editPost(array $post) : void {
     catch (mysqli_sql_exception|Exception $e) {
         $conn->rollback();
         handleDatabaseError($e);
+    }
+    finally {
+        $stmt?->close();
+        $conn?->close();
+    }
+} // editPost()
+
+function deleteAttachment(array $post) : void {
+    $conn = null;
+    $stmt = null;
+//    $headerLocation = "../pages/management-user-posts.php";
+    try {
+        $conn = createMySQLiConnection();
+        print_r($post);
+
+
+        // Jesli nie ma id uzytkownika - blad
+        if (!isset($post["post-id"])) {
+            throw new Exception("Brak identyfikatora posta");
+        }
+
+        if (!isset($post["attachment-id"])) {
+            throw new Exception("Brak identyfikatora załącznika");
+        }
+//        $postId = (int) $post["post-id"];
+//        unset($post["post-id"]); // Nie aktualizujemy ID posta
+
+        // Konwersja BBCode na HTML tresci posta
+//        if (isset($post["content"])) {
+//            include_once "../includes/bbcode-functions.php";
+//            $post["content"] = convertBBCodeToHTML($post["content"]);
+//        }
+
+        // Przygotowanie zapytania UPDATE
+//        $setParts = [];
+//        $setClause = getSetClause($post, $conn, $setParts);
+
+        $conn->begin_transaction();
+        $query = <<<SQL
+        DELETE 
+        FROM 
+            posts_attachments 
+        WHERE attachment_id = ?;
+        SQL;
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $post["attachment-id"]);
+        $stmt->execute();
+        $conn->commit();
+        $_SESSION["alert"]["success"] = "Usunięto załącznik";
+        header("Location: " . $post["url"]);
+//
+//        // Obsługa załącznika
+//        if (!empty($_FILES["attachment"]["tmp_name"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR_OK) {
+//            // Sprawdzanie rozmiaru pliku (max 5 MB)
+//            $maxFileSize = 5 * 1024 * 1024; // 5 MB
+//            if ($_FILES["attachment"]["size"] > $maxFileSize) {
+//                $_SESSION["alert"]["error"] = "Plik jest za duży. Maksymalny rozmiar to 5 MB.";
+//                header("Location: ../pages/edit-post.php?postId=" . $postId);
+//                exit();
+//            }
+//
+//            // Sprawdzanie formatu pliku
+//            $allowedExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
+//            $fileExtension = strtolower(pathinfo($_FILES["attachment"]["name"], PATHINFO_EXTENSION));
+//            if (!in_array($fileExtension, $allowedExtensions)) {
+//                $_SESSION["alert"]["error"] = "Nieobsługiwany format pliku. Dozwolone formaty to: JPG, PNG, GIF, BMP, SVG.";
+//                header("Location: ../pages/edit-post.php?postId=" . $postId);
+//                exit();
+//            }
+//
+//            // Odczytanie zawartosci pliku
+//            $attachmentId = $post["attachment-id"] ?? null;
+//            $fileName = $_FILES["attachment"]["name"];
+//            $fileType = $_FILES["attachment"]["type"];
+//            $fileSize = $_FILES["attachment"]["size"];
+//            $fileData = file_get_contents($_FILES["attachment"]["tmp_name"]);
+//
+//
+//            // Jesli attachmentId jest -1, dodajemy nowy zalacznik
+//            if ($attachmentId == -1) {
+//                $insertAttachmentQuery = <<<SQL
+//                INSERT INTO posts_attachments
+//                    (file_name, file_type, file_size, file_data)
+//                VALUES
+//                    (?, ?, ?, ?);
+//                SQL;
+//                $stmt = $conn->prepare($insertAttachmentQuery);
+//                $stmt->bind_param("ssis", $fileName, $fileType, $fileSize, $fileData);
+//                $stmt->execute();
+//
+//                // Pobieramy attachmentId z ostatnio dodanego załącznika
+//                $attachmentId = $conn->insert_id;
+//
+//                // Dodajemy wpis do klauzuli UPDATE posts
+//                if ($setClause) {
+//                    $setClause .= ", `attachment_id` = $attachmentId ";
+//                }
+//                else {
+//                    $setClause .= " `attachment_id` = $attachmentId ";
+//                }
+//
+//
+//
+//
+//            }
+//            else {
+//                // Aktualizacja istniejacego zalacznika
+//                $updateAttachmentQuery = <<<SQL
+//                UPDATE
+//                    posts_attachments
+//                SET
+//                    file_name = ?,
+//                    file_type = ?,
+//                    file_size = ?,
+//                    file_data = ?
+//                WHERE attachment_id = ?
+//                SQL;
+//                $stmt = $conn->prepare($updateAttachmentQuery);
+//                $stmt->bind_param("ssisi", $fileName, $fileType, $fileSize, $fileData, $attachmentId);
+//                $stmt->execute();
+//            }
+//        }
+//
+//        // Wykonaj aktualizacje o ile zmiana zalacznika nie byla jedyna
+//        if ($setClause) {
+//            $query = <<<SQL
+//                UPDATE
+//                    posts
+//                SET $setClause
+//                WHERE post_id = ?
+//                SQL;
+//            echo $query;
+//            $stmt = $conn->prepare($query);
+//            $stmt->bind_param("i", $postId);
+//            $stmt->execute();
+//        }
+//        $conn->commit();
+//
+//        $_SESSION["alert"]["successStrong"] = "Zapisano zmiany!";
+//        $_SESSION["alert"]["success"] = "Post zaktualizowany";
+//        header("Location: $headerLocation");
+    }
+    catch (mysqli_sql_exception|Exception $e) {
+        $conn->rollback();
+//        handleDatabaseError($e);
     }
     finally {
         $stmt?->close();

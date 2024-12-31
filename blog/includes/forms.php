@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "loginUser" => loginUser($_POST),
         "editUserAccount" => editUserAccount($_POST),
         "editPost" => editPost($_POST),
+        "deleteAttachment" => deleteAttachment($_POST),
         "getPostsByDate" => getPostsByDate($_POST),
         default => handleUnknownAction($action)
     };

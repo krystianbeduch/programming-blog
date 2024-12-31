@@ -60,7 +60,7 @@ ALTER TABLE comments ADD FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELE
 ALTER TABLE comments ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL;
 ALTER TABLE posts ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
 ALTER TABLE posts ADD FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE;
-ALTER TABLE posts ADD FOREIGN KEY (attachment_id) REFERENCES posts_attachments(attachment_id) ON DELETE CASCADE;
+ALTER TABLE posts ADD FOREIGN KEY (attachment_id) REFERENCES posts_attachments(attachment_id) ON DELETE SET NULL;
 ALTER TABLE users ADD FOREIGN KEY (role_id) REFERENCES roles(role_id);
 
 

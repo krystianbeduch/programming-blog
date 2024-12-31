@@ -1,27 +1,27 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.forms.add_comment_form;
-    // Captcha
-    const captchaButtons = Array.from(document.getElementsByClassName("captcha-button"));
+$(document).ready(() => {
+    const form = $("form[name='add-comment-form']");
+    const captchaButtons = $(".captcha-button");
     let captchaValid = false;
 
+    const fieldNamesMap = {
+        username: "Nazwa użytkownika",
+        email: "Email",
+        content: "Treść komentarza"
+    };
+
     const clearInputErrors = () => {
-        form.username.classList.remove("input-error");
-        form.email.classList.remove("input-error");
-        form.content.classList.remove("input-error");
+        form.find("input, textarea").removeClass("input-error");
     };
 
     const clearErrorMessages = () => {
-        form.querySelector("#username + .error").textContent = "";
-        form.querySelector("#email + .error").textContent = "";
-        form.querySelector("#content + .error").textContent = "";
-        document.getElementById("form-errors").textContent = "";
-        document.getElementById("captcha-error").textContent = "";
+        form.find(".error").empty();
+        $("#form-errors, #captcha-error").empty();
     };
 
     const showFieldError = (field, message) => {
-        const errorElement = form.querySelector(`#${field} + .error`);
-        errorElement.textContent = message;
-        form[field].classList.add("input-error");
+        const input = form.find(`[name='${field}']`)
+        input.next(".error").text(message);
+        input.addClass("input-error");
     };
 
     const validateField = (field, value, pattern, errorMessage) => {
@@ -35,26 +35,26 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     };
 
-    form.onsubmit = (e) => {
-        let isValid = true;
+    form.on("submit", (e) => {
         e.preventDefault();
-        // form.onsubmit = (event) => {
+        let isValid = true;
 
         // Pobieranie wartosci pol formularza
-        const username = form.username.value.trim();
-        const email = form.email.value.trim();
-        const content = form.content.value.trim();
+        const username = form.find("[name='username']").val().trim();
+        const email = form.find("[name='email']").val().trim();
+        const content = form.find("[name='content']").val().trim();
 
         // Czyszczenie blednych inputow
         clearInputErrors();
         clearErrorMessages();
 
         // Tablica bledow
-        let missingFields = [];
+        const missingFields = [];
 
         const usernameValid = validateField("username", username);
         const contentValid = validateField("content", content);
-        const emailValid = validateField("email", email, /^[a-zA-Z0-9._]+@[a-zA-Z0-9]{2,10}\.[a-zA-Z]{2,}$/, "Email niepoprawny");
+        const emailPattern = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]{2,10}\.[a-zA-Z]{2,}$/;
+        const emailValid = validateField("email", email, emailPattern,"Email niepoprawny");
 
         if (!usernameValid) missingFields.push("username");
         if (!contentValid) missingFields.push("content");
@@ -62,33 +62,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Jesli wiecej niz jedno pole jest bledne, wyswietl zbiorczy komunikat
         if (missingFields.length > 1) {
-            document.getElementById("form-errors").textContent = `Nie wypełniono pól: ${missingFields.join(", ")}`;
+            $("#form-errors").text(
+                `Nie wypełniono pól: 
+                ${missingFields.map(field => fieldNamesMap[field]).join(", ")}`
+            );
             isValid = false;
         }
 
         // Jesli tylko jedno pole jest bledne, wyswietl blad pod tym polem
         if (missingFields.length === 1) {
             const field = missingFields[0];
-            showFieldError(field, `${field.charAt(0).toUpperCase() + field.slice(1)} jest wymagany`);
+            if (field === "email") {
+                if (!emailValid && email) {
+                    showFieldError(field, `${fieldNamesMap[field]} niepoprawny`);
+                }
+                else {
+                    showFieldError(field, `${fieldNamesMap[field]} jest wymagany`);
+                }
+            } // if field email
+            else {
+                showFieldError(field, `${fieldNamesMap[field]} jest wymagana`);
+            }
             isValid = false;
         }
 
         // Walidacja CAPTCHA
         if (!captchaValid) {
-            document.getElementById("captcha-error").textContent = "Błąd CAPTCHA";
+            $("#captcha-error").text("Błąd CAPTCHA");
             isValid = false;
         }
         if (isValid) {
-            form.submit();
+            form.off("submit").submit();
         }
-    };
+    });
 
     // Dla kazdego przycisku obsluz zdarzenie klikniecia
-    captchaButtons.forEach((button) => {
-       button.addEventListener("click", () => {
-           captchaButtons.forEach(btn => btn.classList.remove("checked-captcha-button"));
-           button.classList.add("checked-captcha-button");
-           captchaValid = button.classList.contains("correct-captcha-button");
-       });
+    captchaButtons.on("click", function() {
+        captchaButtons.removeClass("checked-captcha-button");
+        $(this).addClass("checked-captcha-button");
+        captchaValid = $(this).hasClass("correct-captcha-button");
     });
 });

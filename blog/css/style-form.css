@@ -204,9 +204,14 @@ button.edit-field-form-button {
     padding: 5px 15px;
 }
 
-form#edit-user-post button[type="submit"],
-form#edit-user-form button[type="submit"] {
+form#edit-user-post button[type="submit"] {
     display: none;
+}
+
+form#edit-user-post button#delete-attachment-button {
+    display: inline-block;
+    padding: 5px 15px;
+    margin-bottom: 10px;
 }
 
 label.invalid-label {

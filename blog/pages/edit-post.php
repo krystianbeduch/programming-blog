@@ -42,10 +42,10 @@ include_once "../includes/bbcode-functions.php";
     <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
-        <form id="edit-user-post" class="post-form" name="add_post_form" action="../db/mysql-operation.php" method="post" enctype="multipart/form-data">
+        <form id="edit-user-post" class="post-form" name="add_post_form" action="../includes/forms.php" method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>Edycja posta</legend>
-                <input type="hidden" name="action" value="editPost">
+                <input type="hidden" name="url" value="<?= $_SERVER["REQUEST_URI"]; ?>">
 
                 <label for="category">Kategoria:</label>
                 <input type="text" name="category" id="category" value="<?= $post["category_name"]; ?>" readonly disabled>
@@ -87,18 +87,23 @@ include_once "../includes/bbcode-functions.php";
                 <textarea name="content" id="content" required disabled><?= convertHTMLToBBCode($post["content"]); ?></textarea>
 
                 <div class="attachment-section">
-                    <?php if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
-                        echo "<p>Obecny załącznik:</p>";
+                    <?php if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")): ?>
+                        <p>
+                            Obecny załącznik:
+                            <button type="submit" id="delete-attachment-button" class="form-button" name="action" value="deleteAttachment">Usuń</button>
+                        </p>
+                        <?php
                         $base64Image = base64_encode($post["file_data"]);
-                        echo "<img src='data:" . htmlspecialchars($post["file_type"]) . ";base64," . $base64Image . "' alt='Załączone zdjęcie' class='post-attachment'>";
-                    }
-                    ?>
+                        $fileType = htmlspecialchars($post["file_type"]);
+                        ?>
+                        <img src="data:<?= $fileType; ?>;base64,<?= $base64Image; ?>" alt="Załączone zdjęcie" class="post-attachment">
+                    <?php endif; ?>
                     <label for="attachment">Nowy obraz:</label>
                     <input type="file" name="attachment" id="attachment" accept="image/*">
-                    <input type="hidden" name="attachment-id" value="<?= $post["attachment_id"] ?? -1; ?>" disabled>
+                    <input type="hidden" name="attachment-id" value="<?= $post["attachment_id"] ?? -1; ?>">
                 </div>
 
-                <button type="submit" class="form-button">Zapisz zmiany</button>
+                <button type="submit" class="form-button" name="action" value="editPost">Zapisz zmiany</button>
             </fieldset>
         </form>
 

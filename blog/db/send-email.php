@@ -46,11 +46,12 @@ Treść wiadomości:
 $message
 TEXT;
 
-// Nagłówki wiadomości
+// Naglowki wiadomosci
 $headers = [
     "From" => $email,
     "Reply-To" => $email,
     "Content-Type" => "text/plain; charset=UTF-8",
+    "X-Mailer" => "PHP/" . phpversion()
 ];
 
 $formattedHeaders = implode(
@@ -58,7 +59,7 @@ $formattedHeaders = implode(
     array_map(fn($key, $value) => "$key: $value", array_keys($headers), $headers)
 );
 
-// Wysyłanie wiadomości
+// Wysylanie wiadomosci
 if (mail($recipient, $subject, $emailMessage, $formattedHeaders)) {
     $_SESSION["alert"]["success"] = "Wiadomość została wysłana pomyślnie.";
 }

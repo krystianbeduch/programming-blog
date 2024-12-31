@@ -22,7 +22,7 @@ if (!isset($_SESSION["loggedUser"])) {
     <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
-        <form id="edit-user-form" class="post-form" action="../db/mysql-operation.php" method="post">
+        <form id="edit-user-form" class="post-form" action="../includes/forms.php" method="post">
             <fieldset>
                 <legend>Edycja profilu</legend>
                 <input type="hidden" name="action" value="editUserAccount">

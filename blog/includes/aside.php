@@ -38,6 +38,7 @@ $dateFilter = new DateFilter();
         <form id="calendar-form" action="../db/mysql-operation.php" method="POST">
             <input type="hidden" name="action" value="getPostsByDate">
             <input type="hidden" name="category" value="<?= $pageName; ?>">
+
             <label for="start-date">Wyświetl posty z dnia:</label>
             <button class="btn" id="calendar-reset-button" type="button"><img src="../images/x-circle.svg" alt="Reset"></button>
             <input type="text" class="form-control form-control-sm mb-2" id="start-date" placeholder="Data" autocomplete="off" name="start-date" value="<?= $dateFilter->startDate; ?>">
@@ -45,7 +46,7 @@ $dateFilter = new DateFilter();
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="single-date" name="single-date"
                        <?= $dateFilter->hasFilterEndDate() ? "checked" : ""; ?>/>
-                <label class="form-check-label" for="single-date">Przedział dat:</label>
+                <label class="form-check-label" for="single-date">Przedział czasowy:</label>
             </div>
 
             <div id="end-date-con">
