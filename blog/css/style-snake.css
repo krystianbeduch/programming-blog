@@ -6,7 +6,7 @@ div#snake-game {
 
 canvas {
     border: 1px solid var(--text-color-light);
-    background-color: #000;
+    background-color: var(--game-black);
 }
 
 span#game-info {

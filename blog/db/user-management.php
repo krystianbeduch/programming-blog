@@ -114,7 +114,7 @@ function loginUser(array $user) : void {
                 $_SESSION["alert"]["success"] = "Witaj " . $userData->username;
             }
             else {
-                $_SESSION["alert"]["error"] = "Konto nie aktywne.<br>Poczekaj aż administrator aktywuje konto.";
+                $_SESSION["alert"]["error"] = "Konto nieaktywne.<br>Poczekaj aż administrator aktywuje konto.";
             }
         }
         else {

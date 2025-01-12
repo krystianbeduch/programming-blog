@@ -1,34 +1,27 @@
 <?php
 
-namespace blackjack;
+namespace blackjack\blackjack;
 
-class Player {
-    private array $deck = [];
+class User extends Player {
 
-    public function addCard(Card $card): void {
-        $this->deck[] = $card;
-    }
-
-    public function getPoints(): int {
-        $points = 0;
-        foreach ($this->deck as $card) {
-            $points += $card->getValue();
+    public function drawCard(Deck $deck): void {
+        // Gracz moze dobierac do 5 kart
+        if ($this->getDeckCount() < 5) {
+            $this->addCard($deck->drawCard());
         }
-        return $points;
     }
 
+    #[\Override]
     public function showDeck(): void {
-        foreach ($this->deck as $card) {
-            echo "<img src='{$card->getImagePath()}' alt='{$card->getName()} {$card->getColor()}'>";
-        }
+        parent::showDeck();
+        $this->createCheckboxesForAces();
     }
 
     public function createCheckboxesForAces() : void {
         echo "<div class='checkbox-container'>";
         foreach ($this->deck as $index => $card) {
             if ($card->getName() == "A" && $card->getValue() == 11) {
-                echo
-                "<label class='ace-checkbox-label'>
+                echo "<label class='ace-checkbox-label'>
                 <input type='checkbox' name='changeAceValue[]' value='{$index}'> Zmień " . $card->getName() . " " . $card->getColor() . " na 1 
                 </label>";
             }
@@ -42,13 +35,5 @@ class Player {
                 $this->deck[$index]->setValue(1);
             }
         }
-    }
-
-    public function getDeck(): array {
-        return $this->deck;
-    }
-
-    public function getDeckCount(): int {
-        return count($this->deck);
     }
 }

@@ -76,19 +76,6 @@
 <logicalDatatype>LOGDT047</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="is_published" id="CC41F6EB-8A7D-CF9D-0723-C3360C7EFCBC">
-<createdBy>Czarek</createdBy>
-<createdTime>2024-11-18 22:22:30 UTC</createdTime>
-<ownerDesignName>schema</ownerDesignName>
-<engineerTo>
-<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
-</engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT006</logicalDatatype>
-<dataTypeSize>1</dataTypeSize>
-<ownDataTypeParameters>1,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="user_id" id="FBF385DB-2A75-1FC7-B972-3D50E85F0616">
 <createdBy>Czarek</createdBy>
 <createdTime>2024-11-18 22:22:58 UTC</createdTime>

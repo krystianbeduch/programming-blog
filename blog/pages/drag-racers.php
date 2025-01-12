@@ -9,7 +9,7 @@ session_start();
     <title>Blog | Drag Racers</title>
     <link rel="stylesheet" href="../css/style-games.css">
     <link rel="stylesheet" href="../css/style-drag-racers.css">
-    <script src="../js/drag-racers-jQuery.js"></script>
+    <script src="../js/drag-racers-game.js"></script>
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>

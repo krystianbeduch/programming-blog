@@ -63,8 +63,10 @@ function renderAllPostComments(array $comments) : void {
             echo "<p class='comment-author-comment'>";
             echo $comment["content"];
             echo "</p>";
-            if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin") {
-                echo "<button class='post-link delete-button' data-comment-id='" . $comment["comment_id"] . "' title='Usuń komentarz'>";
+            if (isset($_SESSION["loggedUser"]) &&
+                ($_SESSION["loggedUser"]["role"] == "Admin" || $_SESSION["loggedUser"]["id"] == $comment["user_id"])
+                ) {
+                echo "<button class='post-link delete-button' data-comment-id='" . $comment["comment_id"] . "'  title='Usuń komentarz'>";
                 echo "<img src='../images/trash-fill.svg' alt='Usuń komentarz'></button>";
             }
             echo "</div>";
@@ -136,7 +138,6 @@ function renderUserPosts(array $userPosts) : void {
             echo "<div class='post'>";
             echo "<h4 class='post-title'>" . $post["title"] . "</h4>";
             echo "<span class='post-updated'>Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span>";
-//            renderContent($userPosts);
             echo "<p class='post-content'>" . $post["content"] . "</p>";
 
             if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
@@ -158,7 +159,6 @@ function renderUserPosts(array $userPosts) : void {
 }
 
 function renderUserPostsStats(array $userPosts) : void {
-//    print_r($userPosts);
     if (count($userPosts) > 0) {
         echo "<table id='user-posts-stats' class='table-stats posts-stats'>";
         echo "<thead>";

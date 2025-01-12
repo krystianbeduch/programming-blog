@@ -9,7 +9,7 @@ session_start();
     <title>Blog | Whack-a-Mole</title>
     <link rel="stylesheet" href="../css/style-games.css">
     <link rel="stylesheet" href="../css/style-whack.css">
-    <script src="../js/drag-racers-jQuery.js"></script>
+    <script src="../js/whack-a-mole-game.js"></script>
 </head>
 <body>
 <?php require_once "../includes/header.php"; ?>

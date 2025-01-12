@@ -1,6 +1,6 @@
 <?php
 
-namespace blackjack;
+namespace blackjack\blackjack;
 
 class Card {
     private string $name;

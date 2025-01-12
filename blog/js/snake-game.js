@@ -331,7 +331,7 @@ $(document).ready(() => {
                     if (data.scores.length > 0) {
                         data.scores.forEach(user => {
                             // Dodawanie wiersza do tabeli
-                            snakeScores.append(`<tr><td>${user.user_name}</td><td>${user.score}</td></tr>`);
+                            snakeScores.append(`<tr><td>${user.username}</td><td>${user.score}</td></tr>`);
                         });
                     }
                     else {

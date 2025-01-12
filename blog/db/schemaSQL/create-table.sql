@@ -66,7 +66,7 @@ ALTER TABLE users ADD FOREIGN KEY (role_id) REFERENCES roles(role_id);
 
 CREATE TABLE snake_scores (
     score_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    user_name VARCHAR(50),
-    score SMALLINT UNSIGNED,
+    username VARCHAR(50) NOT NULL,
+    score SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY(score_id)
 );

@@ -1,45 +1,58 @@
 <?php
-require_once "../classes/Card.php";
-require_once "../classes/Deck.php";
-require_once "../classes/Game.php";
-require_once "../classes/Player.php";
+require_once "../classes/blackjack/Game.php";
+require_once "../classes/blackjack/Deck.php";
+require_once "../classes/blackjack/Card.php";
+require_once "../classes/blackjack/Player.php";
+require_once "../classes/blackjack/User.php";
+require_once "../classes/blackjack/Croupier.php";
 
-use blackjack\Game;
+use blackjack\blackjack\Game;
+
+if (!class_exists("blackjack\blackjack\Game")) {
+    die("Klasa Game nie została załadowana!");
+}
 
 session_start();
 
 if (isset($_POST["reset"])) {
     unset($_SESSION["game"]);
     header("Location: blackjackOOP.php");
-    exit;
+    exit();
 }
 
 if (!isset($_SESSION["game"])) {
-    $_SESSION["game"] = new Game();
+    $_SESSION["game"] = Game::getInstance();
 }
 
 if (isset($_POST["drawCard"])) {
-    // Sprawdz przed dobraniem ile gracz ma karti
+    // Sprawdz przed dobraniem, ile kart ma gracz
     if ($_SESSION["game"]->getUser()->getDeckCount() < 5) {
         // Pobierz kolejna karte
-        $_SESSION["game"]->userDrawCard();
+        $deck = $_SESSION["game"]->getDeck();
+        $_SESSION["game"]->getUser()->drawCard($deck);
     }
     else {
         // Gracz ma w talii juz maksymalna liczbe (5) kart - koniec gry
         if (isset($_POST["changeAceValue"])) {
             $_SESSION["game"]->getUser()->changeAceValues($_POST["changeAceValue"]);
         }
-        $_SESSION["gameOver"] = true;
+        $_SESSION["game"]->setIsGameOver(true);
     }
-    $_SESSION["game"]->croupierDrawCard();
+    // Krupier dobiera karte
+    $deck = $_SESSION["game"]->getDeck();
+    $_SESSION["game"]->getCroupier()->croupierDrawCard($deck);
 }
 
 if (isset($_POST["stand"])) {
-    $_SESSION["game"]->croupierDrawCard();
+    // Krupier dobiera karte
+    $deck = $_SESSION["game"]->getDeck();
+    $_SESSION["game"]->getCroupier()->croupierDrawCard($deck);
+
+    // Zmiana wartosci asow, jesli uzytkownik wybral taka opcje
     if (isset($_POST["changeAceValue"])) {
         $_SESSION["game"]->getUser()->changeAceValues($_POST["changeAceValue"]);
     }
-    $_SESSION["gameOver"] = true;
+    $_SESSION["game"]->setIsGameOver(true);
 }
 ?>
 
@@ -84,15 +97,15 @@ if (isset($_POST["stand"])) {
             <form action="blackjackOOP.php" method="post" id="blackjack-form">
                 <h4>Karty gracza:</h4>
                 <?php
-                $_SESSION["game"]->showUserDeck();
-                echo "<p>Punkty gracza: " . $_SESSION["game"]->getUserPoints() . "</p>";
+                $_SESSION["game"]->getUser()->showDeck();
+                echo "<p>Punkty gracza: " . $_SESSION["game"]->getUser()->getPoints() . "</p>";
                 echo "<br>";
                 ?>
                 <h4>Karty krupiera:</h4>
                 <?php
-                if (isset($_SESSION["gameOver"]) && $_SESSION["gameOver"]) {
-                    $_SESSION["game"]->showCroupierDeck();
-                    echo "<p>Punkty krupiera: " . $_SESSION["game"]->getCroupierPoints() . "</p>";
+                if ($_SESSION["game"]->getIsGameOver()) {
+                    $_SESSION["game"]->getCroupier()->showDeck();
+                    echo "<p>Punkty krupiera: " . $_SESSION["game"]->getCroupier()->getPoints() . "</p>";
                     $_SESSION["game"]->getGameResults();
                 }
                 else {
@@ -100,22 +113,18 @@ if (isset($_POST["stand"])) {
                     foreach ($_SESSION["game"]->getCroupier()->getDeck() as $card) {
                         if ($firstCard) {
                             $firstCard = false;
-                            $imagePath = $card->getImagePath();
-                            $cardName = $card->getName();
-                            $cardColor = $card->getColor();
-                            echo "<img src='" . $card->getImagePath() . "' alt='" . $card->getName() . $card->getColor()."'>";
+                            echo "<img src='{$card->getImagePath()}' alt='{$card->getName()} {$card->getColor()}' title='{$card->getName()} {$card->getColor()}'>";
                         }
                         else {
-                            $backCard = $card->getImageOfBackCard();
-                            echo "<img src='{$backCard}' alt='Karta zakryta'>";
+                            echo "<img src='{$card->getImageOfBackCard()}' alt='Karta zakryta' title='Karta zakryta'>";
                         }
                     }
                     /* Zakomentuj 2 ponizsze linie aby nie widziec kart i wyniku krupiera */
-//                        echo "<br>" . $_SESSION["game"]->showCroupierDeck();
-//                        echo "<p>Punkty krupiera: " . $_SESSION["game"]->getCroupierPoints() . "</p>";
+//                        echo "<br>" . $_SESSION["game"]->getCroupier()->showDeck();
+//                        echo "<p>Punkty krupiera: " . $_SESSION["game"]->getCroupier()->getPoints() . "</p>";
                 }
                 ?>
-                <?php if (!isset($_SESSION["gameOver"])): ?>
+                <?php if (!$_SESSION["game"]->getIsGameOver()): ?>
                     <button type="submit" name="drawCard">Dobierz kartę</button>
                     <button type="submit" name="stand">Pas</button>
                 <?php endif; ?>

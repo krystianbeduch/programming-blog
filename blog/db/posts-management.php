@@ -261,35 +261,50 @@ function getCommentsToPost(int $postId) : array {
 } // getCommentsToPost()
 
 function addCommentToPost(array $commentData) : void {
-//    session_start();
     $postId = $commentData["post-id"];
     $headerLocation = "../pages/post.php?postId=" . $postId;
     $conn = null;
     $stmt = null;
-
     try {
         $conn = createMySQLiConnection();
 
         // Rozpoczecie transakcji
         $conn->begin_transaction();
 
-        //////////////////// POTRZEBNE ZAPYTANIE KTORE DODAJE UZYTKOWNIKA JAKO JEGO USER_ID
         // Przygotowanie i wykonanie zapytania
-        $query = <<<SQL
-        INSERT INTO comments
-            (username, email, content, post_id)
-        VALUES 
-            (?, ?, ?, ?)
-        SQL;
+        if ($commentData["user-id"] != "") {
+            $query = <<<SQL
+            INSERT INTO comments
+                (user_id, content, post_id)
+            VALUES 
+                (?, ?, ?)
+            SQL;
 
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param(
-            "sssi",
-            $commentData["username"],
-            $commentData["email"],
-            $commentData["content"],
-            $postId
-        );
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param(
+                "isi",
+                $commentData["user-id"],
+                $commentData["content"],
+                $postId
+            );
+        }
+        else {
+            $query = <<<SQL
+            INSERT INTO comments
+                (username, email, content, post_id)
+            VALUES 
+                (?, ?, ?, ?)
+            SQL;
+
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param(
+                "sssi",
+                $commentData["username"],
+                $commentData["email"],
+                $commentData["content"],
+                $postId
+            );
+        }
         $stmt->execute();
 
         if ($stmt->affected_rows == 0) {
@@ -609,11 +624,8 @@ function editPost(array $post) : void {
 function deleteAttachment(array $post) : void {
     $conn = null;
     $stmt = null;
-//    $headerLocation = "../pages/management-user-posts.php";
     try {
         $conn = createMySQLiConnection();
-        print_r($post);
-
 
         // Jesli nie ma id uzytkownika - blad
         if (!isset($post["post-id"])) {
@@ -623,18 +635,6 @@ function deleteAttachment(array $post) : void {
         if (!isset($post["attachment-id"])) {
             throw new Exception("Brak identyfikatora załącznika");
         }
-//        $postId = (int) $post["post-id"];
-//        unset($post["post-id"]); // Nie aktualizujemy ID posta
-
-        // Konwersja BBCode na HTML tresci posta
-//        if (isset($post["content"])) {
-//            include_once "../includes/bbcode-functions.php";
-//            $post["content"] = convertBBCodeToHTML($post["content"]);
-//        }
-
-        // Przygotowanie zapytania UPDATE
-//        $setParts = [];
-//        $setClause = getSetClause($post, $conn, $setParts);
 
         $conn->begin_transaction();
         $query = <<<SQL
@@ -649,110 +649,13 @@ function deleteAttachment(array $post) : void {
         $conn->commit();
         $_SESSION["alert"]["success"] = "Usunięto załącznik";
         header("Location: " . $post["url"]);
-//
-//        // Obsługa załącznika
-//        if (!empty($_FILES["attachment"]["tmp_name"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR_OK) {
-//            // Sprawdzanie rozmiaru pliku (max 5 MB)
-//            $maxFileSize = 5 * 1024 * 1024; // 5 MB
-//            if ($_FILES["attachment"]["size"] > $maxFileSize) {
-//                $_SESSION["alert"]["error"] = "Plik jest za duży. Maksymalny rozmiar to 5 MB.";
-//                header("Location: ../pages/edit-post.php?postId=" . $postId);
-//                exit();
-//            }
-//
-//            // Sprawdzanie formatu pliku
-//            $allowedExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
-//            $fileExtension = strtolower(pathinfo($_FILES["attachment"]["name"], PATHINFO_EXTENSION));
-//            if (!in_array($fileExtension, $allowedExtensions)) {
-//                $_SESSION["alert"]["error"] = "Nieobsługiwany format pliku. Dozwolone formaty to: JPG, PNG, GIF, BMP, SVG.";
-//                header("Location: ../pages/edit-post.php?postId=" . $postId);
-//                exit();
-//            }
-//
-//            // Odczytanie zawartosci pliku
-//            $attachmentId = $post["attachment-id"] ?? null;
-//            $fileName = $_FILES["attachment"]["name"];
-//            $fileType = $_FILES["attachment"]["type"];
-//            $fileSize = $_FILES["attachment"]["size"];
-//            $fileData = file_get_contents($_FILES["attachment"]["tmp_name"]);
-//
-//
-//            // Jesli attachmentId jest -1, dodajemy nowy zalacznik
-//            if ($attachmentId == -1) {
-//                $insertAttachmentQuery = <<<SQL
-//                INSERT INTO posts_attachments
-//                    (file_name, file_type, file_size, file_data)
-//                VALUES
-//                    (?, ?, ?, ?);
-//                SQL;
-//                $stmt = $conn->prepare($insertAttachmentQuery);
-//                $stmt->bind_param("ssis", $fileName, $fileType, $fileSize, $fileData);
-//                $stmt->execute();
-//
-//                // Pobieramy attachmentId z ostatnio dodanego załącznika
-//                $attachmentId = $conn->insert_id;
-//
-//                // Dodajemy wpis do klauzuli UPDATE posts
-//                if ($setClause) {
-//                    $setClause .= ", `attachment_id` = $attachmentId ";
-//                }
-//                else {
-//                    $setClause .= " `attachment_id` = $attachmentId ";
-//                }
-//
-//
-//
-//
-//            }
-//            else {
-//                // Aktualizacja istniejacego zalacznika
-//                $updateAttachmentQuery = <<<SQL
-//                UPDATE
-//                    posts_attachments
-//                SET
-//                    file_name = ?,
-//                    file_type = ?,
-//                    file_size = ?,
-//                    file_data = ?
-//                WHERE attachment_id = ?
-//                SQL;
-//                $stmt = $conn->prepare($updateAttachmentQuery);
-//                $stmt->bind_param("ssisi", $fileName, $fileType, $fileSize, $fileData, $attachmentId);
-//                $stmt->execute();
-//            }
-//        }
-//
-//        // Wykonaj aktualizacje o ile zmiana zalacznika nie byla jedyna
-//        if ($setClause) {
-//            $query = <<<SQL
-//                UPDATE
-//                    posts
-//                SET $setClause
-//                WHERE post_id = ?
-//                SQL;
-//            echo $query;
-//            $stmt = $conn->prepare($query);
-//            $stmt->bind_param("i", $postId);
-//            $stmt->execute();
-//        }
-//        $conn->commit();
-//
-//        $_SESSION["alert"]["successStrong"] = "Zapisano zmiany!";
-//        $_SESSION["alert"]["success"] = "Post zaktualizowany";
-//        header("Location: $headerLocation");
     }
     catch (mysqli_sql_exception|Exception $e) {
         $conn->rollback();
-//        handleDatabaseError($e);
+        handleDatabaseError($e);
     }
     finally {
         $stmt?->close();
         $conn?->close();
     }
 } // editPost()
-
-function getPostsByDate(array $posts) : array {
-    echo "elo";;
-    print_r($posts);
-    return [];
-}

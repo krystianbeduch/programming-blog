@@ -1,5 +1,4 @@
 <?php
-//require_once "../db/posts-management.php";
 require_once "../includes/page-setup.php";
 $pageData = new PageSetup();
 ?>
@@ -8,7 +7,7 @@ $pageData = new PageSetup();
 <html lang="pl">
 <head>
     <?php require_once "../includes/head.html"; ?>
-    <title>Blog | <?php echo $pageData->languageHeader; ?></title>
+    <title>Blog | <?= $pageData->languageHeader; ?></title>
     <script src="../js/admin-posts.js" type="module"></script>
 
     <!-- jQuery UI   -->
@@ -28,8 +27,8 @@ $pageData = new PageSetup();
         <?= "<img src='../images/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
 
         <?php if (isset($_SESSION["loggedUser"])): ?>
-            <a href="../pages/add-post.php?category=<?php echo $pageData->language;?>" class="post-comments-link add-post-link">Dodaj post</a>
-        <?php endif ?>
+            <a href="../pages/add-post.php?category=<?= $pageData->language; ?>" class="post-comments-link add-post-link">Dodaj post</a>
+        <?php endif; ?>
 
         <article id="posts-section">
             <h3>Posty</h3>

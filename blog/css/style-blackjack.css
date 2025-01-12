@@ -28,7 +28,7 @@ div#blackjack-game img {
     width: 100px;
     height: auto;
     margin: 5px;
-    border: 1px solid black;
+    border: 1px solid var(--game-black);
     border-radius: 4px;
 }
 

@@ -30,7 +30,6 @@ $(document).ready(() => {
         if (currentId) {
             deleteType = "post";
             postCategory = $(this).data("category-name").toLowerCase();
-
         }
         else {
             currentId = $(this).data("comment-id");

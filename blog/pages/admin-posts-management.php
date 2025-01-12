@@ -2,7 +2,7 @@
 session_start();
 require_once "../errors/error-codes.php";
 
-if (!isset($_SESSION["loggedUser"])) {
+if (!isset($_SESSION["loggedUser"]) || !isset($_SESSION["loggedUser"]["role"]) || $_SESSION["loggedUser"]["role"] != "Admin") {
     http_response_code(HttpStatus::UNAUTHORIZED);
     require "../errors/401.html";
     exit();

@@ -9,6 +9,8 @@
         <label for="post-id">Numer postu:</label>
         <input type="text" name="post-id" id="post-id" value="<?= $postId ?? ""; ?>" readonly>
 
+        <input type="hidden" name="user-id" value="<?= $_SESSION["loggedUser"]["id"] ?? ""; ?>">
+
         <label for="username">Nazwa użytkownika:</label>
         <?php if (isset($_SESSION["loggedUser"])): ?>
             <input type="text" name="username" id="username" value="<?= $_SESSION["loggedUser"]["username"]; ?>" readonly>

@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="4947AA21-C8F9-84BD-1EC6-2A7F818F398B" name="categories">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="98929C77-382B-6FA4-B3D1-84AC97EC3E8A" name="snake_scroes">
 <createdBy>Czarek</createdBy>
-<createdTime>2024-11-18 22:24:03 UTC</createdTime>
+<createdTime>2024-12-31 16:26:16 UTC</createdTime>
 <ownerDesignName>schema</ownerDesignName>
 <engineerTo>
 <item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
@@ -15,9 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="category_id" id="64E73F0D-0BBE-F2A4-64E5-434DCF0F22FC">
+<Attribute name="score_id" id="B05E6321-27EE-AC09-3B2B-2848B6B3AF9D">
 <createdBy>Czarek</createdBy>
-<createdTime>2024-11-18 22:24:35 UTC</createdTime>
+<createdTime>2024-12-31 16:26:28 UTC</createdTime>
 <ownerDesignName>schema</ownerDesignName>
 <engineerTo>
 <item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
@@ -27,9 +27,9 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="category_name" id="BDDE0C47-26E4-FC42-D613-7B340727A959">
+<Attribute name="username" id="6AD8D6C4-D691-8964-2D3A-F89063DA5857">
 <createdBy>Czarek</createdBy>
-<createdTime>2024-11-18 22:24:46 UTC</createdTime>
+<createdTime>2024-12-31 16:26:48 UTC</createdTime>
 <ownerDesignName>schema</ownerDesignName>
 <engineerTo>
 <item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
@@ -40,31 +40,30 @@
 <dataTypeSize>50</dataTypeSize>
 <ownDataTypeParameters>50,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="description" id="C3F7426D-0FF1-44F5-D0FD-3741B9C0AAF6">
+<Attribute name="score" id="90A5D792-BF00-174F-B1B0-7FD352F1F8DE">
 <createdBy>Czarek</createdBy>
-<createdTime>2024-12-31 16:21:50 UTC</createdTime>
+<createdTime>2024-12-31 16:30:24 UTC</createdTime>
 <ownerDesignName>schema</ownerDesignName>
 <engineerTo>
 <item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>1000</dataTypeSize>
-<ownDataTypeParameters>1000,,</ownDataTypeParameters>
+<logicalDatatype>LOGDT018</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="66828063-70EB-2DA0-987F-5882D8114D2F" name="categories PK">
+<identifier id="029A38AC-CB13-8112-93A2-AE6E104C0728" name="snake_scroes PK">
 <createdBy>Czarek</createdBy>
-<createdTime>2024-11-18 22:24:45 UTC</createdTime>
+<createdTime>2024-12-31 16:26:47 UTC</createdTime>
 <ownerDesignName>schema</ownerDesignName>
 <engineerTo>
 <item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>64E73F0D-0BBE-F2A4-64E5-434DCF0F22FC</attributeRef>
+<attributeRef>B05E6321-27EE-AC09-3B2B-2848B6B3AF9D</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

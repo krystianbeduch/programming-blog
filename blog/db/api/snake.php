@@ -78,7 +78,7 @@ function getUserScores() : void {
         $conn = createMySQLiConnection();
         $query = <<<SQL
         SELECT 
-            user_name, 
+            username, 
             score 
         FROM snake_scores 
         ORDER BY score DESC LIMIT 10;
@@ -110,7 +110,7 @@ function addUserScore() : void {
         $conn = createMySQLiConnection();
         $query = <<<SQL
         INSERT INTO snake_scores 
-            (user_name, score) 
+            (username, score) 
         VALUES 
             (?, ?);
         SQL;
