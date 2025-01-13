@@ -2,7 +2,7 @@
 session_start();
 require_once "../errors/error-codes.php";
 
-if (!isset($_SESSION["loggedUser"]) || $_SESSION["loggedUser"]["role"] != "Admin") {
+if (!isset($_SESSION["loggedUser"]) || !isset($_SESSION["loggedUser"]["role"]) || $_SESSION["loggedUser"]["role"] != "Admin") {
     http_response_code(HttpStatus::UNAUTHORIZED);
     require "../errors/401.html";
     exit();
@@ -14,26 +14,10 @@ require_once "../includes/admin-functions.php";
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php require_once "../includes/head.html"; ?>
     <title>Blog | Panel administracyjny</title>
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="../images/favicons/site.webmanifest">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/style-admin.css">
     <link rel="stylesheet" href="../css/style-table-stats.css">
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../js/admin-users.js" type="module"></script>
 </head>
 <body>

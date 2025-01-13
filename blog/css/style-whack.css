@@ -1,11 +1,11 @@
 div#whack-game table {
-    border: 1px solid black;
+    border: 1px solid var(--game-black);
     margin: 0 auto;
     border-collapse: collapse;
 }
 
 div#whack-game table td {
-    border: 1px solid black;
+    border: 1px solid var(--game-black);
     width: 125px;
     height: 125px;
     position: relative;
@@ -60,7 +60,8 @@ section.whack-section button.hover-style:hover {
 }
 
 section.whack-section button:disabled {
-    background-color: #a7a7a7;
+    background-color: var(--readonly-input);
+    cursor: not-allowed;
 }
 
 section.whack-section button.clicked-button {

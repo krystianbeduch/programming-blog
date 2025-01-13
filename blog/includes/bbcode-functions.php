@@ -17,13 +17,22 @@ function convertBBCodeToHTML(string $text): string {
     $text = preg_replace("/\[ul](.*?)\[\/ul]/s", "<ul>$1</ul>", $text);
     $text = preg_replace("/\[li](.*?)\[\/li]/s", "<li>$1</li>", $text);
     $text = preg_replace("/\[quote](.*?)\[\/quote]/s", "<q>$1</q>", $text);
-    $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", '<a href="$1" target="_blank">$2</a>', $text);
+    $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", "<a href='$1' target='_blank'>$2</a>", $text);
+
+    // Zamiana [html] na bezpośredni kod HTML
+    $text = preg_replace_callback("/\[html](.*?)\[\/html]/s", function ($matches) {
+        // Kodowanie tekstu na HTML tak, aby <header> stał się &lt;header&gt;
+        return htmlspecialchars('&lt;' . $matches[1] . '&gt;', ENT_QUOTES | ENT_HTML5, "UTF-8");
+    }, $text);
+
+    // Zamiana podwojnych cudzysłowow na pojedyncze
+    $text = str_replace('"', "'", $text);
 
     return nl2br($text); // Zamiana nowych linii na <br>
 }
 
 function convertHTMLToBBCode(string $text): string {
-// Zamiana znacznika <strong> na [b]
+    // Zamiana znacznika <strong> na [b]
     $text = preg_replace("/<strong>(.*?)<\/strong>/s", "[b]$1[/b]", $text);
     // Zamiana znacznika <em> na [i]
     $text = preg_replace("/<em>(.*?)<\/em>/s", "[i]$1[/i]", $text);
@@ -38,7 +47,10 @@ function convertHTMLToBBCode(string $text): string {
     // Zamiana znacznika <q> na [quote]
     $text = preg_replace("/<q>(.*?)<\/q>/s", "[quote]$1[/quote]", $text);
     // Zamiana znacznika <a> na [url=]
-    $text = preg_replace("/<a href=\"(.*?)\".*?>(.*?)<\/a>/s", "[url=$1]$2[/url]", $text);
+    $text = preg_replace_callback("/<a\s+href=['\"](.*?)['\"].*?>(.*?)<\/a>/is", function($matches) {
+        // Zwracamy poprawnie przetworzony link BBCode
+        return "[url=" . $matches[1] . "]" . $matches[2] . "[/url]";
+    }, $text);
 
     // Usunięcie <br> na nowe linie
     $text = preg_replace("/<br\s*\/?>/i", "\n", $text);
@@ -47,5 +59,5 @@ function convertHTMLToBBCode(string $text): string {
     $text = preg_replace("/(\n\s*){2,}/", "\n", $text);
 
     // Kodowanie specjalnych znaków HTML
-    return trim(htmlentities($text, ENT_QUOTES, 'UTF-8'));
+    return trim(htmlentities($text, ENT_QUOTES | ENT_HTML5, "UTF-8"));
 }

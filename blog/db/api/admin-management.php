@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Origin: *");
 
-require_once "../db-connect.php";
+require_once "../mysql-operation.php";
 require_once "../../errors/error-codes.php";
 
 // Obsluga zapytan
@@ -17,12 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "PATCH") {
         editUser($inputData);
     }
     else {
-        http_response_code(400); // Bad Request
+        http_response_code(HttpStatus::BAD_REQUEST);
         echo json_encode(["success" => false, "message" => "Invalid input data"]);
     }
 }
 elseif ($_SERVER["REQUEST_METHOD"] == "DELETE") {
-    $inputData = json_decode(file_get_contents('php://input'));
+    $inputData = json_decode(file_get_contents("php://input"));
     if (isset($inputData->type) && isset($inputData->id)) {
         deleteContent($inputData->type, (int) $inputData->id);
     }
@@ -41,12 +41,7 @@ function changeUserActivity(int $userId, int $currentActivity): void {
     $conn = null;
     $stmt = null;
     try {
-        $conn = new mysqli(
-            MySQLConfig::SERVER,
-            MySQLConfig::USER,
-            MySQLConfig::PASSWORD,
-            MySQLConfig::DATABASE
-        );
+        $conn = createMySQLiConnection();
 
         $conn->begin_transaction();
 
@@ -63,7 +58,7 @@ function changeUserActivity(int $userId, int $currentActivity): void {
         $result = $stmt->get_result();
 
         if ($result->num_rows == 0) {
-            http_response_code(404); // Not Found
+            http_response_code(HttpStatus::NOT_FOUND);
             echo json_encode(["success" => false, "message" => "Nie ma użytkownika o id $userId"]);
             return;
         }
@@ -74,7 +69,7 @@ function changeUserActivity(int $userId, int $currentActivity): void {
 
         // Sprawdzamy, czy aktualizacja jest potrzebna
         if ($dbActivity == $newActivity) {
-            http_response_code(400); // Bad Request
+            http_response_code(HttpStatus::BAD_REQUEST);
             echo json_encode(["success" => false, "message" => "Stan aktywności użytkownika $userId już wynosi $newActivity"]);
             return;
         }
@@ -91,19 +86,19 @@ function changeUserActivity(int $userId, int $currentActivity): void {
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            http_response_code(200); // OK
+            http_response_code(HttpStatus::OK);
             $newActivityTxt = $newActivity === 1 ? "Aktywne" : "Nieaktywne";
             echo json_encode(["success" => true, "message" => "Zmieniono aktywność konta użytkownika $userId na \"$newActivityTxt\""]);
         }
         else {
-            http_response_code(404); // Not Found
+            http_response_code(HttpStatus::NOT_FOUND);
             echo json_encode(["success" => false, "message" => "Nie ma użytkownika o id $userId"]);
         }
         $conn->commit();
     }
     catch (Exception $e) {
         $conn->rollback();
-        http_response_code(500); // Internal Server Error
+        http_response_code(HttpStatus::INTERNAL_SERVER_ERROR);
         echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
     }
     finally {
@@ -133,13 +128,7 @@ function editUser(object $inputData): void {
     }
     $query .= " WHERE user_id = ?";
 
-    $conn = new mysqli(
-        MySQLConfig::SERVER,
-        MySQLConfig::USER,
-        MySQLConfig::PASSWORD,
-        MySQLConfig::DATABASE
-    );
-
+    $conn = createMySQLiConnection();
     try {
         $conn->begin_transaction();
 
@@ -155,7 +144,8 @@ function editUser(object $inputData): void {
                     $hashedPassword,
                     $inputData->id
                 );
-            } else {
+            } // if isset aboutMe
+            else {
                 $stmt->bind_param(
                     "ssisi",
                     $inputData->username,
@@ -164,8 +154,9 @@ function editUser(object $inputData): void {
                     $hashedPassword,
                     $inputData->id
                 );
-            }
-        } else {
+            } // else isset aboutMe
+        } // if isset password
+        else {
             if (isset($inputData->aboutMe)) {
                 $stmt->bind_param(
                     "ssisi",
@@ -175,7 +166,8 @@ function editUser(object $inputData): void {
                     $inputData->aboutMe,
                     $inputData->id
                 );
-            } else {
+            } // if isset aboutMe
+            else {
                 $stmt->bind_param(
                     "ssii",
                     $inputData->username,
@@ -183,16 +175,17 @@ function editUser(object $inputData): void {
                     $inputData->role,
                     $inputData->id
                 );
-            }
-        }
+            } // else isset aboutMe
+        } // else isset password
 
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            http_response_code(200); // OK
+            http_response_code(HttpStatus::OK);
             echo json_encode(["success" => true, "message" => "Zaktualizowano użytkownika o id " . $inputData->id]);
-        } else {
-            http_response_code(404); // Not Found
+        }
+        else {
+            http_response_code(HttpStatus::NOT_FOUND);
             echo json_encode(["success" => false, "message" => "Brak aktualizacji"]);
         }
 
@@ -200,12 +193,12 @@ function editUser(object $inputData): void {
     }
     catch (Exception $e) {
         $conn->rollback();
-        http_response_code(500); // Internal Server Error
+        http_response_code(HttpStatus::INTERNAL_SERVER_ERROR);
         echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
     }
     finally {
-        $stmt->close();
-        $conn->close();
+        $stmt?->close();
+        $conn?->close();
     }
 }
 
@@ -214,12 +207,7 @@ function deleteContent(string $type, int $id): void {
     $conn = null;
     $stmt = null;
     try {
-        $conn = new mysqli(
-            MySQLConfig::SERVER,
-            MySQLConfig::USER,
-            MySQLConfig::PASSWORD,
-            MySQLConfig::DATABASE
-        );
+        $conn = createMySQLiConnection();
 
         $query = match ($type) {
             "post" => "DELETE FROM posts WHERE post_id = ?",
@@ -235,22 +223,22 @@ function deleteContent(string $type, int $id): void {
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            http_response_code(200); // OK
+            http_response_code(HttpStatus::OK);
             echo json_encode(["success" => true, "message" => "Usunięto {$type} o id $id"]);
         }
         else {
-            http_response_code(404); // Not Found
+            http_response_code(HttpStatus::NOT_FOUND); // Not Found
             echo json_encode(["success" => false, "message" => "Nie ma {$type} o id $id"]);
         }
         $conn->commit();
     }
     catch (Exception $e) {
         $conn->rollback();
-        http_response_code(500); // Internal Server Error
+        http_response_code(HttpStatus::INTERNAL_SERVER_ERROR);
         echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
     }
     finally {
-        $stmt->close();
-        $conn->close();
+        $stmt?->close();
+        $conn?->close();
     }
 }

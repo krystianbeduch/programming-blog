@@ -68,8 +68,8 @@ div.modal-content input.valid-input:-webkit-autofill {
     padding: 0;
 
     font-size: 80%;
-    color: white;
-    background-color: #900;
+    color: var(--text-color-light);
+    background-color: var(--error-background);
     border-radius: 0 0 5px 5px;
     box-sizing: border-box;
     display: block;

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(() => {
     const canvas = $("#game-canvas")[0]; // Pobieranie elementu canvas
     const ctx = canvas.getContext("2d"); // Kontekst 2D do rysowania
     const canvasWidth = canvas.width;
@@ -331,7 +331,7 @@ $(document).ready(function () {
                     if (data.scores.length > 0) {
                         data.scores.forEach(user => {
                             // Dodawanie wiersza do tabeli
-                            snakeScores.append(`<tr><td>${user.user_name}</td><td>${user.score}</td></tr>`);
+                            snakeScores.append(`<tr><td>${user.username}</td><td>${user.score}</td></tr>`);
                         });
                     }
                     else {

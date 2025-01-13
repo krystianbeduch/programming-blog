@@ -8,7 +8,7 @@ $(document).ready(() => {
 
     const { buttonDelete, buttonDeleteCancel, buttonDeleteConfirm, deleteModal } = selectors;
 
-    let currentPostId;
+    let currentPostId = null;
 
     buttonToggle.on("click", function() {
         // Sprawdz czy przycisk zawiera slowa 'Pokaz'
@@ -23,8 +23,8 @@ $(document).ready(() => {
     });
 
     buttonDelete.on("click", function() {
-        currentPostId = $(this).data('post-id'); // Pobierz ID posta
-        deleteModal.css('display', 'flex').hide().fadeIn();
+        currentPostId = $(this).data("post-id"); // Pobierz ID posta
+        deleteModal.css("display", "flex").hide().fadeIn();
     });
 
     buttonDeleteCancel.on("click", () =>{
@@ -36,7 +36,7 @@ $(document).ready(() => {
         if (currentPostId) {
             handleDelete("post", currentPostId, deleteModal, () => location.reload());
         }
-    }); // buttonDeletePostConfirm click
+    });
 
     checkAndShowSuccessAlert();
 });

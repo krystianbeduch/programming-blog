@@ -5,8 +5,8 @@ section.drag-section div#drag-racers-game {
 }
 
 section.drag-section canvas {
-    border: 1px solid #fff;
-    background-color: #000;
+    border: 1px solid var(--text-color-light);
+    background-color: var(--game-black);
 }
 
 section.drag-section p {

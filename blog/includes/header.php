@@ -1,13 +1,15 @@
 <?php
 require_once "modals.php";
 ?>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="../js/user-account.js"></script>
 
 <header>
-    <h1><a href="../pages/">Blog programistyczny</a></h1>
-    <!-- Ogolne bledy    -->
+<!--    <div class="header-container">-->
+        <a href="../pages/">
+        <img src="../images/favicons/logo_szare.png" alt="Logo">
+            <h1>Blog programistyczny</h1>
+        </a>
+<!--    </div>-->
+    <!-- Bledy -->
     <?php if (isset($_SESSION["alert"]["error"])): ?>
         <div class="alert alert-danger">
             <strong>Błąd!</strong>
@@ -16,54 +18,12 @@ require_once "modals.php";
         <?php unset($_SESSION["alert"]["error"]); ?>
     <?php endif; ?>
 
-    <!-- Rejestracja sukces -->
-    <?php if (isset($_SESSION["registerAlert"]) && $_SESSION["registerAlert"]): ?>
+    <!-- Sukces -->
+    <?php if (isset($_SESSION["alert"]["success"])): ?>
         <div class="alert alert-success">
-            <strong>Zarejestrowano!</strong> Poczekaj na aktywację konta przez administratora.
+            <strong><?= $_SESSION["alert"]["successStrong"] ?? "Sukces!"; ?></strong> <?= $_SESSION["alert"]["success"]; ?>
         </div>
-        <?php unset($_SESSION["registerAlert"]); ?>
-    <?php endif; ?>
-
-    <!-- Logowanie blad -->
-    <?php if (isset($_SESSION["loginAlert"]) && !$_SESSION["loginAlert"]["success"]): ?>
-        <div class="alert alert-danger fade show">
-            <strong>Błąd!</strong> <?php echo $_SESSION["loginAlert"]["error"] ?>
-        </div>
-        <?php
-        unset($_SESSION["loginAlert"]);
-    endif ?>
-
-    <!-- Logowanie sukces -->
-    <?php if (isset($_SESSION["loginAlert"]) && $_SESSION["loginAlert"]["success"]): ?>
-        <div class="alert alert-success">
-            <strong>Zalogowano!</strong> Witaj <?php echo $_SESSION["loggedUser"]["username"] ?>
-        </div>
-        <?php unset($_SESSION["loginAlert"]); ?>
-    <?php endif; ?>
-
-    <!-- Wylogowano -->
-    <?php if (isset($_SESSION["logoutAlert"]) && $_SESSION["logoutAlert"]): ?>
-        <div class="alert alert-success">
-            Wylogowano pomyślnie
-        </div>
-        <?php unset($_SESSION["logoutAlert"]); ?>
-    <?php endif; ?>
-
-    <!-- Zmiany konta poprawne -->
-    <?php if (isset($_SESSION["editProfileAlert"]) && $_SESSION["editProfileAlert"]): ?>
-        <div class="alert alert-success">
-            <strong>Zapisano zmiany!</strong> Zaloguj się ponownie
-        </div>
-        <?php
-        unset($_SESSION["editProfileAlert"]);
-    endif ?>
-
-    <!-- Zmiany posta poprawne -->
-    <?php if (isset($_SESSION["editPostAlert"]) && $_SESSION["editPostAlert"]): ?>
-        <div class="alert alert-success">
-            <strong>Zapisano zmiany!</strong> Post zaktualizowany
-        </div>
-        <?php unset($_SESSION["editPostAlert"]); ?>
+        <?php unset($_SESSION["alert"]); ?>
     <?php endif; ?>
 
     <?php if (!isset($_SESSION["loggedUser"])): ?>

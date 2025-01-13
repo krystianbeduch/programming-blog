@@ -7,7 +7,7 @@ article#posts-section {
 }
 
 article#posts-section h3 {
-    font-size: 1.8em;
+    font-size: 1.7em;
     margin-bottom: 15px;
 }
 
@@ -20,7 +20,6 @@ div.post {
     background-color: var(--text-color-light);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    /*padding: 10px 5px;*/
     padding: 15px;
     margin-bottom: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -31,12 +30,6 @@ article h4.post-title {
     margin-bottom: 10px;
     font-size: 1.6em;
 }
-
-/*h4.post-category-name {*/
-/*    font-style: italic;*/
-/*    margin-bottom: 10px;*/
-/*    font-size: 1em;*/
-/*}*/
 
 p.post-author {
     font-style: italic;
@@ -68,8 +61,6 @@ div.post div.comment {
     padding: 15px;
     margin-top: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
-    /*position: relative;*/
 }
 
 p.comment-author {
@@ -102,7 +93,6 @@ p.comment-author-comment {
 }
 
 .post-comments-link:hover {
-    /*background-color: #45a049;*/
     *background-color: var(--button-hover);
     transform: translateY(-2px); /* Lekki efekt unoszenia */
 }
@@ -111,7 +101,6 @@ p.comment-author-comment {
     background-color: var(--buton-active);
     transform: translateY(0); /* Resetuje efekt unoszenia */
 }
-
 
 img.post-attachment {
     max-width: 100%;
@@ -128,6 +117,10 @@ form#edit-user-post div.attachment-section p {
     margin-bottom: 0;
 }
 
+form#edit-user-post button[type="submit"] {
+    margin-top: 10px;
+}
+
 .add-post-link {
     padding: 15px 50px;
 }
@@ -142,32 +135,11 @@ div.post .edit-link, div.post button.delete-button {
     margin-right: 20px;
 }
 
-/*.edit-link {*/
-/*    background-color: var(--border-color);*/
-/*    color: var(--text-color-dark);*/
-/*}*/
-
-/*.edit-link:hover {*/
-/*    background-color: var(--hover-color);*/
-/*}*/
-
-/*button.delete-button {*/
-/*    border: none;*/
-/*    line-height: normal;*/
-/*    background-color: var(--delete-text);*/
-/*    !*padding: 10px;*!*/
-/*}*/
-
-/*button.delete-button:hover {*/
-/*    background-color: var(--red-hover-text);*/
-/*}*/
-
-
 /* Style dla strony z wybranym postem */
 article#comments-section {
     margin-top: 20px;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     background-color: var(--background-light);
 }
@@ -196,19 +168,3 @@ div.comment {
     margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-
-/*p.comment-author {*/
-/*    font-style: italic;*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    align-items: center;*/
-/*}*/
-
-/*p.comment-author-email {*/
-/*    font-style: italic;*/
-/*}*/
-
-/*p.comment-text {*/
-/*    margin-bottom: 5px;*/
-/*}*/
-

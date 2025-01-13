@@ -11,25 +11,8 @@ if (!isset($_SESSION["loggedUser"])) {
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php require_once "../includes/head.html"; ?>
     <title>Blog</title>
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="../images/favicons/site.webmanifest">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Styles   -->
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/style-form.css">
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../js/edit-user-form.js" type="module"></script>
 </head>
 <body>
@@ -39,7 +22,7 @@ if (!isset($_SESSION["loggedUser"])) {
     <?php require_once "../includes/nav.html"; ?>
 
     <section id="main-section">
-        <form id="edit-user-form" class="post-form" action="../db/mysql-operation.php" method="post">
+        <form id="edit-user-form" class="post-form" action="../includes/forms.php" method="post">
             <fieldset>
                 <legend>Edycja profilu</legend>
                 <input type="hidden" name="action" value="editUserAccount">
@@ -76,15 +59,15 @@ if (!isset($_SESSION["loggedUser"])) {
                 <button type="button" class="close" name="close-about_me">Anuluj</button>
                 <textarea name="about_me" id="about_me" cols="30" rows="10" disabled><?= $_SESSION["loggedUser"]["aboutMe"]; ?></textarea>
                 <button type="submit" class="form-button">Zapisz zmiany</button>
-                </fieldset>
-            </form>
-        </section>
+            </fieldset>
+        </form>
+    </section>
 
-        <?php require_once "../includes/aside.php"; ?>
+    <?php require_once "../includes/aside.php"; ?>
 
     </main>
 
-    <?php require_once "../includes/footer.html"; ?>
+<?php require_once "../includes/footer.html"; ?>
 
 </body>
 </html>

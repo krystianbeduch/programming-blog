@@ -5,7 +5,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Origin: *");
 
-require_once "../db-connect.php";
+require_once "../mysql-operation.php";
 require_once "../../errors/error-codes.php";
 
 // Pobierz parametry z URL
@@ -21,12 +21,7 @@ if (!$username) {
 $conn = null;
 $stmt = null;
 try {
-    $conn = new mysqli(
-        MySQLConfig::SERVER,
-        MySQLConfig::USER,
-        MySQLConfig::PASSWORD,
-        MySQLConfig::DATABASE
-    );
+    $conn = createMySQLiConnection();
 
     // Przygotowanie zapytania SQL
     $query = <<<SQL

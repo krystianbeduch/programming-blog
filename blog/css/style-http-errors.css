@@ -1,14 +1,14 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: var(--background-light);
     text-align: center;
     padding: 50px;
 }
 
 h1 {
-    color: #ff0000;
+    color: var(--error-pages-header);
 }
 
 p {
-    color: #333;
+    color: var(--text-color-dark);
 }

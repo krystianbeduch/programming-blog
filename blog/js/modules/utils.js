@@ -46,6 +46,7 @@ export const handleDelete  = (type, postCategory, id, modal, successCallback) =>
             console.log(response);
             if (response.success) {
                 let displayType = null;
+                console.log(type);
                 switch (type) {
                     case "user":
                         displayType = "Użytkownik";
@@ -62,11 +63,9 @@ export const handleDelete  = (type, postCategory, id, modal, successCallback) =>
 
                 // Sprawdzamy z jakiej strony pochodzi zapytanie
                 const currentPage = window.location.pathname;
-                if (currentPage.includes("post.php")) {
-                    // Jeśli zapytanie pochodzi z post.php, to przekierowujemy do kategorii
-                    if (postCategory) {
-                        window.location.href = `../pages/${postCategory}.php`;
-                    }
+                if (currentPage.includes("post.php") && postCategory) {
+                    // Jesli zapytanie pochodzi z post.php, to przekierowujemy do kategorii
+                    window.location.href = `../pages/${postCategory}.php`;
                 }
                 else {
                     successCallback();

@@ -27,13 +27,14 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="nickname" id="AF44069C-90EF-B08A-095A-4459BA5A304C">
+<Attribute name="username" id="AF44069C-90EF-B08A-095A-4459BA5A304C">
 <createdBy>Czarek</createdBy>
 <createdTime>2024-11-18 22:26:35 UTC</createdTime>
 <ownerDesignName>schema</ownerDesignName>
 <engineerTo>
 <item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
 </engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
@@ -47,23 +48,12 @@
 <engineerTo>
 <item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
 </engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>100</dataTypeSize>
 <ownDataTypeParameters>100,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="created_at" id="A99D536C-A78D-29A3-A4F2-83BAA2DECB0D">
-<createdBy>Czarek</createdBy>
-<createdTime>2024-11-18 22:30:55 UTC</createdTime>
-<ownerDesignName>schema</ownerDesignName>
-<engineerTo>
-<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
-</engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT047</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="content" id="F0500286-94EF-5E15-1ECB-5D7A9BF08227">
 <createdBy>Czarek</createdBy>
@@ -77,6 +67,18 @@
 <logicalDatatype>LOGDT040</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="created_at" id="A99D536C-A78D-29A3-A4F2-83BAA2DECB0D">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-11-18 22:30:55 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="post_id" id="A4E2D5FE-824D-2DAC-2616-4C7F1017A3A7">
 <createdBy>Czarek</createdBy>
 <createdTime>2024-11-18 22:33:28 UTC</createdTime>
@@ -86,6 +88,20 @@
 <item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
 </engineerTo>
 <referedAttribute>9F4FB65A-533F-1BD6-7B46-32542F05552E</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="user_id" id="F0E4E919-4761-A808-2B30-3A23AD021C65">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-12-31 16:23:23 UTC</createdTime>
+<generatorID>63D6E3A1-04C1-ED4B-6F85-0A2EA48E8F2B</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<referedAttribute>9559F8C8-A301-D9BD-D431-FBB6EC5A95D6</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>

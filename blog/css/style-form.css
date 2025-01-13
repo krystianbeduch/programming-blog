@@ -26,8 +26,8 @@ form#edit-user-form legend {
 
 form.post-form label {
     font-weight: bold;
-    color: #000;
-    border-color: #000;
+    color: var(--text-color-dark);
+    border-color: var(--text-color-dark);
 }
 
 form.post-form input[type="text"],
@@ -74,7 +74,7 @@ form.post-form span.error {
 }
 
 form.post-form .invalid-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 50px var(--error-background) inset;
+    -webkit-box-shadow: 0 0 0 50px #f8d7da inset;
     -webkit-text-fill-color: var(--error-text);
 }
 
@@ -109,10 +109,6 @@ div.comment-preview {
 form.post-form table button img {
     width: 100px;
     height: 100px;
-    /*object-fit: cover;  !* Zapewnia, że obrazek będzie przycięty w sposób proporcjonalny *!*/
-    /*display: block;*/
-    /*max-width: 100%;*/
-    /*max-height: 100%;*/
 }
 
 form.post-form table button {
@@ -138,7 +134,7 @@ form.post-form span#captcha-error {
 form.post-form div.bbcode-toolbar button {
     background-color: var(--bbcode-button-background);
     color: var(--text-color-dark);
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 3px;
     padding: 4px 8px 2px; /* 4px gora, 8px lewo-prawo, 2px dol */
     font-size: 0.9em;
@@ -161,7 +157,7 @@ form.post-form img#bbcode-img {
     height: 14px;
     width: 14px;
     padding: 3px;
-    border: 1px solid black;
+    border: 1px solid var(--text-color-dark);
     border-radius: 50%;
     background-color: var(--border-color);
     display: inline-block;
@@ -204,9 +200,14 @@ button.edit-field-form-button {
     padding: 5px 15px;
 }
 
-form#edit-user-post button[type="submit"],
-form#edit-user-form button[type="submit"] {
+form#edit-user-post button[type="submit"] {
     display: none;
+}
+
+form#edit-user-post button#delete-attachment-button {
+    display: inline-block;
+    padding: 5px 15px;
+    margin-bottom: 10px;
 }
 
 label.invalid-label {
@@ -279,4 +280,10 @@ button.close:hover {
 div#preview-container button.close-preview-button {
     margin-top: 10px;
     display: block;
+}
+
+/* Contact Form */
+form#contact-form label {
+    font-weight: bold;
+    font-size: 0.9em;
 }

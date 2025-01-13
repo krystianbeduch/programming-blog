@@ -1,13 +1,15 @@
 <script src="../js/add-comment-form-validation.js"></script>
-<script src="../js/add-comment-bbcode.js"></script>
+<script src="../js/add-bbcode.js"></script>
 
-<form id="add-comment-form" class="post-form" name="add_comment_form" action="../pages/add-comment-preview.php?postId=<?= $postId ?? ""; ?>" method="post">
+<form id="add-comment-form" class="post-form" name="add-comment-form" action="../pages/add-comment-preview.php?postId=<?= $postId ?? ""; ?>" method="post">
     <fieldset>
         <legend>Dodaj komentarz</legend>
 
         <input type="hidden" name="url" value="<?= $_SERVER["REQUEST_URI"]; ?>">
         <label for="post-id">Numer postu:</label>
         <input type="text" name="post-id" id="post-id" value="<?= $postId ?? ""; ?>" readonly>
+
+        <input type="hidden" name="user-id" value="<?= $_SESSION["loggedUser"]["id"] ?? ""; ?>">
 
         <label for="username">Nazwa użytkownika:</label>
         <?php if (isset($_SESSION["loggedUser"])): ?>

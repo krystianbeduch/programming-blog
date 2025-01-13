@@ -6,63 +6,52 @@ $pageData = new PageSetup();
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | <?php echo $pageData->languageHeader; ?></title>
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="../images/favicons/site.webmanifest">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="../bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <script src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Styles   -->
-    <link rel="stylesheet" href="../css/main.css">
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <?php require_once "../includes/head.html"; ?>
+    <title>Blog | <?= $pageData->languageHeader; ?></title>
     <script src="../js/admin-posts.js" type="module"></script>
+
+    <!-- jQuery UI   -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
+    <script src="../js/calendar.js" type="module"></script>
 </head>
 <body>
-    <?php require_once "../includes/header.php"; ?>
+<?php require_once "../includes/header.php"; ?>
 
-    <main>
-        <?php require_once "../includes/nav.html"; ?>
+<main>
+    <?php require_once "../includes/nav.html"; ?>
 
-        <section id="main-section">
-            <h2><?= $pageData->languageHeader; ?></h2>
-            <p><?= getCategoryDescription($pageData->language); ?></p>
-            <?= "<img src='../images/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
+    <section id="main-section">
+        <h2><?= $pageData->languageHeader; ?></h2>
+        <p><?= getCategoryDescription($pageData->language); ?></p>
+        <?= "<img src='../images/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
 
-            <?php include_once "../includes/post-alerts.php"; ?>
+        <?php if (isset($_SESSION["loggedUser"])): ?>
+            <a href="../pages/add-post.php?category=<?= $pageData->language; ?>" class="post-comments-link add-post-link">Dodaj post</a>
+        <?php endif; ?>
 
-            <?php if (isset($_SESSION["loggedUser"])): ?>
-                <a href="../pages/add-post.php?category=<?php echo $pageData->language;?>" class="post-comments-link add-post-link">Dodaj post</a>
-            <?php endif ?>
+        <article id="posts-section">
+            <h3>Posty</h3>
+            <div class="posts-container">
 
-            <article id="comments-section">
-                <h3>Posty</h3>
-                <div class="comment-container">
+                <?php renderPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true));
+                // preserve_keys = true - zachowaj oryginalne klucze tablicy
+                ?>
+            </div>
+        </article>
 
-                    <?php renderPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true));
-                    // preserve_keys = true - zachowaj oryginalne klucze tablicy
-                    ?>
-                </div>
-            </article>
-
+        <nav class="pagination">
             <?php renderPagination($pageData->getCurrentPage(), $pageData->getTotalPages(), $pageData->language); ?>
+        </nav>
 
-        </section>
+    </section>
 
-        <?php require_once "../includes/delete-post-modal.html"; ?>
-        <?php require_once "../includes/aside.php"; ?>
+    <?php require_once "../includes/delete-post-modal.html"; ?>
+    <?php require_once "../includes/aside.php"; ?>
 
-    </main>
+</main>
 
-    <?php require_once "../includes/footer.html"; ?>
+<?php require_once "../includes/footer.html"; ?>
 
 </body>
 </html>

@@ -1,4 +1,5 @@
-import { validateField, fieldStyleReset, toggleButtons,
+import {
+    validateField, fieldStyleReset, toggleButtons,
     enableField, disableField
 } from "./modules/validate-field-edit-form.js";
 
@@ -148,5 +149,5 @@ $(document).ready(() => {
             inputs.attachmentId.attr("disabled", true);
             $("button[type='submit']").hide();
         }
-    });
+    }); // inputs.file change
 });

@@ -1,0 +1,25 @@
+:root {
+    --primary-color: #4caf50;
+    --text-color-light: #fff;
+    --text-color-dark: #333;
+    --background-light: #f9f9f9;
+    --background-dark: #eaeaea;
+    --border-color: #ddd;
+    --hover-color: #d0d0d0;
+    --post-data: #777;
+    --game-black: #000;
+    --error-background: #900;
+    --error-text: #e3192c;
+    --delete-text: #e30619;
+    --red-hover-text: #b51621;
+    --button-background: #28a745;
+    --button-hover: #218838;
+    --buton-active: #388e3c;
+    --bbcode-button-background: #d3d3d3;
+    --bbcode-button-hover: #b0b0b0;
+    --pagination-background: #ccc;
+    --pagination-hover: #ddd;
+    --readonly-input: #6c757d;
+    --edited-input: #125ed1;
+    --error-pages-header: #ff0000;
+}

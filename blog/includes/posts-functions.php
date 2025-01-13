@@ -1,4 +1,6 @@
 <?php
+require_once "../classes/DateFilter.php";
+
 function renderPosts(array $posts) : void {
     foreach ($posts as $post) {
         echo "<div class='post'>";
@@ -8,13 +10,12 @@ function renderPosts(array $posts) : void {
             echo "<img src='../images/trash-fill.svg' alt='Usuń post'></button>";
         }
         echo "</h4>";
-//        renderContent($post);
         echo "<p class='post-author'>Autor: " . $post["username"]. ", " . $post["email"] .
              "<span class='post-date'>Utworzono: " . date("d-m-Y H:i", strtotime($post["created_at"])) .
              "<span class='post-updated'>| Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span></span></p>";
         echo "<p class='post-content'>" . $post["content"] . "</p>";
 
-        // Wyswietlanie zalaczonego zdjecia, jeśsi istnieje
+        // Wyswietlanie zalaczonego zdjecia, jesli istnieje
         if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
             $base64Image = base64_encode($post["file_data"]);
             echo "<h5>Załączone zdjęcie:</h5>";
@@ -53,7 +54,6 @@ function renderCommentsOnMainPage(array $comments, int $postId) : void {
 }
 
 function renderAllPostComments(array $comments) : void {
-
     if (count($comments) > 0) {
         foreach ($comments as $comment) {
             echo "<div class='comment'>";
@@ -63,8 +63,10 @@ function renderAllPostComments(array $comments) : void {
             echo "<p class='comment-author-comment'>";
             echo $comment["content"];
             echo "</p>";
-            if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin") {
-                echo "<button class='post-link delete-button' data-comment-id='" . $comment["comment_id"] . "' title='Usuń komentarz'>";
+            if (isset($_SESSION["loggedUser"]) &&
+                ($_SESSION["loggedUser"]["role"] == "Admin" || $_SESSION["loggedUser"]["id"] == $comment["user_id"])
+                ) {
+                echo "<button class='post-link delete-button' data-comment-id='" . $comment["comment_id"] . "'  title='Usuń komentarz'>";
                 echo "<img src='../images/trash-fill.svg' alt='Usuń komentarz'></button>";
             }
             echo "</div>";
@@ -76,29 +78,28 @@ function renderAllPostComments(array $comments) : void {
 }
 
 function renderPagination(int $currentPage, int $totalPages, string $languagePage) : void {
-    echo "<nav class='pagination'>";
+    $dateFilter = new DateFilter();
+    $dateParams = $dateFilter->getDateParams();
+
     if ($currentPage > 1) {
-        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage - 1) . "'>&laquo;</a>";
+        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage - 1) . $dateParams . "'>&laquo;</a>";
     }
     echo "<span>Strona " . $currentPage . " z " . $totalPages . "</span>";
 
     if ($currentPage < $totalPages) {
-        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage + 1) . "'>&raquo;</a>";
+        echo "<a href='" . $languagePage . ".php?page=" . ($currentPage + 1) . $dateParams . "'>&raquo;</a>";
     }
-    echo "</nav>";
 }
 
-function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
-    echo "<nav class='pagination'>";
-
+function renderPaginationPosts(int $currentPage, int $totalPages, ?string $link = "management-user-posts.php?") : void {
     // Link do poprzedniej strony
     if ($currentPage > 1) {
-        echo "<a href='../pages/management-user-posts.php?page=" . ($currentPage - 1) . "'>&laquo;</a>";
+        echo "<a href='../pages/" . $link. "page=" . ($currentPage - 1) . "'>&laquo;</a>";
     }
 
     // Link do 1 strony powyzej 3 strony
     if ($currentPage > 3) {
-        echo "<a href='../pages/management-user-posts.php?page=1'>1</a>";
+        echo "<a href='../pages/" . $link. "page=" . "1'>1</a>";
         if ($currentPage > 4) {
             echo "<span>...</span>";
         }
@@ -113,7 +114,7 @@ function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
             echo "<span class='pagination-active'>" . $i . "</span>"; // Aktualna strona
         }
         else {
-            echo "<a href='../pages/management-user-posts.php?page=" . $i . "'>" . $i . "</a>";
+            echo "<a href='../pages/" . $link. "page=" . $i . "'>" . $i . "</a>";
         }
     }
 
@@ -122,14 +123,13 @@ function renderPaginationUserPosts(int $currentPage, int $totalPages) : void {
         if ($currentPage < $totalPages - 3) {
             echo "<span>...</span>";
         }
-        echo "<a href='../pages/management-user-posts.php?page=" . $totalPages . "'>" . $totalPages . "</a>";
+        echo "<a href='../pages/" . $link. "page=" . $totalPages . "'>" . $totalPages . "</a>";
     }
 
     // Link do nastepnej strony
     if ($currentPage < $totalPages) {
-        echo "<a href='../pages/management-user-posts.php?page=" . ($currentPage + 1) . "'>&raquo;</a>";
+        echo "<a href='../pages/" . $link. "page=" . ($currentPage + 1) . "'>&raquo;</a>";
     }
-    echo "</nav>";
 }
 
 function renderUserPosts(array $userPosts) : void {
@@ -138,7 +138,6 @@ function renderUserPosts(array $userPosts) : void {
             echo "<div class='post'>";
             echo "<h4 class='post-title'>" . $post["title"] . "</h4>";
             echo "<span class='post-updated'>Ostatnia aktualizacja: " . date('d-m-Y H:i', strtotime($post["updated_at"])) . "</span>";
-//            renderContent($userPosts);
             echo "<p class='post-content'>" . $post["content"] . "</p>";
 
             if (!empty($post["file_data"]) && str_starts_with($post["file_type"], "image")) {
@@ -160,7 +159,6 @@ function renderUserPosts(array $userPosts) : void {
 }
 
 function renderUserPostsStats(array $userPosts) : void {
-//    print_r($userPosts);
     if (count($userPosts) > 0) {
         echo "<table id='user-posts-stats' class='table-stats posts-stats'>";
         echo "<thead>";

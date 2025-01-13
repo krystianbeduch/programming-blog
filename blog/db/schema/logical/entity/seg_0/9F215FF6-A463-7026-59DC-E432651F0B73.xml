@@ -27,7 +27,7 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="nickname" id="588480EE-BC81-CAC8-FB4B-44D7E7B479EE">
+<Attribute name="username" id="588480EE-BC81-CAC8-FB4B-44D7E7B479EE">
 <createdBy>Czarek</createdBy>
 <createdTime>2024-11-18 22:14:52 UTC</createdTime>
 <ownerDesignName>schema</ownerDesignName>
@@ -89,6 +89,32 @@
 <use>1</use>
 <logicalDatatype>LOGDT047</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="about_me" id="94537A3E-A309-66A8-1FA6-B35ADA591962">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-12-31 16:20:47 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="is_active" id="F7535F57-9FD7-F458-7E81-1A6306D29381">
+<createdBy>Czarek</createdBy>
+<createdTime>2024-12-31 16:20:56 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="D6D7F725-5AD7-2ECE-64D4-59880B6E94E2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="role_id" id="FFAD3149-BD8B-0C80-CF26-FB11C923974A">
 <createdBy>Czarek</createdBy>

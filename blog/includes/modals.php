@@ -3,10 +3,11 @@
 <div id="auth-modal" class="modal">
     <div class="modal-content">
         <span id="close-modal" class="close-modal" accesskey="&#27">&times;</span>
+
         <!-- Formularz logowania -->
         <div id="login-container" class="auth-form">
             <h2>Zaloguj się</h2>
-            <form action="../db/mysql-operation.php" id="login-form" name="login" method="post" autocomplete="off">
+            <form action="../includes/forms.php" id="login-form" name="login" method="post" autocomplete="off">
                 <input type="hidden" value="loginUser" name="action">
                 <input type="hidden" name="url" value="<?= $_SERVER["REQUEST_URI"]; ?>">
 
@@ -27,12 +28,12 @@
         <!-- Formularz rejestracji -->
         <div id="register-container" class="auth-form" style="display: none;">
             <h2>Zarejestruj się</h2>
-            <form action="../db/mysql-operation.php" id="register-form" name="register-user" method="post">
+            <form action="../includes/forms.php" id="register-form" name="register-user" method="post">
                 <input type="hidden" value="registerUser" name="action">
                 <input type="hidden" value="user" name="role">
 
                 <label for="reg-username">Nazwa użytkownika:</label>
-                <input type="text" id="reg-username" name="username" required placeholder="Wprowadź nazwę użytkownika (min. 4 znaki)" minlength="4">
+                <input type="text" id="reg-username" name="username" required placeholder="Min. 4 znaki" minlength="4">
                 <span class="error-message"></span>
 
                 <label for="reg-email">Email:</label>
@@ -51,7 +52,6 @@
                 <textarea name="about" id="about" cols="30" rows="3" placeholder="Wpisz kilka zdań o sobie (nieobowiązkowe)"></textarea>
 
                 <button type="button" id="captcha-button">Potwierdź, że jesteś człowiekiem</button>
-<!--                <span id="captcha-status" class="error-message">Niepotwierdzono!</span>-->
                 <button type="submit" id="register-submit" disabled>Zarejestruj się</button>
             </form>
             <p class="toggle-auth">Masz już konto? <a href="#">Zaloguj się</a></p>

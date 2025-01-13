@@ -22,10 +22,9 @@ table.admin-users-tab {
     text-align: left;
 }
 
-
 table.admin-users-tab thead th {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--text-color-light);
     padding: 4px 7px;
     border: 1px solid var(--border-color);
 }
