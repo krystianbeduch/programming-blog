@@ -388,7 +388,7 @@ function addCommentToPost(array $commentData) : void {
 
         // Przygotowanie i wykonanie zapytania
         $query = <<<SQL
-        INSERT INTO comments 
+        INSERT INTO commentss 
             (username, email, content, post_id)
         VALUES 
             (?, ?, ?, ?)
@@ -416,19 +416,23 @@ function addCommentToPost(array $commentData) : void {
 
         // Zatwierdzenie transkacji
         $conn->commit();
+
+        header("Location: ../pages/post.php?postId=" . $postId);
     }
     catch (mysqli_sql_exception $e) {
         $conn->rollback();
         $_SESSION["addCommentAlert"]["result"] = false;
         $_SESSION["addCommentAlert"]["error"] = "Błąd połączenia z bazą: ".$e->getMessage();
+        header("Location: ../pages/index.php");
     }
     catch (Exception $e) {
         echo "Błąd: " . $e->getMessage();
+        header("Location: ../pages/index.php");
     }
     finally {
         $stmt?->close();
         $conn?->close();
-        header("Location: ../pages/post.php?postId=" . $postId);
+
     }
 } // addCommentToPost()
 
