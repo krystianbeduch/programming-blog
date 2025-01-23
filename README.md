@@ -12,7 +12,7 @@ The languages have been divided into several groups to allow an orderly presenta
 ### Contents
 1. [Application functionality](#application-functionality)
 2. [Technology](#technology)
-3. [LogicalDatabaseSchema](#logical-database-schema)
+3. [Logical database schema](#logical-database-schema)
 4. [Setup](#setup)
 5. [Functional description](#functional-description)
    - [Setting the board dimensions](#setting-the-board-dimensions)
@@ -64,11 +64,11 @@ The languages have been divided into several groups to allow an orderly presenta
 ## Setup  
 1. Install and configure a web server that supports PHP 8.2 and a MySQL/MariaDB database. You can use the XAMPP package for this
 2. Clone or download the repository from Github:
-```bash
+```git
 git clone https://github.com/krystianbeduch/programming-blog.git
 ```
 3. Create a MySQL database using the `create-table.sql` and `insert.sql` files available in `db/schemaSQL`. The name of the database is arbitrary.
-4. In the `db` directory, create a `db-connect.php` file and define a configuration class for the database:
+4. In the `db` directory, create a `db-connect.php` file and define a configuration class for the database. The database name should match the database created in previous step with the imported data:
 ```php
 class MySQLConfig {
   public const SERVER = "database_addreess";
@@ -77,8 +77,6 @@ class MySQLConfig {
   public const DATABASE = "database_name";
 }
 ```
-The database name should match the database created in previous step with the imported data.
-
 5. Correct the URI path to the server in the `js/config.js` file to one that matches your server structure. For example, if you put the `blog` directory directly in `htdocs` then the correct URI would be:
 ```javascript
 export const SERVER_URI = "/blog/db/api";
@@ -90,24 +88,24 @@ Users can register an account by filling out a registration form, triggered by p
 
 Registration is secured by a simple mathematical CAPTCHA, consisting of solving a verbal mathematical operation (the answer is not case-sensitive and does not distinguish between Polish diacritics). 
   
-<img src="https://github.com/krystianbeduch/memory-game/blob/main/blog/images/readme-screenshots/users/modal-captcha-math.png" alt="Modal captcha math" title="Modal captcha math">
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/modal-captcha-math.png" alt="Modal captcha math" title="Modal captcha math">
 
 Before creating an account, the availability of a username and email address is verified.
 
-<img src="https://github.com/krystianbeduch/memory-game/blob/main/blog/images/readme-screenshots/users/modal-register.png" alt="Register form" title="Register form">
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/modal-register.png" alt="Register form" title="Register form">
 
 The newly created account is initially inactive, it must be activated by the administrator in the user management panel. Only after the administrator activates the account can the user log in.
 
-<img src="https://github.com/krystianbeduch/memory-game/blob/main/blog/images/readme-screenshots/users/alert-register.png" alt="Alert register" title="Alert register">
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-register.png" alt="Alert register" title="Alert register">
 
 Login form:
 
-<img src="https://github.com/krystianbeduch/memory-game/blob/main/blog/images/readme-screenshots/users/modal-login.png" alt="Login form" title="Login form">
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/modal-login.png" alt="Login form" title="Login form">
 
 When loggin in, it is immediately checked whether a user with the given name exists, if so, a login attempt is made, after which the following scenarios may occur:
-- inactive account <br> <img src="https://github.com/krystianbeduch/memory-game/blob/main/blog/images/readme-screenshots/users/alert-login-error-account-is-not-active.png" alt="Alert login error account is not active" title="Alert login error account is not active">
-- wrong password <br> <img src="https://github.com/krystianbeduch/memory-game/blob/main/blog/images/readme-screenshots/users/alert-login-error-wrong-password.png" alt="Alert login error wrong password" title="Alert login error wrong password">
-- correct login <br> <img src="https://github.com/krystianbeduch/memory-game/blob/main/blog/images/readme-screenshots/users/alert-login-success.png" alt="Alert login success" title="Alert login success">
+- inactive account <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-login-error-account-is-not-active.png" alt="Alert login error account is not active" title="Alert login error account is not active">
+- wrong password <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-login-error-wrong-password.png" alt="Alert login error wrong password" title="Alert login error wrong password">
+- correct login <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-login-success.png" alt="Alert login success" title="Alert login success">
 
 
 
