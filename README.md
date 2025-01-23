@@ -201,24 +201,9 @@ auth_password = password 	# application password
 ### Games
 For blog users there are also games available:<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/games.png" alt="Games" title="Games"><br>
-<table>
-    <tr>
-        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/blackjack.png" alt="Blackjack" title="Black" height="700"></td>
-        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/snake.png" alt="Snake" title="Snake" height="700"></td>
-    </tr>
-	<td>Blackjack 🠉</td>
-	<td>Snake 🠉</td>
-    <tr>
-        <tr>
-        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/whack-a-mole.png" alt="Whack A Mole" title="Whack A Mole" height="700"></td>
-        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/drag-racers.png" alt="Drag Racers" title="Drag Racers" height="700"></td>
-    </tr>
-	<td>Whack A Mole 🠉</td>
-	<td>Drag Racers 🠉</td>
-    <tr>
-</table>
-
-
+- Blackjack<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/blackjack.png" alt="Blackjack" title="Blackjack"><br>
+- Snake<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/snake.png" alt="Snake" title="Snake"><br>
+- Whack A Mole<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/whack-a-mole.png" alt="Whack A Mole" title="Whack A Mole"><br>
 
 ## Algorithm for generating a board with cards
 ### 1. Passing data to the Board component in App.tsx
