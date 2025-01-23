@@ -179,6 +179,7 @@ The administrator can delete posts directly from the panel or while on the post 
 The blog has a contact form that allows you to send a message to the blog author. This component requires a properly configured SMTP server to function properly. The project uses `sendmail`, which is available in the XAMPP package.
 
 Configuration for XAMPP:
+
 `php.ini` file:
 ```ini
 [mail function]
@@ -202,15 +203,15 @@ For blog users there are also games available:<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/games.png" alt="Games" title="Games"><br>
 <table>
     <tr>
-        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/blackjack.png" alt="Blackjack" title="Black"></td>
-        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/snake.png" alt="Snake" title="Snake"></td>
+        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/blackjack.png" alt="Blackjack" title="Black" height="700"></td>
+        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/snake.png" alt="Snake" title="Snake" height="700"></td>
     </tr>
 	<td>Blackjack 🠉</td>
 	<td>Snake 🠉</td>
     <tr>
         <tr>
-        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/whack-a-mole.png" alt="Whack A Mole" title="Whack A Mole"></td>
-        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/drag-racers.png" alt="Drag Racers" title="Drag Racers"></td>
+        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/whack-a-mole.png" alt="Whack A Mole" title="Whack A Mole" height="700"></td>
+        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/drag-racers.png" alt="Drag Racers" title="Drag Racers" height="700"></td>
     </tr>
 	<td>Whack A Mole 🠉</td>
 	<td>Drag Racers 🠉</td>
