@@ -64,7 +64,7 @@ The languages have been divided into several groups to allow an orderly presenta
 ## Setup  
 1. Install and configure a web server that supports PHP 8.2 and a MySQL/MariaDB database. You can use the XAMPP package for this
 2. Clone or download the repository from Github:
-```git
+```bash
 git clone https://github.com/krystianbeduch/programming-blog.git
 ```
 3. Create a MySQL database using the `create-table.sql` and `insert.sql` files available in `db/schemaSQL`. The name of the database is arbitrary.
@@ -107,111 +107,61 @@ When loggin in, it is immediately checked whether a user with the given name exi
 - wrong password <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-login-error-wrong-password.png" alt="Alert login error wrong password" title="Alert login error wrong password">
 - correct login <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-login-success.png" alt="Alert login success" title="Alert login success">
 
+### Posts and comments
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/java-posts.png" alt="Java posts" title="Java posts">
+Users can view posts from the selected category and add comment to them. Comments can also be added by non-logged-in users. Logged in users can:
+- Create posts in the selected category
+- Manage their posts (editing, deleting)
+- Delete their comments
+The displayed posts can be filtered by date - a specific day or a time period.
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/java-posts-date.png" alt="Java posts date filter" title="Java posts date filter">
+
+A post archive is also available, where you can view posts from all categories from a selected month.
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/post-archive.png" alt="Post archive" title="Post archive">
+
+The forms for adding and comments have been secured by a graphical CAPTCHA that relies on selecting the correct figure
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/add-comment.png" alt="Add comment" title="Add comment">
+
+The content of posts and comments supports BBCode - a message formatting language. The following options are available:
+- bold
+- bold
+- underline
+- strikethrough
+- unordered list
+- quote
+- link
+- HTML tag used explicitly
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/content-bbcode.png" alt="Content BBCode" title="Content BBCode">
+
+You can also add an attachment to your posts in the form of an image file, the supported formats are jpg, jpeg, png, gif, bmp and svg, and the maximum size of the attachment is 5MB. Attachments are stored in the database as binary data (BLOB).
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/add-post.png" alt="Add post" title="Add post">
+
+Before adding a post or comment, users can check your post to verify the correct formatting of BBCode text. The exception is HTML tags, which are written using the characters &lt; and &gt;
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/add-comment-preview.png" alt="Add comment preview" title="Add comment preview">
+
+Users can manage thir posts by selecting `Zarządzaj postami` (Manage posts) in the drop-down menu.
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-account-menu.png" alt="User account menu" title="User account menu">
+
+Users can preview their posts, go directly to a post, edit it in a dedicateted form or delete it.
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-posts.png" alt="User posts" title="User posts">
+
+There is also a table with posting statistics in an abbreviated form.
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-posts-stats.png" alt="User posts table stats" title="User posts table stats">
+
+In the post editing form, the user selects what he wants to change through buttons, and can also manage the graphic attachment.
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-post.png" alt="Edit post" title="Edit post">
+
+The fields that have been changed are marked in blue font color.
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-post-changes-made.png" alt="Edit post changes made" title="Edit post changes made">
+
+Deleting a post is done directly through modal windows called on the post
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/delete-post.png" alt="Delete post" title="Delete post">
+
+Editing of account data by a user is similar to editing a post. When editing a username or email, its availability is checked.
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-profile.png" alt="Edit profile" title="Edit profile">
 
 
 
-
-
-
-
-
-============================================================================================================================================================================================================
-### Board generation
-Each game generates a board with a random selection of images from the available 32, arranged in a random order.
-<table>
-    <tr>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/generate-board-first-example.png" alt="Generate board first example" title="Generate board first example" height="400"></td>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/generate-board-second-example.png" alt="Generate board second example" title="Generate board second example" height="400"></td>
-    </tr>
-    <tr>
-        <td><p>First example deck 🠉</p></td>
-        <td><p>Second example deck 🠉</p></td>
-    </tr>
-</table>
-
-### Smooth animation
-Card selection is animated using the `react-spring` library
-
-![CardAnimation](https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/card-animation.gif)
-
-### Card reveal
-During the game, a player can only reveal 2 cards at a time. If the cards match, they remain uncovered, otherwise they turn over.
-
-![RevealingCards](https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/revealing-cards.gif)
-
-### Game information
-During the game, information about the number of moves made, points scored and game time is displayed. When the game is over, the final score is displayed.
-<table>
-    <tr>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/game-info.png" alt="Game info" title="Generate info" height="600"></td>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/game-info-end.png" alt="Game info end" title="Generate info end" height="600"></td>
-    </tr>
-    <tr>
-        <td><p>Information during the game 🠉</p></td>
-        <td><p>Information after the game 🠉</p></td>
-    </tr>    
-</table>
-
-### Pause and finish the game
-A player can pause the game. Game time is then stopped and the player cannot continue to reveal cards until the game resumes. There is also an option to end the game early, which results in a redraw of the deck.
-
-### Saving game scores
-After completing the game, the player has the option to save his game scores by entering his name in the appropriate field. The name should be between 3 and 50 characters. 
-In case of an error (including a server error), the user will receive appropriate message. The scores are stored in a non-relational MongoDB database. The data is sent via an API.
-<table>
-    <tr>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/save-score.png" alt="Save score" title="Save score" height="700"></td>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/save-score-warning.png" alt="Save score - warning" title="Save score - warning" height="700"></td>
-    </tr>
-    <tr>
-        <td><p>Save score 🠉</p></td>
-        <td><p>Save score - warning 🠉</p></td>
-    </tr>
-    <tr>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/save-score-failed.png" alt="Save score - failed" title="Save score - failed" height="700"></td>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/save-score-successfully.png" alt="Save score - successfully" title="Save score - successfully" height="700"></td>
-    </tr>
-    <tr>
-        <td><p>Save score - failed 🠉</p></td>
-        <td><p>Save score - successfully 🠉</p></td>
-    </tr>
-    <tr>
-        <td colspan="2"><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/save-score-mongodb.png" alt="Save score - MongoDB" title="Save score - MongoDB"></td>
-    </tr>
-    <tr>
-        <td colspan="2">Scores in MongoDB database 🠉</td>
-    </tr>
-</table>
-
-### List of top players
-Below the board there is a table with the results of the top 10 players. The results are sortedy by board size and the score achieved (number of moves, time). The table allows you to filter the results by board size.
-<table>
-    <tr><td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/best-scores-all.png" alt="All best scores" title="All best scores"></td></tr>
-    <tr><td><p>Table with all results 🠉</p></td>
-    <tr><td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/best-scores-4x4.png" alt="4x4 best scores" title="4x4 best scores"></td></tr>
-    <tr><td><p>Table of 4x4 baord results 🠉</p></td>
-</table>
-
-### Responsive design
-The app is adapted to smaller devices. At smaller screen resolutions, the tabs, buttons and table resize to maintain proper readability and usability.
-<table>
-    <tr>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/responsive-768.png" alt="Responsive 768" title="Responsive 768"></td>
-        <td><img src="https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/responsive-480.png" alt="Responsive 480" title="Responsive 480"></td>
-    </tr>
-    <tr>
-        <td><p>Devices with a screen width of less than 786px 🠉</p></td>
-        <td><p>Devices with a screen width of less than 480px 🠉</p></td>
-    </tr>    
-</table>
-
-### Unit test for API
-Unit tests have been created for GET and POST API operations to validate the correct execution of requests. Test cases include:
-- Returning results from the database during a GET operation
-- Inserting results to the database during a POST operation
-- Returning HTTP 400 (Bad Request) status when attempting to send invalid data with a POST
-  
-![APIUnitTests](https://github.com/krystianbeduch/memory-game/blob/main/public/images/readme-screenshots/api-unit-tests.png)
 
 ## Algorithm for generating a board with cards
 ### 1. Passing data to the Board component in App.tsx
