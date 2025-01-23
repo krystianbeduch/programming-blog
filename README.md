@@ -204,9 +204,82 @@ For blog users there are also games available:<br>
 - Blackjack<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/blackjack.png" alt="Blackjack" title="Blackjack"><br>
 - Snake<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/snake.png" alt="Snake" title="Snake"><br>
 - Whack A Mole<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/whack-a-mole.png" alt="Whack A Mole" title="Whack A Mole"><br>
+- Drag Racers<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/drag-racers.png" alt="Drag Racers" title="Drag Racers"><br>
 
-## Algorithm for generating a board with cards
-### 1. Passing data to the Board component in App.tsx
+## Algorithm for creating blog pages (languages/categories)
+### 1. Create a file for the language
+For each language, a file is created in the format `language.php`, where language is the name, e.g. `java.php`.
+
+### 2. Adding the basic code
+Only the instruction is placed in the code of the file:
+```php
+<?php require_once "../includes/blog-page.php";
+```
+
+### 3. Handling in blog-page.php
+An instance of the `PageSetup` class is initialized:
+```php
+<?php
+require_once "../includes/page-setup.php";
+$pageData = new PageSetup();
+?>
+```
+
+### 4. Contructor of PageSetup class
+The constructor of this class initializes the key fields:
+- currentPage - setting the current page:
+  ```php
+  $this->currentPage = isset($_GET["page"]) && is_numeric($_GET["page"]) ? (int)$_GET["page"] : 1;
+  ```
+- language - retrieve the language name based on the file name:
+  ```php
+  $this->language = basename($_SERVER["PHP_SELF"], ".php");
+  ```
+- posts - retrieve the posts assigned to the language:
+  ```php
+  $this->posts = $this->getPosts($this->language);
+  ```
+- languageHeader - set the category name for the page displayed in the header of the posts section:
+  ```php
+  $this->languageHeader = $this->getLanguageHeader();	
+  ```
+
+`getLanguageHeader()` method that converts category names to a readable format:
+```php
+private function getLanguageHeader(): string {
+    $categoryName = $this->posts[0]["category_name"];
+    if ($categoryName == "Cpp") {
+        $categoryName = "c++";
+    }
+    else if ($categoryName == "Csharp") {
+        $categoryName = "c#";
+    }
+    return ucfirst($categoryName);
+}
+```
+
+The constructor also sets the pagination parameters:
+```php
+// Number of total posts
+$this->totalPosts = count($this->posts);
+
+// Number of posts per page
+$this->postsPerPage = 3;
+
+// Pagination object with relevant data
+$this->pagination = new Pagination($this->currentPage, $this->totalPosts, $this->postsPerPage);
+```
+
+`Pagination` class that defines the logic for displaying posts on the page:
+```php
+public function __construct(int $currentPage, int $totalPosts, int $postsPerPage) {
+	$this->totalPages = (int) ceil($totalPosts / $postsPerPage);
+    $this->currentPage = max(1, min($currentPage, $this->totalPages));
+    $this->offset = ($this->currentPage - 1) * $postsPerPage;
+}
+```
+
+
 ```typescript
 <Board
     board={board}
