@@ -15,8 +15,8 @@ The languages have been divided into several groups to allow an orderly presenta
 3. [Logical database schema](#logical-database-schema)
 4. [Setup](#setup)
 5. [Functional description](#functional-description)
-   - [Setting the board dimensions](#setting-the-board-dimensions)
-   - [Board generation](#board-generation)
+   - [Registration and login](#registration-and-login)
+   - [Posts and comments](#posts-and-comments)
    - [Smooth animation](#smooth-animation)
    - [Card reveal](#card-reveal)
    - [Game information](#game-information)
@@ -109,11 +109,13 @@ When loggin in, it is immediately checked whether a user with the given name exi
 
 ### Posts and comments
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/java-posts.png" alt="Java posts" title="Java posts">
+
 Users can view posts from the selected category and add comment to them. Comments can also be added by non-logged-in users. Logged in users can:
 - Create posts in the selected category
 - Manage their posts (editing, deleting)
 - Delete their comments
 The displayed posts can be filtered by date - a specific day or a time period.
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/java-posts-date.png" alt="Java posts date filter" title="Java posts date filter">
 
 A post archive is also available, where you can view posts from all categories from a selected month.
@@ -134,31 +136,49 @@ The content of posts and comments supports BBCode - a message formatting languag
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/content-bbcode.png" alt="Content BBCode" title="Content BBCode">
 
 You can also add an attachment to your posts in the form of an image file, the supported formats are jpg, jpeg, png, gif, bmp and svg, and the maximum size of the attachment is 5MB. Attachments are stored in the database as binary data (BLOB).
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/add-post.png" alt="Add post" title="Add post">
 
-Before adding a post or comment, users can check your post to verify the correct formatting of BBCode text. The exception is HTML tags, which are written using the characters &lt; and &gt;
+
+Before adding a post or comment, users can check your post to verify the correct formatting of BBCode text. The exception is HTML tags, which are written using the characters &amp;&lt; and &amp;&gt;
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/add-comment-preview.png" alt="Add comment preview" title="Add comment preview">
 
+
 Users can manage thir posts by selecting `Zarządzaj postami` (Manage posts) in the drop-down menu.
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-account-menu.png" alt="User account menu" title="User account menu">
 
 Users can preview their posts, go directly to a post, edit it in a dedicateted form or delete it.
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-posts.png" alt="User posts" title="User posts">
 
+
 There is also a table with posting statistics in an abbreviated form.
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-posts-stats.png" alt="User posts table stats" title="User posts table stats">
 
+
 In the post editing form, the user selects what he wants to change through buttons, and can also manage the graphic attachment.
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-post.png" alt="Edit post" title="Edit post">
 
+
 The fields that have been changed are marked in blue font color.
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-post-changes-made.png" alt="Edit post changes made" title="Edit post changes made">
 
-Deleting a post is done directly through modal windows called on the post
+
+Deleting a post is done directly through modal windows called on the post.
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/delete-post.png" alt="Delete post" title="Delete post">
 
+
 Editing of account data by a user is similar to editing a post. When editing a username or email, its availability is checked.
+
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-profile.png" alt="Edit profile" title="Edit profile">
+
+
 
 
 
