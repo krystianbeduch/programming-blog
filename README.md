@@ -17,14 +17,9 @@ The languages have been divided into several groups to allow an orderly presenta
 5. [Functional description](#functional-description)
    - [Registration and login](#registration-and-login)
    - [Posts and comments](#posts-and-comments)
-   - [Smooth animation](#smooth-animation)
-   - [Card reveal](#card-reveal)
-   - [Game information](#game-information)
-   - [Pause and finish the game](#pause-and-finish-the-game)
-   - [Saving game scores](#saving-game-scores)
-   - [List of top players](#list-of-top-players)
-   - [Responsive design](#responsive-design)
-   - [Unit test for API](#unit-test-for-api)
+   - [Manage posts and comments](#manage-posts-and-comments)
+   - [Contact form](#contact-form)
+   - [Games](#games)
 6. [Algorithm for generating a board with cards](#algorithm-for-generating-a-board-with-cards)
 
 ## Application functionality
@@ -86,20 +81,16 @@ export const SERVER_URI = "/blog/db/api";
 ### Registration and login
 Users can register an account by filling out a registration form, triggered by pressing the `Zalouj się` (Login) button in the upper right corner of the page and then goin to `Zarejestruj się` (Register). 
 
-Registration is secured by a simple mathematical CAPTCHA, consisting of solving a verbal mathematical operation (the answer is not case-sensitive and does not distinguish between Polish diacritics). 
-  
+Registration is secured by a simple mathematical CAPTCHA, consisting of solving a verbal mathematical operation (the answer is not case-sensitive and does not distinguish between Polish diacritics).<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/modal-captcha-math.png" alt="Modal captcha math" title="Modal captcha math">
 
-Before creating an account, the availability of a username and email address is verified.
-
+Before creating an account, the availability of a username and email address is verified.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/modal-register.png" alt="Register form" title="Register form">
 
-The newly created account is initially inactive, it must be activated by the administrator in the user management panel. Only after the administrator activates the account can the user log in.
-
+The newly created account is initially inactive, it must be activated by the administrator in the user management panel. Only after the administrator activates the account can the user log in.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-register.png" alt="Alert register" title="Alert register">
 
-Login form:
-
+Login form:<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/modal-login.png" alt="Login form" title="Login form">
 
 When loggin in, it is immediately checked whether a user with the given name exists, if so, a login attempt is made, after which the following scenarios may occur:
@@ -114,14 +105,13 @@ Users can view posts from the selected category and add comment to them. Comment
 - Create posts in the selected category
 - Manage their posts (editing, deleting)
 - Delete their comments
-The displayed posts can be filtered by date - a specific day or a time period.
-
+The displayed posts can be filtered by date - a specific day or a time period.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/java-posts-date.png" alt="Java posts date filter" title="Java posts date filter">
 
-A post archive is also available, where you can view posts from all categories from a selected month.
+A post archive is also available, where you can view posts from all categories from a selected month.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/post-archive.png" alt="Post archive" title="Post archive">
 
-The forms for adding and comments have been secured by a graphical CAPTCHA that relies on selecting the correct figure
+The forms for adding and comments have been secured by a graphical CAPTCHA that relies on selecting the correct figure<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/add-comment.png" alt="Add comment" title="Add comment">
 
 The content of posts and comments supports BBCode - a message formatting language. The following options are available:
@@ -132,54 +122,100 @@ The content of posts and comments supports BBCode - a message formatting languag
 - unordered list
 - quote
 - link
-- HTML tag used explicitly
+- HTML tag used explicitly <br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/content-bbcode.png" alt="Content BBCode" title="Content BBCode">
 
-You can also add an attachment to your posts in the form of an image file, the supported formats are jpg, jpeg, png, gif, bmp and svg, and the maximum size of the attachment is 5MB. Attachments are stored in the database as binary data (BLOB).
-
+You can also add an attachment to your posts in the form of an image file, the supported formats are jpg, jpeg, png, gif, bmp and svg, and the maximum size of the attachment is 5MB. Attachments are stored in the database as binary data (BLOB).<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/add-post.png" alt="Add post" title="Add post">
 
-
-Before adding a post or comment, users can check your post to verify the correct formatting of BBCode text. The exception is HTML tags, which are written using the characters &amp;&lt; and &amp;&gt;
-
+Before adding a post or comment, users can check your post to verify the correct formatting of BBCode text. The exception is HTML tags, which are written using the characters &amp;&lt; and &amp;&gt;<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/add-comment-preview.png" alt="Add comment preview" title="Add comment preview">
 
-
-Users can manage thir posts by selecting `Zarządzaj postami` (Manage posts) in the drop-down menu.
-
+### Manage posts and comments
+Users can manage thir posts by selecting `Zarządzaj postami` (Manage posts) in the drop-down menu.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-account-menu.png" alt="User account menu" title="User account menu">
 
-Users can preview their posts, go directly to a post, edit it in a dedicateted form or delete it.
-
+Users can preview their posts, go directly to a post, edit it in a dedicateted form or delete it.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-posts.png" alt="User posts" title="User posts">
 
-
-There is also a table with posting statistics in an abbreviated form.
-
+There is also a table with posting statistics in an abbreviated form.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-posts-stats.png" alt="User posts table stats" title="User posts table stats">
 
-
-In the post editing form, the user selects what he wants to change through buttons, and can also manage the graphic attachment.
-
+In the post editing form, the user selects what he wants to change through buttons, and can also manage the graphic attachment.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-post.png" alt="Edit post" title="Edit post">
 
-
-The fields that have been changed are marked in blue font color.
-
+The fields that have been changed are marked in blue font color.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-post-changes-made.png" alt="Edit post changes made" title="Edit post changes made">
 
-
-Deleting a post is done directly through modal windows called on the post.
-
+Deleting a post is done directly through modal windows called on the post.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/delete-post.png" alt="Delete post" title="Delete post">
 
-
-Editing of account data by a user is similar to editing a post. When editing a username or email, its availability is checked.
-
+Editing of account data by a user is similar to editing a post. When editing a username or email, its availability is checked.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/edit-profile.png" alt="Edit profile" title="Edit profile">
 
+### Administration panel
+The administration panel is available for administrators to manage posts and users. The panel is visible only to users with appropriate permissions.<br>
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-aside.png" alt="Admin panel on aside" title="Admin panel on aside"><br>
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-user-stats.png" alt="Admin user stats" title="Admin user stats">
 
+Attempts by users without administrative privileges to access the panel via the URL end up redirecting to a 401 error page.
 
+In the user management section, the administrator has access to a full list of users, which can be managed by:
+- Editing users <br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-edit-user.png" alt="Admin edit user" title="Admin edit user">
+- Change account activity - this operation is possible by clicking the `Aktywność` (Acitivity) column on the selected user <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-change-user-activity.png" alt="Admin change user activity" title="Admin change user activity">
+- However, the administrator cannot change the activity ofhis own account <br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-users-activity-locked.png" alt="Admin users activity locked" title="Admin users activity locked">
+- Deleting a user account <br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-delete-user.png" alt="Admin delete user" title="Admin delete user">
+
+In the post management section, the administrator has access to all posts from all categories.<br>
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-all-posts.png" alt="Admin all posts" title="Admin all posts">
+
+The preview can be narrowed down to a selected category.<br>
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-posts-selected-category.png" alt="Admin posts selected category" title="Admin posts selected category">
+
+The administrator can delete posts directly from the panel or while on the post page – he can also delete comments there.<br>
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/post-with-admin-options.png" alt="Post with admin options" title="Post with admin options">
+
+### Contact form
+The blog has a contact form that allows you to send a message to the blog author. This component requires a properly configured SMTP server to function properly. The project uses `sendmail`, which is available in the XAMPP package.
+
+Configuration for XAMPP:
+`php.ini` file:
+```ini
+[mail function]
+SMTP = smtp.gmail.com 					# SMTP server address
+smtp_port = 587 					# SMTP server port number for TLS connections
+sendmail_from = mail@gmail.com 				# sender address
+sendmail_path = \"C:\xampp\sendmail\sendmail.exe\" -t"	# path to sendmail program
+```
+
+`sendmail.ini` file:
+```ini
+[sendmail]
+smtp_server = smtp.gmail.com 	# SMTP server address
+smtp_port = 587 		# SMTP server port number for TLS connections
+auth_username = mail@gmail.com 	# sender address
+auth_password = password 	# application password
+```
+
+### Games
+For blog users there are also games available:<br>
+<img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/games.png" alt="Games" title="Games"><br>
+<table>
+    <tr>
+        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/blackjack.png" alt="Blackjack" title="Black"></td>
+        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/snake.png" alt="Snake" title="Snake"></td>
+    </tr>
+	<td>Blackjack 🠉</td>
+	<td>Snake 🠉</td>
+    <tr>
+        <tr>
+        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/whack-a-mole.png" alt="Whack A Mole" title="Whack A Mole"></td>
+        <td><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/drag-racers.png" alt="Drag Racers" title="Drag Racers"></td>
+    </tr>
+	<td>Whack A Mole 🠉</td>
+	<td>Drag Racers 🠉</td>
+    <tr>
+</table>
 
 
 
@@ -266,3 +302,4 @@ The `Card` component is created for each card, which performs operations:
 	- card-front - contains the image that is visible when the card is inverted
  	- card-back - contains a question mark (?), which is visible when the card is face-up
 - Depending on whether the card is flipped, the animation changes its transformation.
+
