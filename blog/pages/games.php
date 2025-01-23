@@ -22,7 +22,7 @@ session_start();
             <div class="game-tile">
                 <h3>BlackJack</h3>
                 <img src="../images/games/blackjack.jpg" alt="blackjack-game">
-                <a href="blackjackOOP.php" class="play-button">Zagraj</a>
+                <a href="blackjack.php" class="play-button">Zagraj</a>
             </div>
 
             <div class="game-tile">
@@ -42,12 +42,6 @@ session_start();
                 <img src="../images/games/drag-racers.jpg" alt="drag-racers-game">
                 <a href="drag-racers.php" class="play-button">Zagraj</a>
             </div>
-
-<!--                <div class="game-tile">-->
-<!--                    <h3>Nauka angielskiego</h3>-->
-<!--                    <img src="../images/games/drag-racers.jpg" alt="drag-racers-game">-->
-<!--                    <a href="english-words/conf.html" class="play-button">Zagraj</a>-->
-<!--                </div>-->
         </div>
     </section>
 
@@ -56,5 +50,6 @@ session_start();
 </main>
 
 <?php require_once "../includes/footer.html"; ?>
+
 </body>
 </html>

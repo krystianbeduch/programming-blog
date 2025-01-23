@@ -179,7 +179,7 @@ function renderUserPostsStats(array $userPosts) : void {
             if ($category != $tmp) {
                 $category = $tmp;
                 echo "<tr><th colspan='5'>" . $displayCategory .
-                    "<img src='../images/" . $category . "_logo.png' alt='" . $category . "_logo' title='" . $displayCategory . "'></th></tr>";
+                    "<img src='../images/language-logo/" . $category . "_logo.png' alt='" . $category . "_logo' title='" . $displayCategory . "'></th></tr>";
             }
             echo "<td>" . $post["title"] . "</td>";
             echo "<td>" . date("d-m-Y H:i", strtotime($post["updated_at"]))  . "</td>";

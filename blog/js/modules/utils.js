@@ -1,4 +1,4 @@
-const SERVER_URI = "/US/blog/db/api";
+import { SERVER_URI } from "../config.js";
 
 export const selectors = {
     buttonDelete: $("button.delete-button"),

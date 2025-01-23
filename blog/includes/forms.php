@@ -11,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $action = $_POST["action"] ?? null;
-
     match ($action) {
         // Wyslanie komentarza do bazy
         "addComment" => addCommentToPost($_POST),

@@ -152,8 +152,8 @@ form.post-form label.textarea-label {
     gap: 8px; /* Odstep miedzy elementami */
 }
 
+/* Ikona info */
 form.post-form img#bbcode-img {
-    /* Ikona info */
     height: 14px;
     width: 14px;
     padding: 3px;
@@ -185,8 +185,8 @@ form.post-form .bbcode-info:hover div.bbcode-tooltip-text {
     display: block; /* Pokaz dymek po najechaniu */
 }
 
+/* Ikony edytora */
 form.post-form div.bbcode-toolbar button img {
-    /* Ikony edytora */
     height: 14px;
     width: auto;
 }

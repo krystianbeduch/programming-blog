@@ -34,7 +34,6 @@ $conn = null;
 $stmt = null;
 try {
     $conn = createMySQLiConnection();
-
     $query = [
         "username" => "SELECT COUNT(*) FROM users WHERE username = ?;",
         "email" => "SELECT COUNT(*) FROM users WHERE email = ?;",

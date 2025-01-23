@@ -34,7 +34,7 @@ function renderPosts_Admin(?string $category = null) : void {
     foreach ($posts as $post) {
         echo "<tr data-post-id='" . $post["post_id"] . "' data-post-content='" . $post["content"] . "'>";
         echo "<td>" . $post["post_id"] . "</td>";
-        echo "<td class='post-category'>" ."<img src='../images/" . $post["category_name"] . "_logo.png' alt='" . $post["category_name"] . "_logo' title='" . $post["category_name"] . "'></td>";
+        echo "<td class='post-category'>" ."<img src='../images/language-logo/" . $post["category_name"] . "_logo.png' alt='" . $post["category_name"] . "_logo' title='" . $post["category_name"] . "'></td>";
         echo "<td>" . $post["title"] . "</td>";
         echo "<td>" . $post["username"] . " - " . $post["email"] . "</td>";
         echo "<td>" . date("d-m-Y H:i", strtotime($post["created_at"])) . "</td>";

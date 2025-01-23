@@ -1,4 +1,4 @@
-<script src="../js/modal.js"></script>
+<script src="../js/modal.js" type="module"></script>
 
 <div id="auth-modal" class="modal">
     <div class="modal-content">
@@ -22,7 +22,6 @@
                 <button type="submit">Zaloguj się</button>
             </form>
             <p class="toggle-auth">Utwórz konto: <a href="#">Zarejestruj się</a></p>
-
         </div>
 
         <!-- Formularz rejestracji -->

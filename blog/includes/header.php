@@ -3,12 +3,11 @@ require_once "modals.php";
 ?>
 
 <header>
-<!--    <div class="header-container">-->
-        <a href="../pages/">
-        <img src="../images/favicons/logo_szare.png" alt="Logo">
-            <h1>Blog programistyczny</h1>
-        </a>
-<!--    </div>-->
+    <a href="../pages/">
+        <img src="../images/favicons/logo_gray.png" alt="Logo">
+        <h1>Blog programistyczny</h1>
+    </a>
+
     <!-- Bledy -->
     <?php if (isset($_SESSION["alert"]["error"])): ?>
         <div class="alert alert-danger">
@@ -26,9 +25,9 @@ require_once "modals.php";
         <?php unset($_SESSION["alert"]); ?>
     <?php endif; ?>
 
-    <?php if (!isset($_SESSION["loggedUser"])): ?>
     <!-- Przycisk logowania -->
-    <a href="#" id="login-link">Zaloguj się</a>
+    <?php if (!isset($_SESSION["loggedUser"])): ?>
+        <a href="#" id="login-link">Zaloguj się</a>
     <?php endif; ?>
 
     <!-- Sekcja dla zalogowanego uzytkownika -->

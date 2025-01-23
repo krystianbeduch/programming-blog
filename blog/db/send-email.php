@@ -66,5 +66,6 @@ if (mail($recipient, $subject, $emailMessage, $formattedHeaders)) {
 else {
     $_SESSION["alert"]["error"] = "Wystąpił problem podczas wysyłania wiadomości.";
 }
+
 header("Location: ../pages/contact-form.php");
 exit();

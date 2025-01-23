@@ -1,0 +1,1 @@
+export const SERVER_URI = "/US/blog/db/api";

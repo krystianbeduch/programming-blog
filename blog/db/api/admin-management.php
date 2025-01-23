@@ -42,7 +42,6 @@ function changeUserActivity(int $userId, int $currentActivity): void {
     $stmt = null;
     try {
         $conn = createMySQLiConnection();
-
         $conn->begin_transaction();
 
         // Pobieramy aktualny stan aktywności użytkownika
@@ -177,7 +176,6 @@ function editUser(object $inputData): void {
                 );
             } // else isset aboutMe
         } // else isset password
-
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
@@ -188,7 +186,6 @@ function editUser(object $inputData): void {
             http_response_code(HttpStatus::NOT_FOUND);
             echo json_encode(["success" => false, "message" => "Brak aktualizacji"]);
         }
-
         $conn->commit();
     }
     catch (Exception $e) {
@@ -208,16 +205,13 @@ function deleteContent(string $type, int $id): void {
     $stmt = null;
     try {
         $conn = createMySQLiConnection();
-
         $query = match ($type) {
             "post" => "DELETE FROM posts WHERE post_id = ?",
             "user" => "DELETE FROM users WHERE user_id = ?",
             "comment" => "DELETE FROM comments WHERE comment_id = ?",
             default => throw new Exception("Invalid type parameter"),
         };
-
         $conn->begin_transaction();
-
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -227,7 +221,7 @@ function deleteContent(string $type, int $id): void {
             echo json_encode(["success" => true, "message" => "Usunięto {$type} o id $id"]);
         }
         else {
-            http_response_code(HttpStatus::NOT_FOUND); // Not Found
+            http_response_code(HttpStatus::NOT_FOUND);
             echo json_encode(["success" => false, "message" => "Nie ma {$type} o id $id"]);
         }
         $conn->commit();

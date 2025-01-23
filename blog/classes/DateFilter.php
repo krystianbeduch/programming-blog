@@ -8,12 +8,12 @@ class DateFilter {
         $this->startDate = $_GET["startDate"] ?? null;
         $this->endDate = $_GET["endDate"] ?? null;
     }
-    // Funkcja sprawdzająca, czy daty są ustawione
+    // Funkcja sprawdzajaca, czy daty są ustawione
     public function hasFilterEndDate(): bool {
         return !is_null($this->endDate);
     }
 
-    // Funkcja generująca link do paginacji z filtrami
+    // Funkcja generujaca link do paginacji z filtrami
     public function getDateParams(): string {
         $params = "";
         if ($this->startDate) {
@@ -24,5 +24,4 @@ class DateFilter {
         }
         return $params;
     }
-
 }

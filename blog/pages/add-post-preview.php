@@ -47,6 +47,7 @@ if (isset($_FILES["attachment"]) && $_FILES["attachment"]["error"] == UPLOAD_ERR
 
 // Przetwarzanie danych formularza i przechowywanie ich w sesji (bez pliku)
 $category = $_POST["category"];
+$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $_SESSION["formData"][$category] = $_POST;
 include_once "../includes/bbcode-functions.php";
 ?>

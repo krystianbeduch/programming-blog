@@ -24,7 +24,7 @@ $pageData = new PageSetup();
     <section id="main-section">
         <h2><?= $pageData->languageHeader; ?></h2>
         <p><?= getCategoryDescription($pageData->language); ?></p>
-        <?= "<img src='../images/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
+        <?= "<img src='../images/language-logo/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
 
         <?php if (isset($_SESSION["loggedUser"])): ?>
             <a href="../pages/add-post.php?category=<?= $pageData->language; ?>" class="post-comments-link add-post-link">Dodaj post</a>

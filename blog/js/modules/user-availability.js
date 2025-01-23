@@ -1,4 +1,5 @@
-const SERVER_URI = "/US/blog/db/api";
+import { SERVER_URI } from "../config.js";
+
 export const checkAvailability = async (type, value) => {
     try {
         // Wyslanie zapytania GET do API za pomoca jQuery.ajax()

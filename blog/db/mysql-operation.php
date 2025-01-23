@@ -55,4 +55,4 @@ function getSetClause(array $user, mysqli $conn, array $setParts): string {
     }
 
     return implode(", ", $setParts);
-} // getSetClause()
+}

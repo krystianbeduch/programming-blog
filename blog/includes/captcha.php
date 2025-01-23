@@ -47,8 +47,3 @@ $correctShape = $shapes[$randomIndex];
     ?>
 </table>
 <span id="captcha-error" class="error"></span>
-
-<!-- Google Captcha
-<span id="recaptcha-error" class="error">  -->
-<?php // echo $_SESSION["errors"]["recaptcha"] ?? ""; ?>
-<!--</span>-->

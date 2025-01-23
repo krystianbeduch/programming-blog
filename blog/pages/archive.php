@@ -1,5 +1,4 @@
 <?php
-//require_once "../db/posts-management.php";
 require_once "../includes/page-setup.php";
 if (!$_GET["month"]) {
     http_response_code(HttpStatus::BAD_REQUEST);
@@ -26,9 +25,7 @@ $pageData = new PageSetup(month: $month);
         <article id="posts-section">
             <h3>Posty z <?= $month; ?></h3>
             <div class="posts-container">
-                <?php renderPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true));
-//                 preserve_keys = true - zachowaj oryginalne klucze tablicy
-                ?>
+                <?php renderPosts(array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true)); ?>
             </div>
         </article>
 

@@ -39,7 +39,7 @@ $comments = getCommentsToPost($postId);
 
     <section id="main-section">
         <?php
-            echo "<img class='language-image' src='../images/" . strtolower($post["category_name"]) . "_logo.png' alt='" . $post["category_name"] . "' title='" . $post["category_name"] . "'>";
+            echo "<img class='language-image' src='../images/language-logo/" . strtolower($post["category_name"]) . "_logo.png' alt='" . $post["category_name"] . "' title='" . $post["category_name"] . "'>";
             echo "<h2>" . $post["title"];
             if (isset($_SESSION["loggedUser"]) && $_SESSION["loggedUser"]["role"] == "Admin") {
                 echo "<button class='post-link delete-button' data-post-id='" . $post["post_id"] . "' data-category-name='" . $post["category_name"] . "' title='Usuń post'>";

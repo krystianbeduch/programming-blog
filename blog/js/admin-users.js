@@ -2,12 +2,13 @@ import {
     selectors, checkAndShowSuccessAlert, handleDelete, showErrorAlert, showSuccessAlert
 } from "./modules/utils.js";
 
+import { SERVER_URI } from "./config.js";
+
 import {
     checkAvailability
 } from "./modules/user-availability.js";
 
 $(document).ready(() => {
-    const SERVER_URI = "/US/blog/db/api";
     const adminId = parseInt($("#admin-id").text());
 
     const aboutMeTd = $("td.about-me-col");
@@ -24,7 +25,6 @@ $(document).ready(() => {
     const buttonEditConfirm = editModal.find("button#confirm-edit-button");
     const editForm = editModal.find("form");
     const usernameAndEmailField = editForm.find("input[name='username'], input[name='email']");
-
 
     const { buttonDelete, buttonDeleteCancel, buttonDeleteConfirm, deleteModal } = selectors;
 
@@ -189,7 +189,6 @@ $(document).ready(() => {
     });
 
     buttonEditConfirm.on("click", async function () {
-
         if (isFormValid && isPasswordValid) {
 
             // Sprawdzamy dostepnosc nazwy uzytkownika i email
@@ -388,7 +387,7 @@ $(document).ready(() => {
 
     buttonDeleteConfirm.on("click", function() {
         if (currentUserId) {
-            handleDelete("user", currentUserId, deleteModal, () => location.reload());
+            handleDelete("user", null, currentUserId, deleteModal, () => location.reload());
         }
     });
 

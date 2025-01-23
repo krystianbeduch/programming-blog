@@ -34,7 +34,7 @@ $(document).ready(() => {
 
     buttonDeleteConfirm.on("click", function() {
         if (currentPostId) {
-            handleDelete("post", currentPostId, deleteModal, () => location.reload());
+            handleDelete("post", null, currentPostId, deleteModal, () => location.reload());
         }
     });
 

@@ -23,7 +23,7 @@ session_start();
             <div class="row gy-4">
                 <div class="col-md-6">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="contact-name" placeholder="Enter username" name="contact-name" required>
+                        <input type="text" class="form-control" id="contact-name" placeholder="Enter username" name="contact-name" required minlength="3">
                         <label for="contact-name">Nazwa użytkownika</label>
                         <div class="invalid-tooltip">Podaj nazwę użytkownika</div>
                     </div>

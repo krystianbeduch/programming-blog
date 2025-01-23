@@ -1,3 +1,5 @@
+import { SERVER_URI } from "./config.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const loginLink = document.getElementById("login-link");
     const authModal = document.getElementById("auth-modal");
@@ -9,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const registerFormFields = document.querySelectorAll("#register-form input");
     const loginFormFields = document.querySelectorAll("#login-form input");
     const modalContent = document.getElementsByClassName("modal-content")[0];
-    const SERVER_URI = "/US/blog/db/api";
     const registerForm = document.getElementById("register-form");
     const loginForm = document.getElementById("login-form");
     let isRegister; // Flaga rejestacja/logowanie
@@ -33,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
             showLoginForm();
         });
     }
-
 
     // Zamknij okno modalne
     const closeModal = () => {

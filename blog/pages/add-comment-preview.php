@@ -11,7 +11,9 @@ if ( !(isset($_POST["post-id"]) && isset($_POST["username"]) && isset($_POST["em
 
 // Przetwarzanie danych formularza i przechowywanie ich w sesji
 $postId = $_POST["post-id"];
+$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $_SESSION["formData"][$postId] = $_POST;
+
 
 // Funkcja konwersji BBCode na HTML
 include_once "../includes/bbcode-functions.php";

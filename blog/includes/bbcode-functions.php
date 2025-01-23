@@ -1,6 +1,7 @@
 <?php
 function convertBBCodeToHTML(string $text): string {
     $text = html_entity_decode($text);
+    $text = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, "UTF-8");
     /*
     \[b] - znacznik [b]
     \[\/b] - znacznik [/b]
@@ -19,10 +20,10 @@ function convertBBCodeToHTML(string $text): string {
     $text = preg_replace("/\[quote](.*?)\[\/quote]/s", "<q>$1</q>", $text);
     $text = preg_replace("/\[url=(.*?)](.*?)\[\/url]/s", "<a href='$1' target='_blank'>$2</a>", $text);
 
-    // Zamiana [html] na bezpośredni kod HTML
+    // Zamiana [html] na bezposredni kod HTML
     $text = preg_replace_callback("/\[html](.*?)\[\/html]/s", function ($matches) {
         // Kodowanie tekstu na HTML tak, aby <header> stał się &lt;header&gt;
-        return htmlspecialchars('&lt;' . $matches[1] . '&gt;', ENT_QUOTES | ENT_HTML5, "UTF-8");
+        return htmlspecialchars("&lt;" . $matches[1] . "&gt;", ENT_QUOTES | ENT_HTML5, "UTF-8");
     }, $text);
 
     // Zamiana podwojnych cudzysłowow na pojedyncze
@@ -58,6 +59,6 @@ function convertHTMLToBBCode(string $text): string {
     // Usuwanie dodatkowych pustych linii
     $text = preg_replace("/(\n\s*){2,}/", "\n", $text);
 
-    // Kodowanie specjalnych znaków HTML
+    // Kodowanie specjalnych znakow HTML
     return trim(htmlentities($text, ENT_QUOTES | ENT_HTML5, "UTF-8"));
 }

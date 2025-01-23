@@ -183,7 +183,6 @@ $(document).ready(() => {
         closeButtons.hide();
         editButtons.show();
         editButtons.text("Zmień");
-
         const buttonName = $(this).attr("name");
 
         // Usuwamy 'close-' z nazwy przycisku

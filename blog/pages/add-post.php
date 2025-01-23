@@ -77,10 +77,6 @@ $category = $_GET["category"];
                 <label for="attachment">Dodaj obraz:</label>
                 <input type="file" name="attachment" id="attachment" accept="image/*">
 
-                <!-- Google Captcha - does not work correctly on localhost
-                <input type="hidden" name="recaptcha_response" id="recaptcha_response">
-                -->
-
                 <!-- CAPTCHA -->
                 <div id="captcha">
                    <?php require_once "../includes/captcha.php"; ?>
