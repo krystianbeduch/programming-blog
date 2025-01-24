@@ -20,7 +20,7 @@ The languages have been divided into several groups to allow an orderly presenta
    - [Manage posts and comments](#manage-posts-and-comments)
    - [Contact form](#contact-form)
    - [Games](#games)
-6. [Algorithm for creating blog pages (languages/categories)](#algorithm-fo-creating-blog-pages-languages-categories)
+6. [Algorithm for creating blog pages (languages/categories)](#algorithm-for-creating-blog-pages-languages-categories)
 
 ## Application functionality
 - Accounts for users with access to the management panel of the user's account and posts. By default there are 5 accounts, the passwords for them are the same as their name:
