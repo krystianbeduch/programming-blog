@@ -20,7 +20,7 @@ The languages have been divided into several groups to allow an orderly presenta
    - [Manage posts and comments](#manage-posts-and-comments)
    - [Contact form](#contact-form)
    - [Games](#games)
-6. [Algorithm for creating blog pages (languages/categories)](#algorithm-for-creating-blog-pages-languages-categories)
+6. [Algorithm for creating blog pages (languages/categories)](#algorithm)
 
 ## Application functionality
 - Accounts for users with access to the management panel of the user's account and posts. By default there are 5 accounts, the passwords for them are the same as their name:
@@ -206,7 +206,7 @@ For blog users there are also games available:<br>
 - Whack A Mole<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/whack-a-mole.png" alt="Whack A Mole" title="Whack A Mole"><br>
 - Drag Racers<br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/games/drag-racers.png" alt="Drag Racers" title="Drag Racers"><br>
 
-## Algorithm for creating blog pages (languages/categories)
+## Algorithm for creating blog pages (languages/categories) <a name="algorithm"></a>
 ### 1. Create a file for the language
 For each language, a file is created in the format `language.php`, where language is the name, e.g. `java.php`.
 
