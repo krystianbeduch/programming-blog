@@ -20,7 +20,7 @@ The languages have been divided into several groups to allow an orderly presenta
    - [Manage posts and comments](#manage-posts-and-comments)
    - [Contact form](#contact-form)
    - [Games](#games)
-6. [Algorithm for generating a board with cards](#algorithm-for-generating-a-board-with-cards)
+6. [Algorithm for creating blog pages (languages/categories)](#algorithm-fo-creating-blog-pages-languages-categories)
 
 ## Application functionality
 - Accounts for users with access to the management panel of the user's account and posts. By default there are 5 accounts, the passwords for them are the same as their name:
@@ -66,7 +66,7 @@ git clone https://github.com/krystianbeduch/programming-blog.git
 4. In the `db` directory, create a `db-connect.php` file and define a configuration class for the database. The database name should match the database created in previous step with the imported data:
 ```php
 class MySQLConfig {
-  public const SERVER = "database_addreess";
+  public const SERVER = "database_address";
   public const USER = "username";
   public const PASSWORD = "password";
   public const DATABASE = "database_name";
@@ -79,7 +79,7 @@ export const SERVER_URI = "/blog/db/api";
 
 ## Functional description
 ### Registration and login
-Users can register an account by filling out a registration form, triggered by pressing the `Zalouj się` (Login) button in the upper right corner of the page and then goin to `Zarejestruj się` (Register). 
+Users can register an account by filling out a registration form, triggered by pressing the `Zaloguj się` (Login) button in the upper right corner of the page and then going to `Zarejestruj się` (Register). 
 
 Registration is secured by a simple mathematical CAPTCHA, consisting of solving a verbal mathematical operation (the answer is not case-sensitive and does not distinguish between Polish diacritics).<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/modal-captcha-math.png" alt="Modal captcha math" title="Modal captcha math">
@@ -93,7 +93,7 @@ The newly created account is initially inactive, it must be activated by the adm
 Login form:<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/modal-login.png" alt="Login form" title="Login form">
 
-When loggin in, it is immediately checked whether a user with the given name exists, if so, a login attempt is made, after which the following scenarios may occur:
+When logging in, it is immediately checked whether a user with the given name exists, if so, a login attempt is made, after which the following scenarios may occur:
 - inactive account <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-login-error-account-is-not-active.png" alt="Alert login error account is not active" title="Alert login error account is not active">
 - wrong password <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-login-error-wrong-password.png" alt="Alert login error wrong password" title="Alert login error wrong password">
 - correct login <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/users/alert-login-success.png" alt="Alert login success" title="Alert login success">
@@ -135,7 +135,7 @@ Before adding a post or comment, users can check your post to verify the correct
 Users can manage thir posts by selecting `Zarządzaj postami` (Manage posts) in the drop-down menu.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-account-menu.png" alt="User account menu" title="User account menu">
 
-Users can preview their posts, go directly to a post, edit it in a dedicateted form or delete it.<br>
+Users can preview their posts, go directly to a post, edit it in a dedicated form or delete it.<br>
 <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/posts-comments/user-posts.png" alt="User posts" title="User posts">
 
 There is also a table with posting statistics in an abbreviated form.<br>
@@ -162,8 +162,8 @@ Attempts by users without administrative privileges to access the panel via the 
 
 In the user management section, the administrator has access to a full list of users, which can be managed by:
 - Editing users <br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-edit-user.png" alt="Admin edit user" title="Admin edit user">
-- Change account activity - this operation is possible by clicking the `Aktywność` (Acitivity) column on the selected user <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-change-user-activity.png" alt="Admin change user activity" title="Admin change user activity">
-- However, the administrator cannot change the activity ofhis own account <br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-users-activity-locked.png" alt="Admin users activity locked" title="Admin users activity locked">
+- Change account activity - this operation is possible by clicking the `Aktywność` (Activity) column on the selected user <br> <img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-change-user-activity.png" alt="Admin change user activity" title="Admin change user activity">
+- However, the administrator cannot change the activity of his own account <br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-users-activity-locked.png" alt="Admin users activity locked" title="Admin users activity locked">
 - Deleting a user account <br><img src="https://github.com/krystianbeduch/programming-blog/blob/main/blog/images/readme-screenshots/admin/admin-delete-user.png" alt="Admin delete user" title="Admin delete user">
 
 In the post management section, the administrator has access to all posts from all categories.<br>
@@ -225,7 +225,7 @@ $pageData = new PageSetup();
 ?>
 ```
 
-### 4. Contructor of PageSetup class
+### 4. Constructor of PageSetup class
 The constructor of this class initializes the key fields:
 - currentPage - setting the current page:
   ```php
