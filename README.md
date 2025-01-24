@@ -300,17 +300,18 @@ Using the `PageSetup` class object, the page elements are generated:
   ```
 - button to add a post in a category (for logged in users):
   ```php
-  <?php if (isset($_SESSION[“loggedUser”])): ?>
-  	<a href="../pages/add-post.php?category=<?= $pageData->language; ?>” class=“post-comments-link add-post-link”>Dodaj post</a>
+  <?php if (isset($_SESSION["loggedUser"])): ?>
+  	<a href="../pages/add-post.php?category=<?= $pageData->language; ?>" class="post-comments-link add-post-link">Dodaj post</a>
   <?php endif; ?>
   ```
 - posts on the page according the pagination (slice the array using the `array_slice()` function:
   ```php
   <article id="posts-section">
-  	<h3>Posty</h3>
-  		<div class="posts-container">
-        		<?php renderPosts( array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true) ); ?>
-    		</div>
+      <h3>Posty</h3>
+      <div class="posts-container">
+          <?php renderPosts( array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true) );
+          ?>
+      </div>
   </article>
   ```
 - pagination:
