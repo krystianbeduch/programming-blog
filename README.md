@@ -273,92 +273,50 @@ $this->pagination = new Pagination($this->currentPage, $this->totalPosts, $this-
 `Pagination` class that defines the logic for displaying posts on the page:
 ```php
 public function __construct(int $currentPage, int $totalPosts, int $postsPerPage) {
-	$this->totalPages = (int) ceil($totalPosts / $postsPerPage);
+    $this->totalPages = (int) ceil($totalPosts / $postsPerPage);
     $this->currentPage = max(1, min($currentPage, $this->totalPages));
     $this->offset = ($this->currentPage - 1) * $postsPerPage;
 }
 ```
+The page displays 3 posts at a time. Moving to the next page loads the next 3 posts etc.
 
-
-```typescript
-<Board
-    board={board}
-    selectedCards={selectedCards}
-    handleCardClick={handleCardClick}
-    numRows={numRows}
-    numCols={numCols}
-/>
-```
-In the `App.tsx` file, the `Board` component is called and the followind data is passed to it:
-- board - array of the cards to be displayed on the board
-- selectedCards - array of the cards that have been clicked by the player
-- handleCardClick - card click handler function that manages the card matching logic
-- numRows and numCols - specify the number of rows and columns on the board
-
-### 2. Rendering the Board component
-```typescript
-const Board: React.FC<BoardProps> = ({ board, selectedCards, handleCardClick, numRows, numCols }) => {
-
-    const gridStyle: React.CSSProperties = {
-        gridTemplateColumns: `repeat(${numCols}, 1fr)`,
-        gridTemplateRows: `repeat(${numRows}, 1fr)`,
-        width: `${numCols}${numCols}0px`,
-    };
-
-    return (
-        <div className="board" style={gridStyle}>
-            {board.map((card, index) => (
-                <Card
-                    key={card.id}
-                    image={card.image}
-                    isFlipped={selectedCards.includes(card) 
-				|| card.isMatched}
-                    isMatched={selectedCards.includes(card)}
-                    onClick={() => handleCardClick(card)}
-                    id={index}
-                />
-            ))}
-        </div>
-    );
-};
-```
-The `Board` component receives the data and starts creating the board. A `gridStyle` object is created containing dynamic grid settings using CSS Grid, which adjusts the number of rows and columns and also the width of the board based on the data provided.
-
-### 3. Mapping cards to card components
-`board.map()` iterates through all the cards in the board array. The following properties are passed for each card:
-- key={card.id} - a unique identifier for each card so that React can manage the DOM elements
-- image={card.image} - the source of the card image
-- isFlipped - a flag that determines whether the card is clicked of matched
-- isMatched - a flag that determines whether the card has benn matched to a pair
-- onClick={() => handleCardClick(card)} - function that is called when a card is clicked
-- id={index} - card identifier, which is used to assign a card number in the code
-
-### 4. Rendering the Card component
-```typescript
-const Card: React.FC<CardProps> = ({ id, image, isFlipped, isMatched, onClick }) => {
-
-    const flip = useSpring({
-        transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-        config: { tension: 200, friction: 10 }
-    })
-
-    return (
-        <div className="card-container" onClick={onClick}>
-            <animated.div className="card" style={flip}>
-                <div className="card-front">
-                    <img src={image} alt={`Card ${id}`}/>
-                </div>
-                <div className="card-back">?</div>
-            </animated.div>
-        </div>
-    );
-};
-```
-
-The `Card` component is created for each card, which performs operations:
-- Animation of card rotation - the `flip` variable is defined using `useSpring` from `react-spring` to animate the rotation of the card. This variable controls the card's transformation, setting it to rotated (`rotate(180deg)`) or non-rotated (`rotate(0deg)`). Animation is applied to the card's div element.
-- Render the front and back of the card:
-	- card-front - contains the image that is visible when the card is inverted
- 	- card-back - contains a question mark (?), which is visible when the card is face-up
-- Depending on whether the card is flipped, the animation changes its transformation.
-
+### 5. Generating page elements
+Using the `PageSetup` class object, the page elements are generated:
+- page title:
+  ```php
+  <title>Blog | <?= $pageData->languageHeader; ?></title>
+  ```
+- header name in the posts section:
+  ```php
+  <h2><?= $pageData->languageHeader; ?></h2>
+  ```
+- category (language) description:
+  ```php
+  <p><?= getCategoryDescription($pageData->language); ?></p>
+  ```
+- language logo:
+  ```php
+  <?= "<img src='../images/language-logo/" . $pageData->language . "_logo.png' alt='" . $pageData->language . " logo' title='" . $pageData->language . "' class='language-image'>"; ?>
+  ```
+- button to add a post in a category (for logged in users):
+  ```php
+  <?php if (isset($_SESSION[“loggedUser”])): ?>
+  	<a href="../pages/add-post.php?category=<?= $pageData->language; ?>” class=“post-comments-link add-post-link”>Dodaj post</a>
+  <?php endif; ?>
+  ```
+- posts on the page according the pagination (slice the array using the `array_slice()` function:
+  ```php
+  <article id="posts-section">
+  	<h3>Posty</h3>
+  		<div class="posts-container">
+        		<?php renderPosts( array_slice($pageData->posts, $pageData->getOffset(), $pageData->postsPerPage, true) ); ?>
+    		</div>
+  </article>
+  ```
+- pagination:
+  ```php
+  <nav class="pagination">
+  	<?php renderPagination($pageData->getCurrentPage(), $pageData->getTotalPages(), $pageData->language); ?>
+  </nav>
+  ```
+With the described structure, we can easily and automatically generate pages for different languages on the blog, managing only the data in the database and a minimal number of PHP files.
