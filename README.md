@@ -1,4 +1,4 @@
-# Programming Blog
+# Programming blog
 The project was created as part of my IT studies as part of a course on the PHP language.
 
 The application is a thematic blog about programming languages. 
